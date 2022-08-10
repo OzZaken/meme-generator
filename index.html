@@ -10,7 +10,7 @@
 </head>
 
 <body onload="onInit()">
-
+    <!-- !remainder removing h1 -->
     <h1 id="viewport"></h1>
     <div class="main-screen full" onclick="toggleMenu()"></div>
 
@@ -37,7 +37,6 @@
 
         </section>
 
-        <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
         <section class="canvas-section flex">
 
             <div class="canvas-container">
@@ -70,46 +69,19 @@
                     </label>
                 </div>
 
-                <div class="export flex justify-center align-center">
-                    <button class="btn canvas-btn" onclick="clearCanvas()">clear</button>
-                    <button class="btn canvas-btn" onclick="">save</button>
-                    <button class="btn config btn-download canvas-btn"><a href="#" onclick="downloadCanvas(this)"
-                            download="cool-canvas">Download</a></button>
-                    <button class="btn config btn-upload" onclick="uploadImg()">Upload Image from Canvas</button>
-                    <div class="share-container"></div>
-                    <p class="user-msg"></p>
-                    <input class="btn" type="file" class="file-input btn" name="image" onchange="onImgInput(event)" />
-                </div>
             </div>
         </section>
-
-        <!-- <section class="canvas-container section-layout ">
-            <div class="new-btns-container">
-                <label for="select shape">
-                    select shape
-                    <select onchange="onUpdateCtx(this.value)" name="shape">
-                        <option value="draw">draw</option>
-                        <option value="center-line">center-line</option>
-                        <option value="single-line">single-line</option>
-                        <option value="circle">circle</option>
-                        <option value="triangle">triangle</option>
-                        <option value="square">square</option>
-                    </select>
-                    <input min="1" max="50" value="5" oninput="this.title=this.value;onUpdateStrokeSize(this.value)"
-                        type="range">
-                </label>
-
-                <label for="colors">
-                    fill-color
-                    <input class="fill-color" oninput="setColors()" type="color" name="fill-color">
-                    stroke-color
-                    <input class="stroke-color" oninput="setColors()" type="color" name="stroke-color">
-                </label>
-            </div>
-
-            <canvas onmouseout="onUp()" class="canvas" id="canvas" height="450" width="450"></canvas>
-
-        </section> -->
+        <div class="export flex justify-center align-center">
+            <button class="btn canvas-btn" onclick="clearCanvas()">clear</button>
+            <button class="btn canvas-btn" onclick="">save</button>
+            <button class="btn config btn-download canvas-btn">
+                <a href="#" onclick="downloadCanvas(this)" download="cool-canvas">Download</a>
+            </button>
+            <button class="btn config btn-upload canvas-btn" onclick="uploadImg()">Upload Image from Canvas</button>
+            <div class="share-container"></div>
+            <p class="user-msg"></p>
+            <input class="btn file-input canvas-btn" type="file" class="" name="image" onchange="onImgInput(event)" />
+        </div>
 
         <section class="about-section section-layout">
             <h2>about</h2>
@@ -136,15 +108,15 @@
     </footer>
 
     <!-- Services -->
+    <script src="js/service/util.service.js"></script>
     <script src="js/service/event-listeners.service.js"></script>
     <script src="js/service/storage.service.js"></script>
-    <script src="js/service/util.service.js"></script>
     <script src="js/service/uplod.service.js"></script>
-    <script src="js/service/canvas.service.js"></script>
+    <script src="js/service/meme.service.js"></script>
 
     <!-- Controllers -->
     <script src="js/controller/gallery.controller.js"></script>
-    <script src="js/controller/canvas.controller.js"></script>
+    <script src="js/controller/meme.controller.js"></script>
     <script src="js/controller/main.controller.js"></script>
 </body>
 
