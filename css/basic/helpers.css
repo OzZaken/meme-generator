@@ -1,3 +1,6 @@
+.grid {
+    display: grid;
+}
 .flex {
     display: flex;
 }
@@ -18,17 +21,11 @@
     flex-direction: column;
 }
 
-
 .clean-list {
     margin: 0;
     padding: 0;
     list-style-type: none;
 }
-
-.grid {
-    display: grid;
-}
-
 
 .glass-container {
     background: rgba(255, 255, 255, 0.15);

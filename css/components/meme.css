@@ -1,8 +1,6 @@
 .canvas-container {
     color: var(--clr-hoover);
     width: 95vw;
-    min-height: 400px;
-    max-height: 500px;
 }
 
 .canvas {

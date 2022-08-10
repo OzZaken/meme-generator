@@ -4,7 +4,7 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>O.Z-memegen</title>
+    <title>O.Z-MemeGen</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='css/main.css'>
 </head>
@@ -46,7 +46,8 @@
 
             <div class="canvas-btns-container grid">
 
-                <div class="new-btns-container">
+                
+                <!-- <div class="new-btns-container">
                     <label for="select shape">
                         select shape
                         <select onchange="onUpdateCtx(this.value)" name="shape">
@@ -67,8 +68,7 @@
                         stroke-color
                         <input class="stroke-color" oninput="setColors()" type="color" name="stroke-color">
                     </label>
-                </div>
-
+                </div> -->
             </div>
         </section>
         <div class="export flex justify-center align-center">
@@ -77,10 +77,10 @@
             <button class="btn config btn-download canvas-btn">
                 <a href="#" onclick="downloadCanvas(this)" download="cool-canvas">Download</a>
             </button>
+            <input class="btn file-input" type="file" class="" name="image" onchange="onImgInput(event)" />
             <button class="btn config btn-upload canvas-btn" onclick="uploadImg()">Upload Image from Canvas</button>
             <div class="share-container"></div>
             <p class="user-msg"></p>
-            <input class="btn file-input canvas-btn" type="file" class="" name="image" onchange="onImgInput(event)" />
         </div>
 
         <section class="about-section section-layout">
@@ -117,7 +117,6 @@
     <!-- Controllers -->
     <script src="js/controller/gallery.controller.js"></script>
     <script src="js/controller/meme.controller.js"></script>
-    <script src="js/controller/main.controller.js"></script>
 </body>
 
 </html>

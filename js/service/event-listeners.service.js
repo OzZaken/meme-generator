@@ -5,8 +5,8 @@ function addListeners() {
         resizeCanvas()
         renderCanvas()
     })
-    addMouseListeners()
-    addTouchListeners()
+    // addMouseListeners()
+    // addTouchListeners()
 }
 
 function addMouseListeners() {
