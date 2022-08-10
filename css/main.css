@@ -1,45 +1,23 @@
+/* Setup */
 @import "setup/vars.css";
 @import "setup/typography.css";
-
-
+/* Basic */
 @import "basic/helpers.css";
 @import "basic/logo.css";
 @import "basic/base.css";
 @import "basic/layout.css";
-
-@import "components/header.css";
-@import "components/footer.css";
+/* Components */
 @import "components/screen.css";
+@import "components/header.css";
+@import "components/canvas.css";
+@import "components/footer.css";
 @import "mq/mq.css";
 
-.canvas-container {
-    box-shadow: -5px -5px 30px 5px red, 5px 5px 30px 5px blue;
-    color: var(--clr-hoover);
-    background-color: var(--clr-bright);
-    display: absolute;
-    margin: auto;
-    margin-top: 100px;
-    width: 95vw;
-    min-height: 500px;
 
-}
-
-.canvas {
-    display: block;
-    background-color: #fff;
-    margin: 0 auto;
-}
-
-.new-btns-container {
-    display: flex;
-    justify-content: space-around;
-    background-color: var(--clr-bright);
-}
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////// */
 
-
-/* CSS */
+/* canvas btns */
 .button-86 {
     all: unset;
     width: 100px;

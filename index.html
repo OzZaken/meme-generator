@@ -4,7 +4,7 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>memegen</title>
+    <title>O.Z-memegen</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='css/main.css'>
 </head>
@@ -19,9 +19,8 @@
             <div class="logo"></div>
             <nav class="main-nav flex">
                 <ul class="main-nav-list flex clean-list">
-                    <li><a class="flex align-center justify-center" href="#" onclick="toggleMenu();onMovePage('')">gallery</a>
-
-                    </li>
+                    <li><a class="flex align-center justify-center" href="#"
+                            onclick="toggleMenu();onMovePage('')">gallery</a></li>
                     <li><a class="flex align-center justify-center" href="#" onclick="toggleMenu()">memes</a></li>
                     <li><a class="flex align-center justify-center" href="#" onclick="toggleMenu()">about</a></li>
                 </ul>
@@ -29,43 +28,44 @@
             <i hidden onclick="toggleMenu()" class="fa menu-bar"></i>
         </div>
     </header>
-<section>
 
-</section>
-    <section class="canvas-container">
-        
-        <div class="new-btns-container">
+    <main class="main-content main-layout flex flex-direction-column">
+        <section class="canvas-container section-layout ">
+            <div class="new-btns-container">
+                <label for="select shape">
+                    select shape
+                    <select onchange="onUpdateCtx(this.value)" name="shape">
+                        <option value="draw">draw</option>
+                        <option value="center-line">center-line</option>
+                        <option value="single-line">single-line</option>
+                        <option value="circle">circle</option>
+                        <option value="triangle">triangle</option>
+                        <option value="square">square</option>
+                    </select>
+                    <input min="1" max="50" value="5" oninput="this.title=this.value;onUpdateStrokeSize(this.value)"
+                        type="range">
+                </label>
     
-            <label for="select shape">
-                select shape
-                <select onchange="onUpdateCtx(this.value)" name="shape">
-                    <option value="draw">draw</option>
-                    <option value="center-line">center-line</option>
-                    <option value="single-line">single-line</option>
-                    <option value="circle">circle</option>
-                    <option value="triangle">triangle</option>
-                    <option value="square">square</option>
-                </select>
-                <input min="1" max="50" value="5" oninput="this.title=this.value;onUpdateStrokeSize(this.value)" type="range" >
-            </label>
+                <label for="colors">
+                    fill-color
+                    <input class="fill-color" oninput="setColors()" type="color" name="fill-color">
+                    stroke-color
+                    <input class="stroke-color" oninput="setColors()" type="color" name="stroke-color">
+                </label>
+            </div>
     
-            <label for="colors">
-                fill-color
-                <input class="fill-color" oninput="setColors()" type="color" name="fill-color">
-                stroke-color
-                <input class="stroke-color" oninput="setColors()" type="color" name="stroke-color">
-            </label>
-        </div>
-            
-        <canvas onmouseout="onUp()" class="canvas" id="canvas" height="450" width="450"></canvas>
-        <div class="export flex justify-center align-center">
-            <button onclick="clearCanvas()">clear</button>
-            <button class="btn config btn-download"><a href="#" onclick="downloadCanvas(this)" download="cool-canvas">Download</a></button>
-            <button class="btn config btn-upload" onclick="uploadImg()">Upload Image from Canvas</button>
-            <div class="share-container"></div>
-            <p class="user-msg"></p>
-            <input class="btn" type="file" class="file-input btn" name="image" onchange="onImgInput(event)" />
+            <canvas onmouseout="onUp()" class="canvas" id="canvas" height="450" width="450"></canvas>
+            <div class="export flex justify-center align-center">
+                <button onclick="clearCanvas()">clear</button>
+                <button class="btn config btn-download"><a href="#" onclick="downloadCanvas(this)"
+                        download="cool-canvas">Download</a></button>
+                <button class="btn config btn-upload" onclick="uploadImg()">Upload Image from Canvas</button>
+                <div class="share-container"></div>
+                <p class="user-msg"></p>
+                <input class="btn" type="file" class="file-input btn" name="image" onchange="onImgInput(event)" />
         </section>
+    
+    </main>
 
     <footer class="main-footer-container main-layout">
         <div class="main-footer flex flex-direction-column align-center justify-center">
@@ -85,9 +85,16 @@
         </div>
     </footer>
 
+    
+    <!-- Services -->
+    <script src="js/service/event-listeners.service.js"></script>
+    <script src="js/service/storage.service.js"></script>
+    <script src="js/service/util.service.js"></script>
     <script src="js/service/uplod.service.js"></script>
     <script src="js/service/canvas.service.js"></script>
-    <script src="js/main.controller.js"></script>
+    <!-- Controllers -->
+    <script src="js/controller/canvas.controller.js"></script>
+    <script src="js/controller/main.controller.js"></script>
 </body>
 
 </html>

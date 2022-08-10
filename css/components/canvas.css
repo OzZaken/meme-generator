@@ -1,0 +1,22 @@
+.canvas-container {
+    box-shadow: -5px -5px 30px 5px #33BE6D, 5px 5px 30px 5px #0C98B9;
+    color: var(--clr-hoover);
+    background-color: var(--clr-bright);
+    display: absolute;
+    margin: auto;
+    margin-top: 100px;
+    width: 95vw;
+    min-height: 500px;
+}
+
+.canvas {
+    display: block;
+    background-color: #fff;
+    margin: 0 auto;
+}
+
+.new-btns-container {
+    display: flex;
+    justify-content: space-around;
+    background-color: var(--clr-bright);
+}

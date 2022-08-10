@@ -1,5 +1,6 @@
-// *** Upload a picture to the canvas. ***
+'use strict'
 
+// *** Upload a picture to the canvas. ***
 function uploadImg() {
     const imgDataUrl = gElCanvas.toDataURL("image/jpeg");
 
