@@ -1,0 +1,14 @@
+:root {
+    /* pallet */
+    --clr-dark: #606060;
+    --clr-darker: #292929;
+    --clr-darkest: #1d1d1d;
+    --clr-bright: #818181;
+    --clr-brighter: #f8f8f8;
+    --clr-brightest: #ffffff;
+    --clr-hoover: #21AC91;
+    /* size */
+    --desktop: 1020px;
+    --tablet: 768px;
+    --mobile: 500px;
+}

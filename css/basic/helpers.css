@@ -1,0 +1,52 @@
+.flex {
+    display: flex;
+}
+
+.flex.space-between {
+    justify-content: space-between;
+}
+
+.flex.align-center {
+    align-items: center;
+}
+
+.flex.justify-center {
+    justify-content: center;
+}
+
+.flex.flex-direction-column {
+    flex-direction: column;
+}
+
+.clean-list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.fa {
+    font-family: fa;
+}
+.fa.menu-bar {
+    font-family: menu-bar;
+}
+
+.fa.facebook::before {
+    content: '\f39e';
+}
+
+.fa.twitter::before {
+    content: '\f099';
+}
+
+.fa.behance::before {
+    content: '\f1b4';
+}
+
+.fa.dribbble::before {
+    content: '\f17d';
+}
+
+.fa.menu-bar::before {
+    content: '\f0c9'
+}

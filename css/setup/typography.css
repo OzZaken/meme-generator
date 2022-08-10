@@ -1,0 +1,20 @@
+
+@font-face {
+    font-family: lato;
+    src: url(/fonts/Lato/Lato-Regular.ttf);
+}
+
+@font-face {
+    font-family: eurofurence;
+    src: url(/fonts/eurofurence-cufonfonts-webfont/eurof55.woff);
+}
+
+@font-face {
+    font-family: fa;
+    src: url(/fonts/font-awesome/fa-brands-400.ttf);
+}
+
+@font-face {
+    font-family: menu-bar;
+    src: url(/fonts/font-awesome/fa-solid-900.ttf);
+}

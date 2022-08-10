@@ -1,0 +1,8 @@
+.main-layout>*:not(.full) {
+    margin-bottom: 5rem;
+}
+
+.cards-layout {
+    padding-inline-start: 40px;
+    padding-inline-end: 25px;
+}
