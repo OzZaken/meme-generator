@@ -1,8 +1,5 @@
 'use strict'
 
-var gKeywordSearchCountMap = { 'funny': 12, 'cat': 16, 'baby': 2 }
-var gImgs = [{ id: 1, url: 'img/1.jpg', keywords: ['funny', 'cat'] }];
-
 var gMeme = {
     selectedImgId: 5,
     selectedLineIdx: 0,
@@ -16,12 +13,15 @@ var gMeme = {
     ]
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+//Canvas
 let gElCanvas
 let gCtx
 let gIsDraw
 
 function onInit() {
     initCanvas()
+    renderGallery()
 }
 function getOffSetPosByEv(ev) {
     let pos = { x: ev.offsetX, y: ev.offsetY }

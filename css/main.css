@@ -2,17 +2,18 @@
 @import "setup/vars.css";
 @import "setup/typography.css";
 /* Basic */
+@import "basic/fa.css";
 @import "basic/helpers.css";
 @import "basic/logo.css";
 @import "basic/base.css";
 @import "basic/layout.css";
 /* Components */
+@import "components/gallery.css";
 @import "components/screen.css";
 @import "components/header.css";
 @import "components/canvas.css";
 @import "components/footer.css";
 @import "mq/mq.css";
-
 
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////// */

@@ -30,7 +30,60 @@
     </header>
 
     <main class="main-content main-layout flex flex-direction-column">
-        <section class="canvas-container section-layout ">
+
+        <section class="gallery-section section-layout ">
+            <h2> <input oninput="onSetFilterBy(this.value)" type="text" placeholder="Search"></h2>
+            <div class="gallery-container grid justify-center"> </div>
+
+        </section>
+
+        <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
+        <section class="canvas-section flex">
+
+            <div class="canvas-container">
+                <canvas onmouseout="onUp()" class="canvas glass-container" id="canvas" height="450"
+                    width="450"></canvas>
+            </div>
+
+            <div class="canvas-btns-container grid">
+
+                <div class="new-btns-container">
+                    <label for="select shape">
+                        select shape
+                        <select onchange="onUpdateCtx(this.value)" name="shape">
+                            <option value="draw">draw</option>
+                            <option value="center-line">center-line</option>
+                            <option value="single-line">single-line</option>
+                            <option value="circle">circle</option>
+                            <option value="triangle">triangle</option>
+                            <option value="square">square</option>
+                        </select>
+                        <input min="1" max="50" value="5" oninput="this.title=this.value;onUpdateStrokeSize(this.value)"
+                            type="range">
+                    </label>
+
+                    <label for="colors">
+                        fill-color
+                        <input class="fill-color" oninput="setColors()" type="color" name="fill-color">
+                        stroke-color
+                        <input class="stroke-color" oninput="setColors()" type="color" name="stroke-color">
+                    </label>
+                </div>
+
+                <div class="export flex justify-center align-center">
+                    <button class="btn canvas-btn" onclick="clearCanvas()">clear</button>
+                    <button class="btn canvas-btn" onclick="">save</button>
+                    <button class="btn config btn-download canvas-btn"><a href="#" onclick="downloadCanvas(this)"
+                            download="cool-canvas">Download</a></button>
+                    <button class="btn config btn-upload" onclick="uploadImg()">Upload Image from Canvas</button>
+                    <div class="share-container"></div>
+                    <p class="user-msg"></p>
+                    <input class="btn" type="file" class="file-input btn" name="image" onchange="onImgInput(event)" />
+                </div>
+            </div>
+        </section>
+
+        <!-- <section class="canvas-container section-layout ">
             <div class="new-btns-container">
                 <label for="select shape">
                     select shape
@@ -45,7 +98,7 @@
                     <input min="1" max="50" value="5" oninput="this.title=this.value;onUpdateStrokeSize(this.value)"
                         type="range">
                 </label>
-    
+
                 <label for="colors">
                     fill-color
                     <input class="fill-color" oninput="setColors()" type="color" name="fill-color">
@@ -53,23 +106,20 @@
                     <input class="stroke-color" oninput="setColors()" type="color" name="stroke-color">
                 </label>
             </div>
-    
+
             <canvas onmouseout="onUp()" class="canvas" id="canvas" height="450" width="450"></canvas>
-            <div class="export flex justify-center align-center">
-                <button onclick="clearCanvas()">clear</button>
-                <button class="btn config btn-download"><a href="#" onclick="downloadCanvas(this)"
-                        download="cool-canvas">Download</a></button>
-                <button class="btn config btn-upload" onclick="uploadImg()">Upload Image from Canvas</button>
-                <div class="share-container"></div>
-                <p class="user-msg"></p>
-                <input class="btn" type="file" class="file-input btn" name="image" onchange="onImgInput(event)" />
+
+        </section> -->
+
+        <section class="about-section section-layout">
+            <h2>about</h2>
         </section>
-    
+
     </main>
 
     <footer class="main-footer-container main-layout">
         <div class="main-footer flex flex-direction-column align-center justify-center">
-            <div class="logo">logo<span>.</span></div>
+            <div class="logo"></div>
             <ul class="footer-text flex justify-center clean-list">
                 <li class="flex align-center justify-center">&copy; 2022 logo.com&nbsp;&nbsp;-&nbsp;&nbsp;</li>
                 <li class="flex align-center justify-center"> All Rights Reserved&nbsp;&nbsp;-&nbsp;&nbsp;</li>
@@ -85,14 +135,15 @@
         </div>
     </footer>
 
-    
     <!-- Services -->
     <script src="js/service/event-listeners.service.js"></script>
     <script src="js/service/storage.service.js"></script>
     <script src="js/service/util.service.js"></script>
     <script src="js/service/uplod.service.js"></script>
     <script src="js/service/canvas.service.js"></script>
+
     <!-- Controllers -->
+    <script src="js/controller/gallery.controller.js"></script>
     <script src="js/controller/canvas.controller.js"></script>
     <script src="js/controller/main.controller.js"></script>
 </body>

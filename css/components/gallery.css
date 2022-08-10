@@ -1,0 +1,17 @@
+.gallery-container {
+    gap: 8px;
+    grid-template-columns: repeat(2, 1fr);
+}
+.gallery-img {
+    width: 100%;
+    border-radius: 20px;
+    background-position: center;
+    background-size: cover;
+    box-shadow: 7px 7px 20px 0px rgba(0, 0, 0);
+}
+
+.gallery-img:hover {
+    transition: opacity 0.4s;
+    cursor: pointer;
+    opacity: 0.8;
+}

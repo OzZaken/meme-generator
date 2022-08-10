@@ -1,7 +1,9 @@
-.logo::before{
+.logo::before {
     content: 'memegen';
 }
+
 .logo {
+    color: #fb9623;
     text-transform: capitalize;
     font-family: eurofurence;
     font-size: 2.5em;

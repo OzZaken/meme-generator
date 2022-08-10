@@ -23,11 +23,11 @@
 
 }
 
-.main-nav-list:first-child:hover .dropdowm-menu {
+.main-nav-list:first-child:hover .dropdown-menu {
     display: flex;
 }
 
-.dropdowm-menu li a {
+.dropdown-menu li a {
     border-bottom: 1px solid #1d1d1d;
 }
 
@@ -38,7 +38,7 @@
     color: var(--clr-brightest);
 }
 
-.dropdowm-menu {
+.dropdown-menu {
     display: none;
     position: fixed;
     left: 0;
