@@ -2,8 +2,8 @@
 
 function addListeners() {
     window.addEventListener('resize', () => {
-        resizeCanvas()
-        renderCanvas()
+        OnResizeCanvas()
+        clearCanvas()
     })
     // addMouseListeners()
     // addTouchListeners()

@@ -7,7 +7,7 @@ var gMeme = {
         {
             txt: 'I sometimes eat Falafel',
             size: 20,
-            align: 'left',
+            align: 'center',
             color: 'red'
         }
     ]
@@ -16,9 +16,8 @@ var gMeme = {
 function initCanvas() {
     gElCanvas = canvas
     gCtx = gElCanvas.getContext('2d')
-
     resizeCanvas()
-    renderCanvas()
+    clearCanvas()
     addListeners()
 }
 function getMeme() {
@@ -35,30 +34,31 @@ function updateCtx(shape) {
 }
 function setMemeImg(imgId){
     gMeme.selectedImgId = imgId
+    console.log('gMeme:', gMeme)
 	const img = new Image()
 	img.src = `img/${imgId}.jpg`
 }
-
-function renderMeme() {
-    const meme = getMeme()
-
-    const img = new Image()
-	img.src = `img/${meme.selectedImgId}.jpg`
-
-    img.onload = () => {
-		gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
-		gMeme.lines.forEach(line => {
-            // Render txt
-            gCtx.font = `${line.size}px impact`
-			gCtx.textAlign = line.align
-			gCtx.fillStyle = line.textColor
-			gCtx.strokeStyle = gCtx.shadowColor = line.strokeColor
-		})
-	}
+function setLineText(txt) {
+    const {lines} = gMeme 
+    lines[gMeme.selectedLineIdx].txt = txt
+}
+function clearCanvas() {
+    gCtx.fillStyle = 'transparent'
+    gCtx.fillRect(0, 0, gElCanvas.width, gElCanvas.height)
 }
 
+function resizeCanvas() {
+    const elContainer = document.querySelector('.canvas-container')
+    gElCanvas.MaxWidth = elContainer.offsetWidth
+    gElCanvas.height = elContainer.offsetHeight
+}
+// function resizeCanvas() {
+//     gElCanvas.height = gElCanvas.width
+//     const elContainer = document.querySelector('.canvas-container')
+//     elContainer.width = gElCanvas.width + 20
+//     elContainer.height = gElCanvas.height + 20
+// }
 /////////////////////////////////////
-//* for Bonus
 // let gCurrShape
 // let gFillColor
 // let gStrokeColor

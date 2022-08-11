@@ -10,17 +10,19 @@
 </head>
 
 <body onload="onInit()">
-    <!-- !remainder removing h1 -->
-    <h1 id="viewport"></h1>
-    <div class="main-screen full" onclick="toggleMenu()"></div>
+    <div class="helpers">
+        <!-- !remainder removing h1 -->
+        <h1 id="viewport"></h1>
+        <div class="main-screen full" onclick="toggleMenu()"></div>
+        <div class="user-msg"></div>
+    </div>
 
     <header class="main-header main-layout">
         <div class="main-header-container flex align-center space-between">
             <div class="logo"></div>
             <nav class="main-nav flex">
                 <ul class="main-nav-list flex clean-list">
-                    <li><a class="flex align-center justify-center" href="#"
-                            onclick="toggleMenu();onMovePage('')">gallery</a></li>
+                    <li><a class="flex align-center justify-center" href="#" onclick="toggleGallery()">gallery</a></li>
                     <li><a class="flex align-center justify-center" href="#" onclick="toggleMenu()">memes</a></li>
                     <li><a class="flex align-center justify-center" href="#" onclick="toggleMenu()">about</a></li>
                 </ul>
@@ -31,33 +33,36 @@
 
     <main class="main-content main-layout flex flex-direction-column">
 
-        <section class="gallery-section section-layout ">
+        <section class="gallery-section section-layout">
             <h2> <input oninput="onSetFilterBy(this.value)" type="text" placeholder="Search"></h2>
             <div class="gallery-container grid justify-center"> </div>
 
         </section>
-
-        <section class="canvas-section flex">
+        <!-- !here -->
+        <section class="meme-section | flex">
 
             <div class="canvas-container">
-                <canvas onmouseout="onUp()" class="canvas glass-container" id="canvas" height="450"
-                    width="450"></canvas>
+                <canvas onmouseout="onMouseOutCanvas()" class="canvas | glass-container" id="canvas" height="500"
+                    width="500"></canvas>
             </div>
 
-            <div class="canvas-btns-container flex flex-direction-column">
+            <div class="glass-btns-container | flex flex-direction-column">
                 <input oninput="onSetLineText(this.value)" class="line-txt" type="text"
-                    placeholder="Edit Text line Here">
-                <div class="font-setting flex space-evenly ">
+                    placeholder="Put Text line Here">
+
+                <div class="font-setting-container | flex space-evenly ">
                     <div class="move-txt-up-btn | btn flex-center">↑</div>
                     <div class="move-txt-down-btn | btn flex-center">↓</div>
-                    <div class="switch-lines-btn | btn flex-center">↑↓</div>
+                    <div class="switch-lines-btn | btn flex-center">↑↓<i class="fa-solid fa-arrow-up-arrow-down"></i></div>
                     <div class="add-text-line-btn | btn flex-center">+</div>
                     <div class="delete-text-line-btn | btn flex-center">-</div>
                 </div>
+
                 <div class="element-btns-container grid">
                     <div class="size-up-btn | btn flex-center">A+</div>
                     <div class="size-Down-btn | btn flex-center">A-</div>
-                    <div class="size-Down-btn | btn flex-center"><i class="fa-solid fa-align-left">f036</i></div>
+                    <div class="align-left-btn | btn flex-center"><i class="fa-solid fa-align-left"></i></div>
+                    <div class="align-right-btn | btn flex-center"><i class="fa-solid fa-align-right"></i></div>
                 </div>
 
 
@@ -85,14 +90,14 @@
                 </div> -->
             </div>
         </section>
-        <div class="export flex justify-center align-center">
-            <button class="btn canvas-btn" onclick="clearCanvas()">clear</button>
-            <button class="btn canvas-btn" onclick="">save</button>
-            <button class="btn config btn-download canvas-btn">
+        <div class="export | flex justify-center align-center">
+            <!-- <button class="clear-btn | glass-btn btn " onclick="clearCanvas()">clear</button> -->
+            <button class=" | btn glass-btn" onclick="">save</button>
+            <button class="config btn-download | btn  glass-btn">
                 <a href="#" onclick="downloadCanvas(this)" download="cool-canvas">Download</a>
             </button>
-            <input class="btn file-input" type="file" class="" name="image" onchange="onImgInput(event)" />
-            <button class="btn config btn-upload canvas-btn" onclick="uploadImg()">Upload Image from Canvas</button>
+            <button class="config btn-upload | btn glass-btn" onclick="uploadImg()">Upload Image from Canvas</button>
+            <input class="file-input | btn" type="file" class="" name="image" onchange="onImgInput(event)" />
             <div class="share-container"></div>
             <p class="user-msg"></p>
         </div>

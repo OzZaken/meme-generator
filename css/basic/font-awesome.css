@@ -3,11 +3,28 @@
 }
 
 .fa.menu-bar::before {
-    font-family: menu-bar;
+    font-family: fa-solid;
     content: "\f0c9"
 }
 
+
+/* Canvas Btns */
+.fa-arrow-up::before {
+    content: "\f062";
+}
+
+.fa-arrow-down::before {
+    content: "\f063";
+}
+.fa.fa-arrow-up-arrow-down{
+    content: "\e099";
+}
 .fa-align-left::before {
+    font-family: fa-solid;
+    content: "\f036";
+}
+
+.fa-align-right::before {
     font-family: fa-solid;
     content: "\f036";
 }
@@ -17,8 +34,7 @@
 }
 
 
-
-/* footer */
+/* footer icons */
 .fa.facebook::before {
     content: "\f39e";
 }

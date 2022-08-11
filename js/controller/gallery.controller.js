@@ -1,7 +1,5 @@
 'use strict'
 
-
-
 const gImgs = [
     { id: 1, url: 'img/1.jpg', keywords: ['funny', 'celeb'] },
     { id: 2, url: 'img/2.jpg', keywords: ['dog', 'cute'] },

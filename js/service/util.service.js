@@ -23,3 +23,12 @@ function getRandomColor() {
     }
     return color;
 }
+
+function flashMsg(msg) {
+    const el = document.querySelector('.user-msg')
+    el.innerText = msg
+    el.classList.add('user-msg-open')
+    setTimeout(() => {
+        el.classList.remove('user-msg-open')
+    }, 3000)
+}

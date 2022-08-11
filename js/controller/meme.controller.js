@@ -1,7 +1,6 @@
 'use strict'
 
 var gElCanvas
-
 var gKeywordSearchCountMap = {
     'funny': 12,
     'celeb': 11,
@@ -16,25 +15,21 @@ function onInit() {
     initCanvas()
     renderGallery()
 }
-function renderCanvas() {
-    gCtx.fillStyle = 'black'
-    gCtx.fillRect(0, 0, gElCanvas.width, gElCanvas.height)
-}
-function resizeCanvas() {
-    const elContainer = document.querySelector('.canvas-container')
-    gElCanvas.height = gElCanvas.width
-    elContainer.width = gElCanvas.width + 20
-    elContainer.height = gElCanvas.height + 20
+
+function OnResizeCanvas() {
+    resizeCanvas()
+    renderMeme()
 }
 
 function getPosByEv(ev) {
+    // console.log('ev:', ev)
     const touchEvs = ['touchstart', 'touchmove', 'touchend']
-
     let pos = {
         x: ev.offsetX,
         y: ev.offsetY
     }
-
+    // console.log('pos:', pos)
+    // console.log('ev.target.clientLeft:', ev.target.clientLeft)
     if (touchEvs.includes(ev.type)) {
         ev.preventDefault()
         ev = ev.changedTouches[0]
@@ -52,20 +47,49 @@ function onUpdateCtx(shape) {
 }
 function onSelectImg(imgId) {
     setMemeImg(imgId)
+    document.querySelector('.gallery-section').hidden = true
     renderMeme()
 }
 
+function onSetLineText(txt) {
+    setLineText(txt)
+    renderMeme()
+}
 
 function toggleMenu() {
     document.body.classList.toggle('menu-opened');
 }
+function toggleGallery() {
+    var elGallery = document.querySelector('.gallery-section')
+    elGallery.hidden ? elGallery.hidden = false : elGallery.hidden = true
+}
+
+function renderMeme() {
+    const img = new Image()
+    img.src = `img/${gMeme.selectedImgId}.jpg`
+
+    img.onload = () => {
+        gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
+        const { lines } = getMeme()
+        lines.forEach(line => {
+            console.log('line:', line)
+            gCtx.fillText(line.txt, gElCanvas.width / 2, gElCanvas.height / 2)
+            gCtx.font = `${line.size}px impact`
+            gCtx.textAlign = line.align
+            gCtx.fillStyle = line.color
+            gCtx.beginPath()
+        })
+
+    }
+}
+
+function onMouseOutCanvas() {
+    // gCtx.beginPath()
+    // gIsDraw = false
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-// function onUp() {
-//     gCtx.beginPath()
-//     gIsDraw = false
-// }
 // function onDown(ev) {
 //     gIsDraw = true
 //     let pos = getPosByEv(ev)
