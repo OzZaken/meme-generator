@@ -10,9 +10,10 @@
     margin: 0 auto;
 }
 
-.export input.file-input{
-    color: #28282d;
+.canvas-btns-container{
+    width: 100%;
 }
+/* /////////////////////////////////////////////////////////////////////////////////////////////// */
 .canvas-btn {
     all: unset;
     width: 100px;

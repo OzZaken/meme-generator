@@ -2,26 +2,35 @@
     font-family: fa;
 }
 
-.fa.menu-bar {
+.fa.menu-bar::before {
     font-family: menu-bar;
+    content: "\f0c9"
 }
 
+.fa-align-left::before {
+    font-family: fa-solid;
+    content: "\f036";
+}
+
+.fa-align-right::before {
+    content: "\f038";
+}
+
+
+
+/* footer */
 .fa.facebook::before {
-    content: '\f39e';
+    content: "\f39e";
 }
 
 .fa.twitter::before {
-    content: '\f099';
+    content: "\f099";
 }
 
 .fa.behance::before {
-    content: '\f1b4';
+    content: "\f1b4";
 }
 
 .fa.dribbble::before {
-    content: '\f17d';
-}
-
-.fa.menu-bar::before {
-    content: '\f0c9'
+    content: "\f17d";
 }

@@ -1,12 +1,9 @@
 .grid {
     display: grid;
 }
+
 .flex {
     display: flex;
-}
-
-.flex.space-between {
-    justify-content: space-between;
 }
 
 .flex.align-center {
@@ -15,6 +12,19 @@
 
 .flex.justify-center {
     justify-content: center;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex.space-between {
+    justify-content: space-between;
+}
+.flex.space-evenly {
+    justify-content: space-evenly;
 }
 
 .flex.flex-direction-column {
@@ -28,9 +38,9 @@
 }
 
 .glass-container {
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(11.8px);
-    border: 1px solid rgba(255, 255, 255, 0.36);
+    background: rgba( 255, 255, 255, 0.25 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 5.5px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
 }

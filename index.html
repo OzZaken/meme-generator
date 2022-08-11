@@ -44,9 +44,23 @@
                     width="450"></canvas>
             </div>
 
-            <div class="canvas-btns-container grid">
+            <div class="canvas-btns-container flex flex-direction-column">
+                <input oninput="onSetLineText(this.value)" class="line-txt" type="text"
+                    placeholder="Edit Text line Here">
+                <div class="font-setting flex space-evenly ">
+                    <div class="move-txt-up-btn | btn flex-center">↑</div>
+                    <div class="move-txt-down-btn | btn flex-center">↓</div>
+                    <div class="switch-lines-btn | btn flex-center">↑↓</div>
+                    <div class="add-text-line-btn | btn flex-center">+</div>
+                    <div class="delete-text-line-btn | btn flex-center">-</div>
+                </div>
+                <div class="element-btns-container grid">
+                    <div class="size-up-btn | btn flex-center">A+</div>
+                    <div class="size-Down-btn | btn flex-center">A-</div>
+                    <div class="size-Down-btn | btn flex-center"><i class="fa-solid fa-align-left">f036</i></div>
+                </div>
 
-                
+
                 <!-- <div class="new-btns-container">
                     <label for="select shape">
                         select shape
@@ -83,7 +97,7 @@
             <p class="user-msg"></p>
         </div>
 
-        <section class="about-section section-layout">
+        <section hidden class="about-section section-layout">
             <h2>about</h2>
         </section>
 

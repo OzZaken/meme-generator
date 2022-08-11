@@ -15,16 +15,19 @@
     margin-bottom: 40px;
 }
 
-.social-links-container a {
+.social-links-container a,
+.font-setting>.btn {
     width: 2.5rem;
     height: 2.5rem;
     background-color: var(--clr-bright);
     color: var(--clr-brightest);
     text-decoration: none;
     font-size: 1rem;
+
 }
 
-.main-footer a:hover {
+.main-footer a,
+.font-setting>.btn:hover  {
     background-color: var(--clr-hoover);
 }
 

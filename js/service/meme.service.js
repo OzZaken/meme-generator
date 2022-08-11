@@ -41,27 +41,19 @@ function setMemeImg(imgId){
 
 function renderMeme() {
     const meme = getMeme()
+
     const img = new Image()
 	img.src = `img/${meme.selectedImgId}.jpg`
 
-
-
-
     img.onload = () => {
 		gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
-
 		gMeme.lines.forEach(line => {
             // Render txt
             gCtx.font = `${line.size}px impact`
 			gCtx.textAlign = line.align
 			gCtx.fillStyle = line.textColor
-            
 			gCtx.strokeStyle = gCtx.shadowColor = line.strokeColor
-
 		})
-
-		// change to current line font to calculate line sizes correctly
-
 	}
 }
 
