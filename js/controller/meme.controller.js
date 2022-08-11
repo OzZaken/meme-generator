@@ -14,13 +14,12 @@ let gCtx
 function onInit() {
     initCanvas()
     renderGallery()
+    flashMsg('Welcome!')
 }
-
 function OnResizeCanvas() {
     resizeCanvas()
     renderMeme()
 }
-
 function getPosByEv(ev) {
     // console.log('ev:', ev)
     const touchEvs = ['touchstart', 'touchmove', 'touchend']
@@ -41,21 +40,19 @@ function getPosByEv(ev) {
     }
     return pos
 }
-
 function onUpdateCtx(shape) {
     updateCtx(shape)
 }
-function onSelectImg(imgId) {
+function onImgSelect(imgId) {
     setMemeImg(imgId)
     document.querySelector('.gallery-section').hidden = true
+    flashMsg('img selected')
     renderMeme()
 }
-
 function onSetLineText(txt) {
     setLineText(txt)
     renderMeme()
 }
-
 function toggleMenu() {
     document.body.classList.toggle('menu-opened');
 }
@@ -63,7 +60,6 @@ function toggleGallery() {
     var elGallery = document.querySelector('.gallery-section')
     elGallery.hidden ? elGallery.hidden = false : elGallery.hidden = true
 }
-
 function renderMeme() {
     const img = new Image()
     img.src = `img/${gMeme.selectedImgId}.jpg`
@@ -71,23 +67,21 @@ function renderMeme() {
     img.onload = () => {
         gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
         const { lines } = getMeme()
+
         lines.forEach(line => {
-            console.log('line:', line)
             gCtx.fillText(line.txt, gElCanvas.width / 2, gElCanvas.height / 2)
             gCtx.font = `${line.size}px impact`
             gCtx.textAlign = line.align
             gCtx.fillStyle = line.color
             gCtx.beginPath()
         })
-
     }
 }
-
 function onMouseOutCanvas() {
+    console.log('onMouseOutCanvas')
     // gCtx.beginPath()
     // gIsDraw = false
 }
-
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 // function onDown(ev) {
@@ -117,5 +111,5 @@ elBody.onresize = () => {
 }
 elBody.onresize()
 function renderViewPort() {
-    document.querySelector('#viewport').innerText = `${state}\n${gViewportWidth}px`;
+    document.querySelector('.viewport').innerText = `${state}\n${gViewportWidth}px`
 }//!

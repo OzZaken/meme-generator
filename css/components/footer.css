@@ -15,17 +15,7 @@
     margin-bottom: 40px;
 }
 
-.social-links-container a,
-.font-setting>.btn {
-    width: 2.5rem;
-    height: 2.5rem;
-    background-color: var(--clr-bright);
-    color: var(--clr-brightest);
-    text-decoration: none;
-    font-size: 1rem;
-}
-
-.main-footer a:hover  {
+.main-footer a:hover {
     background-color: var(--clr-hoover);
 }
 
@@ -43,4 +33,11 @@
 .main-footer {
     padding: 80px;
     margin: 0;
+}
+
+.social-links-container a {
+    background-color: var(--clr-bright);
+    color: var(--clr-brightest);
+    text-decoration: none;
+    font-size: 1rem;
 }

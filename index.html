@@ -10,60 +10,61 @@
 </head>
 
 <body onload="onInit()">
-    <div class="helpers">
-        <!-- !remainder removing h1 -->
-        <h1 id="viewport"></h1>
-        <div class="main-screen full" onclick="toggleMenu()"></div>
-        <div class="user-msg"></div>
-    </div>
-
-    <header class="main-header main-layout">
-        <div class="main-header-container flex align-center space-between">
+    <!-- !remainder removing h1 -->
+    <h1 class="viewport"></h1>
+    
+    <header class="main-header | main-layout">
+        <div class="main-header-container | flex align-center space-between">
             <div class="logo"></div>
-            <nav class="main-nav flex">
-                <ul class="main-nav-list flex clean-list">
-                    <li><a class="flex align-center justify-center" href="#" onclick="toggleGallery()">gallery</a></li>
+            <nav class="main-nav | flex">
+                <ul class="main-nav-list | flex clean-list">
+                    <li><a class="flex align-center justify-center" href="#" onclick="toggleGallery();flashMsg('Moving On Gallery')">gallery</a></li>
                     <li><a class="flex align-center justify-center" href="#" onclick="toggleMenu()">memes</a></li>
                     <li><a class="flex align-center justify-center" href="#" onclick="toggleMenu()">about</a></li>
                 </ul>
             </nav>
-            <i hidden onclick="toggleMenu()" class="fa menu-bar"></i>
+            <i hidden onclick="toggleMenu()" class="menu-bar | fa fa-solid"></i>
         </div>
     </header>
 
-    <main class="main-content main-layout flex flex-direction-column">
-
-        <section class="gallery-section section-layout">
+    <main class="main-content | main-layout flex flex-direction-column">
+        <section class="gallery-section | section-layout">
             <h2> <input oninput="onSetFilterBy(this.value)" type="text" placeholder="Search"></h2>
             <div class="gallery-container grid justify-center"> </div>
 
         </section>
-        <!-- !here -->
-        <section class="meme-section | flex">
 
+        <section class="meme-section | flex">
             <div class="canvas-container">
                 <canvas onmouseout="onMouseOutCanvas()" class="canvas | glass-container" id="canvas" height="500"
                     width="500"></canvas>
             </div>
 
-            <div class="glass-btns-container | flex flex-direction-column">
-                <input oninput="onSetLineText(this.value)" class="line-txt" type="text"
+            <div class="glass-btns-container | flex flex-direction-column flex-start">
+
+                <input oninput="onSetLineText(this.value)" class="line-txt fa-solid" type="text"
                     placeholder="Put Text line Here">
 
-                <div class="font-setting-container | flex space-evenly ">
-                    <div class="move-txt-up-btn | btn flex-center">↑</div>
-                    <div class="move-txt-down-btn | btn flex-center">↓</div>
-                    <div class="switch-lines-btn | btn flex-center">↑↓<i class="fa-solid fa-arrow-up-arrow-down"></i></div>
-                    <div class="add-text-line-btn | btn flex-center">+</div>
-                    <div class="delete-text-line-btn | btn flex-center">-</div>
+                <div class="font-setting-container | flex">
+                    <i class="move-txt-up-btn | setting-btn flex-center | fa-solid fa-arrow-up"></i>
+                    <i class="move-txt-down-btn | setting-btn flex-center fa-solid fa-arrow-down"></i>
+                    <i class="switch-lines-btn | setting-btn flex-center fa-solid fa-arrow-up-arrow-down">↑↓</i>
+                    <i class="add-text-line-btn | setting-btn flex-center fa-solid fa-plus"></i>
+                    <i class="delete-text-line-btn | setting-btn flex-center fa-solid fa-minus"></i>
                 </div>
 
-                <div class="element-btns-container grid">
-                    <div class="size-up-btn | btn flex-center">A+</div>
-                    <div class="size-Down-btn | btn flex-center">A-</div>
-                    <div class="align-left-btn | btn flex-center"><i class="fa-solid fa-align-left"></i></div>
-                    <div class="align-right-btn | btn flex-center"><i class="fa-solid fa-align-right"></i></div>
-                </div>
+                <div class="element-setting-container | grid">
+                    <div class="size-up-btn | setting-btn flex-center">A+</div>
+                    <div class="size-Down-btn | setting-btn flex-center">A-</div>
+                    <i class="align-left-btn | setting-btn flex-center fa-solid fa-align-left"></i>
+                    <i class="align-center-btn | setting-btn flex-center fa-solid fa-align-center"></i>
+                    <i class="align-right-btn | setting-btn flex-center fa-solid fa-align-right"></i>
+                <select  class="impact fa-solid" name="impact">
+                    <option value="impact">impact</option>
+                </select>
+                <i class="s-btn | setting-btn flex-center fa-solid fa-s"></i>
+                <i class="palette-color-btn | setting-btn flex-center fa-solid fa-palette"></i>    
+            </div>
 
 
                 <!-- <div class="new-btns-container">
@@ -126,6 +127,10 @@
         </div>
     </footer>
 
+    <div class="helpers">
+        <div class="main-screen | full" onclick="toggleMenu()"></div>
+        <div class="user-msg"></div>
+    </div>
     <!-- Services -->
     <script src="js/service/util.service.js"></script>
     <script src="js/service/event-listeners.service.js"></script>

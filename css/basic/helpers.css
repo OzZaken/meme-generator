@@ -5,7 +5,9 @@
 .flex {
     display: flex;
 }
-
+.flex.flex-start{
+    align-items: flex-start;
+}
 .flex.align-center {
     align-items: center;
 }
@@ -23,6 +25,7 @@
 .flex.space-between {
     justify-content: space-between;
 }
+
 .flex.space-evenly {
     justify-content: space-evenly;
 }
@@ -36,14 +39,29 @@
     padding: 0;
     list-style-type: none;
 }
-/* //* //  ///   /////      Glass-effect Containers      \\\\\    \\\  *\\ */
 
+/* //* //  ///   /////      User-msg      \\\\\    \\\  *\\ */
+.user-msg {
+    color: var(--clr-hoover);
+    position: fixed;
+    bottom: -100px;
+    right: 10px;
+    background-color: var(--clr-darkest);
+    padding: 10px;
+}
+
+.user-msg-open {
+    bottom: 10px;
+    transition: bottom .5s;
+}
+
+/* //* //  ///   /////      Glass-effect Containers      \\\\\    \\\  *\\ */
 .glass-container {
-    background: rgba( 255, 255, 255, 0.25 );
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    backdrop-filter: blur( 5.5px );
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(5.5px);
     border-radius: 10px;
-    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .glass-btn {
@@ -54,7 +72,7 @@
     background: transparent;
     border: none;
     position: relative;
-    color: #f0f0f0;
+    color: var(--clr-brightest);
     cursor: pointer;
     z-index: 1;
     padding: 10px 20px;
@@ -109,18 +127,4 @@
 .glass-btn:active::after {
     transition: 0s;
     transform: translate(0, 5%);
-}
-/* //* //  ///   /////      User-msg      \\\\\    \\\  *\\ */
-.user-msg {
-    color: var(--clr-hoover);
-    position: fixed;
-    bottom: -100px;
-    right: 10px;
-    background-color: var(--clr-darkest);
-    padding: 10px;
-}
-
-.user-msg-open {
-    bottom: 10px;
-    transition: bottom .5s;
 }

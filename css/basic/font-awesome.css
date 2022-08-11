@@ -2,13 +2,16 @@
     font-family: fa;
 }
 
-.fa.menu-bar::before {
+.fa-solid {
     font-family: fa-solid;
+}
+
+/* Header btns */
+.fa.menu-bar::before {
     content: "\f0c9"
 }
 
-
-/* Canvas Btns */
+/* Meme Btns */
 .fa-arrow-up::before {
     content: "\f062";
 }
@@ -16,16 +19,28 @@
 .fa-arrow-down::before {
     content: "\f063";
 }
-.fa.fa-arrow-up-arrow-down{
+
+.fa-arrow-up-arrow-down {
     content: "\e099";
 }
+
+.fa-plus::before {
+    content: "\2b";
+}
+
+.fa-minus::before {
+    content: "\f068";
+}
+
+.fa-align-center::before {
+    content: "\f037";
+}
+
 .fa-align-left::before {
-    font-family: fa-solid;
     content: "\f036";
 }
 
 .fa-align-right::before {
-    font-family: fa-solid;
     content: "\f036";
 }
 
@@ -33,6 +48,13 @@
     content: "\f038";
 }
 
+.fa-s::before {
+    content: "\53";
+}
+
+.fa-palette::before {
+    content: "\f53f";
+}
 
 /* footer icons */
 .fa.facebook::before {

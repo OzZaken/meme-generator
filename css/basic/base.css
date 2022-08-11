@@ -1,4 +1,4 @@
-h1#viewport {
+h1.viewport {
     position: fixed;
     color: var(--clr-hoover);
     right: 0;

@@ -10,11 +10,36 @@
     margin: 0 auto;
 }
 
-.canvas-btns-container{
+.canvas-btns-container {
     width: 100%;
 }
 
-.font-setting> .btn:hover{
+.line-txt {
+    padding: 10px 20px;
+    margin-bottom: 1rem;
+}
+.setting-btn {
+    background-color: var(--clr-brighter);
+
+}
+
+.setting-btn:hover {
     cursor: pointer;
-    background-color: var(--clr-hoover);
+    color: var(--clr-hoover);
+}
+
+.setting-btn,
+.social-links-container a {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.element-setting-container {
+    gap: 1;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+}
+
+select.impact {
+    grid-column: span 3;
 }

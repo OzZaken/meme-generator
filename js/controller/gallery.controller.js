@@ -24,7 +24,7 @@ const gImgs = [
 function renderGallery() {
     let strHTML = ''
     gImgs.forEach(img => {
-        strHTML += `<img onclick="onSelectImg(${img.id})" class="gallery-img" src=${img.url} alt="gallery-img">`
+        strHTML += `<img onclick="onImgSelect(${img.id})" class="gallery-img" src=${img.url} alt="gallery-img">`
     })
     document.querySelector('.gallery-container').innerHTML = strHTML
 }
