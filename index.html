@@ -10,15 +10,20 @@
 </head>
 
 <body onload="onInit()">
+    <div class="helpers">
+        <div class="main-screen | full" onclick="toggleMenu()"></div>
+        <div class="user-msg"></div>
+    </div>
     <!-- !remainder removing h1 -->
     <h1 class="viewport"></h1>
-    
+
     <header class="main-header | main-layout">
         <div class="main-header-container | flex align-center space-between">
             <div class="logo"></div>
             <nav class="main-nav | flex">
                 <ul class="main-nav-list | flex clean-list">
-                    <li><a class="flex align-center justify-center" href="#" onclick="toggleGallery();flashMsg('Moving On Gallery')">gallery</a></li>
+                    <li><a class="flex align-center justify-center" href="#"
+                            onclick="toggleGallery();flashMsg('Moving On Gallery')">gallery</a></li>
                     <li><a class="flex align-center justify-center" href="#" onclick="toggleMenu()">memes</a></li>
                     <li><a class="flex align-center justify-center" href="#" onclick="toggleMenu()">about</a></li>
                 </ul>
@@ -34,82 +39,97 @@
 
         </section>
 
-        <section class="meme-section | flex">
-            <div class="canvas-container">
-                <canvas onmouseout="onMouseOutCanvas()" class="canvas | glass-container" id="canvas" height="500"
-                    width="500"></canvas>
-            </div>
+        <section class="meme-section | section-layout">
 
-            <div class="glass-btns-container | flex flex-direction-column flex-start">
-
-                <input oninput="onSetLineText(this.value)" class="line-txt fa-solid" type="text"
-                    placeholder="Put Text line Here">
-
-                <div class="font-setting-container | flex">
-                    <i class="move-txt-up-btn | setting-btn flex-center | fa-solid fa-arrow-up"></i>
-                    <i class="move-txt-down-btn | setting-btn flex-center fa-solid fa-arrow-down"></i>
-                    <i class="switch-lines-btn | setting-btn flex-center fa-solid fa-arrow-up-arrow-down">↑↓</i>
-                    <i class="add-text-line-btn | setting-btn flex-center fa-solid fa-plus"></i>
-                    <i class="delete-text-line-btn | setting-btn flex-center fa-solid fa-minus"></i>
+            <div class="meme-container | flex">
+                <div class="canvas-container">
+                    <canvas onmouseout="onMouseOutCanvas()" class="canvas | glass-container" id="canvas" height="500"
+                        width="500"></canvas>
                 </div>
 
-                <div class="element-setting-container | grid">
-                    <div class="size-up-btn | setting-btn flex-center">A+</div>
-                    <div class="size-Down-btn | setting-btn flex-center">A-</div>
-                    <i class="align-left-btn | setting-btn flex-center fa-solid fa-align-left"></i>
-                    <i class="align-center-btn | setting-btn flex-center fa-solid fa-align-center"></i>
-                    <i class="align-right-btn | setting-btn flex-center fa-solid fa-align-right"></i>
-                <select  class="impact fa-solid" name="impact">
-                    <option value="impact">impact</option>
-                </select>
-                <i class="s-btn | setting-btn flex-center fa-solid fa-s"></i>
-                <i class="palette-color-btn | setting-btn flex-center fa-solid fa-palette"></i>    
-            </div>
+                <div class="main-btns-container | flex flex-direction-column flex-start glass-container ">
+                    <label for="Search keyword">
+                        <input oninput="onSetLineText(this.value)" onsubmit="onAddTxtLine()" class="line-txt fa" type="text"
+                            placeholder="Put Text line Here" title="Put Text line Here">
+                    </label>
 
+                    <div class="font-setting-container | flex">
+                        <i onclick="onMoveTxtUp()" title="Move text up"
+                            class="move-txt-up-btn | setting-btn flex-center | fa-solid fa-arrow-up"></i>
+                        <i onclick="onMoveTxtDown()" title="Move text Down"
+                            class="move-txt-down-btn | setting-btn flex-center fa-solid fa-arrow-down"></i>
+                        <i onclick="onSwitchLines()"
+                            class="switch-lines-btn | setting-btn flex-center fa-solid fa-arrow-up-arrow-down">↑↓</i>
+                        <i onclick="onAddTxtLine()"
+                            class="add-text-line-btn | setting-btn flex-center fa-solid fa-plus"></i>
+                        <i onclick="onDeleteTxtLine()"
+                            class="delete-text-line-btn | setting-btn flex-center fa-solid fa-trash"></i>
+                    </div>
 
-                <!-- <div class="new-btns-container">
-                    <label for="select shape">
-                        select shape
-                        <select onchange="onUpdateCtx(this.value)" name="shape">
-                            <option value="draw">draw</option>
-                            <option value="center-line">center-line</option>
-                            <option value="single-line">single-line</option>
-                            <option value="circle">circle</option>
-                            <option value="triangle">triangle</option>
-                            <option value="square">square</option>
+                    <div class="element-setting-container | grid">
+                        <div class="size-up-btn | setting-btn flex-center">A+</div>
+                        <div class="size-Down-btn | setting-btn flex-center">A-</div>
+                        <i class="align-left-btn | setting-btn flex-center fa-solid fa-align-left"></i>
+                        <i class="align-center-btn | setting-btn flex-center fa-solid fa-align-center"></i>
+                        <i class="align-right-btn | setting-btn flex-center fa-solid fa-align-right"></i>
+                        <select class="impact fa-solid" name="impact">
+                            <option value="impact">impact</option>
+                            <option value="italic">italic</option>
+                            <option value="fa">fa</option>
+                            <option value="fa-solid">fa-solid</option>
+                            <option value="bold">bold</option>
                         </select>
-                        <input min="1" max="50" value="5" oninput="this.title=this.value;onUpdateStrokeSize(this.value)"
-                            type="range">
-                    </label>
+                        <i class="s-btn | setting-btn flex-center fa-solid fa-s"></i>
+                        <i class="palette-color-btn | setting-btn flex-center fa-solid fa-palette"></i>
+                    </div>
 
-                    <label for="colors">
-                        fill-color
-                        <input class="fill-color" oninput="setColors()" type="color" name="fill-color">
-                        stroke-color
-                        <input class="stroke-color" oninput="setColors()" type="color" name="stroke-color">
-                    </label>
-                </div> -->
+
+                    <!-- <div class="new-btns-container">
+                        <label for="select shape">
+                            select shape
+                            <select onchange="onUpdateCtx(this.value)" name="shape">
+                                <option value="draw">draw</option>
+                                <option value="center-line">center-line</option>
+                                <option value="single-line">single-line</option>
+                                <option value="circle">circle</option>
+                                <option value="triangle">triangle</option>
+                                <option value="square">square</option>
+                            </select>
+                            <input min="1" max="50" value="5" oninput="this.title=this.value;onUpdateStrokeSize(this.value)"
+                                type="range">
+                        </label>
+    
+                        <label for="colors">
+                            fill-color
+                            <input class="fill-color" oninput="setColors()" type="color" name="fill-color">
+                            stroke-color
+                            <input class="stroke-color" oninput="setColors()" type="color" name="stroke-color">
+                        </label>
+                    </div> -->
+                </div>
             </div>
-        </section>
-        <div class="export | flex justify-center align-center">
-            <!-- <button class="clear-btn | glass-btn btn " onclick="clearCanvas()">clear</button> -->
-            <button class=" | btn glass-btn" onclick="">save</button>
-            <button class="config btn-download | btn  glass-btn">
-                <a href="#" onclick="downloadCanvas(this)" download="cool-canvas">Download</a>
-            </button>
-            <button class="config btn-upload | btn glass-btn" onclick="uploadImg()">Upload Image from Canvas</button>
-            <input class="file-input | btn" type="file" class="" name="image" onchange="onImgInput(event)" />
-            <div class="share-container"></div>
-            <p class="user-msg"></p>
-        </div>
 
-        <section hidden class="about-section section-layout">
+            <div class="export | flex justify-center align-center">
+                <!-- <button class="clear-btn | glass-btn btn " onclick="clearCanvas()">clear</button> -->
+                <button class=" | btn glass-btn" onclick="">save</button>
+                <button class="config btn-download | btn  glass-btn">
+                    <a href="#" onclick="downloadCanvas(this)" download="cool-canvas">Download</a>
+                </button>
+                <button class="config btn-upload | btn glass-btn" onclick="uploadImg()">Upload Image from
+                    Canvas</button>
+                <input class="file-input | btn" type="file" class="" name="image" onchange="onImgInput(event)" />
+                <div class="share-container"></div>
+                <p class="user-msg"></p>
+            </div>
+
+        </section>
+
+        <section hidden class="about-section | section-layout">
             <h2>about</h2>
         </section>
-
     </main>
 
-    <footer class="main-footer-container main-layout">
+    <footer class="main-footer | main-layout">
         <div class="main-footer flex flex-direction-column align-center justify-center">
             <div class="logo"></div>
             <ul class="footer-text flex justify-center clean-list">
@@ -127,15 +147,12 @@
         </div>
     </footer>
 
-    <div class="helpers">
-        <div class="main-screen | full" onclick="toggleMenu()"></div>
-        <div class="user-msg"></div>
-    </div>
+
     <!-- Services -->
     <script src="js/service/util.service.js"></script>
-    <script src="js/service/event-listeners.service.js"></script>
     <script src="js/service/storage.service.js"></script>
     <script src="js/service/uplod.service.js"></script>
+    <script src="js/service/event-listeners.service.js"></script>
     <script src="js/service/meme.service.js"></script>
 
     <!-- Controllers -->

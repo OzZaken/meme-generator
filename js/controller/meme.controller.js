@@ -1,6 +1,7 @@
 'use strict'
 
 var gElCanvas
+var gCtx
 var gKeywordSearchCountMap = {
     'funny': 12,
     'celeb': 11,
@@ -9,36 +10,40 @@ var gKeywordSearchCountMap = {
     'baby': 2,
     'cute': 5,
 }
-let gCtx
 
 function onInit() {
     initCanvas()
     renderGallery()
     flashMsg('Welcome!')
 }
+function renderMeme() {
+    //handle img
+    const img = new Image()
+    img.src = `img/${gMeme.selectedImgId}.jpg`
+    img.onload = () => {
+        gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
+        //handle each line        
+        const { lines } = getMeme()
+        lines.forEach(line => {
+            const { x, y } = line.pos
+            gCtx.beginPath()
+            // NeedToAdd
+            gCtx.lineWidth = 2
+            //Added
+            gCtx.textAlign = line.align
+            gCtx.font = `${line.size}px ${line.font}`
+            gCtx.fillStyle = line.color
+            gCtx.fillText(line.txt, x, y)
+            gCtx.strokeStyle = line.borderColor
+            gCtx.strokeText(line.txt, x, y)
+            gCtx.closePath()
+        })
+    }
+}
+
 function OnResizeCanvas() {
     resizeCanvas()
     renderMeme()
-}
-function getPosByEv(ev) {
-    // console.log('ev:', ev)
-    const touchEvs = ['touchstart', 'touchmove', 'touchend']
-    let pos = {
-        x: ev.offsetX,
-        y: ev.offsetY
-    }
-    // console.log('pos:', pos)
-    // console.log('ev.target.clientLeft:', ev.target.clientLeft)
-    if (touchEvs.includes(ev.type)) {
-        ev.preventDefault()
-        ev = ev.changedTouches[0]
-        // Calc pos according to  touch screen
-        pos = {
-            x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
-            y: ev.pageY - ev.target.offsetTop
-        }
-    }
-    return pos
 }
 function onUpdateCtx(shape) {
     updateCtx(shape)
@@ -60,28 +65,45 @@ function toggleGallery() {
     var elGallery = document.querySelector('.gallery-section')
     elGallery.hidden ? elGallery.hidden = false : elGallery.hidden = true
 }
-function renderMeme() {
-    const img = new Image()
-    img.src = `img/${gMeme.selectedImgId}.jpg`
 
-    img.onload = () => {
-        gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
-        const { lines } = getMeme()
-
-        lines.forEach(line => {
-            gCtx.fillText(line.txt, gElCanvas.width / 2, gElCanvas.height / 2)
-            gCtx.font = `${line.size}px impact`
-            gCtx.textAlign = line.align
-            gCtx.fillStyle = line.color
-            gCtx.beginPath()
-        })
-    }
-}
 function onMouseOutCanvas() {
-    console.log('onMouseOutCanvas')
+    // console.log('onMouseOutCanvas')
     // gCtx.beginPath()
     // gIsDraw = false
 }
+
+function getPosByEv(ev) {
+    // console.log('ev:', ev)
+    const touchEvs = ['touchstart', 'touchmove', 'touchend']
+    let pos = {
+        x: ev.offsetX,
+        y: ev.offsetY
+    }
+    // console.log('pos:', pos)
+    // console.log('ev.target.clientLeft:', ev.target.clientLeft)
+    if (touchEvs.includes(ev.type)) {
+        ev.preventDefault()
+        ev = ev.changedTouches[0]
+        // Calc pos according to  touch screen
+        pos = {
+            x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
+            y: ev.pageY - ev.target.offsetTop
+        }
+    }
+    return pos
+}
+//* //  ///   /////      Meme btns     \\\\\    \\\  *\\
+function onMoveTxtUp() {
+    moveTxtUp()
+    renderMeme()
+}
+function onMoveTxtDown() {
+    moveTxtDown()
+    renderMeme()
+}
+onAddTxtLine
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 // function onDown(ev) {

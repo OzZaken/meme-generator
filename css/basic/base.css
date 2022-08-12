@@ -16,6 +16,11 @@ body {
     font-family: lato, sans-serif;
 }
 
+section {
+    padding-bottom: 3vh;
+    border-bottom: 3px solid var(--clr-hoover);
+}
+
 h1,
 h2,
 h3,

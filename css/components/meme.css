@@ -1,5 +1,4 @@
 .meme-container {
-    color: var(--clr-hoover);
     max-width: 95vw;
 }
 
@@ -10,7 +9,7 @@
     margin: 0 auto;
 }
 
-.canvas-btns-container {
+.meme-btns-container {
     width: 100%;
 }
 
@@ -18,6 +17,7 @@
     padding: 10px 20px;
     margin-bottom: 1rem;
 }
+
 .setting-btn {
     background-color: var(--clr-brighter);
 

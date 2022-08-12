@@ -2,12 +2,22 @@
     display: grid;
 }
 
+.clean-list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+/* //* //  ///   /////      Flex-helpers      \\\\\    \\\  *\\ */
+
 .flex {
     display: flex;
 }
-.flex.flex-start{
+
+.flex.flex-start {
     align-items: flex-start;
 }
+
 .flex.align-center {
     align-items: center;
 }
@@ -34,12 +44,6 @@
     flex-direction: column;
 }
 
-.clean-list {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-}
-
 /* //* //  ///   /////      User-msg      \\\\\    \\\  *\\ */
 .user-msg {
     color: var(--clr-hoover);
@@ -55,7 +59,7 @@
     transition: bottom .5s;
 }
 
-/* //* //  ///   /////      Glass-effect Containers      \\\\\    \\\  *\\ */
+/* //* //  ///   /////      Glass-effect       \\\\\    \\\  *\\ */
 .glass-container {
     background: rgba(255, 255, 255, 0.25);
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);

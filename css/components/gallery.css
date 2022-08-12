@@ -2,7 +2,6 @@
     gap: 8px;
     grid-template-columns: repeat(2, 1fr);
     padding-bottom: 10px;
-    border-bottom: 3px solid var(--clr-hoover);
 }
 
 .gallery-img {

@@ -28,8 +28,8 @@
     content: "\2b";
 }
 
-.fa-minus::before {
-    content: "\f068";
+.fa-trash::before {
+    content: "\f1f8";
 }
 
 .fa-align-center::before {

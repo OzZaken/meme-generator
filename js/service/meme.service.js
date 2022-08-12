@@ -6,22 +6,30 @@ var gMeme = {
     lines: [
         {
             txt: 'I sometimes eat Falafel',
+            pos: {
+                x: 250,
+                y: 250
+            },
             size: 20,
+            font: 'impact',
+
             align: 'center',
-            color: 'red'
+            color: 'red',
+            borderColor: 'black',
         }
     ]
 }
+
+
 
 function initCanvas() {
     gElCanvas = canvas
     gCtx = gElCanvas.getContext('2d')
     resizeCanvas()
-    clearCanvas()
     addListeners()
 }
 function getMeme() {
-	return gMeme
+    return gMeme
 }
 function setMeme(meme) {
     gMeme = meme
@@ -32,39 +40,62 @@ function clearCanvas() {
 function updateCtx(shape) {
     gCurrShape = shape
 }
-function setMemeImg(imgId){
+function setMemeImg(imgId) {
     gMeme.selectedImgId = imgId
     console.log('gMeme:', gMeme)
-	const img = new Image()
-	img.src = `img/${imgId}.jpg`
+    const img = new Image()
+    img.src = `img/${imgId}.jpg`
 }
 function setLineText(txt) {
-    const {lines} = gMeme 
+    const { lines } = gMeme
     lines[gMeme.selectedLineIdx].txt = txt
+}
+function resizeCanvas() {
+    const elContainer = document.querySelector('.canvas-container')
+    gElCanvas.MaxWidth = elContainer.offsetWidth
+    gElCanvas.height = elContainer.offsetHeight
+    //     gElCanvas.height = gElCanvas.width
+    //     elContainer.width = gElCanvas.width + 20
+    //     elContainer.height = gElCanvas.height + 20
+}
+function moveTxtUp() {
+    const meme = getMeme()
+    const { lines } = meme
+    const { pos } = lines[meme.selectedLineIdx]
+    pos.y -= 20
+}
+
+function moveTxtDown() {
+    const meme = getMeme()
+    const { lines } = meme
+    const { pos } = lines[meme.selectedLineIdx]
+    pos.y += 20
+}
+function drawText(x = 100, y = 100) {
+    const { lines } = getMeme()
+    const line = lines[selectedLineIdx]
+    gCtx.beginPath()
+    // NeedToAdd
+    gCtx.lineWidth = 2
+    //Added
+    gCtx.textAlign = line.align
+    gCtx.font = `${line.size}px ${line.font}`
+    gCtx.fillStyle = line.color
+    gCtx.fillText(txt, x, y)
+    gCtx.strokeStyle = line.borderColor
+    gCtx.strokeText(txt, x, y)
+    gCtx.closePath()
 }
 function clearCanvas() {
     gCtx.fillStyle = 'transparent'
     gCtx.fillRect(0, 0, gElCanvas.width, gElCanvas.height)
 }
-
-function resizeCanvas() {
-    const elContainer = document.querySelector('.canvas-container')
-    gElCanvas.MaxWidth = elContainer.offsetWidth
-    gElCanvas.height = elContainer.offsetHeight
-}
-// function resizeCanvas() {
-//     gElCanvas.height = gElCanvas.width
-//     const elContainer = document.querySelector('.canvas-container')
-//     elContainer.width = gElCanvas.width + 20
-//     elContainer.height = gElCanvas.height + 20
-// }
 /////////////////////////////////////
 // let gCurrShape
 // let gFillColor
 // let gStrokeColor
 // let gStrokeSize
 // let gIsDraw
-
 // on initCanvas( gCurrShape = 'draw'gStrokeSize = 5)
 
 // function draw(pos) {
