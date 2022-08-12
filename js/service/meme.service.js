@@ -6,21 +6,16 @@ var gMeme = {
     lines: [
         {
             txt: 'I sometimes eat Falafel',
-            pos: {
-                x: 250,
-                y: 250
-            },
+            pos: { x: 250, y: 250 },
             size: 20,
             font: 'impact',
 
             align: 'center',
             color: 'red',
-            borderColor: 'black',
+            borderColor: 'black'
         }
     ]
 }
-
-
 
 function initCanvas() {
     gElCanvas = canvas
@@ -46,10 +41,6 @@ function setMemeImg(imgId) {
     const img = new Image()
     img.src = `img/${imgId}.jpg`
 }
-function setLineText(txt) {
-    const { lines } = gMeme
-    lines[gMeme.selectedLineIdx].txt = txt
-}
 function resizeCanvas() {
     const elContainer = document.querySelector('.canvas-container')
     gElCanvas.MaxWidth = elContainer.offsetWidth
@@ -57,19 +48,6 @@ function resizeCanvas() {
     //     gElCanvas.height = gElCanvas.width
     //     elContainer.width = gElCanvas.width + 20
     //     elContainer.height = gElCanvas.height + 20
-}
-function moveTxtUp() {
-    const meme = getMeme()
-    const { lines } = meme
-    const { pos } = lines[meme.selectedLineIdx]
-    pos.y -= 20
-}
-
-function moveTxtDown() {
-    const meme = getMeme()
-    const { lines } = meme
-    const { pos } = lines[meme.selectedLineIdx]
-    pos.y += 20
 }
 function drawText(x = 100, y = 100) {
     const { lines } = getMeme()
@@ -86,10 +64,47 @@ function drawText(x = 100, y = 100) {
     gCtx.strokeText(txt, x, y)
     gCtx.closePath()
 }
-function clearCanvas() {
-    gCtx.fillStyle = 'transparent'
-    gCtx.fillRect(0, 0, gElCanvas.width, gElCanvas.height)
+function onClearMeme() {
+    // gCtx.fillStyle = 'transparent'
+    const meme = getMeme()
+
 }
+//* //  ///   /////      Meme btns     \\\\\    \\\  *\\
+function setLineText(txt) {
+    const meme = getMeme()
+    const { lines } = gMeme
+    lines[meme.selectedLineIdx].txt = txt
+}
+
+function changeLinePos(x, y) {
+    console.log('x:', x)
+    console.log('y:', y)
+    const meme = getMeme()
+    const { lines } = meme
+    const { pos } = lines[meme.selectedLineIdx]
+    pos.x += x
+    pos.y += y
+}
+
+function addTxtLine() {
+    const meme = getMeme()
+    meme.lines.push(newLine())
+    meme.selectedLineIdx++
+    document.querySelector('.line-txt').value = ''
+    renderMeme()
+}
+function newLine() {
+    return {
+        txt: 'New Line',
+        pos: { x: 250, y: 250 },
+        size: 20,
+        font: 'impact',
+        align: 'center',
+        color: 'red',
+        borderColor: 'black',
+    }
+}
+
 /////////////////////////////////////
 // let gCurrShape
 // let gFillColor

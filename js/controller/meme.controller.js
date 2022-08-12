@@ -54,10 +54,7 @@ function onImgSelect(imgId) {
     flashMsg('img selected')
     renderMeme()
 }
-function onSetLineText(txt) {
-    setLineText(txt)
-    renderMeme()
-}
+
 function toggleMenu() {
     document.body.classList.toggle('menu-opened');
 }
@@ -93,16 +90,29 @@ function getPosByEv(ev) {
     return pos
 }
 //* //  ///   /////      Meme btns     \\\\\    \\\  *\\
-function onMoveTxtUp() {
-    moveTxtUp()
+function onSetLineText(txt) {
+    setLineText(txt)
     renderMeme()
 }
-function onMoveTxtDown() {
-    moveTxtDown()
-    renderMeme()
-}
-onAddTxtLine
 
+function onChangeLinePos(x, y) {
+    changeLinePos(x, y)
+    renderMeme()
+}
+function onAddTxtLine() {
+    addTxtLine()
+    renderMeme()
+}
+
+function onClearMeme() {
+    clearMeme()
+}
+function onDownloadMeme(elLink) {
+    const data = gElCanvas.toDataURL()
+    console.log('data:', data)
+    elLink.href = data
+    elLink.download = 'my-meme'
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 

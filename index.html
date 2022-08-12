@@ -49,14 +49,14 @@
 
                 <div class="main-btns-container | flex flex-direction-column flex-start glass-container ">
                     <label for="Search keyword">
-                        <input oninput="onSetLineText(this.value)" onsubmit="onAddTxtLine()" class="line-txt fa" type="text"
-                            placeholder="Put Text line Here" title="Put Text line Here">
+                        <input oninput="onSetLineText(this.value)" onsubmit="onAddTxtLine()" class="line-txt | fa"
+                            type="text" placeholder="Put Text line Here" title="Put Text line Here">
                     </label>
 
                     <div class="font-setting-container | flex">
-                        <i onclick="onMoveTxtUp()" title="Move text up"
+                        <i onclick="onChangeLinePos(0,-20)" title="Move text up"
                             class="move-txt-up-btn | setting-btn flex-center | fa-solid fa-arrow-up"></i>
-                        <i onclick="onMoveTxtDown()" title="Move text Down"
+                        <i onclick="onChangeLinePos(0,20)" title="Move text Down"
                             class="move-txt-down-btn | setting-btn flex-center fa-solid fa-arrow-down"></i>
                         <i onclick="onSwitchLines()"
                             class="switch-lines-btn | setting-btn flex-center fa-solid fa-arrow-up-arrow-down">↑↓</i>
@@ -110,11 +110,12 @@
             </div>
 
             <div class="export | flex justify-center align-center">
-                <!-- <button class="clear-btn | glass-btn btn " onclick="clearCanvas()">clear</button> -->
-                <button class=" | btn glass-btn" onclick="">save</button>
-                <button class="config btn-download | btn  glass-btn">
-                    <a href="#" onclick="downloadCanvas(this)" download="cool-canvas">Download</a>
-                </button>
+                <button class="clear-btn | glass-btn btn " onclick="onClearMeme()">clear</button>
+                <button class="save-btn | btn glass-btn" onclick="">save</button>
+
+                <a class="config download-btn | btn glass-btn" href="#" onclick="onDownloadMeme(this)"
+                    download="My-Meme">Download</a>
+
                 <button class="config btn-upload | btn glass-btn" onclick="uploadImg()">Upload Image from
                     Canvas</button>
                 <input class="file-input | btn" type="file" class="" name="image" onchange="onImgInput(event)" />
