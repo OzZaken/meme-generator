@@ -5,7 +5,6 @@
 .canvas {
     cursor: crosshair;
     display: block;
-    background-color: #fff;
     margin: 0 auto;
 }
 
@@ -13,14 +12,8 @@
     width: 100%;
 }
 
-.line-txt {
-    padding: 10px 20px;
-    margin-bottom: 1rem;
-}
-
 .setting-btn {
     background-color: var(--clr-brighter);
-
 }
 
 .setting-btn:hover {
@@ -28,18 +21,26 @@
     color: var(--clr-hoover);
 }
 
-.setting-btn,
-.social-links-container a {
-    width: 2.5rem;
-    height: 2.5rem;
+input.color-input {
+    position: inherit;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
 }
 
-.element-setting-container {
-    gap: 1;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+.editor-container{
+    grid-template-columns: repeat(5,4em);
+    grid-template-rows: repeat(3, 3em);
 }
 
-select.impact {
-    grid-column: span 3;
+.line-txt{
+    padding: 10px 15px;
+    width: 80%;
+    margin: auto;
+    grid-column-start: 1;
+    grid-column-end: 6;
+}
+.font-select{
+    grid-column-start: 1;
+    grid-column-end: 4;
 }

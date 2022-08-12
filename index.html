@@ -16,7 +16,7 @@
     </div>
     <!-- !remainder removing h1 -->
     <h1 class="viewport"></h1>
-
+    <!--* header -->
     <header class="main-header | main-layout">
         <div class="main-header-container | flex align-center space-between">
             <div class="logo"></div>
@@ -32,58 +32,74 @@
         </div>
     </header>
 
+    <!--* Main -->
     <main class="main-content | main-layout flex flex-direction-column">
+
+        <!--* Gallery -->
         <section class="gallery-section | section-layout">
+            <datalist id="search-keywords">
+                <option value="Funny"></option>
+                <option value="Cute"></option>
+                <option value="celeb"></option>
+                <option value="Dog"></option>
+                <option value="Cat"></option>
+            </datalist>
             <h2> <input oninput="onSetFilterBy(this.value)" type="text" placeholder="Search"></h2>
             <div class="gallery-container grid justify-center"> </div>
-
         </section>
 
+        <!--* Meme -->
         <section class="meme-section | section-layout">
-
-            <div class="meme-container | flex">
+            <div class="meme-container | flex space-between">
                 <div class="canvas-container">
                     <canvas onmouseout="onMouseOutCanvas()" class="canvas | glass-container" id="canvas" height="500"
                         width="500"></canvas>
                 </div>
-
-                <div class="main-btns-container | flex flex-direction-column flex-start glass-container ">
-                    <label for="Search keyword">
-                        <input oninput="onSetLineText(this.value)" onsubmit="onAddTxtLine()" class="line-txt | fa"
-                            type="text" placeholder="Put Text line Here" title="Put Text line Here">
-                    </label>
-
-                    <div class="font-setting-container | flex">
-                        <i onclick="onChangeLinePos(0,-20)" title="Move text up"
-                            class="move-txt-up-btn | setting-btn flex-center | fa-solid fa-arrow-up"></i>
-                        <i onclick="onChangeLinePos(0,20)" title="Move text Down"
-                            class="move-txt-down-btn | setting-btn flex-center fa-solid fa-arrow-down"></i>
-                        <i onclick="onSwitchLines()" title="Switch between lines"
-                            class="switch-lines-btn | setting-btn flex-center fa-solid fa-arrow-up-arrow-down">↑↓</i>
-                        <i onclick="onAddTxtLine()"  title="Add txt line"
-                            class="add-text-line-btn | setting-btn flex-center fa-solid fa-plus"></i>
-                        <i onclick="onDeleteTxtLine()" title="Delete last line"
-                            class="delete-text-line-btn | setting-btn flex-center fa-solid fa-trash"></i>
+                <!--* Meme Btns -->
+                    <div class="editor-container |flex glass-container">
+                        <label for="Search keyword">
+                            <input class="line-txt | fa flex" oninput="onSetLineText(this.value)" onsubmit="onAddTxtLine()"
+                                type="text" placeholder="Put Text line Here" title="Put Text line Here">
+                        </label>
+                    <div class="editor-container | grid">
+                            <i onclick="onChangeLinePos(0,-20)" title="Move text up"
+                                class="move-txt-up-btn | setting-btn flex-center fa-solid fa-arrow-up"></i>
+                            <i onclick="onChangeLinePos(0,20)" title="Move text Down"
+                                class="move-txt-down-btn | setting-btn flex-center fa-solid fa-arrow-down"></i>
+                            <i onclick="onSwitchLines()" title="Switch between lines"
+                                class="switch-lines-btn | setting-btn flex-center fa-solid fa-arrow-up-arrow-down">↑↓</i>
+                            <i onclick="onAddTxtLine()" title="Add txt line"
+                                class="add-text-line-btn | setting-btn flex-center fa-solid fa-plus"></i>
+                            <i onclick="onDeleteTxtLine()" title="Delete last line"
+                                class="delete-text-line-btn | setting-btn flex-center fa-solid fa-trash"></i>
+                            <i onclick="onChangeElSize(5)" title="Size Up"
+                                class="size-up-btn | fa-solid 1fa-text-size setting-btn flex-center">A+</i>
+                            <i onclick="onChangeElSize(-5)" title="Size Down"
+                                class="size-down-btn | fa-solid 1fa-text-size setting-btn flex-center">A-</i>
+                            <i onclick="onChangeAlign('left')" title="align left"
+                                class="align-left-btn | setting-btn flex-center fa-solid fa-align-left"></i>
+                            <i onclick="onChangeAlign('center')" title="align center"
+                                class="align-center-btn | setting-btn flex-center fa-solid fa-align-center"></i>
+                            <i onclick="onChangeAlign('right')" title="align left"
+                                class="align-right-btn | setting-btn flex-center fa-solid fa-align-right"></i>
+                            <select title="Select fonts" onchange="onChangeFont(this.value)" class="font-select fa-solid"
+                                name="change-fonts">
+                                <option value="impact">impact</option>
+                                <option value="italic">italic</option>
+                                <option value="fa">fa</option>
+                                <option value="fa-solid">fa-solid</option>
+                                <option value="bold">bold</option>
+                            </select>
+                            <i class="stroke-color | fa-s s-btn fa-solid setting-btn flex-center ">
+                                <input class="color-input flex-center" oninput="setColor('stroke')" type="color"
+                                    name="stroke-color">
+                            </i>
+                            <i class="fill-color | fa-palette fa-solid  setting-btn flex-center">
+                                <input class="color-input" oninput="setColor('fill')" type="color" name="fill-color">
+                            </i>
+                        </div>
                     </div>
-
-                    <div class="element-setting-container | grid">
-                        <i onclick="onChangeElSize(5)" class="size-up-btn | fa-solid 1fa-text-size setting-btn flex-center">A+</i>
-                        <i onclick="onChangeElSize(-5)" class="size-down-btn | fa-solid 1fa-text-size setting-btn flex-center">A-</i>
-
-                        <i onclick="onChangeAlign('left')" class="align-left-btn | setting-btn flex-center fa-solid fa-align-left"></i>
-                        <i onclick="onChangeAlign('center')" class="align-center-btn | setting-btn flex-center fa-solid fa-align-center"></i>
-                        <i onclick="onChangeAlign('right')" class="align-right-btn | setting-btn flex-center fa-solid fa-align-right"></i>
-                        <select class="impact fa-solid" name="impact">
-                            <option value="impact">impact</option>
-                            <option value="italic">italic</option>
-                            <option value="fa">fa</option>
-                            <option value="fa-solid">fa-solid</option>
-                            <option value="bold">bold</option>
-                        </select>
-                        <i class="s-btn | setting-btn flex-center fa-solid fa-s"></i>
-                        <i class="palette-color-btn | setting-btn flex-center fa-solid fa-palette"></i>
-                    </div>
-
+                    
 
                     <!-- <div class="new-btns-container">
                         <label for="select shape">
@@ -100,16 +116,12 @@
                                 type="range">
                         </label>
     
-                        <label for="colors">
-                            fill-color
-                            <input class="fill-color" oninput="setColors()" type="color" name="fill-color">
-                            stroke-color
-                            <input class="stroke-color" oninput="setColors()" type="color" name="stroke-color">
-                        </label>
+                        
                     </div> -->
                 </div>
             </div>
 
+            <!--* Export -->
             <div class="export | flex justify-center align-center">
                 <button class="clear-btn | glass-btn btn " onclick="onClearMeme()">clear</button>
                 <button class="save-btn | btn glass-btn" onclick="">save</button>

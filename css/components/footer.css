@@ -34,6 +34,10 @@
     padding: 80px;
     margin: 0;
 }
+.social-links-container a {
+    width: 2.5rem;
+    height: 2.5rem;
+}
 
 .social-links-container a {
     background-color: var(--clr-bright);

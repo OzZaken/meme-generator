@@ -1,5 +1,11 @@
 'use strict'
-
+var gIsDraw
+var gStroke = {
+    currShape: 'circle',
+    fillStyle: 'black',
+    strokeStyle: 'white',
+    size: 5
+}
 var gMeme = {
     selectedImgId: 5,
     selectedLineIdx: 0,
@@ -11,8 +17,8 @@ var gMeme = {
             font: 'impact',
 
             align: 'center',
-            color: 'red',
-            borderColor: 'black'
+            color: 'black',
+            borderColor: 'white'
         },
         {
             txt: 'Second Comment',
@@ -21,8 +27,8 @@ var gMeme = {
             font: 'impact',
 
             align: 'center',
-            color: 'red',
-            borderColor: 'black'
+            color: 'black',
+            borderColor: 'white'
         }
     ]
 }
@@ -30,6 +36,8 @@ var gMeme = {
 function initCanvas() {
     gElCanvas = canvas
     gCtx = gElCanvas.getContext('2d')
+    gCtx.strokeStyle = 'black'
+
     resizeCanvas()
     addListeners()
 }
@@ -56,33 +64,14 @@ function resizeCanvas() {
     //     elContainer.width = gElCanvas.width + 20
     //     elContainer.height = gElCanvas.height + 20
 }
-function drawText(x = 100, y = 100) {
-    const { lines } = getMeme()
-    const line = lines[selectedLineIdx]
-    gCtx.beginPath()
-    // NeedToAdd
-    gCtx.lineWidth = 2
-    //Added
-    gCtx.textAlign = line.align
-    gCtx.font = `${line.size}px ${line.font}`
-    gCtx.fillStyle = line.color
-    gCtx.fillText(txt, x, y)
-    gCtx.strokeStyle = line.borderColor
-    gCtx.strokeText(txt, x, y)
-    gCtx.closePath()
-}
-function onClearMeme() {
-    // gCtx.fillStyle = 'transparent'
-    const meme = getMeme()
 
-}
+
 //* //  ///   /////      Meme btns     \\\\\    \\\  *\\
-//First line
 function setLineText(txt) {
-    const meme = getMeme()
     const { lines } = gMeme
-    lines[meme.selectedLineIdx].txt = txt
+    lines[gMeme.selectedLineIdx].txt = txt
 }
+//First line
 function changeLinePos(x, y) {
     const meme = getMeme()
     const { lines } = meme
@@ -90,32 +79,33 @@ function changeLinePos(x, y) {
     pos.x += x
     pos.y += y
 }
-function addTxtLine() {
-    const val = document.querySelector('.line-txt').value
-    if (val === '') return
-    const meme = getMeme()
-    meme.lines.push(newLine())
-    setSelectedLine()
-    document.querySelector('.line-txt').value = ''
-    renderMeme()
-}
-function newLine() {
-    return {
-        txt: 'New Line',
-        pos: { x: 250, y: 250 },
-        size: 20,
-        font: 'impact',
-        align: 'center',
-        color: 'red',
-        borderColor: 'black',
-    }
-}
 function switchLines() {
     const { lines } = getMeme()
     if (lines.length === 2) {
         let secPos = lines[1].pos
         lines[1].pos = lines[0].pos
         lines[0].pos = secPos
+    }
+}
+function addTxtLine(txt) {
+    const val = document.querySelector('.line-txt').value
+
+    if (val === '') return
+    const meme = getMeme()
+    meme.lines.push(newLine(txt))
+    setSelectedLine()
+    document.querySelector('.line-txt').value = ''
+    renderMeme()
+}
+function newLine(txt) {
+    return {
+        txt,
+        pos: { x: 250, y: 250 },
+        size: 20,
+        font: 'impact',
+        align: 'center',
+        color: 'red',
+        borderColor: 'black',
     }
 }
 function deleteLastLine() {
@@ -135,19 +125,39 @@ function changeElSize(num) {
 function changeAlign(dir) {
     const meme = getMeme()
     const { lines } = meme
-
     if (dir === 'left') lines[meme.selectedLineIdx].align = 'right'
     else if (dir === 'right') lines[meme.selectedLineIdx].align = 'left'
     else lines[meme.selectedLineIdx].align = 'center'
+}
+//third line
+function changeFont(fontStyle) {
+    console.log('fontStyle:', fontStyle)
+    const meme = getMeme()
+    const { lines } = meme
+    lines[meme.selectedLineIdx].font = fontStyle
 
 }
+function clearMeme() {
+    console.log('gMeme:', gMeme)
+}
+//* //  ///   /////      Draw     \\\\\    \\\  *\\
+function setColors() {
+    gStroke.fillStyle = document.querySelector('.fill-color').value
+    gStroke.strokeStyle = document.querySelector('.stroke-color').value
+}
+function getFillColor() {
+    return gStroke.fillStyle
+}
+function getStrokeColor() {
+    return gStroke.strokeStyle
+}
+function freeDraw(pos) {
+    gCtx.lineWidth = gStroke.size
+    gCtx.strokeStyle = gStroke.strokeStyle
+    gCtx.lineTo(pos.x, pos.y)
+    gCtx.stroke()
+}
 /////////////////////////////////////
-// let gCurrShape
-// let gFillColor
-// let gStrokeColor
-// let gStrokeSize
-// let gIsDraw
-// on initCanvas( gCurrShape = 'draw'gStrokeSize = 5)
 
 // function draw(pos) {
 //     switch (gCurrShape) {
@@ -203,12 +213,7 @@ function changeAlign(dir) {
 //     gCtx.stroke()
 //     gCtx.closePath()
 // }
-// function freeDraw(pos) {
-//     gCtx.lineWidth = gStrokeSize
-//     gCtx.strokeStyle = gStrokeColor
-//     gCtx.lineTo(pos.x, pos.y)
-//     gCtx.stroke()
-// }
+
 // function drawCircle(pos) {
 //     gCtx.beginPath()
 //     gCtx.lineWidth = 2;
@@ -219,16 +224,8 @@ function changeAlign(dir) {
 //     gCtx.stroke();
 //     gCtx.closePath()
 // }
-// function setColors() {
-//     gFillColor = document.querySelector('.fill-color').value
-//     gStrokeColor = document.querySelector('.stroke-color').value
-// }
-// function getFillColor() {
-//     return gFillColor
-// }
-// function getStrokeColor() {
-//     return gStrokeColor
-// }
+
+
 // function drawSingleLine(pos) {
 //     console.log('pos:', pos)
 //     gCtx.beginPath()

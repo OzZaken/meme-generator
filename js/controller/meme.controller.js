@@ -39,8 +39,37 @@ function renderMeme() {
             gCtx.closePath()
         })
         setSelectedLine()
+        // markSelectedLine()
     }
-    console.log('gMeme.selectedLineIdx:', gMeme.selectedLineIdx)
+}
+
+// function markSelectedLine() {
+// 	// set stroke for text selection
+// 	gCtx.lineWidth = 3
+// 	gCtx.shadowOffsetX = 5
+// 	gCtx.shadowOffsetY = 5
+// 	gCtx.shadowBlur = 5
+// 	gCtx.strokeStyle = 'yellowgreen'
+
+// 	setBindBoxes()
+// 	const bindBox = getBindBox()
+// 	gCtx.strokeRect(bindBox.x, bindBox.y, bindBox.width, bindBox.height)
+// }
+
+function drawText(isSelected) {
+    const { lines } = getMeme()
+    const line = lines[selectedLineIdx]
+    gCtx.beginPath()
+    // NeedToAdd
+    gCtx.lineWidth = 2
+    //Added
+    gCtx.textAlign = line.align
+    gCtx.font = `${line.size}px ${line.font}`
+    gCtx.fillStyle = line.color
+    gCtx.fillText(txt, x, y)
+    gCtx.strokeStyle = line.borderColor
+    gCtx.strokeText(txt, x, y)
+    gCtx.closePath()
 }
 function OnResizeCanvas() {
     resizeCanvas()
@@ -80,7 +109,7 @@ function setSelectedLine() {
     const meme = getMeme()
     const { lines } = meme
     meme.selectedLineIdx = lines.length - 1
-    console.log('meme.selectedLineIdx:', meme.selectedLineIdx)
+    document.querySelector('.line-txt').value = lines[meme.selectedLineIdx].txt
 }
 function toggleMenu() {
     document.body.classList.toggle('menu-opened');
@@ -99,8 +128,8 @@ function onChangeLinePos(x, y) {
     changeLinePos(x, y)
     renderMeme()
 }
-function onAddTxtLine() {
-    addTxtLine()
+function onAddTxtLine(txt) {
+    addTxtLine(txt)
     renderMeme()
 }
 function onSwitchLines() {
@@ -125,8 +154,16 @@ function onChangeAlign(dir) {
     changeAlign(dir)
     renderMeme()
 }
-
+// third
+function onChangeFont(val){
+    changeFont(val)
+    renderMeme()
+}
 //export btns
+function onClearMeme() {
+    clearMeme()
+    renderMeme()
+}
 function onDownloadMeme(elLink) {
     const data = gElCanvas.toDataURL()
     console.log('data:', data)
