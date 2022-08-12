@@ -58,20 +58,21 @@
                             class="move-txt-up-btn | setting-btn flex-center | fa-solid fa-arrow-up"></i>
                         <i onclick="onChangeLinePos(0,20)" title="Move text Down"
                             class="move-txt-down-btn | setting-btn flex-center fa-solid fa-arrow-down"></i>
-                        <i onclick="onSwitchLines()"
+                        <i onclick="onSwitchLines()" title="Switch between lines"
                             class="switch-lines-btn | setting-btn flex-center fa-solid fa-arrow-up-arrow-down">↑↓</i>
-                        <i onclick="onAddTxtLine()"
+                        <i onclick="onAddTxtLine()"  title="Add txt line"
                             class="add-text-line-btn | setting-btn flex-center fa-solid fa-plus"></i>
-                        <i onclick="onDeleteTxtLine()"
+                        <i onclick="onDeleteTxtLine()" title="Delete last line"
                             class="delete-text-line-btn | setting-btn flex-center fa-solid fa-trash"></i>
                     </div>
 
                     <div class="element-setting-container | grid">
-                        <div class="size-up-btn | setting-btn flex-center">A+</div>
-                        <div class="size-Down-btn | setting-btn flex-center">A-</div>
-                        <i class="align-left-btn | setting-btn flex-center fa-solid fa-align-left"></i>
-                        <i class="align-center-btn | setting-btn flex-center fa-solid fa-align-center"></i>
-                        <i class="align-right-btn | setting-btn flex-center fa-solid fa-align-right"></i>
+                        <i onclick="onChangeElSize(5)" class="size-up-btn | fa-solid 1fa-text-size setting-btn flex-center">A+</i>
+                        <i onclick="onChangeElSize(-5)" class="size-down-btn | fa-solid 1fa-text-size setting-btn flex-center">A-</i>
+
+                        <i onclick="onChangeAlign('left')" class="align-left-btn | setting-btn flex-center fa-solid fa-align-left"></i>
+                        <i onclick="onChangeAlign('center')" class="align-center-btn | setting-btn flex-center fa-solid fa-align-center"></i>
+                        <i onclick="onChangeAlign('right')" class="align-right-btn | setting-btn flex-center fa-solid fa-align-right"></i>
                         <select class="impact fa-solid" name="impact">
                             <option value="impact">impact</option>
                             <option value="italic">italic</option>

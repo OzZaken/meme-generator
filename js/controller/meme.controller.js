@@ -21,9 +21,9 @@ function renderMeme() {
     const img = new Image()
     img.src = `img/${gMeme.selectedImgId}.jpg`
     img.onload = () => {
+        var { lines } = getMeme()
         gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
         //handle each line        
-        const { lines } = getMeme()
         lines.forEach(line => {
             const { x, y } = line.pos
             gCtx.beginPath()
@@ -38,9 +38,10 @@ function renderMeme() {
             gCtx.strokeText(line.txt, x, y)
             gCtx.closePath()
         })
+        setSelectedLine()
     }
+    console.log('gMeme.selectedLineIdx:', gMeme.selectedLineIdx)
 }
-
 function OnResizeCanvas() {
     resizeCanvas()
     renderMeme()
@@ -54,34 +55,20 @@ function onImgSelect(imgId) {
     flashMsg('img selected')
     renderMeme()
 }
-
-function toggleMenu() {
-    document.body.classList.toggle('menu-opened');
-}
-function toggleGallery() {
-    var elGallery = document.querySelector('.gallery-section')
-    elGallery.hidden ? elGallery.hidden = false : elGallery.hidden = true
-}
-
 function onMouseOutCanvas() {
     // console.log('onMouseOutCanvas')
     // gCtx.beginPath()
     // gIsDraw = false
 }
-
 function getPosByEv(ev) {
-    // console.log('ev:', ev)
     const touchEvs = ['touchstart', 'touchmove', 'touchend']
     let pos = {
         x: ev.offsetX,
         y: ev.offsetY
     }
-    // console.log('pos:', pos)
-    // console.log('ev.target.clientLeft:', ev.target.clientLeft)
     if (touchEvs.includes(ev.type)) {
         ev.preventDefault()
         ev = ev.changedTouches[0]
-        // Calc pos according to  touch screen
         pos = {
             x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
             y: ev.pageY - ev.target.offsetTop
@@ -89,12 +76,25 @@ function getPosByEv(ev) {
     }
     return pos
 }
+function setSelectedLine() {
+    const meme = getMeme()
+    const { lines } = meme
+    meme.selectedLineIdx = lines.length - 1
+    console.log('meme.selectedLineIdx:', meme.selectedLineIdx)
+}
+function toggleMenu() {
+    document.body.classList.toggle('menu-opened');
+}
+function toggleGallery() {
+    var elGallery = document.querySelector('.gallery-section')
+    elGallery.hidden ? elGallery.hidden = false : elGallery.hidden = true
+}
 //* //  ///   /////      Meme btns     \\\\\    \\\  *\\
+// First row
 function onSetLineText(txt) {
     setLineText(txt)
     renderMeme()
 }
-
 function onChangeLinePos(x, y) {
     changeLinePos(x, y)
     renderMeme()
@@ -103,17 +103,36 @@ function onAddTxtLine() {
     addTxtLine()
     renderMeme()
 }
-
+function onSwitchLines() {
+    switchLines()
+    renderMeme()
+}
+function onDeleteTxtLine() {
+    deleteLastLine()
+    renderMeme()
+}
+// Second row
 function onClearMeme() {
     clearMeme()
 }
+
+function onChangeElSize(num) {
+    changeElSize(num)
+    renderMeme()
+}
+
+function onChangeAlign(dir) {
+    changeAlign(dir)
+    renderMeme()
+}
+
+//export btns
 function onDownloadMeme(elLink) {
     const data = gElCanvas.toDataURL()
     console.log('data:', data)
     elLink.href = data
     elLink.download = 'my-meme'
 }
-
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 // function onDown(ev) {

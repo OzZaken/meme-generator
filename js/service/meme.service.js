@@ -5,8 +5,18 @@ var gMeme = {
     selectedLineIdx: 0,
     lines: [
         {
-            txt: 'I sometimes eat Falafel',
-            pos: { x: 250, y: 250 },
+            txt: 'First Comment',
+            pos: { x: 250, y: 100 },
+            size: 30,
+            font: 'impact',
+
+            align: 'center',
+            color: 'red',
+            borderColor: 'black'
+        },
+        {
+            txt: 'Second Comment',
+            pos: { x: 250, y: 400 },
             size: 20,
             font: 'impact',
 
@@ -26,9 +36,7 @@ function initCanvas() {
 function getMeme() {
     return gMeme
 }
-function setMeme(meme) {
-    gMeme = meme
-}
+
 function clearCanvas() {
     gCtx.clearRect(0, 0, gElCanvas.width, gElCanvas.height)
 }
@@ -37,7 +45,6 @@ function updateCtx(shape) {
 }
 function setMemeImg(imgId) {
     gMeme.selectedImgId = imgId
-    console.log('gMeme:', gMeme)
     const img = new Image()
     img.src = `img/${imgId}.jpg`
 }
@@ -70,26 +77,25 @@ function onClearMeme() {
 
 }
 //* //  ///   /////      Meme btns     \\\\\    \\\  *\\
+//First line
 function setLineText(txt) {
     const meme = getMeme()
     const { lines } = gMeme
     lines[meme.selectedLineIdx].txt = txt
 }
-
 function changeLinePos(x, y) {
-    console.log('x:', x)
-    console.log('y:', y)
     const meme = getMeme()
     const { lines } = meme
     const { pos } = lines[meme.selectedLineIdx]
     pos.x += x
     pos.y += y
 }
-
 function addTxtLine() {
+    const val = document.querySelector('.line-txt').value
+    if (val === '') return
     const meme = getMeme()
     meme.lines.push(newLine())
-    meme.selectedLineIdx++
+    setSelectedLine()
     document.querySelector('.line-txt').value = ''
     renderMeme()
 }
@@ -104,7 +110,37 @@ function newLine() {
         borderColor: 'black',
     }
 }
+function switchLines() {
+    const { lines } = getMeme()
+    if (lines.length === 2) {
+        let secPos = lines[1].pos
+        lines[1].pos = lines[0].pos
+        lines[0].pos = secPos
+    }
+}
+function deleteLastLine() {
+    const meme = getMeme()
+    const { lines } = meme
+    lines.splice(-1)
+    console.log('lines:', lines)
+    setSelectedLine()
+    document.querySelector('.line-txt').value = ''
+}
+//Second line
+function changeElSize(num) {
+    const meme = getMeme()
+    const { lines } = meme
+    lines[meme.selectedLineIdx].size += num
+}
+function changeAlign(dir) {
+    const meme = getMeme()
+    const { lines } = meme
 
+    if (dir === 'left') lines[meme.selectedLineIdx].align = 'right'
+    else if (dir === 'right') lines[meme.selectedLineIdx].align = 'left'
+    else lines[meme.selectedLineIdx].align = 'center'
+
+}
 /////////////////////////////////////
 // let gCurrShape
 // let gFillColor

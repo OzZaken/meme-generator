@@ -6,12 +6,13 @@
     font-family: fa-solid;
 }
 
-/* Header btns */
+/** Header btns */
 .fa.menu-bar::before {
     content: "\f0c9"
 }
 
-/* Meme Btns */
+/** Meme Btns */
+/* first line */
 .fa-arrow-up::before {
     content: "\f062";
 }
@@ -31,7 +32,10 @@
 .fa-trash::before {
     content: "\f1f8";
 }
-
+/* second line */
+.fa-text-size::before{
+    content: "\f894";
+}
 .fa-align-center::before {
     content: "\f037";
 }
