@@ -74,42 +74,42 @@ function setSelectedLineIdx() {
 // First row
 function onSetLineText(txt) {
     setLineText(txt)
-    playAudio('click',gAudio)
+    playAudio('click', gAudio)
     renderMeme()
 }
 function onChangeLinePos(x, y) {
     changeLinePos(x, y)
-    playAudio('click',gAudio)
+    playAudio('click', gAudio)
     renderMeme()
 }
 function onAddTxtLine(txt) {
     addTxtLine(txt)
-    playAudio('click',gAudio)
+    playAudio('click', gAudio)
     renderMeme()
 }
 function onSwitchLines() {
     switchLines()
-    playAudio('click',gAudio)
+    playAudio('click', gAudio)
     renderMeme()
 }
 function onDeleteTxtLine() {
     deleteLastLine()
-    playAudio('click',gAudio)
+    playAudio('click', gAudio)
     renderMeme()
 }
 // Second row
 function onClearMeme() {
-    playAudio('click',gAudio)
+    playAudio('click', gAudio)
     clearMeme()
 }
 function onChangeElSize(num) {
     changeElSize(num)
-    playAudio('click',gAudio)
+    playAudio('click', gAudio)
     renderMeme()
 }
 function onChangeAlign(dir) {
     changeAlign(dir)
-    playAudio('click',gAudio)
+    playAudio('click', gAudio)
     renderMeme()
 }
 // third
