@@ -10,9 +10,9 @@ function onShareMeme() {
       const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
       // console.log(encodedUploadedImgUrl)
       document.querySelector(
-        '.share-btn'
+        '.url-msg'
       ).innerText = `Your photo is available here: ${uploadedImgUrl}`
-      document.querySelector('.share-btn').innerHTML = `
+      document.querySelector('.sharing-btn').innerHTML = `
           <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
              Share   
           </a>`
@@ -31,6 +31,8 @@ function doUploadImg(imgDataUrl, onSuccess) {
         })
         .then(res => res.text())
         .then((url) => {
+
+
             console.log('Got back live url:', url)
             onSuccess(url)
         })

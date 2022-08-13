@@ -5,7 +5,6 @@ var gCtx
 var gIsDraw
 let gAudio
 
-
 function onInit() {
     initCanvas()
     renderGallery()
@@ -209,7 +208,6 @@ function toggleGallery() {
     var elGallery = document.querySelector('.gallery-section')
     elGallery.hidden ? elGallery.hidden = false : elGallery.hidden = true
 }
-//! //  ///   /////      Delete at the end     \\\\\    \\\  *\\
 const elBody = document.querySelector('body')
 let gViewportWidth = window.innerWidth
 let state
@@ -224,4 +222,3 @@ elBody.onresize()
 function renderViewPort() {
     document.querySelector('.viewport').innerText = `${state}\n${gViewportWidth}px`
 }
-//!

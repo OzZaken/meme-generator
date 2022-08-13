@@ -1,14 +1,14 @@
+ /* * MQ Helper  */
+h1.viewport {
+    position: fixed;
+    color: var(--clr-hoover);
+    right: 0;
+    margin-top: 8vh;
+    z-index: 1;
+}
  /* MOBILE ONLY */
- @media (max-width: 800px) {
-    .meme-container {
-        flex-direction: column;
-        align-items: center;
-    }
- }
+
  @media (max-width: 520px) {
-
-
-     /* ↓CenterMenuBar ↓ */
      .main-nav-list {
          position: fixed;
          left: 0;
@@ -26,28 +26,6 @@
          max-height: 500px;
          transform-origin: top;
      }
-
-     /* → SideMenuBar ↓
-    .main-nav-list {
-       display: block;
-       position: fixed;
-       flex-direction: column;
-       top: 60px;
-       right: 0;
-       background-color: var(--clr-darker);
-       border-bottom: 5px solid red;1
-       height: 100vh;2
-       height: calc(100vh - 60px);
-       border-inline-start: 1px solid #1d1d1d;
-       min-width: 200px;
-       transition: transform .6s, box-shadow .6s;
-       transform: translateX(100%);
-   }
-       /* body.menu-opened .main-nav-list {
-       box-shadow: -6px 0 17px rgb(0 0 0 / 26%);
-       transform: translateX(0);
-   } 
-   */
 
      .main-header {
          position: fixed;
@@ -105,7 +83,13 @@
      }
 
  }
-
+ @media (max-width: 800px) {
+    .meme-container {
+        margin: auto;
+        flex-direction: column;
+        align-items: center;
+    }
+ }
  /* TABLET */
  @media (min-width: 600px) {
      .main-layout>*:not(.full) {

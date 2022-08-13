@@ -11,11 +11,9 @@
 </head>
 
 <body onload="onInit()">
-    <div class="helpers">
+        <h1 class="viewport"></h1>
         <div class="main-screen | full" onclick="toggleMenu()"></div>
         <div class="user-msg"></div>
-    </div>
-    <h1 class="viewport"></h1>
     <!--* header -->
     <header class="main-header | main-layout">
         <div class="main-header-container | flex align-center space-between">
@@ -110,7 +108,9 @@
                     <button class="config share-btn | btn glass-btn" onclick="onShareMeme(this)">Share Meme</button>
 
                 <input class="file-input | btn" type="file" class="" name="image" onchange="onImgInput(event)" />
-                <p class="user-msg"></p>
+                <p class="url-msg">
+                    <button class=""></button>
+                </p>
             </div>
         </section>
 
