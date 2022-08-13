@@ -1,10 +1,4 @@
-h1.viewport {
-    position: fixed;
-    color: var(--clr-hoover);
-    right: 0;
-    margin-top: 8vh;
-    z-index: 1;
-}
+
 
 * {
     box-sizing: border-box;
