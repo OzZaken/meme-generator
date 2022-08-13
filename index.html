@@ -15,7 +15,6 @@
         <div class="main-screen | full" onclick="toggleMenu()"></div>
         <div class="user-msg"></div>
     </div>
-    <!-- !remainder removing h1 -->
     <h1 class="viewport"></h1>
     <!--* header -->
     <header class="main-header | main-layout">
@@ -33,24 +32,23 @@
         </div>
     </header>
 
-    <!--* Main -->
     <main class="main-content | main-layout flex flex-direction-column">
-
         <!--* Gallery -->
         <section class="gallery-section | section-layout">
-            <datalist id="search-keywords">
-                <option value="Funny"></option>
-                <option value="Cute"></option>
+            <datalist id="keywords">
+                <option value="funny"></option>
+                <option value="cute"></option>
                 <option value="celeb"></option>
-                <option value="Dog"></option>
-                <option value="Cat"></option>
+                <option value="dog"></option>
+                <option value="cat"></option>
+                <option value="baby"></option>
             </datalist>
-            <h2> <input oninput="onSetFilterBy(this.value)" type="text" placeholder="Search"></h2>
+            <input class="filter-input" onchange="onSetFilterBy(this.value)"  list="keywords"  type="text" placeholder="Search">
+
             <div class="gallery-container grid justify-center"> </div>
         </section>
-
         <!--* Meme -->
-        <section class="meme-section | section-layout">
+        <section class="meme-section | flex section-layout">
             <div class="meme-container | flex space-between">
                 <div class="canvas-container">
                     <canvas onmouseout="onMouseOutCanvas()" class="canvas | glass-container" id="canvas" height="500"
@@ -109,11 +107,9 @@
 
                 <a class="config download-btn | btn glass-btn" href="#" onclick="onDownloadMeme(this)"
                     download="My-Meme">Download</a>
+                    <button class="config share-btn | btn glass-btn" onclick="onShareMeme(this)">Share Meme</button>
 
-                <button class="config btn-upload | btn glass-btn" onclick="uploadImg()">Upload Image from
-                    Canvas</button>
                 <input class="file-input | btn" type="file" class="" name="image" onchange="onImgInput(event)" />
-                <div class="share-container"></div>
                 <p class="user-msg"></p>
             </div>
         </section>
@@ -140,7 +136,6 @@
             </ul>
         </div>
     </footer>
-
 
     <!-- Services -->
     <script src="js/service/util.service.js"></script>

@@ -21,7 +21,8 @@ var gMeme = {
             align: 'center',
             color: 'black',
             borderColor: 'white',
-            isSaved: false
+            isSaved: false,
+            isDrag: false
         },
     ]
 }
@@ -35,11 +36,9 @@ function initCanvas() {
 }
 function resizeCanvas() {
     const elContainer = document.querySelector('.canvas-container')
-    gElCanvas.MaxWidth = elContainer.offsetWidth
-    gElCanvas.height = elContainer.offsetHeight
-    //     gElCanvas.height = gElCanvas.width
-    //     elContainer.width = gElCanvas.width + 20
-    //     elContainer.height = gElCanvas.height + 20
+        // gElCanvas.height = gElCanvas.width
+        elContainer.width = gElCanvas.width 
+        elContainer.height = gElCanvas.height 
 }
 //* //  ///   /////      Meme    \\\\\    \\\  *\\
 function getMeme() {

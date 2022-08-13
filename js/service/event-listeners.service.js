@@ -4,6 +4,7 @@ function addListeners() {
     window.addEventListener('resize', () => {
         OnResizeCanvas()
     })
+    
     addMouseListeners()
     addTouchListeners()
 }

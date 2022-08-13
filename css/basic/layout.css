@@ -3,6 +3,6 @@
 }
 
 .section-layout {
-    padding-inline-start: 40px;
-    padding-inline-end: 25px;
+    padding-inline-start: auto;
+    padding-inline-end: auto;
 }

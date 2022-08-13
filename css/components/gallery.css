@@ -18,3 +18,7 @@
     cursor: pointer;
     opacity: 0.8;
 }
+.filter-input{
+    margin-bottom: 10px;
+    width: 50%;
+}

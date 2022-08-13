@@ -5,6 +5,7 @@ var gCtx
 var gIsDraw
 let gAudio
 
+
 function onInit() {
     initCanvas()
     renderGallery()
@@ -52,6 +53,9 @@ function setSelectedLineIdx() {
     const { lines } = meme
     meme.selectedLineIdx = lines.length - 1
     document.querySelector('.line-txt').value = lines[meme.selectedLineIdx].txt
+}
+function getElCanvas() {
+    return gElCanvas
 }
 //* //  ///   /////      Meme btns     \\\\\    \\\  *\\
 // First row
