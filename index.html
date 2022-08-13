@@ -6,6 +6,7 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>O.Z-MemeGen</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="icon" type="image/x-icon" href="img/fav-icon.jpg">
     <link rel='stylesheet' type='text/css' media='screen' href='css/main.css'>
 </head>
 
@@ -56,52 +57,52 @@
                         width="500"></canvas>
                 </div>
                 <!--* Meme Btns -->
-                    <div class="editor-container |flex glass-container">
-                        <label for="Search keyword">
-                            <input class="line-txt | fa flex" oninput="onSetLineText(this.value)" onsubmit="onAddTxtLine()"
-                                type="text" placeholder="Put Text line Here" title="Put Text line Here">
-                        </label>
+                <div class="editor-container |flex glass-container">
+                    <label for="Search keyword">
+                        <input class="line-txt | fa flex" oninput="onSetLineText(this.value)" onsubmit="onAddTxtLine()"
+                            type="text" placeholder="Put Text line Here" title="Put Text line Here">
+                    </label>
                     <div class="editor-container | grid">
-                            <i onclick="onChangeLinePos(0,-20)" title="Move text up"
-                                class="move-txt-up-btn | setting-btn flex-center fa-solid fa-arrow-up"></i>
-                            <i onclick="onChangeLinePos(0,20)" title="Move text Down"
-                                class="move-txt-down-btn | setting-btn flex-center fa-solid fa-arrow-down"></i>
-                            <i onclick="onSwitchLines()" title="Switch between lines"
-                                class="switch-lines-btn | setting-btn flex-center fa-solid fa-arrow-up-arrow-down">↑↓</i>
-                            <i onclick="onAddTxtLine()" title="Add txt line"
-                                class="add-text-line-btn | setting-btn flex-center fa-solid fa-plus"></i>
-                            <i onclick="onDeleteTxtLine()" title="Delete last line"
-                                class="delete-text-line-btn | setting-btn flex-center fa-solid fa-trash"></i>
-                            <i onclick="onChangeElSize(5)" title="Size Up"
-                                class="size-up-btn | fa-solid 1fa-text-size setting-btn flex-center">A+</i>
-                            <i onclick="onChangeElSize(-5)" title="Size Down"
-                                class="size-down-btn | fa-solid 1fa-text-size setting-btn flex-center">A-</i>
-                            <i onclick="onChangeAlign('left')" title="align left"
-                                class="align-left-btn | setting-btn flex-center fa-solid fa-align-left"></i>
-                            <i onclick="onChangeAlign('center')" title="align center"
-                                class="align-center-btn | setting-btn flex-center fa-solid fa-align-center"></i>
-                            <i onclick="onChangeAlign('right')" title="align left"
-                                class="align-right-btn | setting-btn flex-center fa-solid fa-align-right"></i>
-                            <select title="Select fonts" onchange="onChangeFont(this.value)" class="font-select fa-solid"
-                                name="change-fonts">
-                                <option value="impact">impact</option>
-                                <option value="italic">italic</option>
-                                <option value="fa">fa</option>
-                                <option value="fa-solid">fa-solid</option>
-                                <option value="bold">bold</option>
-                            </select>
-                            <i class="stroke-color | fa-s s-btn fa-solid setting-btn flex-center ">
-                                <input class="color-input flex-center" oninput="setColor('stroke')" type="color"
-                                    name="stroke-color">
-                            </i>
-                            <i class="fill-color | fa-palette fa-solid  setting-btn flex-center">
-                                <input class="color-input" oninput="setColor('fill')" type="color" name="fill-color">
-                            </i>
-                        </div>
+                        <i onclick="onChangeLinePos(0,-20)" title="Move text up"
+                            class="move-txt-up-btn | setting-btn flex-center fa-solid fa-arrow-up"></i>
+                        <i onclick="onChangeLinePos(0,20)" title="Move text Down"
+                            class="move-txt-down-btn | setting-btn flex-center fa-solid fa-arrow-down"></i>
+                        <i onclick="onSwitchLines()" title="Switch between lines"
+                            class="switch-lines-btn | setting-btn flex-center fa-solid fa-arrow-up-arrow-down">↑↓</i>
+                        <i onclick="onAddTxtLine()" title="Add txt line"
+                            class="add-text-line-btn | setting-btn flex-center fa-solid fa-plus"></i>
+                        <i onclick="onDeleteTxtLine()" title="Delete last line"
+                            class="delete-text-line-btn | setting-btn flex-center fa-solid fa-trash"></i>
+                        <i onclick="onChangeElSize(5)" title="Size Up"
+                            class="size-up-btn | fa-solid 1fa-text-size setting-btn flex-center">A+</i>
+                        <i onclick="onChangeElSize(-5)" title="Size Down"
+                            class="size-down-btn | fa-solid 1fa-text-size setting-btn flex-center">A-</i>
+                        <i onclick="onChangeAlign('left')" title="align left"
+                            class="align-left-btn | setting-btn flex-center fa-solid fa-align-left"></i>
+                        <i onclick="onChangeAlign('center')" title="align center"
+                            class="align-center-btn | setting-btn flex-center fa-solid fa-align-center"></i>
+                        <i onclick="onChangeAlign('right')" title="align left"
+                            class="align-right-btn | setting-btn flex-center fa-solid fa-align-right"></i>
+                        <select title="Select fonts" onchange="onChangeFont(this.value)" class="font-select fa-solid"
+                            name="change-fonts">
+                            <option value="impact">impact</option>
+                            <option value="italic">italic</option>
+                            <option value="fa">fa</option>
+                            <option value="fa-solid">fa-solid</option>
+                            <option value="bold">bold</option>
+                        </select>
+                        <i class="stroke-color | fa-s s-btn fa-solid setting-btn flex-center ">
+                            <input class="color-input flex-center" oninput="onSetColor(this,'stroke-color')"
+                                type="color" name="stroke-color" title="Change stroke color">
+                        </i>
+                        <i class="fill-color | fa-palette fa-solid  setting-btn flex-center">
+                            <input class="color-input" oninput="onSetColor(this,'fill-color')" type="color"
+                                name="fill-color" title="Change fill color">
+                        </i>
                     </div>
-                    
+                </div>
 
-                    <!-- <div class="new-btns-container">
+                <!-- <div class="new-btns-container">
                         <label for="select shape">
                             select shape
                             <select onchange="onUpdateCtx(this.value)" name="shape">
@@ -118,7 +119,6 @@
     
                         
                     </div> -->
-                </div>
             </div>
 
             <!--* Export -->
@@ -135,7 +135,6 @@
                 <div class="share-container"></div>
                 <p class="user-msg"></p>
             </div>
-
         </section>
 
         <section hidden class="about-section | section-layout">

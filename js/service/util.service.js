@@ -24,6 +24,13 @@ function getRandomColor() {
     return color;
 }
 
+function playAudio(AudioName, audioEco) {
+    if (audioEco) {
+        audioEco.pause()
+        return
+    }
+    new Audio(`audio/${AudioName}.mp3`).play()
+}
 function flashMsg(msg) {
     const el = document.querySelector('.user-msg')
     el.innerText = msg

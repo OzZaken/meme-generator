@@ -1,10 +1,9 @@
 'use strict'
-var gIsDraw
 var gStroke = {
     currShape: 'circle',
     fillStyle: 'black',
     strokeStyle: 'white',
-    size: 5
+    size: 30,
 }
 var gMeme = {
     selectedImgId: 5,
@@ -32,29 +31,16 @@ var gMeme = {
         }
     ]
 }
-
+//* //  ///   /////      Canvas    \\\\\    \\\  *\\
 function initCanvas() {
     gElCanvas = canvas
     gCtx = gElCanvas.getContext('2d')
     gCtx.strokeStyle = 'black'
-
     resizeCanvas()
     addListeners()
 }
-function getMeme() {
-    return gMeme
-}
-
 function clearCanvas() {
-    gCtx.clearRect(0, 0, gElCanvas.width, gElCanvas.height)
-}
-function updateCtx(shape) {
-    gCurrShape = shape
-}
-function setMemeImg(imgId) {
-    gMeme.selectedImgId = imgId
-    const img = new Image()
-    img.src = `img/${imgId}.jpg`
+    gCtx.clearRect( 0, 0, gElCanvas.width, gElCanvas.height)
 }
 function resizeCanvas() {
     const elContainer = document.querySelector('.canvas-container')
@@ -64,14 +50,19 @@ function resizeCanvas() {
     //     elContainer.width = gElCanvas.width + 20
     //     elContainer.height = gElCanvas.height + 20
 }
-
-
-//* //  ///   /////      Meme btns     \\\\\    \\\  *\\
+//* //  ///   /////      Meme    \\\\\    \\\  *\\
+function getMeme() {
+    return gMeme
+}
+function setMemeImg(imgId) {
+    const meme = getMeme()
+    meme.selectedImgId = imgId
+}
+//* //  ///   /////      Meme btns lines    \\\\\    \\\  *\\
 function setLineText(txt) {
     const { lines } = gMeme
     lines[gMeme.selectedLineIdx].txt = txt
 }
-//First line
 function changeLinePos(x, y) {
     const meme = getMeme()
     const { lines } = meme
@@ -93,7 +84,7 @@ function addTxtLine(txt) {
     if (val === '') return
     const meme = getMeme()
     meme.lines.push(newLine(txt))
-    setSelectedLine()
+    setSelectedLineIdx()
     document.querySelector('.line-txt').value = ''
     renderMeme()
 }
@@ -113,7 +104,7 @@ function deleteLastLine() {
     const { lines } = meme
     lines.splice(-1)
     console.log('lines:', lines)
-    setSelectedLine()
+    setSelectedLineIdx()
     document.querySelector('.line-txt').value = ''
 }
 //Second line
@@ -141,23 +132,28 @@ function clearMeme() {
     console.log('gMeme:', gMeme)
 }
 //* //  ///   /////      Draw     \\\\\    \\\  *\\
-function setColors() {
-    gStroke.fillStyle = document.querySelector('.fill-color').value
-    gStroke.strokeStyle = document.querySelector('.stroke-color').value
-}
 function getFillColor() {
     return gStroke.fillStyle
 }
 function getStrokeColor() {
     return gStroke.strokeStyle
 }
-function freeDraw(pos) {
-    gCtx.lineWidth = gStroke.size
-    gCtx.strokeStyle = gStroke.strokeStyle
-    gCtx.lineTo(pos.x, pos.y)
+function drawRect(x, y) {
+    gCtx.beginPath()
+    gCtx.rect(gPosOnDown.x, gPosOnDown.y, x - gPosOnDown.x, y - gPosOnDown.y)
+    gCtx.fillStyle = gFillColor
+    gCtx.fillRect(gPosOnDown.x, gPosOnDown.y, x - gPosOnDown.x, y - gPosOnDown.y)
+    gCtx.strokeStyle = getStrokeColor()
     gCtx.stroke()
+    gCtx.closePath()
 }
 /////////////////////////////////////
+// function freeDraw(pos) {
+    //     gCtx.lineWidth = gStroke.size
+    //     gCtx.strokeStyle = gStroke.strokeStyle
+    //     gCtx.lineTo(pos.x, pos.y)
+    //     gCtx.stroke()
+    // }
 
 // function draw(pos) {
 //     switch (gCurrShape) {
@@ -184,26 +180,8 @@ function freeDraw(pos) {
 //             break;
 //     }
 // }
-// function drawCenterLine(pos) {
-//     gCtx.beginPath()
-//     gCtx.strokeStyle = getStrokeColor()
-//     gCtx.moveTo(pos.x, pos.y)
-//     gCtx.lineTo(gElCanvas.width / 2, gElCanvas.height / 2)
-//     gCtx.stroke()
-//     gCtx.closePath()
-// }
-// function drawTriangle(pos) {
-//     gCtx.beginPath()
-//     gCtx.strokeStyle = getStrokeColor()
-//     gCtx.fillStyle = getFillColor()
-//     gCtx.moveTo(pos.x, pos.y)
-//     gCtx.lineTo(gElCanvas.width / 2, gElCanvas.height / 2)
-//     gCtx.lineTo(gElCanvas.width / 2 - 100, gElCanvas.height / 2 - 100)
-//     gCtx.lineTo(pos.x, pos.y)
-//     gCtx.fill()
-//     gCtx.stroke()
-//     gCtx.closePath()
-// }
+
+
 // function drawSquare(pos) {
 //     gCtx.beginPath()
 //     gCtx.strokeStyle = getStrokeColor()
@@ -235,27 +213,4 @@ function freeDraw(pos) {
 //     gCtx.strokeStyle = getStrokeColor()
 //     gCtx.stroke();
 //     gCtx.closePath();
-// }
-// function drawTriangle(x, y) {
-//     gCtx.beginPath()
-//     gCtx.lineWidth = 2
-//     gCtx.moveTo(gPosOnDown.x, gPosOnDown.y)
-//     gCtx.lineTo(x, y)
-//     gCtx.lineTo(x - 100, y - 100)
-//     gCtx.lineTo(gPosOnDown.x, gPosOnDown.y)
-//     gCtx.fillStyle = getFillColor()
-//     gCtx.fill()
-//     gCtx.strokeStyle = getStrokeColor()
-//     gCtx.stroke()
-//     gCtx.closePath()
-// }
-
-// function drawRect(x, y) {
-//     gCtx.beginPath()
-//     gCtx.rect(gPosOnDown.x, gPosOnDown.y, x - gPosOnDown.x, y - gPosOnDown.y)
-//     gCtx.fillStyle = gFillColor
-//     gCtx.fillRect(gPosOnDown.x, gPosOnDown.y, x - gPosOnDown.x, y - gPosOnDown.y)
-//     gCtx.strokeStyle = getStrokeColor()
-//     gCtx.stroke()
-//     gCtx.closePath()
 // }
