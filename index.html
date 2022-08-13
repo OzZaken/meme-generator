@@ -92,39 +92,20 @@
                             <option value="bold">bold</option>
                         </select>
                         <i class="stroke-color | fa-s s-btn fa-solid setting-btn flex-center ">
-                            <input class="color-input flex-center" oninput="onSetColor(this,'stroke-color')"
+                            <input class="color-input flex-center" oninput="onSetColor(this.value,'stroke-color')"
                                 type="color" name="stroke-color" title="Change stroke color">
                         </i>
                         <i class="fill-color | fa-palette fa-solid  setting-btn flex-center">
-                            <input class="color-input" oninput="onSetColor(this,'fill-color')" type="color"
+                            <input class="color-input" oninput="onSetColor(this.value,'fill-color')" type="color"
                                 name="fill-color" title="Change fill color">
                         </i>
                     </div>
                 </div>
-
-                <!-- <div class="new-btns-container">
-                        <label for="select shape">
-                            select shape
-                            <select onchange="onUpdateCtx(this.value)" name="shape">
-                                <option value="draw">draw</option>
-                                <option value="center-line">center-line</option>
-                                <option value="single-line">single-line</option>
-                                <option value="circle">circle</option>
-                                <option value="triangle">triangle</option>
-                                <option value="square">square</option>
-                            </select>
-                            <input min="1" max="50" value="5" oninput="this.title=this.value;onUpdateStrokeSize(this.value)"
-                                type="range">
-                        </label>
-    
-                        
-                    </div> -->
             </div>
 
             <!--* Export -->
             <div class="export | flex justify-center align-center">
-                <button class="clear-btn | glass-btn btn " onclick="onClearMeme()">clear</button>
-                <button class="save-btn | btn glass-btn" onclick="">save</button>
+                <button class="save-meme | btn glass-btn" onclick="onSaveMeme()">save</button>
 
                 <a class="config download-btn | btn glass-btn" href="#" onclick="onDownloadMeme(this)"
                     download="My-Meme">Download</a>

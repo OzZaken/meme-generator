@@ -11,9 +11,10 @@ h1.viewport {
 }
 
 body {
+    overflow-x: hidden;
     font-size: 1rem;
     margin: 0;
-    font-family: lato, sans-serif;
+    font-family: fa-solid, sans-serif;
 }
 
 section {

@@ -1,5 +1,14 @@
 'use strict'
 
+var gKeywordSearchCountMap = {
+    'funny': 12,
+    'celeb': 11,
+    'dog': 11,
+    'cat': 16,
+    'baby': 2,
+    'cute': 5,
+}
+
 const gImgs = [
     { id: 1, url: 'img/1.jpg', keywords: ['funny', 'celeb'] },
     { id: 2, url: 'img/2.jpg', keywords: ['dog', 'cute'] },

@@ -1,34 +1,28 @@
 'use strict'
+
+const STORAGE_KEY = 'memesDB'
+var gSavedMemes
+
 var gStroke = {
     currShape: 'circle',
     fillStyle: 'black',
     strokeStyle: 'white',
-    size: 30,
+    size: 20,
 }
 var gMeme = {
     selectedImgId: 5,
     selectedLineIdx: 0,
     lines: [
         {
-            txt: 'First Comment',
+            txt: 'Add some text',
             pos: { x: 250, y: 100 },
             size: 30,
             font: 'impact',
-
             align: 'center',
             color: 'black',
-            borderColor: 'white'
+            borderColor: 'white',
+            isSaved: false
         },
-        {
-            txt: 'Second Comment',
-            pos: { x: 250, y: 400 },
-            size: 20,
-            font: 'impact',
-
-            align: 'center',
-            color: 'black',
-            borderColor: 'white'
-        }
     ]
 }
 //* //  ///   /////      Canvas    \\\\\    \\\  *\\
@@ -38,9 +32,6 @@ function initCanvas() {
     gCtx.strokeStyle = 'black'
     resizeCanvas()
     addListeners()
-}
-function clearCanvas() {
-    gCtx.clearRect( 0, 0, gElCanvas.width, gElCanvas.height)
 }
 function resizeCanvas() {
     const elContainer = document.querySelector('.canvas-container')
@@ -80,7 +71,6 @@ function switchLines() {
 }
 function addTxtLine(txt) {
     const val = document.querySelector('.line-txt').value
-
     if (val === '') return
     const meme = getMeme()
     meme.lines.push(newLine(txt))
@@ -88,7 +78,7 @@ function addTxtLine(txt) {
     document.querySelector('.line-txt').value = ''
     renderMeme()
 }
-function newLine(txt) {
+function newLine(txt = 'New Line txt') {
     return {
         txt,
         pos: { x: 250, y: 250 },
@@ -128,8 +118,16 @@ function changeFont(fontStyle) {
     lines[meme.selectedLineIdx].font = fontStyle
 
 }
-function clearMeme() {
-    console.log('gMeme:', gMeme)
+function saveMeme() {
+    gMeme.isSaved = true
+    gSavedMemes.push(gMeme)
+    _saveMemeToStorage()
+}
+function _saveMemeToStorage() {
+    saveToStorage(STORAGE_KEY, gSavedMemes)
+}
+function _LoadMemeFromStorage() {
+    return loadFromStorage(STORAGE_KEY)
 }
 //* //  ///   /////      Draw     \\\\\    \\\  *\\
 function getFillColor() {
@@ -138,7 +136,10 @@ function getFillColor() {
 function getStrokeColor() {
     return gStroke.strokeStyle
 }
-function drawRect(x, y) {
+function getStokeSize() {
+    return gStroke.size
+}
+function drawRect(x, y) { //? have some bugs 
     gCtx.beginPath()
     gCtx.rect(gPosOnDown.x, gPosOnDown.y, x - gPosOnDown.x, y - gPosOnDown.y)
     gCtx.fillStyle = gFillColor
@@ -147,70 +148,10 @@ function drawRect(x, y) {
     gCtx.stroke()
     gCtx.closePath()
 }
-/////////////////////////////////////
-// function freeDraw(pos) {
-    //     gCtx.lineWidth = gStroke.size
-    //     gCtx.strokeStyle = gStroke.strokeStyle
-    //     gCtx.lineTo(pos.x, pos.y)
-    //     gCtx.stroke()
-    // }
-
-// function draw(pos) {
-//     switch (gCurrShape) {
-//         case 'center-line':
-//             drawCenterLine(pos)
-//             break;
-//         case 'circle':
-//             drawCircle(pos)
-//             break;
-//         case 'triangle':
-//             drawTriangle(pos)
-//             break;
-//         case 'square':
-//             drawSquare(pos)
-//             break;
-//         case 'draw':
-//             freeDraw(pos)
-//             break;
-//         case 'single-line':
-//             drawSingleLine(pos)
-//             break;
-//         default:
-//             freeDraw(pos)
-//             break;
-//     }
-// }
-
-
-// function drawSquare(pos) {
-//     gCtx.beginPath()
-//     gCtx.strokeStyle = getStrokeColor()
-//     gCtx.fillStyle = getFillColor()
-//     gCtx.rect(pos.x, pos.y, 100, 110)
-//     gCtx.fill()
-//     gCtx.stroke()
-//     gCtx.closePath()
-// }
-
-// function drawCircle(pos) {
-//     gCtx.beginPath()
-//     gCtx.lineWidth = 2;
-//     gCtx.arc(pos.x, pos.y, gStrokeSize, 0, 2 * Math.PI);
-//     gCtx.fillStyle = getFillColor()
-//     gCtx.fill();
-//     gCtx.strokeStyle = getStrokeColor()
-//     gCtx.stroke();
-//     gCtx.closePath()
-// }
-
-
-// function drawSingleLine(pos) {
-//     console.log('pos:', pos)
-//     gCtx.beginPath()
-//     gCtx.lineWidth = 2
-//     gCtx.moveTo(pos.x, pos.y)
-//     gCtx.lineTo(x, y)
-//     gCtx.strokeStyle = getStrokeColor()
-//     gCtx.stroke();
-//     gCtx.closePath();
-// }
+function draw(pos) {
+    gCtx.lineWidth = getStokeSize() 
+    gCtx.strokeStyle = getStrokeColor()
+    gCtx.fillStyle = getFillColor()
+    gCtx.lineTo(pos.x, pos.y)
+    gCtx.stroke()
+}

@@ -1,5 +1,6 @@
 .meme-container {
     max-width: 95vw;
+    margin: auto;
 }
 
 .canvas {

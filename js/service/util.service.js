@@ -5,7 +5,6 @@ function getRandomIntInclusive(min, max) {
     max = Math.floor(max)
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
-
 function makeId(length = 5) {
     var txt = ''
     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -14,7 +13,6 @@ function makeId(length = 5) {
     }
     return txt
 }
-
 function getRandomColor() {
     var letters = '0123456789ABCDEF';
     var color = '#';
@@ -23,7 +21,6 @@ function getRandomColor() {
     }
     return color;
 }
-
 function playAudio(AudioName, audioEco) {
     if (audioEco) {
         audioEco.pause()

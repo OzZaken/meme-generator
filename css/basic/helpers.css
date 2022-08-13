@@ -55,6 +55,7 @@
 }
 
 .user-msg-open {
+    z-index: 1;
     bottom: 10px;
     transition: bottom .5s;
 }
