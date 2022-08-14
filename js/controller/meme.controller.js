@@ -13,16 +13,6 @@ function onInit() {
 function toggleMenu() {
     document.body.classList.toggle('menu-opened');
 }
-function toggleGallery() {
-    var elGallery = document.querySelector('.gallery-section')
-    elGallery.hidden ? elGallery.hidden = false : elGallery.hidden = true
-}
-function onNavToGallery(){
-    document.body.classList.add('.meme-section-open')
-}
-function onNavToMeme(){
-    document.body.classList.add('x')
-}
 //* //  ///   /////      Listeners     \\\\\    \\\  *\\
 function addListeners() {
     window.addEventListener('resize', () => {
@@ -40,6 +30,23 @@ function addTouchListeners() {
     gElCanvas.addEventListener('touchstart', onDown)
     gElCanvas.addEventListener('touchmove', onDraw)
     gElCanvas.addEventListener('touchend', onUp)
+}
+//* //  ///   /////      Gallery     \\\\\    \\\  *\\
+function toggleGallery() {
+    var elGallery = document.querySelector('.gallery-section')
+    elGallery.hidden ? elGallery.hidden = false : elGallery.hidden = true
+}
+function onNavToGallery(){
+    renderGallery()
+    document.querySelector('.gallery-section').hidden = false
+    document.querySelector('.meme-section').hidden = true
+    // document.body.classList.add('.meme-section-open')
+}
+function onNavToMeme(){
+    document.querySelector('.meme-section').hidden = false
+    document.querySelector('.gallery-section').hidden = true
+
+    // document.body.classList.add('x')
 }
 //* //  ///   /////      Meme     \\\\\    \\\  *\\
 function renderMeme() {

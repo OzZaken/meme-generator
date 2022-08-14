@@ -33,9 +33,6 @@ function onSetFilterBy() {
     filterGallery()
 
 }
-function setFilterBy(value) {
-    gSearchFilter = value.toLowerCase()
-}
 function getKeyWords() {
     return gKeywordSearchCountMap
 }

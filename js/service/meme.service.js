@@ -1,6 +1,7 @@
 'use strict'
 
 const STORAGE_KEY = 'memesDB'
+
 const gImgs = [
     { id: 1, url: 'img/1.jpg', keywords: ['funny', 'celeb'] },
     { id: 2, url: 'img/2.jpg', keywords: ['dog', 'cute'] },
@@ -22,7 +23,7 @@ const gImgs = [
     { id: 18, url: 'img/18.jpg', keywords: ['funny', 'celeb'] },
 ]
 
-var gSavedMemes
+var gSavedMemes = []
 
 var gStroke = {
     currShape: 'circle',
@@ -41,12 +42,28 @@ var gMeme = {
             font: 'impact',
             align: 'center',
             color: 'black',
-            borderColor: 'white',
-            isSaved: false,
-            isDrag: false
+            borderColor: 'white'
+            // isSaved: false,
+            // isDrag: false
         },
     ]
 }
+
+//* //  ///   /////      Gallery    \\\\\    \\\  *\\
+function getImg() {
+    if (!gSearchFilter) return gImgs
+    return gImgs.filter((img) => img.keywords.includes(gSearchFilter))
+}
+function setFilterBy(value) {
+    gSearchFilter = value.toLowerCase()
+}
+function onSetFilterBy() {
+    const searchTxt = document.querySelector('.filter-input').value
+    setFilterBy(searchTxt)
+    filterGallery()
+
+}
+
 //* //  ///   /////      Canvas    \\\\\    \\\  *\\
 function initCanvas() {
     gElCanvas = canvas
@@ -61,14 +78,7 @@ function resizeCanvas() {
     elContainer.width = gElCanvas.width
     elContainer.height = gElCanvas.height
 }
-//* //  ///   /////      Gallery    \\\\\    \\\  *\\
-function getImg() {
-    if (!gSearchFilter) return gImgs
-    return gImgs.filter((img) => img.keywords.includes(gSearchFilter))
-}
-function setFilterBy(value) {
-    gSearchFilter = value.toLowerCase()
-}
+
 //* //  ///   /////      Meme    \\\\\    \\\  *\\
 function getMeme() {
     return gMeme
@@ -147,8 +157,8 @@ function changeFont(fontStyle) {
 
 }
 function saveMeme() {
-    gMeme.isSaved = true
     gSavedMemes.push(gMeme)
+    console.log('gSavedMemes:', gSavedMemes)
     _saveMemeToStorage()
 }
 function _saveMemeToStorage() {

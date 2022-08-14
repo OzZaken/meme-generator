@@ -19,7 +19,7 @@
                 <ul class="main-nav-list  flex clean-list">
                     <li><a class="flex align-center justify-center" href="#"
                             onclick="onNavToGallery()">Gallery</a></li>
-                    <li><a class="flex align-center justify-center" href="#" onclick="toggleMenu()">memes</a></li>
+                    <li><a class="flex align-center justify-center" href="#" onclick="onNavToMeme()">meme</a></li>
                     <li><a class="flex align-center justify-center" href="#" onclick="toggleMenu()">about</a></li>
                 </ul>
             </nav>
@@ -100,11 +100,9 @@
             <!--* Export -->
             <div class="export  flex justify-center align-center">
                 <button class="save-meme  btn glass-btn" onclick="onSaveMeme()">save</button>
-
                 <a class="config download-btn  btn glass-btn" href="#" onclick="onDownloadMeme(this)"
                     download="My-Meme">Download</a>
                     <button class="config share-btn  btn glass-btn" onclick="onShareMeme(this)">Share Meme</button>
-
                 <input class="file-input  btn" type="file" class="" name="image" onchange="onImgInput(event)" />
                 <p class="url-msg">
                     <button  hidden class=""></button>
@@ -138,12 +136,11 @@
     <h1 class="viewport"></h1>
     <div class="full main-screen" onclick="toggleMenu()"></div>
     <div class="user-msg"></div>
-    
+
     <!-- Services -->
     <script src="js/service/util.service.js"></script>
     <script src="js/service/storage.service.js"></script>
     <script src="js/service/uplod.service.js"></script>
-    <script src="js/service/event-listeners.service.js"></script>
     <script src="js/service/meme.service.js"></script>
 
     <!-- Controllers -->

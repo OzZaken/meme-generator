@@ -1,13 +1,4 @@
- /* * MQ Helper  */
-h1.viewport {
-    position: fixed;
-    color: var(--clr-hoover);
-    right: 0;
-    margin-top: 8vh;
-    z-index: 1;
-}
  /* MOBILE ONLY */
-
  @media (max-width: 520px) {
      .main-nav-list {
          position: fixed;
@@ -73,7 +64,6 @@ h1.viewport {
 
 
  }
-
  /* MOBILE */
  @media (min-width: 482px) {
      .main-layout>*:not(.full) {
@@ -90,6 +80,7 @@ h1.viewport {
         align-items: center;
     }
  }
+
  /* TABLET */
  @media (min-width: 600px) {
      .main-layout>*:not(.full) {
