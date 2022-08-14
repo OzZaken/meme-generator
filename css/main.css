@@ -1,12 +1,15 @@
 /* Setup */
 @import "setup/vars.css";
 @import "setup/typography.css";
+
 /* Basic */
 @import "basic/font-awesome.css";
+
 @import "basic/helpers.css";
 @import "basic/logo.css";
 @import "basic/base.css";
 @import "basic/layout.css";
+
 /* Components */
 @import "components/gallery.css";
 @import "components/screen.css";

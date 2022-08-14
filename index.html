@@ -2,37 +2,34 @@
 <html>
 
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>O.Z-MemeGen</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>MemeGen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
-    <link rel='stylesheet' type='text/css' media='screen' href='css/main.css'>
+    <link rel="stylesheet" type="text/css" media="screen" href="css/main.css">
 </head>
 
 <body onload="onInit()">
-        <h1 class="viewport"></h1>
-        <div class="main-screen | full" onclick="toggleMenu()"></div>
-        <div class="user-msg"></div>
-    <!--* header -->
-    <header class="main-header | main-layout">
-        <div class="main-header-container | flex align-center space-between">
+
+    <header class="main-layout main-header">
+        <div class="main-header-container  flex align-center space-between">
             <div class="logo"></div>
-            <nav class="main-nav | flex">
-                <ul class="main-nav-list | flex clean-list">
+            <nav class="main-nav  flex">
+                <ul class="main-nav-list  flex clean-list">
                     <li><a class="flex align-center justify-center" href="#"
-                            onclick="toggleGallery();flashMsg('Moving On Gallery')">gallery</a></li>
+                            onclick="onNavToGallery()">Gallery</a></li>
                     <li><a class="flex align-center justify-center" href="#" onclick="toggleMenu()">memes</a></li>
                     <li><a class="flex align-center justify-center" href="#" onclick="toggleMenu()">about</a></li>
                 </ul>
             </nav>
-            <i hidden onclick="toggleMenu()" class="menu-bar | fa fa-solid"></i>
+            <i hidden onclick="toggleMenu()" class="menu-bar  fa fa-solid">☰</i>
         </div>
     </header>
 
-    <main class="main-content | main-layout flex flex-direction-column">
+    <main class="main-layout flex flex-direction-column main-content ">
         <!--* Gallery -->
-        <section class="gallery-section | section-layout">
+        <section class="section-layout gallery-section">
             <datalist id="keywords">
                 <option value="funny"></option>
                 <option value="cute"></option>
@@ -41,44 +38,45 @@
                 <option value="cat"></option>
                 <option value="baby"></option>
             </datalist>
+
             <input class="filter-input" onchange="onSetFilterBy(this.value)"  list="keywords"  type="text" placeholder="Search">
 
             <div class="gallery-container grid justify-center"> </div>
         </section>
         <!--* Meme -->
-        <section class="meme-section | flex section-layout">
-            <div class="meme-container | flex space-between">
+        <section class="flex section-layout meme-section">
+            <div class="meme-container  flex space-between">
                 <div class="canvas-container">
-                    <canvas onmouseout="onMouseOutCanvas()" class="canvas | glass-container" id="canvas" height="500"
+                    <canvas onmouseout="onMouseOutCanvas()" class="canvas  glass-container" id="canvas" height="500"
                         width="500"></canvas>
                 </div>
                 <!--* Meme Btns -->
-                <div class="editor-container | glass-container">
+                <div class="editor-container  glass-container">
                     <label for="Search keyword">
-                        <input class="line-txt | fa flex" oninput="onSetLineText(this.value)" onsubmit="onAddTxtLine()"
+                        <input class="line-txt  fa flex" oninput="onSetLineText(this.value)" onsubmit="onAddTxtLine()"
                             type="text" placeholder="Put Text line Here" title="Put Text line Here">
                     </label>
-                    <div class="editor-container | grid">
+                    <div class="editor-container  grid">
                         <i onclick="onChangeLinePos(0,-20)" title="Move text up"
-                            class="move-txt-up-btn | setting-btn flex-center fa-solid fa-arrow-up"></i>
+                            class="move-txt-up-btn  setting-btn flex-center fa-solid fa-arrow-up"></i>
                         <i onclick="onChangeLinePos(0,20)" title="Move text Down"
-                            class="move-txt-down-btn | setting-btn flex-center fa-solid fa-arrow-down"></i>
+                            class="move-txt-down-btn  setting-btn flex-center fa-solid fa-arrow-down"></i>
                         <i onclick="onSwitchLines()" title="Switch between lines"
-                            class="switch-lines-btn | setting-btn flex-center fa-solid fa-arrow-up-arrow-down">↑↓</i>
+                            class="switch-lines-btn  setting-btn flex-center fa-solid fa-arrow-up-arrow-down">↑↓</i>
                         <i onclick="onAddTxtLine()" title="Add txt line"
-                            class="add-text-line-btn | setting-btn flex-center fa-solid fa-plus"></i>
+                            class="add-text-line-btn  setting-btn flex-center fa-solid fa-plus"></i>
                         <i onclick="onDeleteTxtLine()" title="Delete last line"
-                            class="delete-text-line-btn | setting-btn flex-center fa-solid fa-trash"></i>
+                            class="delete-text-line-btn  setting-btn flex-center fa-solid fa-trash"></i>
                         <i onclick="onChangeElSize(5)" title="Size Up"
-                            class="size-up-btn | fa-solid 1fa-text-size setting-btn flex-center">A+</i>
+                            class="size-up-btn  fa-solid 1fa-text-size setting-btn flex-center">A+</i>
                         <i onclick="onChangeElSize(-5)" title="Size Down"
-                            class="size-down-btn | fa-solid 1fa-text-size setting-btn flex-center">A-</i>
+                            class="size-down-btn  fa-solid 1fa-text-size setting-btn flex-center">A-</i>
                         <i onclick="onChangeAlign('left')" title="align left"
-                            class="align-left-btn | setting-btn flex-center fa-solid fa-align-left"></i>
+                            class="align-left-btn  setting-btn flex-center fa-solid fa-align-left"></i>
                         <i onclick="onChangeAlign('center')" title="align center"
-                            class="align-center-btn | setting-btn flex-center fa-solid fa-align-center"></i>
+                            class="align-center-btn  setting-btn flex-center fa-solid fa-align-center"></i>
                         <i onclick="onChangeAlign('right')" title="align left"
-                            class="align-right-btn | setting-btn flex-center fa-solid fa-align-right"></i>
+                            class="align-right-btn  setting-btn flex-center fa-solid fa-align-right"></i>
                         <select title="Select fonts" onchange="onChangeFont(this.value)" class="font-select fa-solid"
                             name="change-fonts">
                             <option value="impact">impact</option>
@@ -87,11 +85,11 @@
                             <option value="fa-solid">fa-solid</option>
                             <option value="bold">bold</option>
                         </select>
-                        <i class="stroke-color | fa-s s-btn fa-solid setting-btn flex-center ">
+                        <i class="stroke-color  fa-s s-btn fa-solid setting-btn flex-center ">
                             <input class="color-input flex-center" oninput="onSetColor(this.value,'stroke-color')"
                                 type="color" name="stroke-color" title="Change stroke color">
                         </i>
-                        <i class="fill-color | fa-palette fa-solid  setting-btn flex-center">
+                        <i class="fill-color  fa-palette fa-solid  setting-btn flex-center">
                             <input class="color-input" oninput="onSetColor(this.value,'fill-color')" type="color"
                                 name="fill-color" title="Change fill color">
                         </i>
@@ -100,26 +98,26 @@
             </div>
 
             <!--* Export -->
-            <div class="export | flex justify-center align-center">
-                <button class="save-meme | btn glass-btn" onclick="onSaveMeme()">save</button>
+            <div class="export  flex justify-center align-center">
+                <button class="save-meme  btn glass-btn" onclick="onSaveMeme()">save</button>
 
-                <a class="config download-btn | btn glass-btn" href="#" onclick="onDownloadMeme(this)"
+                <a class="config download-btn  btn glass-btn" href="#" onclick="onDownloadMeme(this)"
                     download="My-Meme">Download</a>
-                    <button class="config share-btn | btn glass-btn" onclick="onShareMeme(this)">Share Meme</button>
+                    <button class="config share-btn  btn glass-btn" onclick="onShareMeme(this)">Share Meme</button>
 
-                <input class="file-input | btn" type="file" class="" name="image" onchange="onImgInput(event)" />
+                <input class="file-input  btn" type="file" class="" name="image" onchange="onImgInput(event)" />
                 <p class="url-msg">
-                    <button class=""></button>
+                    <button  hidden class=""></button>
                 </p>
             </div>
         </section>
-
-        <section hidden class="about-section | section-layout">
+        <!--* About -->
+        <section hidden class="about-section  section-layout">
             <h2>about</h2>
         </section>
     </main>
 
-    <footer class="main-footer | main-layout">
+    <footer class="main-footer  main-layout">
         <div class="main-footer flex flex-direction-column align-center justify-center">
             <div class="logo"></div>
             <ul class="footer-text flex justify-center clean-list">
@@ -137,6 +135,10 @@
         </div>
     </footer>
 
+    <h1 class="viewport"></h1>
+    <div class="full main-screen" onclick="toggleMenu()"></div>
+    <div class="user-msg"></div>
+    
     <!-- Services -->
     <script src="js/service/util.service.js"></script>
     <script src="js/service/storage.service.js"></script>

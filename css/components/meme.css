@@ -1,6 +1,11 @@
+
 .meme-section {
     max-width: 100vw;
+    transition: all 3s;
     flex-wrap: wrap;
+}
+body.meme-section-open {
+    transform: translateX(-150%);
 }
 
 .meme-container {

@@ -10,6 +10,37 @@ function onInit() {
     renderGallery()
     flashMsg('Welcome!')
 }
+function toggleMenu() {
+    document.body.classList.toggle('menu-opened');
+}
+function toggleGallery() {
+    var elGallery = document.querySelector('.gallery-section')
+    elGallery.hidden ? elGallery.hidden = false : elGallery.hidden = true
+}
+function onNavToGallery(){
+    document.body.classList.add('.meme-section-open')
+}
+function onNavToMeme(){
+    document.body.classList.add('x')
+}
+//* //  ///   /////      Listeners     \\\\\    \\\  *\\
+function addListeners() {
+    window.addEventListener('resize', () => {
+        OnResizeCanvas()
+    })
+    addMouseListeners()
+    addTouchListeners()
+}
+function addMouseListeners() {
+    gElCanvas.addEventListener('mousedown', onDown)
+    gElCanvas.addEventListener('mousemove', onDraw)
+    gElCanvas.addEventListener('mouseup', onUp)
+}
+function addTouchListeners() {
+    gElCanvas.addEventListener('touchstart', onDown)
+    gElCanvas.addEventListener('touchmove', onDraw)
+    gElCanvas.addEventListener('touchend', onUp)
+}
 //* //  ///   /////      Meme     \\\\\    \\\  *\\
 function renderMeme() {
     //handle img
@@ -56,7 +87,7 @@ function setSelectedLineIdx() {
 function getElCanvas() {
     return gElCanvas
 }
-//* //  ///   /////      Meme btns     \\\\\    \\\  *\\
+//* //  ///   /////      btns     \\\\\    \\\  *\\
 // First row
 function onSetLineText(txt) {
     setLineText(txt)
@@ -186,10 +217,6 @@ function onMouseOutCanvas() {
     gIsDraw = false
 }
 //* //  ///   /////      Export btns     \\\\\    \\\  *\\
-function onClearMeme() {
-    clearMeme()
-    renderMeme()
-}
 function onDownloadMeme(elLink) {
     const data = gElCanvas.toDataURL()
     console.log('data:', data)
@@ -199,15 +226,7 @@ function onDownloadMeme(elLink) {
 function onSaveMeme() {
     saveMeme()
 }
-
-//* //  ///   /////      Helpers     \\\\\    \\\  *\\
-function toggleMenu() {
-    document.body.classList.toggle('menu-opened');
-}
-function toggleGallery() {
-    var elGallery = document.querySelector('.gallery-section')
-    elGallery.hidden ? elGallery.hidden = false : elGallery.hidden = true
-}
+//* //  ///   /////      MQ helper     \\\\\    \\\  *\\
 const elBody = document.querySelector('body')
 let gViewportWidth = window.innerWidth
 let state
