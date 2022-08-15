@@ -16,7 +16,10 @@
     grid-template-columns: repeat(2, 1fr);
     padding-bottom: 10px;
 }
-
+.gallery-container .filter-input {
+    margin-bottom: 10px;
+    width: 50%;
+}
 .gallery-img {
     width: 100%;
     border-radius: 20px;
@@ -32,7 +35,3 @@
     opacity: 0.8;
 }
 
-.filter-input {
-    margin-bottom: 10px;
-    width: 50%;
-}
