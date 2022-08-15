@@ -12,21 +12,38 @@
 
 <body onload="onInit()">
 
-    <header class="main-layout main-header">
-        <div class="main-header-container  flex align-center space-between">
-            <div class="logo"></div>
-            <nav class="main-nav  flex">
-                <ul class="main-nav-list  flex clean-list">
-                    <li><a class="flex align-center justify-center" href="#"
-                            onclick="onNavToGallery()">Gallery</a></li>
-                    <li><a class="flex align-center justify-center" href="#" onclick="onNavToMeme()">meme</a></li>
-                    <li><a class="flex align-center justify-center" href="#" onclick="toggleMenu()">about</a></li>
+    <header class="main-header">
+        <div class="flex align-center space-between main-header-container">
+            <a class="logo" onclick="onNavToGallery()"></a>
+            <nav class="main-nav flex">
+                <ul class="main-nav-list flex clean-list">
+                    <li>
+                        <a class="flex-center" href="#" onclick="onNavToGallery()">Gallery</a>
+                    </li>
+                    <li>
+                        <a class="flex-center" href="#" onclick="onNavToMeme()">meme</a>
+                    </li>
+                    <li>
+                        <a class="flex-center" href="#" onclick="toggleMenu()">about</a>
+                    </li>
                 </ul>
             </nav>
-            <i hidden onclick="toggleMenu()" class="menu-bar  fa fa-solid">☰</i>
+            <select onchange="onSetLang(this.value)" class="lang-select">
+                <option value="en">English</option>
+                <option value="he">עברית</option>
+            </select>
+            <div hidden onclick="toggleMenu(this)" class="btn-toggle-menu">
+                <svg width="40" height="40" viewBox="0 0 40 40">
+                    <g id="Group 1">
+                        <rect id="line1" y="8" width="65" height="4" />
+                        <rect id="line2" y="18" width="65" height="4" />
+                        <rect id="line3" y="28" width="65" height="4" />
+                    </g>
+                </svg>
+            </div>
+
         </div>
     </header>
-
     <main class="main-layout flex flex-direction-column main-content ">
         <!--* Gallery -->
         <section class="section-layout gallery-section">
@@ -56,7 +73,7 @@
                         <input class="line-txt  fa flex" oninput="onSetLineText(this.value)" onsubmit="onAddTxtLine()"
                             type="text" placeholder="Put Text line Here" title="Put Text line Here">
                     </label>
-                    <div class="editor-container  grid">
+                    <div class="grid editor-container ">
                         <i onclick="onChangeLinePos(0,-20)" title="Move text up"
                             class="move-txt-up-btn  setting-btn flex-center fa-solid fa-arrow-up"></i>
                         <i onclick="onChangeLinePos(0,20)" title="Move text Down"
@@ -93,6 +110,7 @@
                             <input class="color-input" oninput="onSetColor(this.value,'fill-color')" type="color"
                                 name="fill-color" title="Change fill color">
                         </i>
+
                     </div>
                 </div>
             </div>
@@ -133,14 +151,13 @@
         </div>
     </footer>
 
-    <h1 class="viewport"></h1>
     <div class="full main-screen" onclick="toggleMenu()"></div>
     <div class="user-msg"></div>
 
     <!-- Services -->
     <script src="js/service/util.service.js"></script>
     <script src="js/service/storage.service.js"></script>
-    <script src="js/service/uplod.service.js"></script>
+    <script src="js/service/upload.service.js"></script>
     <script src="js/service/meme.service.js"></script>
 
     <!-- Controllers -->

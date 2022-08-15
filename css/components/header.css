@@ -31,7 +31,6 @@
     border-bottom: 1px solid #1d1d1d;
 }
 
-
 .main-header {
     background-color: var(--clr-darker);
     box-shadow: inset 0 -6px 0 #1d1d1d;
@@ -55,4 +54,16 @@
 
 .toggle-menu {
     display: none;
+}
+
+/** Logo */
+.logo::before {
+    content: 'MemeGen';
+}
+
+.logo {
+    color: var(--clr-hoover);
+    font-family: eurofurence;
+    font-size: 2.5em;
+    font-weight: 400;
 }

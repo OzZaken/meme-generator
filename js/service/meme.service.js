@@ -1,7 +1,39 @@
 'use strict'
 
 const STORAGE_KEY = 'memesDB'
-
+var gSavedMemes = []
+var gSearchFilter = ''
+var gKeywordSearchCountMap = {
+    'funny': 7,
+    'cute': 5,
+    'celeb': 6,
+    'dog': 11,
+    'cat': 16,
+    'baby': 2,
+}
+var gStroke = {
+    currShape: 'circle',
+    fillStyle: 'black',
+    strokeStyle: 'white',
+    size: 20,
+}
+var gMeme = {
+    selectedImgId: 5,
+    selectedLineIdx: 0,
+    lines: [
+        {
+            txt: 'Add some text',
+            pos: { x: 250, y: 100 },
+            size: 30,
+            font: 'impact',
+            align: 'center',
+            color: 'black',
+            borderColor: 'white',
+            isSaved: false,
+            isDrag: false
+        },
+    ]
+}
 const gImgs = [
     { id: 1, url: 'img/1.jpg', keywords: ['funny', 'celeb'] },
     { id: 2, url: 'img/2.jpg', keywords: ['dog', 'cute'] },
@@ -20,36 +52,26 @@ const gImgs = [
     { id: 15, url: 'img/15.jpg', keywords: ['celeb'] },
     { id: 16, url: 'img/16.jpg', keywords: ['funny'] },
     { id: 17, url: 'img/17.jpg', keywords: ['funny', 'celeb'] },
-    { id: 18, url: 'img/18.jpg', keywords: ['funny', 'celeb'] },
+    { id: 18, url: 'img/18.jpg', keywords: ['funny', 'celeb'] }
 ]
 
-var gSavedMemes = []
-
-var gStroke = {
-    currShape: 'circle',
-    fillStyle: 'black',
-    strokeStyle: 'white',
-    size: 20,
+//*      Gallery   *\\
+function createMems() {
+    const memes = loadFromStorage()
+    if (!memes || !memes.length) {
+        memes = []
+        getImgs()
+        for (let i = 0; i < 99; i++) {
+            memes[i] = _createMeme()
+        }
+    }
+    gBooks = memes
+    console.log('gBooks:', gBooks)
+    saveToStorage()
 }
-var gMeme = {
-    selectedImgId: 5,
-    selectedLineIdx: 0,
-    lines: [
-        {
-            txt: 'Add some text',
-            pos: { x: 250, y: 100 },
-            size: 30,
-            font: 'impact',
-            align: 'center',
-            color: 'black',
-            borderColor: 'white'
-            // isSaved: false,
-            // isDrag: false
-        },
-    ]
+function getImgs() {
+    return gImgs
 }
-
-//* //  ///   /////      Gallery    \\\\\    \\\  *\\
 function getImg() {
     if (!gSearchFilter) return gImgs
     return gImgs.filter((img) => img.keywords.includes(gSearchFilter))
@@ -64,7 +86,7 @@ function onSetFilterBy() {
 
 }
 
-//* //  ///   /////      Canvas    \\\\\    \\\  *\\
+//*      Canvas   *\\
 function initCanvas() {
     gElCanvas = canvas
     gCtx = gElCanvas.getContext('2d')
@@ -79,7 +101,7 @@ function resizeCanvas() {
     elContainer.height = gElCanvas.height
 }
 
-//* //  ///   /////      Meme    \\\\\    \\\  *\\
+//*      Meme   *\\
 function getMeme() {
     return gMeme
 }
@@ -87,7 +109,8 @@ function setMemeImg(imgId) {
     const meme = getMeme()
     meme.selectedImgId = imgId
 }
-//* //  ///   /////      Meme btns lines    \\\\\    \\\  *\\
+
+//*      Meme btns lines   *\\
 function setLineText(txt) {
     const { lines } = gMeme
     lines[gMeme.selectedLineIdx].txt = txt
@@ -135,6 +158,7 @@ function deleteLastLine() {
     setSelectedLineIdx()
     document.querySelector('.line-txt').value = ''
 }
+
 //Second line
 function changeElSize(num) {
     const meme = getMeme()
@@ -148,6 +172,7 @@ function changeAlign(dir) {
     else if (dir === 'right') lines[meme.selectedLineIdx].align = 'left'
     else lines[meme.selectedLineIdx].align = 'center'
 }
+
 //third line
 function changeFont(fontStyle) {
     console.log('fontStyle:', fontStyle)
@@ -167,7 +192,7 @@ function _saveMemeToStorage() {
 function _LoadMemeFromStorage() {
     return loadFromStorage(STORAGE_KEY)
 }
-//* //  ///   /////      Draw     \\\\\    \\\  *\\
+//*      Draw    *\\
 function getFillColor() {
     return gStroke.fillStyle
 }

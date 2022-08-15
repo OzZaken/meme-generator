@@ -1,5 +1,6 @@
  /* MOBILE ONLY */
  @media (max-width: 520px) {
+    
      .main-nav-list {
          position: fixed;
          left: 0;
@@ -17,7 +18,10 @@
          max-height: 500px;
          transform-origin: top;
      }
-
+     body.menu-opened .main-screen {
+        opacity: 1;
+        pointer-events: auto;
+    }
      .main-header {
          position: fixed;
          top: 0;
@@ -37,10 +41,57 @@
          display: unset;
      }
 
-     body.menu-opened .main-screen {
-         opacity: 1;
-         pointer-events: auto;
-     }
+        /* menu Hamburger animation start */
+        .btn-toggle-menu {
+            display: unset;
+        }
+    
+        .btn-toggle-menu svg * {
+            fill: var(--clr-hoover);
+        }
+    
+        .btn-toggle-menu.is-open svg * {
+            fill: var(--clr-hoover);
+        }
+    
+        .btn-toggle-menu #line1 {
+            transition: transform 0.4s ease-out;
+            transform-origin: 40% 00%;
+        }
+    
+        .btn-toggle-menu #line2 {
+            transition: opacity 0.2s;
+        }
+    
+        .btn-toggle-menu #line3 {
+            transition: transform 0.4s ease-out;
+            transform-origin: 40% 100%;
+        }
+    
+        .btn-toggle-menu:not(.is-open) #line1,
+        .btn-toggle-menu:not(.is-open) #line3 {
+            transition: transform 0.4s ease-out, fill .6s ease-in;
+        }
+    
+        .btn-toggle-menu:not(.is-open) #line2 {
+            transition: opacity 0.2s, fill .6s ease-in;
+        }
+    
+        .btn-toggle-menu.is-open #line1 {
+            transform: rotate(49deg);
+        }
+    
+        .btn-toggle-menu.is-open #line2 {
+            opacity: 0;
+        }
+    
+        .btn-toggle-menu.is-open #line3 {
+            transform: rotate(-49deg);
+        }
+    
+        /* menu animation End */
+
+
 
      .main-header .main-nav-list a {
          /* if wanted  sideBar cancel background-color*/

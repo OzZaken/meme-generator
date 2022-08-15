@@ -2,11 +2,15 @@
     box-sizing: border-box;
 }
 
+html {
+    color: var(--txt-clr);
+    font-family: fa-solid, sans-serif;
+}
+
 body {
     overflow-x: hidden;
     font-size: 1rem;
     margin: 0;
-    font-family: fa-solid, sans-serif;
 }
 
 section {
@@ -33,4 +37,9 @@ h6 {
 a {
     text-decoration: none;
     color: var(--clr-brightest);
+}
+
+footer {
+    width: calc(100% - 3em);
+    margin: auto;
 }

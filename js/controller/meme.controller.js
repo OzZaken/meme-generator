@@ -6,6 +6,7 @@ var gIsDraw
 let gAudio
 
 function onInit() {
+    // setUserDefaultLang()
     initCanvas()
     renderGallery()
     flashMsg('Welcome!')
@@ -13,7 +14,8 @@ function onInit() {
 function toggleMenu() {
     document.body.classList.toggle('menu-opened');
 }
-//* //  ///   /////      Listeners     \\\\\    \\\  *\\
+
+//*       Listeners     *\\
 function addListeners() {
     window.addEventListener('resize', () => {
         OnResizeCanvas()
@@ -31,24 +33,26 @@ function addTouchListeners() {
     gElCanvas.addEventListener('touchmove', onDraw)
     gElCanvas.addEventListener('touchend', onUp)
 }
-//* //  ///   /////      Gallery     \\\\\    \\\  *\\
+
+//*       Gallery     *\\
 function toggleGallery() {
     var elGallery = document.querySelector('.gallery-section')
     elGallery.hidden ? elGallery.hidden = false : elGallery.hidden = true
 }
-function onNavToGallery(){
+function onNavToGallery() {
     renderGallery()
     document.querySelector('.gallery-section').hidden = false
     document.querySelector('.meme-section').hidden = true
     // document.body.classList.add('.meme-section-open')
 }
-function onNavToMeme(){
+function onNavToMeme() {
     document.querySelector('.meme-section').hidden = false
     document.querySelector('.gallery-section').hidden = true
 
     // document.body.classList.add('x')
 }
-//* //  ///   /////      Meme     \\\\\    \\\  *\\
+
+//*       Meme     *\\
 function renderMeme() {
     //handle img
     const img = new Image()
@@ -94,7 +98,8 @@ function setSelectedLineIdx() {
 function getElCanvas() {
     return gElCanvas
 }
-//* //  ///   /////      btns     \\\\\    \\\  *\\
+
+//*       btns     *\\
 // First row
 function onSetLineText(txt) {
     setLineText(txt)
@@ -121,6 +126,7 @@ function onDeleteTxtLine() {
     playAudio('click', gAudio)
     renderMeme()
 }
+
 // Second row
 function onClearMeme() {
     playAudio('click', gAudio)
@@ -136,13 +142,14 @@ function onChangeAlign(dir) {
     playAudio('click', gAudio)
     renderMeme()
 }
+
 // third row
 function onChangeFont(val) {
     changeFont(val)
     playAudio('click')
     renderMeme()
 }
-//* //  ///   /////      Draw     \\\\\    \\\  *\\
+//*      Draw      *\\
 function onSetColor(val, className) {
     console.log('el:', val)
     console.log('className:', className)
@@ -223,7 +230,8 @@ function onMouseOutCanvas() {
     gCtx.beginPath()
     gIsDraw = false
 }
-//* //  ///   /////      Export btns     \\\\\    \\\  *\\
+
+//*       Export btns     *\\
 function onDownloadMeme(elLink) {
     const data = gElCanvas.toDataURL()
     console.log('data:', data)
@@ -232,19 +240,4 @@ function onDownloadMeme(elLink) {
 }
 function onSaveMeme() {
     saveMeme()
-}
-//* //  ///   /////      MQ helper     \\\\\    \\\  *\\
-const elBody = document.querySelector('body')
-let gViewportWidth = window.innerWidth
-let state
-elBody.onresize = () => {
-    gViewportWidth = window.innerWidth;
-    if (gViewportWidth > 768 || gViewportWidth < 1020) state = 'Tablet'
-    if (gViewportWidth < 520) state = 'Mobile'
-    if (gViewportWidth > 1020) state = 'Desktop'
-    renderViewPort()
-}
-elBody.onresize()
-function renderViewPort() {
-    document.querySelector('.viewport').innerText = `${state}\n${gViewportWidth}px`
 }
