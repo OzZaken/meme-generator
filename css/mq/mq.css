@@ -33,10 +33,6 @@
          margin-top: 1rem;
      }
 
-     .main-layout>*:not(.full).main-header-container {
-         margin-bottom: 0;
-     }
-
      .menu-bar {
          display: unset;
      }
@@ -107,23 +103,14 @@
          margin-top: 60px;
      }
 
-
-
      .canvas-container img {
          max-width: 80vw;
      }
 
 
  }
- /* MOBILE */
- @media (min-width: 482px) {
-     .main-layout>*:not(.full) {
-         max-width: var(--mobile);
-         margin-left: auto;
-         margin-right: auto;
-     }
 
- }
+
  @media (max-width: 800px) {
     .meme-container {
         margin: auto;
@@ -134,9 +121,6 @@
 
  /* TABLET */
  @media (min-width: 600px) {
-     .main-layout>*:not(.full) {
-         max-width: var(--tablet);
-     }
 
      html {
          font-size: 14px;
@@ -148,10 +132,6 @@
 
      .dropdown-menu li a {
          width: 100%;
-     }
-
-     h2 {
-         margin-bottom: 1.73rem;
      }
 
      .gallery-container {

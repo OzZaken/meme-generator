@@ -35,21 +35,20 @@ function addTouchListeners() {
 }
 
 //*       Gallery     *\\
-function toggleGallery() {
-    var elGallery = document.querySelector('.gallery-section')
-    elGallery.hidden ? elGallery.hidden = false : elGallery.hidden = true
+function toggleMenu(elOpenNavBtn) {
+    const elMainNav = document.querySelector('.main-nav') 
+    elMainNav.setAttribute('onclick', 'closeNav()')
+    elMainNav.classList.toggle('menu-opened')
+    elOpenNavBtn.classList.toggle('is-open')
+    document.body.classList.toggle('menu-opened')
 }
-function onNavToGallery() {
-    renderGallery()
-    document.querySelector('.gallery-section').hidden = false
-    document.querySelector('.meme-section').hidden = true
-    // document.body.classList.add('.meme-section-open')
-}
-function onNavToMeme() {
-    document.querySelector('.meme-section').hidden = false
-    document.querySelector('.gallery-section').hidden = true
-
-    // document.body.classList.add('x')
+function closeNav() {
+    const elOpenNavBtn = document.querySelector('.open-nav-btn')
+    const elMainNav = document.querySelector('.main-nav') 
+    elMainNav.removeAttribute('onclick')
+    elMainNav.classList.remove('menu-opened')
+    elOpenNavBtn.classList.remove('is-open')
+    document.body.classList.remove('menu-opened')
 }
 
 //*       Meme     *\\

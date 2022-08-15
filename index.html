@@ -56,12 +56,13 @@
                 <option value="baby"></option>
             </datalist>
 
-            <input class="filter-input" onchange="onSetFilterBy(this.value)"  list="keywords"  type="text" placeholder="Search">
+            <input class="filter-input" onchange="onSetFilterBy(this.value)" list="keywords" type="text"
+                placeholder="Search">
 
             <div class="gallery-container grid justify-center"> </div>
         </section>
         <!--* Meme -->
-        <section class="flex section-layout meme-section">
+        <section hidden class="flex section-layout meme-section">
             <div class="meme-container  flex space-between">
                 <div class="canvas-container">
                     <canvas onmouseout="onMouseOutCanvas()" class="canvas  glass-container" id="canvas" height="500"
@@ -114,16 +115,16 @@
                     </div>
                 </div>
             </div>
-
+            <hr />
             <!--* Export -->
             <div class="export  flex justify-center align-center">
                 <button class="save-meme  btn glass-btn" onclick="onSaveMeme()">save</button>
                 <a class="config download-btn  btn glass-btn" href="#" onclick="onDownloadMeme(this)"
                     download="My-Meme">Download</a>
-                    <button class="config share-btn  btn glass-btn" onclick="onShareMeme(this)">Share Meme</button>
+                <button class="config share-btn  btn glass-btn" onclick="onShareMeme(this)">Share Meme</button>
                 <input class="file-input  btn" type="file" class="" name="image" onchange="onImgInput(event)" />
                 <p class="url-msg">
-                    <button  hidden class=""></button>
+                    <button hidden class=""></button>
                 </p>
             </div>
         </section>
