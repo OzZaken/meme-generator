@@ -1,8 +1,9 @@
 'use strict'
+
 function renderGallery() {
-    const elGallery =_LoadMemeFromStorage()
+    const elGallery = _LoadMemeFromStorage()
     if (elGallery) {
-        
+
     }
     let strHTML = ''
     getImg().forEach(img => {
@@ -10,6 +11,7 @@ function renderGallery() {
     })
     document.querySelector('.gallery-container').innerHTML = strHTML
 }
+
 function filterGallery() {
     const imgs = getImg()
     var strHTML = ''
@@ -18,9 +20,11 @@ function filterGallery() {
     })
     document.querySelector('.gallery-container').innerHTML = strHTML
 }
+
 function getKeyWords() {
     return gKeywordSearchCountMap
 }
+
 function countKeyWords() {
     let keywords = getKeyWords()
     console.log('keywords:', keywords)

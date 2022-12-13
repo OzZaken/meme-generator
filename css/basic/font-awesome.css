@@ -1,17 +1,3 @@
-.fa {
-    font-family: fa;
-}
-
-.fa-solid {
-    font-family: fa-solid;
-}
-
-
-/** Header btns */
-.fa.menu-bar::before {
-    content: "\f0c9"
-}
-
 /** Meme Btns */
 /* first line */
 .fa-arrow-up::before {
@@ -33,10 +19,12 @@
 .fa-trash::before {
     content: "\f1f8";
 }
+
 /* second line */
-.fa-text-size::before{
+.fa-text-size::before {
     content: "\f894";
 }
+
 .fa-align-center::before {
     content: "\f037";
 }

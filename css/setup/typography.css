@@ -1,3 +1,11 @@
+.fa {
+    font-family: fa;
+}
+
+.fa-solid {
+    font-family: fa-solid;
+}
+
 @font-face {
     font-family: eurofurence;
     src: url(../../fonts/eurofurence/eurof55.woff);

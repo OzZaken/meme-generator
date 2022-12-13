@@ -1,0 +1,19 @@
+.logo {
+    color: var(--clr-main);
+    font-family: eurofurence;
+    font-size: 2.5em;
+    font-weight: 400;
+}
+
+.logo::first-letter {
+    color: var(--clr-hoover);
+}
+
+.logo::before {
+    content: 'MemeGen';
+}
+
+.logo::after {
+    color: var(--clr-hoover);
+    content: '!';
+}

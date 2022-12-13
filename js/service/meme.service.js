@@ -3,6 +3,7 @@
 const STORAGE_KEY = 'memesDB'
 var gSavedMemes = []
 var gSearchFilter = ''
+
 var gKeywordSearchCountMap = {
     'funny': 7,
     'cute': 5,
@@ -11,12 +12,14 @@ var gKeywordSearchCountMap = {
     'cat': 16,
     'baby': 2,
 }
+
 var gStroke = {
     currShape: 'circle',
     fillStyle: 'black',
     strokeStyle: 'white',
     size: 20,
 }
+
 var gMeme = {
     selectedImgId: 5,
     selectedLineIdx: 0,
@@ -34,6 +37,7 @@ var gMeme = {
         },
     ]
 }
+
 const gImgs = [
     { id: 1, url: 'img/1.jpg', keywords: ['funny', 'celeb'] },
     { id: 2, url: 'img/2.jpg', keywords: ['dog', 'cute'] },
@@ -55,7 +59,6 @@ const gImgs = [
     { id: 18, url: 'img/18.jpg', keywords: ['funny', 'celeb'] }
 ]
 
-//*      Gallery   *\\
 function createMems() {
     const memes = loadFromStorage()
     if (!memes || !memes.length) {
@@ -66,7 +69,6 @@ function createMems() {
         }
     }
     gBooks = memes
-    console.log('gBooks:', gBooks)
     saveToStorage()
 }
 function getImgs() {
@@ -86,7 +88,6 @@ function onSetFilterBy() {
 
 }
 
-//*      Canvas   *\\
 function initCanvas() {
     gElCanvas = canvas
     gCtx = gElCanvas.getContext('2d')
@@ -101,7 +102,6 @@ function resizeCanvas() {
     elContainer.height = gElCanvas.height
 }
 
-//*      Meme   *\\
 function getMeme() {
     return gMeme
 }
@@ -110,7 +110,7 @@ function setMemeImg(imgId) {
     meme.selectedImgId = imgId
 }
 
-//*      Meme btns lines   *\\
+//* Meme btns lines  
 function setLineText(txt) {
     const { lines } = gMeme
     lines[gMeme.selectedLineIdx].txt = txt
@@ -159,7 +159,7 @@ function deleteLastLine() {
     document.querySelector('.line-txt').value = ''
 }
 
-//Second line
+// Second line
 function changeElSize(num) {
     const meme = getMeme()
     const { lines } = meme
@@ -173,7 +173,7 @@ function changeAlign(dir) {
     else lines[meme.selectedLineIdx].align = 'center'
 }
 
-//third line
+// third line
 function changeFont(fontStyle) {
     console.log('fontStyle:', fontStyle)
     const meme = getMeme()
@@ -192,7 +192,8 @@ function _saveMemeToStorage() {
 function _LoadMemeFromStorage() {
     return loadFromStorage(STORAGE_KEY)
 }
-//*      Draw    *\\
+
+//*      Draw   
 function getFillColor() {
     return gStroke.fillStyle
 }

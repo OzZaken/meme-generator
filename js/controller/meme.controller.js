@@ -1,65 +1,11 @@
 'use strict'
 
-var gElCanvas
-var gCtx
-var gIsDraw
-let gAudio
-
-function onInit() {
-    // setUserDefaultLang()
-    initCanvas()
-    renderGallery()
-    flashMsg('Welcome!')
-}
-function toggleMenu() {
-    document.body.classList.toggle('menu-opened');
-}
-
-//*       Listeners     *\\
-function addListeners() {
-    window.addEventListener('resize', () => {
-        OnResizeCanvas()
-    })
-    addMouseListeners()
-    addTouchListeners()
-}
-function addMouseListeners() {
-    gElCanvas.addEventListener('mousedown', onDown)
-    gElCanvas.addEventListener('mousemove', onDraw)
-    gElCanvas.addEventListener('mouseup', onUp)
-}
-function addTouchListeners() {
-    gElCanvas.addEventListener('touchstart', onDown)
-    gElCanvas.addEventListener('touchmove', onDraw)
-    gElCanvas.addEventListener('touchend', onUp)
-}
-
-//*       Gallery     *\\
-function toggleMenu(elOpenNavBtn) {
-    const elMainNav = document.querySelector('.main-nav') 
-    elMainNav.setAttribute('onclick', 'closeNav()')
-    elMainNav.classList.toggle('menu-opened')
-    elOpenNavBtn.classList.toggle('is-open')
-    document.body.classList.toggle('menu-opened')
-}
-function closeNav() {
-    const elOpenNavBtn = document.querySelector('.open-nav-btn')
-    const elMainNav = document.querySelector('.main-nav') 
-    elMainNav.removeAttribute('onclick')
-    elMainNav.classList.remove('menu-opened')
-    elOpenNavBtn.classList.remove('is-open')
-    document.body.classList.remove('menu-opened')
-}
-
-//*       Meme     *\\
 function renderMeme() {
-    //handle img
     const img = new Image()
     img.src = `img/${gMeme.selectedImgId}.jpg`
     img.onload = () => {
         var { lines } = getMeme()
         gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
-        //handle each line        
         lines.forEach(line => {
             const { x, y } = line.pos
             gCtx.beginPath()
@@ -75,31 +21,14 @@ function renderMeme() {
             gCtx.closePath()
         })
         setSelectedLineIdx()
-        // markSelectedLine()
     }
 }
-function onImgSelect(imgId) {
-    setMemeImg(imgId)
-    document.querySelector('.gallery-section').hidden = true
-    flashMsg('img selected')
-    renderMeme()
-}
+
 function OnResizeCanvas() {
     resizeCanvas()
     renderMeme()
 }
-function setSelectedLineIdx() {
-    const meme = getMeme()
-    const { lines } = meme
-    meme.selectedLineIdx = lines.length - 1
-    document.querySelector('.line-txt').value = lines[meme.selectedLineIdx].txt
-}
-function getElCanvas() {
-    return gElCanvas
-}
 
-//*       btns     *\\
-// First row
 function onSetLineText(txt) {
     setLineText(txt)
     playAudio('click', gAudio)
@@ -126,11 +55,6 @@ function onDeleteTxtLine() {
     renderMeme()
 }
 
-// Second row
-function onClearMeme() {
-    playAudio('click', gAudio)
-    clearMeme()
-}
 function onChangeElSize(num) {
     changeElSize(num)
     playAudio('click', gAudio)
@@ -142,13 +66,9 @@ function onChangeAlign(dir) {
     renderMeme()
 }
 
-// third row
-function onChangeFont(val) {
-    changeFont(val)
-    playAudio('click')
-    renderMeme()
-}
-//*      Draw      *\\
+
+
+
 function onSetColor(val, className) {
     console.log('el:', val)
     console.log('className:', className)
@@ -157,12 +77,14 @@ function onSetColor(val, className) {
     document.querySelector(`.${className}`).style.color = val.value
     console.log('gStroke:', gStroke)
 }
+
 function onMouseOutCanvas() {
     // console.log('onMouseOutCanvas')
     // gCtx.beginPath()
     // gIsDraw = false
 }
-function getPosByEv(ev) {
+
+function getEvPos(ev) {
     const touchEvs = ['touchstart', 'touchmove', 'touchend']
     let pos = {
         x: ev.offsetX,
@@ -178,6 +100,13 @@ function getPosByEv(ev) {
     }
     return pos
 }
+
+function onChangeFont(val) {
+    changeFont(val)
+    playAudio('click')
+    renderMeme()
+}
+
 function drawText() {
     const { lines } = getMeme()
     const line = lines[selectedLineIdx]
@@ -193,6 +122,7 @@ function drawText() {
     gCtx.strokeText(txt, x, y)
     gCtx.closePath()
 }
+
 function onUp() {
     gCtx.beginPath()
     gIsDraw = false
@@ -200,14 +130,14 @@ function onUp() {
 function onDown(ev) {
     console.log('gStroke:', gStroke)
     gIsDraw = true
-    draw(getPosByEv(ev))
+    draw(getEvPos(ev))
 }
 function onUpdateStrokeSize(num) {
     // onUpdateStrokeSize(num)
     gStrokeSize = num // UpdateStrokeSize()?
 }
 function onDraw(ev) {
-    if (gIsDraw) draw(getPosByEv(ev))
+    if (gIsDraw) draw(getEvPos(ev))
 }
 function getEvPos(ev) {
     const touchEvs = ['touchstart', 'touchmove', 'touchend']
@@ -229,14 +159,7 @@ function onMouseOutCanvas() {
     gCtx.beginPath()
     gIsDraw = false
 }
-
-//*       Export btns     *\\
-function onDownloadMeme(elLink) {
-    const data = gElCanvas.toDataURL()
-    console.log('data:', data)
-    elLink.href = data
-    elLink.download = 'my-meme'
-}
-function onSaveMeme() {
-    saveMeme()
+function onClearMeme() {
+    playAudio('click', gAudio)
+    clearMeme()
 }

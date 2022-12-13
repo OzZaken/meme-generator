@@ -1,0 +1,14 @@
+.user-msg {
+    color: var(--clr-main);
+    position: fixed;
+    bottom: -100px;
+    right: 10px;
+    background-color: var(--clr-darkest);
+    padding: 10px;
+}
+
+.user-msg-open {
+    z-index: 1;
+    bottom: 10px;
+    transition: bottom .5s;
+}

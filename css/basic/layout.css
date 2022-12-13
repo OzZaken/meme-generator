@@ -1,12 +1,8 @@
-.section-layout {
-    border-top: 1px solid var(--clr-hoover);
-    padding-inline-start: 3vw;
-    padding-inline-end: 3vw ;
-    margin-right: 3vw;
-    margin-left: 3vw;
+.main-layout {
+    border-top: 1px solid var(--clr-main);
+    margin-inline-start: 3vw;
+    margin-inline-end: 3vw;
     border-right: 1px solid var(--clr-bright);
     border-left: 1px solid var(--clr-bright);
-}
-.section-layout:first-child() {
-    margin-top: 5px;
+    margin-top: 2rem;
 }

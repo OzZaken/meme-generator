@@ -1,3 +1,8 @@
+footer {
+    width: calc(100% - 3em);
+    margin: auto;
+}
+
 .main-footer .footer-text li {
     color: var(--clr-bright);
     font-size: 0.75rem;
@@ -16,7 +21,7 @@
 }
 
 .main-footer a:hover {
-    background-color: var(--clr-hoover);
+    background-color: var(--clr-main);
 }
 
 .social-links-container li:not(:last-child) {
@@ -34,6 +39,7 @@
     padding: 80px;
     margin: 0;
 }
+
 .social-links-container a {
     width: 2.5rem;
     height: 2.5rem;

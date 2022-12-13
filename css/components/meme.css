@@ -1,10 +1,10 @@
-.meme-section {
-    max-width: 100vw;
+.meme-container {
+    max-width: 90vw;
     transition: all 3s;
     flex-wrap: wrap;
 }
 
-body.meme-section-open {
+body.meme-container-open {
     transform: translateX(-150%);
 }
 
@@ -29,7 +29,7 @@ body.meme-section-open {
 
 .setting-btn:hover {
     cursor: pointer;
-    color: var(--clr-hoover);
+    color: var(--clr-main);
 }
 
 input.color-input {

@@ -4,7 +4,7 @@
     font-size: 100%;
     line-height: 1.15;
     margin: 0;
-    border-bottom: 2px solid var(--clr-hoover);
+    border-bottom: 2px solid var(--clr-main);
     border-radius: 15px;
     border-right: none;
     margin-top: 10px;
@@ -16,10 +16,12 @@
     grid-template-columns: repeat(2, 1fr);
     padding-bottom: 10px;
 }
+
 .gallery-container .filter-input {
     margin-bottom: 10px;
     width: 50%;
 }
+
 .gallery-img {
     width: 100%;
     border-radius: 20px;
@@ -34,4 +36,3 @@
     cursor: pointer;
     opacity: 0.8;
 }
-

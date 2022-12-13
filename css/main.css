@@ -5,14 +5,19 @@
 /* Basic */
 @import "basic/font-awesome.css";
 @import "basic/helpers.css";
-@import "basic/logo.css";
 @import "basic/base.css";
 @import "basic/layout.css";
+@import "basic/logo.css";
 
 /* Components */
-@import "components/gallery.css";
-@import "components/screen.css";
 @import "components/header.css";
+@import "components/gallery.css";
 @import "components/meme.css";
 @import "components/footer.css";
-@import "mq/mq.css";
+
+/* Components Util*/
+@import "components/screen.css";
+@import "components/user-msg.css";
+
+/* Media Query */
+@import "basic/mq.css";

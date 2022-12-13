@@ -11,158 +11,180 @@
 </head>
 
 <body onload="onInit()">
+    <header class="flex-row header">
+        <a class="logo" href="#" onclick="onNavHome()"></a>
 
-    <header class="main-header">
-        <div class="flex align-center space-between main-header-container">
-            <a class="logo" href="#" onclick="onNavToGallery()"></a>
-            <nav class="main-nav flex">
-                <ul class="main-nav-list flex clean-list">
-                    <li>
-                        <a class="flex-center" href="#" onclick="onNavToGallery()">Gallery</a>
-                    </li>
-                    <li>
-                        <a class="flex-center" href="#" onclick="onNavToMeme()">meme</a>
-                    </li>
-                    <li>
-                        <a class="flex-center" href="#" onclick="toggleMenu()">about</a>
-                    </li>
-                </ul>
-            </nav>
-            <select onchange="onSetLang(this.value)" class="lang-select">
+        <nav class="flex main-nav">
+            <ul class="flex clean-list main-nav-list">
+                <li>
+                    <a class="flex-center" href="#" onclick="onNavHome()">gallery</a>
+                </li>
+                <li>
+                    <a class="flex-center" href="#" onclick="onNavToMeme()">meme</a>
+                </li>
+                <li>
+                    <a class="flex-center" href="#" onclick="toggleMenu()">about</a>
+                </li>
+            </ul>
+        </nav>
+
+        <label for="select languge">
+            <select class="lang" onchange="onSetLang(this.value)">
                 <option value="en">English</option>
                 <option value="he">עברית</option>
             </select>
-            <div hidden onclick="toggleMenu(this)" class="btn-toggle-menu">
-                <svg width="40" height="40" viewBox="0 0 40 40">
-                    <g id="Group 1">
-                        <rect id="line1" y="8" width="65" height="4" />
-                        <rect id="line2" y="18" width="65" height="4" />
-                        <rect id="line3" y="28" width="65" height="4" />
-                    </g>
-                </svg>
-            </div>
+        </label>
 
+        <div role="button" class="btn-toggle-menu" hidden onclick="toggleMenu(this)">
+            <svg width="40" height="40" viewBox="0 0 40 40">
+                <g id="Group 1">
+                    <rect class="line1" y="8" width="65" height="4" />
+                    <rect class="line2" y="18" width="65" height="4" />
+                    <rect class="line3" y="28" width="65" height="4" />
+                </g>
+            </svg>
         </div>
     </header>
-    <main class=" flex flex-direction-column main-content ">
-        <!--* Gallery -->
-        <section class="section-layout gallery-section">
-            <datalist id="keywords">
-                <option value="funny"></option>
-                <option value="cute"></option>
-                <option value="celeb"></option>
-                <option value="dog"></option>
-                <option value="cat"></option>
-                <option value="baby"></option>
-            </datalist>
 
-            <input class="filter-input" onchange="onSetFilterBy(this.value)" list="keywords" type="text"
-                placeholder="Search">
+    <!-- <main class="flex-row "> -->
 
-            <div class="gallery-container grid justify-center"> </div>
-        </section>
-        <!--* Meme -->
-        <section hidden class="flex section-layout meme-section">
-            <div class="meme-container  flex space-between">
-                <div class="canvas-container">
-                    <canvas onmouseout="onMouseOutCanvas()" class="canvas  glass-container" id="canvas" height="500"
-                        width="500"></canvas>
-                </div>
-                <!--* Meme Btns -->
-                <div class="editor-container  glass-container">
-                    <label for="Search keyword">
-                        <input class="line-txt  fa flex" oninput="onSetLineText(this.value)" onsubmit="onAddTxtLine()"
-                            type="text" placeholder="Put Text line Here" title="Put Text line Here">
-                    </label>
-                    <div class="grid editor-container ">
-                        <i onclick="onChangeLinePos(0,-20)" title="Move text up"
-                            class="move-txt-up-btn  setting-btn flex-center fa-solid fa-arrow-up"></i>
-                        <i onclick="onChangeLinePos(0,20)" title="Move text Down"
-                            class="move-txt-down-btn  setting-btn flex-center fa-solid fa-arrow-down"></i>
-                        <i onclick="onSwitchLines()" title="Switch between lines"
-                            class="switch-lines-btn  setting-btn flex-center fa-solid fa-arrow-up-arrow-down">↑↓</i>
-                        <i onclick="onAddTxtLine()" title="Add txt line"
-                            class="add-text-line-btn  setting-btn flex-center fa-solid fa-plus"></i>
-                        <i onclick="onDeleteTxtLine()" title="Delete last line"
-                            class="delete-text-line-btn  setting-btn flex-center fa-solid fa-trash"></i>
-                        <i onclick="onChangeElSize(5)" title="Size Up"
-                            class="size-up-btn  fa-solid 1fa-text-size setting-btn flex-center">A+</i>
-                        <i onclick="onChangeElSize(-5)" title="Size Down"
-                            class="size-down-btn  fa-solid 1fa-text-size setting-btn flex-center">A-</i>
-                        <i onclick="onChangeAlign('left')" title="align left"
-                            class="align-left-btn  setting-btn flex-center fa-solid fa-align-left"></i>
-                        <i onclick="onChangeAlign('center')" title="align center"
-                            class="align-center-btn  setting-btn flex-center fa-solid fa-align-center"></i>
-                        <i onclick="onChangeAlign('right')" title="align left"
-                            class="align-right-btn  setting-btn flex-center fa-solid fa-align-right"></i>
-                        <select title="Select fonts" onchange="onChangeFont(this.value)" class="font-select fa-solid"
-                            name="change-fonts">
-                            <option value="impact">impact</option>
-                            <option value="italic">italic</option>
-                            <option value="fa">fa</option>
-                            <option value="fa-solid">fa-solid</option>
-                            <option value="bold">bold</option>
-                        </select>
-                        <i class="stroke-color  fa-s s-btn fa-solid setting-btn flex-center ">
-                            <input class="color-input flex-center" oninput="onSetColor(this.value,'stroke-color')"
-                                type="color" name="stroke-color" title="Change stroke color">
-                        </i>
-                        <i class="fill-color  fa-palette fa-solid  setting-btn flex-center">
-                            <input class="color-input" oninput="onSetColor(this.value,'fill-color')" type="color"
-                                name="fill-color" title="Change fill color">
-                        </i>
+    <!-- <section class="gallery-container"> -->
 
-                    </div>
-                </div>
-            </div>
-            <!--* Export -->
-            <div class="export  flex justify-center align-center">
-                <button class="save-meme  btn glass-btn" onclick="onSaveMeme()">save</button>
-                <a class="config download-btn  btn glass-btn" href="#" onclick="onDownloadMeme(this)"
-                    download="My-Meme">Download</a>
-                <button class="config share-btn  btn glass-btn" onclick="onShareMeme(this)">Share Meme</button>
-                <input class="file-input  btn" type="file" class="" name="image" onchange="onImgInput(event)" />
-                <p class="url-msg">
-                    <button hidden class=""></button>
-                </p>
-            </div>
-        </section>
-        <!--* About -->
-        <section hidden class="about-section  section-layout">
-            <h2>about</h2>
-        </section>
-    </main>
+    <!-- <!~~ render ~~> -->
+    <!-- <datalist id="keywords"> -->
+    <!-- <option value="funny"></option> -->
+    <!-- <option value="cute"></option> -->
+    <!-- <option value="celeb"></option> -->
+    <!-- <option value="dog"></option> -->
+    <!-- <option value="cat"></option> -->
+    <!-- <option value="baby"></option> -->
+    <!-- </datalist> -->
 
-    <footer class="main-footer  main-layout">
-        <div class="main-footer flex flex-direction-column align-center justify-center">
+    <!-- <label for="search-image"> -->
+    <!-- <input class="filter-input" onchange="onSetFilterBy(this.value)" list="keywords" type="text" -->
+    <!-- placeholder="Search"> -->
+    <!-- </label> -->
+
+    <!-- <div class="grid gallery-container"> </div> -->
+    <!-- </section> -->
+
+    <!-- <!~~* Meme ~~> -->
+    <!-- <section class="flex meme-container"> -->
+
+    <!-- <div class="meme-container  flex space-between"> -->
+    <!-- <div class="canvas-container"> -->
+    <!-- <canvas onmouseout="onMouseOutCanvas()" class="canvas  glass-container" id="canvas" height="500" -->
+    <!-- width="500"></canvas> -->
+    <!-- </div> -->
+
+    <!-- <!~~* Meme Btns ~~> -->
+    <!-- <div class="editor-container  glass-container"> -->
+    <!-- <label for="Search keyword"> -->
+    <!-- <input class="line-txt  fa flex" oninput="onSetLineText(this.value)" onsubmit="onAddTxtLine()" -->
+    <!-- type="text" placeholder="Put Text line Here" title="Put Text line Here"> -->
+    <!-- </label> -->
+
+    <!-- <div class="grid editor-container "> -->
+    <!-- <i onclick="onChangeLinePos(0,-20)" title="Move text up" -->
+    <!-- class="move-txt-up-btn  setting-btn flex-center fa-solid fa-arrow-up"></i> -->
+    <!-- <i onclick="onChangeLinePos(0,20)" title="Move text Down" -->
+    <!-- class="move-txt-down-btn  setting-btn flex-center fa-solid fa-arrow-down"></i> -->
+    <!-- <i onclick="onSwitchLines()" title="Switch between lines" -->
+    <!-- class="switch-lines-btn  setting-btn flex-center fa-solid fa-arrow-up-arrow-down">↑↓</i> -->
+    <!-- <i onclick="onAddTxtLine()" title="Add txt line" -->
+    <!-- class="add-text-line-btn  setting-btn flex-center fa-solid fa-plus"></i> -->
+    <!-- <i onclick="onDeleteTxtLine()" title="Delete last line" -->
+    <!-- class="delete-text-line-btn  setting-btn flex-center fa-solid fa-trash"></i> -->
+    <!-- <i onclick="onChangeElSize(5)" title="Size Up" -->
+    <!-- class="size-up-btn  fa-solid 1fa-text-size setting-btn flex-center">A+</i> -->
+    <!-- <i onclick="onChangeElSize(-5)" title="Size Down" -->
+    <!-- class="size-down-btn  fa-solid 1fa-text-size setting-btn flex-center">A-</i> -->
+    <!-- <i onclick="onChangeAlign('left')" title="align left" -->
+    <!-- class="align-left-btn  setting-btn flex-center fa-solid fa-align-left"></i> -->
+    <!-- <i onclick="onChangeAlign('center')" title="align center" -->
+    <!-- class="align-center-btn  setting-btn flex-center fa-solid fa-align-center"></i> -->
+    <!-- <i onclick="onChangeAlign('right')" title="align left" -->
+    <!-- class="align-right-btn  setting-btn flex-center fa-solid fa-align-right"></i> -->
+    <!-- <select title="Select fonts" onchange="onChangeFont(this.value)" class="font-select fa-solid" -->
+    <!-- name="change-fonts"> -->
+    <!-- <option value="impact">impact</option> -->
+    <!-- <option value="italic">italic</option> -->
+    <!-- <option value="fa">fa</option> -->
+    <!-- <option value="fa-solid">fa-solid</option> -->
+    <!-- <option value="bold">bold</option> -->
+    <!-- </select> -->
+    <!-- <i class="stroke-color  fa-s s-btn fa-solid setting-btn flex-center "> -->
+    <!-- <input class="color-input flex-center" oninput="onSetColor(this.value,'stroke-color')" -->
+    <!-- type="color" name="stroke-color" title="Change stroke color"> -->
+    <!-- </i> -->
+    <!-- <i class="fill-color  fa-palette fa-solid  setting-btn flex-center"> -->
+    <!-- <input class="color-input" oninput="onSetColor(this.value,'fill-color')" type="color" -->
+    <!-- name="fill-color" title="Change fill color"> -->
+    <!-- </i> -->
+
+    <!-- </div> -->
+    <!-- </div> -->
+    <!-- </div> -->
+
+    <!-- <!~~* Export ~~> -->
+    <!-- <div class="export  flex justify-center align-center"> -->
+    <!-- <button class="save-meme  btn btn-glass" onclick="onSaveMeme()">save</button> -->
+    <!-- <a class="config download-btn  btn btn-glass" href="#" onclick="onDownloadMeme(this)" -->
+    <!-- download="My-Meme">Download</a> -->
+    <!-- <button class="config share-btn  btn btn-glass" onclick="onShareMeme(this)">Share Meme</button> -->
+    <!-- <input class="file-input  btn" type="file" class="" name="image" onchange="onImgInput(event)" /> -->
+    <!-- <p class="url-msg"> -->
+    <!-- <button hidden class=""></button> -->
+    <!-- </p> -->
+    <!-- </div> -->
+    <!-- </section> -->
+
+    <!-- <!~~* About ~~> -->
+    <!-- <section hidden class="about-section"> -->
+    <!-- <h2>about</h2> -->
+    <!-- </section> -->
+    <!-- </main> -->
+
+    <footer class="main-footer main-layout">
+        <div class="main-footer flex flex-direction-column flex-center">
             <div class="logo"></div>
+
             <ul class="footer-text flex justify-center clean-list">
-                <li class="flex align-center justify-center">&copy; 2022 logo.com&nbsp;&nbsp;-&nbsp;&nbsp;</li>
-                <li class="flex align-center justify-center"> All Rights Reserved&nbsp;&nbsp;-&nbsp;&nbsp;</li>
-                <li class="flex align-center justify-center">Coding Academy<span>&nbsp;OzZaken</span>
+                <li class="flex flex-center">&copy; 2022 logo.com&nbsp;&nbsp;-&nbsp;&nbsp;</li>
+                <li class="flex flex-center"> All Rights Reserved&nbsp;&nbsp;-&nbsp;&nbsp;</li>
+                <li class="flex flex-center">Coding Academy<span>&nbsp;OzZaken</span>
                 </li>
             </ul>
+
             <ul class="social-links-container flex clean-list">
-                <li><a class="flex align-center justify-center fa facebook" href=""></a></li>
-                <li><a class="flex align-center justify-center fa twitter" href=""></a></li>
-                <li><a class="flex align-center justify-center fa behance" href=""></a></li>
-                <li><a class="flex align-center justify-center fa dribbble" href=""></a></li>
+                <li>
+                    <a class="flex-center fa facebook" href=""></a>
+                </li>
+                <li>
+                    <a class="flex-center fa twitter" href=""></a>
+                </li>
+                <li>
+                    <a class="flex-center fa behance" href=""></a>
+                </li>
+                <li>
+                    <a class="flex-center fa dribbble" href=""></a>
+                </li>
             </ul>
         </div>
     </footer>
 
-    <div class="full main-screen" onclick="toggleMenu()"></div>
     <div class="user-msg"></div>
+    <div class="screen" onclick="toggleMenu()"></div>
 
-    <!-- Services -->
+    <!-- Service -->
     <script src="js/service/util.service.js"></script>
     <script src="js/service/storage.service.js"></script>
     <script src="js/service/upload.service.js"></script>
     <script src="js/service/meme.service.js"></script>
-
-    <!-- Controllers -->
+    <!-- Controller -->
     <script src="js/controller/gallery.controller.js"></script>
     <script src="js/controller/meme.controller.js"></script>
+    <script src="js/controller/main.controller.js"></script>
 </body>
 
 </html>
