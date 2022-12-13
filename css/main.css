@@ -1,12 +1,12 @@
 /* Setup */
 @import "setup/vars.css";
 @import "setup/typography.css";
+@import "setup/font-awesome.css";
 
 /* Basic */
-@import "basic/font-awesome.css";
-@import "basic/helpers.css";
 @import "basic/base.css";
 @import "basic/layout.css";
+@import "basic/helper.css";
 @import "basic/logo.css";
 
 /* Components */
@@ -15,7 +15,7 @@
 @import "components/meme.css";
 @import "components/footer.css";
 
-/* Components Util*/
+/* Util Cmps*/
 @import "components/screen.css";
 @import "components/user-msg.css";
 

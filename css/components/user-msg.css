@@ -9,6 +9,6 @@
 
 .user-msg-open {
     z-index: 1;
-    bottom: 10px;
+    bottom: 50px;
     transition: bottom .5s;
 }

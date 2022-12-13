@@ -2,7 +2,21 @@
     border-top: 1px solid var(--clr-main);
     margin-inline-start: 3vw;
     margin-inline-end: 3vw;
-    border-right: 1px solid var(--clr-bright);
-    border-left: 1px solid var(--clr-bright);
-    margin-top: 2rem;
+    border-right: 2px solid var(--clr-bright);
+    border-left: 2px solid var(--clr-bright);
+    margin-top: 80px;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+    .main-layout>*:not(.full) {
+        max-width: var(--tablet);
+    }
+}
+
+/* Desktop */
+@media (min-width: 1020px) {
+    .main-layout>*:not(.full) {
+        max-width: var(--desktop);
+    }
 }

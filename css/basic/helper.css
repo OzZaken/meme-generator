@@ -6,6 +6,16 @@
     list-style-type: none;
 }
 
+
+input,
+select,
+option,
+[role="button"],
+.btn,
+button:hover {
+    cursor: pointer;
+}
+
 /*   Flex-helpers */
 .flex {
     display: flex;

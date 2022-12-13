@@ -1,15 +1,25 @@
 'use strict'
 
-var gElCanvas
-var gCtx
-var gIsDraw
-let gAudio
-
 function onInit() {
+    window.meme = {
+
+    }
+    galleryController.renderGallery()
+    galleryController.renderKeywordsOptions()
+    galleryController.renderKeywordsBtns()
+
     // setUserDefaultLang()
     // initCanvas()
-    renderGallery()
-    flashMsg('Welcome!')
+
+    flashMsg('Generate\n New Meme!')
+    flashMsg('Select Meme Background!')
+}
+
+function onClickKeyword(elKeyWord) {
+    const { dataset } = elKeyWord
+    const maxFontSize = 12
+    if (+dataset.fs >= maxFontSize) return
+    dataset.fs++
 }
 
 function toggleMenu(elMenuBar) {
@@ -83,5 +93,6 @@ function onDownloadMeme(elLink) {
 }
 
 function onSaveMeme() {
-    saveMeme()
+    const { meme } = window
+    saveMeme(meme)
 }

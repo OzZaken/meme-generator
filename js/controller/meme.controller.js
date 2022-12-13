@@ -1,5 +1,15 @@
 'use strict'
 
+var gElCanvas
+var gCtx
+var gIsDraw
+var gStroke = {
+    currShape: 'circle',
+    fillStyle: 'black',
+    strokeStyle: 'white',
+    size: 20,
+}
+
 function renderMeme() {
     const img = new Image()
     img.src = `img/${gMeme.selectedImgId}.jpg`
