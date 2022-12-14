@@ -9,12 +9,16 @@ function onInit() {
     window.gMeme = {
         filter: '',
         activePageStr: 'gallery',
-        domEl: {
+        isMenuOpen: false,
+        domEls: {
+            elUserMsg: document.querySelector('.user-msg'),
+            elMainNav: document.querySelector('.main-nav'),
+            elBtnToggleNav: document.querySelector('.btn-toggle-menu'),
             links: {
-                elLinkGallery: document.querySelector('.gallery'),
-                elLinkMeme: document.querySelector('.meme'),
-                elLinkAbout: document.querySelector('.about'),
-                elLinkSaved: document.querySelector('.saved'),
+                elLinkGallery: document.querySelector('.link-gallery'),
+                elLinkEdit: document.querySelector('.link-edit'),
+                elLinkAbout: document.querySelector('.link-about'),
+                elLinkSaved: document.querySelector('.link-saved'),
             },
             pages: {
                 elPageGallery: document.querySelector('.main-gallery-container'),
@@ -32,13 +36,11 @@ function onInit() {
 
     flashMsg('Generate\n New Meme!')
     flashMsg('Welcome!')
-    console.log('gMeme:', gMeme.domEl)
+    console.log('gMeme:', gMeme.domEls)
     // If Not Move Paged In Timeout FlashMsg
     setTimeout(() => {
-        const { elLinkGallery } = gMeme.domEl.links
-        if (elLinkGallery.classList.contains('active')) {
-            flashMsg('Select Meme Background!')
-        }
+        const { elLinkGallery } = gMeme.domEls.links
+        if (elLinkGallery.classList.contains('active')) flashMsg('Choose Meme Background!')
     }, 5000)
 }
 function onClickKeyword(elKeyWord) {
@@ -50,68 +52,51 @@ function onClickKeyword(elKeyWord) {
 
 
 function onNav(navToStr) {
+    if (gMeme.isMenuOpen) onToggleMenu()
+
     if (!navToStr) navToStr = 'Gallery'
     const _capitalize = (str) => {
         return str[0].toUpperCase() + str.substring(1)
     }
 
+    // Remove First(and only) .active class and remove it
     document.querySelector('.active').classList.remove('active')
 
-    const { links } = gMeme.domEl
+    // add .active to curPage
+    const { links } = gMeme.domEls
     const elActiveLink = links[`elLink${_capitalize(navToStr)}`]
     elActiveLink.classList.add('active')
 
-    //  
+    //  Hide all pages and 
     const elPages = document.querySelectorAll('.page')
     elPages.forEach(elPage => elPage.hidden = true)
-
-    const { pages } = gMeme.domEl
+    // reveal curPage 
+    const { pages } = gMeme.domEls
     const elActivePage = pages[`elPage${_capitalize(navToStr)}`]
     elActivePage.hidden = false
 }
 
-
-
-
-//                          🐱‍👤👀🐱‍👤
 function onAddImg(ev) {
     galleryController.loadImg(ev);
 }
 
-
-function onToggleMenu(elMenuBar) {
-    const elMainNav = document.querySelector('.main-nav')
-    // Add Event Listener
-    elMainNav.setAttribute('onclick', 'closeNav()')
-    //?
+//                          🐱‍👤 👀 🐱‍👤
+function onToggleMenu() {
+    const { elMainNav, elBtnToggleNav } = gMeme.domEls
+    // notify elScreen 
     document.body.classList.toggle('menu-opened')
     // dropDown animation
     elMainNav.classList.toggle('menu-opened')
     // menuBar animation
-    elMenuBar.classList.toggle('nav-open')
-}
-
-function closeNav() {
-    const elOpenNavBtn = document.querySelector('.open-nav-btn')
-    console.log("🚀 ~ file: main.controller.js:31 ~ closeNav ~ elOpenNavBtn", elOpenNavBtn)
-    const elMainNav = document.querySelector('.main-nav')
-    // Remove Event Listener
-    elMainNav.removeAttribute('onclick')
-    //?
-    document.body.classList.remove('menu-opened')
-    // dropDown animation
-    elMainNav.classList.remove('menu-opened')
-    // menuBar animation
-    elOpenNavBtn.classList.remove('nav-open')
+    elBtnToggleNav.classList.toggle('nav-open')
+    gMeme.isMenuOpen = !gMeme.isMenuOpen
 }
 
 function flashMsg(str) {
-    const elUserMsg = document.querySelector('.user-msg')
+    const { elUserMsg } = gMeme.domEls
     elUserMsg.innerText = str
     elUserMsg.classList.add('user-msg-open')
-    setTimeout(() => {
-        elUserMsg.classList.remove('user-msg-open')
-    }, 3000)
+    setTimeout(() => elUserMsg.classList.remove('user-msg-open'), 3000)
 }
 
 function addListeners() {

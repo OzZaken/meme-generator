@@ -17,17 +17,17 @@
         <nav class="flex main-nav">
             <ul class="main-nav-list">
                 <li>
-                    <a href="#" onclick="onNav('')" class="active gallery">gallery</a>
+                    <a href="#" onclick="onNav('')" class="active link-gallery">gallery</a>
                 </li>
                 <li>
-                    <a href="#" onclick="onNav('meme')" class="meme">meme</a>
+                    <a href="#" onclick="onNav('edit')" class="link-edit">editor</a>
                 </li>
                 <li>
-                    <a href="#" onclick="onNav('about')" class="about">about</a>
+                    <a href="#" onclick="onNav('about')" class="link-about">about</a>
                 </li>
                 <li hidden>
                     <!-- query Serach Params? -->
-                    <a href="gallery/q?=saved/" onclick="onNav('saved')" class="saved">Saved</a>
+                    <a href="gallery/q?=saved/" onclick="onNav('saved')" class="link-saved">Saved</a>
                 </li>
             </ul>
         </nav>
@@ -41,7 +41,7 @@
         </label>
 
         <!-- ☰ Mobile Menu Btn-->
-        <div role="button" class="btn-toggle-menu" hidden onclick="onToggleMenu(this)">
+        <div hidden role="button" class="btn-toggle-menu" onclick="onToggleMenu()">
             <svg width="40" height="40" viewBox="0 0 40 40">
                 <g id="btn-toggle-menu">
                     <rect class="line1" y="8" width="65" height="4" />
@@ -66,7 +66,7 @@
         </section>
 
         <!--* Editor -->
-        <section class="page main-editor-container">
+        <section hidden class="page main-editor-container">
             <div class="canvas-container">
                 <canvas class="meme-canvas" id="meme-canvas" height="350" width="350" onmouseout="onMouseOutCanvas()">
                 </canvas>
@@ -133,7 +133,7 @@
         </section>
 
         <!--* About -->
-        <section class="page main-about-container">
+        <section hidden class="page main-about-container">
             <h2>about</h2>
         </section>
     </main>
