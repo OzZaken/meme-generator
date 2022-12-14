@@ -12,26 +12,26 @@
 
 <body onload="onInit()">
     <header class="flex-row header">
-        <a class="logo" href="#" onclick="onNavHome()"></a>
+        <a class="logo" href="#" onclick="onNav('')"></a>
 
         <nav class="flex main-nav">
-            <ul class="flex clean-list main-nav-list">
+            <ul class="main-nav-list">
                 <li>
-                    <a href="#" onclick="onNavHome()" class="flex-center">gallery</a>
+                    <a href="#" onclick="onNav('')" class="active gallery">gallery</a>
                 </li>
                 <li>
-                    <a href="#" onclick="onNavMeme()" class="flex-center">meme</a>
+                    <a href="#" onclick="onNav('meme')" class="meme">meme</a>
                 </li>
                 <li>
-                    <a href="#" onclick="onNavAbout()" class="flex-center">about</a>
+                    <a href="#" onclick="onNav('about')" class="about">about</a>
                 </li>
                 <li hidden>
                     <!-- query Serach Params? -->
-                    <a href="#/gallery/q?=saved/" class="flex-center">Saved</a>
+                    <a href="gallery/q?=saved/" onclick="onNav('saved')" class="saved">Saved</a>
                 </li>
             </ul>
         </nav>
-
+        
         <!-- i18 -->
         <label for="select languge">
             <select class="lang" onchange="onSetLang(this.value)">
@@ -41,7 +41,7 @@
         </label>
 
         <!-- ☰ Mobile Menu Btn-->
-        <div role="button" class="btn-toggle-menu" hidden onclick="toggleMenu(this)">
+        <div role="button" class="btn-toggle-menu" hidden onclick="onToggleMenu(this)">
             <svg width="40" height="40" viewBox="0 0 40 40">
                 <g id="btn-toggle-menu">
                     <rect class="line1" y="8" width="65" height="4" />
@@ -53,104 +53,104 @@
     </header>
 
     <main class="main-layout">
+        <!--* Gallery -->
+        <section class="page main-gallery-container">
+            <label for="keywords"></label>
+            <datalist id="keywords"></datalist>
+            <input list="keywords" name="keyword" onchange="onSetFilter(this.innerText)" type="search"
+                placeholder="Search Background">
 
-        <section class="main-gallery">
-                <label for="keywords"></label>
-                <datalist id="keywords"></datalist>
-
-                <input list="keywords" name="keyword" onchange="onSetFilter(this.innerText)" type="search"
-                placeholder="Search Meme Background">
-
-                <button class="btn btn-flexable" onclick="onFlex()">Iam Flexable</button>              
-                
-                <ul class="clean-list keyword-container"></ul>  
+            <button class="btn btn-flexable" onclick="onFlex()">Be Flexable</button>
+            <ul class="clean-list keyword-container"></ul>
             <div class="grid gallery-container"> </div>
         </section>
 
-        <!--* Meme Editor -->
-        <!-- <section class="flex main-meme-container"> -->
-        <!-- <div class="flex space-between meme-container"> -->
-        <!-- <div class="canvas-container"> -->
-        <!-- <canvas onmouseout="onMouseOutCanvas()" class="meme-canvas" id="meme-canvas" height="500" -->
-        <!-- width="500"></canvas> -->
-        <!-- </div> -->
+        <!--* Editor -->
+        <section class="page main-editor-container">
+            <div class="canvas-container">
+                <canvas class="meme-canvas" id="meme-canvas" height="350" width="350" onmouseout="onMouseOutCanvas()">
+                </canvas>
+            </div>
 
-        <!-- <!~~* Meme Btns ~~> -->
-        <!-- <div class="glass-container editor-container"> -->
-        <!-- <label for="Search keyword"> -->
-        <!-- <input class="line-txt  fa flex" oninput="onSetLineText(this.value)" onsubmit="onAddTxtLine()" -->
-        <!-- type="text" placeholder="Put Text line Here" title="Put Text line Here"> -->
-        <!-- </label> -->
+            <!--* Meme Btns -->
+            <div class="btns-editor-container">
+                <label for="Add New Text line"></label>
+                <input class="line-txt  fa flex" oninput="onSetLineText(this.value)" onsubmit="onAddTxtLine()"
+                    type="text" placeholder="Add new text line" title="Add New Text line">
 
-        <!-- <div class="grid editor-container "> -->
-        <!-- <i onclick="onChangeLinePos(0,-20)" title="Move text up" -->
-        <!-- class="move-txt-up-btn  setting-btn flex-center fa-solid fa-arrow-up"></i> -->
-        <!-- <i onclick="onChangeLinePos(0,20)" title="Move text Down" -->
-        <!-- class="move-txt-down-btn  setting-btn flex-center fa-solid fa-arrow-down"></i> -->
-        <!-- <i onclick="onSwitchLines()" title="Switch between lines" -->
-        <!-- class="switch-lines-btn  setting-btn flex-center fa-solid fa-arrow-up-arrow-down">↑↓</i> -->
-        <!-- <i onclick="onAddTxtLine()" title="Add txt line" -->
-        <!-- class="add-text-line-btn  setting-btn flex-center fa-solid fa-plus"></i> -->
-        <!-- <i onclick="onDeleteTxtLine()" title="Delete last line" -->
-        <!-- class="delete-text-line-btn  setting-btn flex-center fa-solid fa-trash"></i> -->
-        <!-- <i onclick="onChangeElSize(5)" title="Size Up" -->
-        <!-- class="size-up-btn  fa-solid 1fa-text-size setting-btn flex-center">A+</i> -->
-        <!-- <i onclick="onChangeElSize(-5)" title="Size Down" -->
-        <!-- class="size-down-btn  fa-solid 1fa-text-size setting-btn flex-center">A-</i> -->
-        <!-- <i onclick="onChangeAlign('left')" title="align left" -->
-        <!-- class="align-left-btn  setting-btn flex-center fa-solid fa-align-left"></i> -->
-        <!-- <i onclick="onChangeAlign('center')" title="align center" -->
-        <!-- class="align-center-btn  setting-btn flex-center fa-solid fa-align-center"></i> -->
-        <!-- <i onclick="onChangeAlign('right')" title="align left" -->
-        <!-- class="align-right-btn  setting-btn flex-center fa-solid fa-align-right"></i> -->
-        <!-- <select title="Select fonts" onchange="onChangeFont(this.value)" class="font-select fa-solid" -->
-        <!-- name="change-fonts"> -->
-        <!-- <option value="impact">impact</option> -->
-        <!-- <option value="italic">italic</option> -->
-        <!-- <option value="fa">fa</option> -->
-        <!-- <option value="fa-solid">fa-solid</option> -->
-        <!-- <option value="bold">bold</option> -->
-        <!-- </select> -->
-        <!-- <i class="stroke-color  fa-s s-btn fa-solid setting-btn flex-center "> -->
-        <!-- <input class="color-input flex-center" oninput="onSetColor(this.value,'stroke-color')" -->
-        <!-- type="color" name="stroke-color" title="Change stroke color"> -->
-        <!-- </i> -->
-        <!-- <i class="fill-color  fa-palette fa-solid  setting-btn flex-center"> -->
-        <!-- <input class="color-input" oninput="onSetColor(this.value,'fill-color')" type="color" -->
-        <!-- name="fill-color" title="Change fill color"> -->
-        <!-- </i> -->
+                <div class="grid editor-container">
+                    <i onclick="onChangeLinePos(0,-20)" title="Move text up" class="setting-btn fa-arrow-up"></i>
+                    <i onclick="onChangeLinePos(0,20)" title="Move text Down" class="setting-btn  fa-arrow-down">
+                    </i>
+                    <i onclick="onSwitchLines()" title="Switch between lines"
+                        class="setting-btn  fa-arrow-up-arrow-down">↑↓
+                    </i>
+                    <i onclick="onAddTxtLine()" title="Add txt line" class="add-text-line-btn  setting-btn  fa-plus">
+                    </i>
+                    <i onclick="onDeleteTxtLine()" title="Delete last line" class="setting-btn  fa-trash">
+                    </i>
+                    <i onclick="onChangeElSize(5)" title="Size Up" class="setting-btn">A+
+                    </i>
+                    <i onclick="onChangeElSize(-5)" title="Size Down" class="1fa-text-size setting-btn">A-</i>
+                    <i onclick=" onChangeAlign('left')" title="align left" class="setting-btn  fa-align-left">
+                    </i>
+                    <i onclick="onChangeAlign('center')" title="align center" class="setting-btn  fa-align-center">
+                    </i>
+                    <i onclick="onChangeAlign('right')" title="align left" class="setting-btn  fa-align-right">
+                    </i>
 
-        <!-- </div> -->
-        <!-- </div> -->
-        <!-- </div> -->
+                    <select title="Select fonts" onchange="onChangeFont(this.value)" class="font-select fa-solid"
+                        name="change-fonts">
+                        <option value="impact">impact</option>
+                        <option value="italic">italic</option>
+                        <option value="fa">fa</option>
+                        <option value="fa-solid">fa-solid</option>
+                        <option value="bold">bold</option>
+                    </select>
 
-        <!-- <!~~* Export ~~> -->
-        <!-- <div class="export  flex justify-center align-center"> -->
-        <!-- <button class="save-meme  btn btn-glass" onclick="onSaveMeme()">save</button> -->
-        <!-- <a class="config download-btn  btn btn-glass" href="#" onclick="onDownloadMeme(this)" -->
-        <!-- download="My-Meme">Download</a> -->
-        <!-- <button class="config share-btn  btn btn-glass" onclick="onShareMeme(this)">Share Meme</button> -->
-        <!-- <input class="file-input  btn" type="file" class="" name="image" onchange="onImgInput(event)" /> -->
-        <!-- <p class="url-msg"> -->
-        <!-- <button hidden class=""></button> -->
-        <!-- </p> -->
-        <!-- </div> -->
-        <!-- </section> -->
+                    <i class="stroke-color  fa-s s-btn fa-solid setting-btn flex-center">
+                        <input class="color-input flex-center" oninput="onSetColor(this.value,'stroke-color')"
+                            type="color" name="stroke-color" title="Change stroke color">
+                    </i>
+
+                    <i class="fill-color  fa-palette fa-solid  setting-btn flex-center">
+                        <input class="color-input" oninput="onSetColor(this.value,'fill-color')" type="color"
+                            name="fill-color" title="Change fill color">
+                    </i>
+                </div>
+
+                <!--* Export -->
+                <div class="export  flex justify-center align-center">
+                    <button class="save-meme  btn btn-glass" onclick="onSaveMeme()">save</button>
+                    <a class="config download-btn  btn btn-glass" href="#" onclick="onDownloadMeme(this)"
+                        download="My-Meme">Download</a>
+                    <button class="config share-btn  btn btn-glass" onclick="onShareMeme(this)">Share Meme</button>
+                    <input class="file-input  btn" type="file" class="" name="image" onchange="onImgInput(event)" />
+                    <p class="url-msg">
+                        <button hidden class=""></button>
+                    </p>
+                </div>
+        </section>
 
         <!--* About -->
-        <!-- <section class="about-section"> -->
-        <!-- <h2>about</h2> -->
-        <!-- </section> -->
+        <section class="page main-about-container">
+            <h2>about</h2>
+        </section>
     </main>
 
-    <footer class="footer full main-layout">
+    <footer class="footer main-layout full">
         <div class="footer-container">
             <div class="logo"></div>
 
             <ul class="footer-text flex justify-center clean-list">
-                <li class="flex flex-center">&copy; 2022 logo.com&nbsp;&nbsp;-&nbsp;&nbsp;</li>
-                <li class="flex flex-center"> All Rights Reserved&nbsp;&nbsp;-&nbsp;&nbsp;</li>
-                <li class="flex flex-center">Coding Academy<span>&nbsp;OzZaken</span>
+                &#45;&emsp;
+                <li class="flex flex-center ">
+                    &copy;Oz&nbsp;Zaken&emsp;Coding&nbsp;Academy
+                </li>
+                &emsp;&#45;&emsp;
+                <li class="flex flex-center link-github">
+                    <a href="https://github.com/OzZaken?tab=repositories" target="_blank"></a>
+                    &emsp;&#45;&nbsp;
                 </li>
             </ul>
 
@@ -168,6 +168,7 @@
                     <a class="flex-center fa dribbble" href=""></a>
                 </li>
             </ul>
+
         </div>
     </footer>
 
@@ -180,7 +181,6 @@
 
     <script src="js/service/meme.service.js"></script>
     <script src="js/service/gallery.service.js"></script>
-
     <script src="js/service/upload.service.js"></script>
     <script src="js/service/i18.service.js"></script>
 
@@ -189,5 +189,4 @@
     <script src="js/controller/gallery.controller.js"></script>
     <script src="js/controller/main.controller.js"></script>
 </body>
-
 </html>

@@ -1,5 +1,8 @@
 'use strict'
 
+// The Action Of the Model Append in The Front Service 
+// Later Send the Action || the new State to Remote Server
+
 const galleryService = {
     getImgsForDisplay,
     getKeyWordsCountMap,

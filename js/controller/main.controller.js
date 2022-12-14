@@ -1,20 +1,46 @@
 'use strict'
 
+// All Action From Dom Start and End From Here!
 function onInit() {
-    window.meme = {
-
-    }
     galleryController.renderGallery()
     galleryController.renderKeywordsOptions()
     galleryController.renderKeywordsBtns()
 
+    window.gMeme = {
+        filter: '',
+        activePageStr: 'gallery',
+        domEl: {
+            links: {
+                elLinkGallery: document.querySelector('.gallery'),
+                elLinkMeme: document.querySelector('.meme'),
+                elLinkAbout: document.querySelector('.about'),
+                elLinkSaved: document.querySelector('.saved'),
+            },
+            pages: {
+                elPageGallery: document.querySelector('.main-gallery-container'),
+                elPageEdit: document.querySelector('.main-editor-container'),
+                elPageAbout: document.querySelector('.main-about-container')
+            },
+            inputs: {
+                elImgInput: document.querySelector('[name="img"]'),
+            },
+        },
+    }
+
+    // Get Default Language from User Browser, if (i18 contain Default) Set Language 
     // setUserDefaultLang()
-    // initCanvas()
 
     flashMsg('Generate\n New Meme!')
-    flashMsg('Select Meme Background!')
+    flashMsg('Welcome!')
+    console.log('gMeme:', gMeme.domEl)
+    // If Not Move Paged In Timeout FlashMsg
+    setTimeout(() => {
+        const { elLinkGallery } = gMeme.domEl.links
+        if (elLinkGallery.classList.contains('active')) {
+            flashMsg('Select Meme Background!')
+        }
+    }, 5000)
 }
-
 function onClickKeyword(elKeyWord) {
     const { dataset } = elKeyWord
     const maxFontSize = 12
@@ -22,7 +48,38 @@ function onClickKeyword(elKeyWord) {
     dataset.fs++
 }
 
-function toggleMenu(elMenuBar) {
+
+function onNav(navToStr) {
+    if (!navToStr) navToStr = 'Gallery'
+    const _capitalize = (str) => {
+        return str[0].toUpperCase() + str.substring(1)
+    }
+
+    document.querySelector('.active').classList.remove('active')
+
+    const { links } = gMeme.domEl
+    const elActiveLink = links[`elLink${_capitalize(navToStr)}`]
+    elActiveLink.classList.add('active')
+
+    //  
+    const elPages = document.querySelectorAll('.page')
+    elPages.forEach(elPage => elPage.hidden = true)
+
+    const { pages } = gMeme.domEl
+    const elActivePage = pages[`elPage${_capitalize(navToStr)}`]
+    elActivePage.hidden = false
+}
+
+
+
+
+//                          🐱‍👤👀🐱‍👤
+function onAddImg(ev) {
+    galleryController.loadImg(ev);
+}
+
+
+function onToggleMenu(elMenuBar) {
     const elMainNav = document.querySelector('.main-nav')
     // Add Event Listener
     elMainNav.setAttribute('onclick', 'closeNav()')
@@ -93,6 +150,6 @@ function onDownloadMeme(elLink) {
 }
 
 function onSaveMeme() {
-    const { meme } = window
-    saveMeme(meme)
+    const { newMeme } = gMeme
+    saveMeme(newMeme)
 }

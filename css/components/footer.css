@@ -55,3 +55,18 @@
     text-decoration: none;
     font-size: 1rem;
 }
+
+.link-github a::before {
+    color: var(--clr-hoover);
+    content: "Click Here to see more projects";
+}
+
+.link-github a:hover {
+    background-color: unset;
+    color: var(--clr-hoover);
+    scale: 1.01;
+}
+
+.link-github a {
+    color: var(--clr-hoover);
+}

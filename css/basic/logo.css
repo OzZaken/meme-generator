@@ -1,8 +1,11 @@
 .logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: var(--clr-main);
     font-family: -apple-system, eurofurence, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-size: 2.5em;
-    font-weight: 400;
+    font-size: 1.5em;
+    font-weight: bolder;
 }
 
 .logo::first-letter {

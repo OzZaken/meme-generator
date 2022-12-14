@@ -15,6 +15,8 @@ header.header {
 }
 
 ul.main-nav-list {
+    display: flex;
+    list-style-type: none;
     width: 100%;
 }
 
@@ -23,6 +25,10 @@ ul.main-nav-list {
 }
 
 .main-nav-list>li>a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     height: 80px;
     width: 100%;
     border: none;
@@ -37,6 +43,10 @@ ul.main-nav-list {
 
 .main-nav-list li a:hover {
     color: var(--clr-main);
+    box-shadow: inset -1px 0 0 var(--clr-darkest), inset 0 -6px 0 var(--clr-main);
+}
+
+.main-nav-list li a.active {
     box-shadow: inset -1px 0 0 var(--clr-darkest), inset 0 -6px 0 var(--clr-main);
 }
 
