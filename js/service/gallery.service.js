@@ -3,7 +3,7 @@
 let gFilterBy
 
 const galleryService = {
-    getImgsForDisplay,
+    getMemesForDisplay,
     getKeyWordsCountMap,
     setFilter,
     getTotalCount,
@@ -11,6 +11,8 @@ const galleryService = {
 
 // Filter Memes
 function getMemesForDisplay() {
+    console.log("🚀 ~ getMemesForDisplay")
+    
     if (!gFilterBy) return gMemes
     return gMemes.filter(meme => {
         const regex = new RegExp(gFilterBy)

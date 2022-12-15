@@ -1,33 +1,41 @@
 'use strict'
 
-const STORAGE_KEY = 'memeDB'
-let gMemes // Saved to Store
-
 const memeService = {
     getMeme,
 }
 
+const STORAGE_KEY = 'memeDB'
+let gMemes // Saved to Store
+
 // initial Data
 const gImgs = [
-    { url: 'img/1.jpg', keywords: ['funny', 'celeb'] },
-    { url: 'img/2.jpg', keywords: ['dog', 'cute'] },
-    { url: 'img/3.jpg', keywords: ['dog', 'cute', 'baby'] },
-    { url: 'img/4.jpg', keywords: ['dog', 'cute'] },
-    { url: 'img/5.jpg', keywords: ['funny', 'baby'] },
-    { url: 'img/6.jpg', keywords: ['funny'] },
-    { url: 'img/7.jpg', keywords: ['funny', 'baby'] },
-    { url: 'img/8.jpg', keywords: ['funny'] },
-    { url: 'img/9.jpg', keywords: ['funny', 'baby'] },
-    { url: 'img/10.jpg', keywords: ['funny', 'celeb'] },
-    { url: 'img/11.jpg', keywords: ['funny'] },
-    { url: 'img/12.jpg', keywords: ['funny', 'celeb'] },
-    { url: 'img/13.jpg', keywords: ['celeb'] },
-    { url: 'img/14.jpg', keywords: ['celeb'] },
-    { url: 'img/15.jpg', keywords: ['celeb'] },
-    { url: 'img/16.jpg', keywords: ['funny'] },
-    { url: 'img/17.jpg', keywords: ['funny', 'celeb'] },
-    { url: 'img/18.jpg', keywords: ['funny', 'celeb'] }
+    { url: 'assets/img/gallery/1.jpg', keywords: ['view','dance'] },
+    { url: 'assets/img/gallery/2.jpg', keywords: ['funny', 'celeb']},
+    { url: 'assets/img/gallery/3.jpg', keywords: ['dog', 'cute',] },
+    { url: 'assets/img/gallery/4.jpg', keywords: ['baby', 'angry'] },
+    { url: 'assets/img/gallery/5.jpg', keywords: ['dog', 'baby','cute'] },
+    { url: 'assets/img/gallery/6.jpg', keywords: ['cute','cat'] },
+    { url: 'assets/img/gallery/7.jpg', keywords: ['celeb'] },
+    { url: 'assets/img/gallery/8.jpg', keywords: ['funny','baby'] },
+    { url: 'assets/img/gallery/9.jpg', keywords: ['celeb'] },
+    { url: 'assets/img/gallery/10.jpg', keywords: ['angry', 'celeb'] },
+    { url: 'assets/img/gallery/11.jpg', keywords: [ 'celeb'] },
+    { url: 'assets/img/gallery/12.jpg', keywords: ['funny', 'celeb'] },
+    { url: 'assets/img/gallery/13.jpg', keywords: ['funny','dance'] },
+    { url: 'assets/img/gallery/14.jpg', keywords: ['funny', 'celeb'] },
+    { url: 'assets/img/gallery/15.jpg', keywords: ['baby','surprised'] },
+    { url: 'assets/img/gallery/16.jpg', keywords: ['funny','dog'] },
+    { url: 'assets/img/gallery/17.jpg', keywords: ['funny', 'celeb'] },
+    { url: 'assets/img/gallery/18.jpg', keywords: ['funny', 'celeb'] },
+    { url: 'assets/img/gallery/19.jpg', keywords: ['celeb'] },
+    { url: 'assets/img/gallery/20.jpg', keywords: ['celeb', 'angry'] },
+    { url: 'assets/img/gallery/21.jpg', keywords: ['funny', 'celeb'] },
+    { url: 'assets/img/gallery/22.jpg', keywords: ['funny', 'celeb'] },
+    { url: 'assets/img/gallery/23.jpg', keywords: ['celeb'] },
+    { url: 'assets/img/gallery/24.jpg', keywords: [ 'celeb', 'angry'] },
+    { url: 'assets/img/gallery/25.jpg', keywords: ['funny', 'celeb'] },
 ]
+
 const gMeme = {
     selectedImgId: null,
     selectedLineIdx: null,
@@ -62,14 +70,14 @@ function _createMemes() {
         }
     }
     gMemes = memes
-    console.log("🚀 ~memes", memes)
     _saveToStorage()
 }
 
 function _createMeme(imgIdx) {
+    const { keywords, url } = gImgs[imgIdx]
     return {
-        keywords: gImgs[imgIdx],
-        bgc: gImgs[imgIdx].url,
+        keywords,
+        url,
         selectedImgId: null,
         selectedLineIdx: null,
         lines: [],
@@ -85,7 +93,6 @@ function _loadFromStorage() {
 }
 
 //* //  ///   /////      🐱‍👤👀🐱‍👤     \\\\\    \\\  *\\
-// need url
 function setImg(imgId) {
     gMeme.selectedImgId = imgId
 }

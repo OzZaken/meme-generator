@@ -1,15 +1,12 @@
 'use strict'
-
-
-var gCtx
 var gIsDraw
+var gCtx
 var gStroke = {
     currShape: 'circle',
     fillStyle: 'black',
     strokeStyle: 'white',
     size: 20,
 }
-
 function renderMeme() {
     const img = new Image()
     img.src = `img/${gMeme.selectedImgId}.jpg`

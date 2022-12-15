@@ -1,5 +1,12 @@
 'use strict'
-
+var gIsDraw
+var gCtx
+var gStroke = {
+    currShape: 'circle',
+    fillStyle: 'black',
+    strokeStyle: 'white',
+    size: 20,
+}
 // All Action From Dom Start From Here!
 //                          🐱‍👤 👀 🐱‍👤
 function onInit() {

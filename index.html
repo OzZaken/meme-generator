@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>MemeGen</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
     <link rel="stylesheet" type="text/css" media="screen" href="css/main.css">
 </head>
 
@@ -29,7 +29,7 @@
                     <a href="#" onclick="onNav('about')" class="link-about">about</a>
                 </li>
                 <li hidden>
-                    <!-- query Serach Params? -->
+                    <!-- query Search Params-->
                     <a href="gallery/q?=saved/" onclick="onNav('saved');playAudio('click')" class="link-saved">Saved</a>
                 </li>
             </ul>
@@ -56,12 +56,17 @@
     </header>
 
     <main class="main-layout">
+        
         <!-- Gallery -->
         <section class="page main-gallery-container">
             <label for="keywords"></label>
             <datalist id="keywords"></datalist>
-            <input oninput="onSetFilter(this.value)" list="keywords" name="filter" type="search"
+            <form onsubmit="event.preventDefault;onSetFilter()" action="">
+                <input oninput="onSetFilter(this.value)" list="keywords" name="filter" type="search"
                 placeholder="Search Background">
+
+            </form>
+
 
             <button class="btn btn-flexable" onclick="onFlex()">Be Flexable</button>
             <ul class="clean-list keyword-container"></ul>
@@ -69,8 +74,8 @@
         </section>
 
         <!-- Editor -->
-        <section  class="page main-editor-container">
-            
+        <section class="page main-editor-container">
+
             <!-- Canvas -->
             <div class="meme-container">
                 <canvas class="meme-canvas" id="elMeme" height="350" width="350"></canvas>
@@ -78,7 +83,7 @@
 
             <!--  Btns -->
             <div class="btns-editor-container">
-                
+
                 <label for="Add New Text line"></label>
                 <input class="line-txt  fa flex" oninput="onSetLineText(this.value)" onsubmit="onAddTxtLine()"
                     type="text" placeholder="Add new text line" title="Add New Text line">
@@ -142,7 +147,8 @@
             <h2>about</h2>
         </section>
     </main>
-
+    
+    <!-- Footer -->
     <footer class="footer main-layout full">
         <div class="footer-container">
             <div class="logo"></div>
@@ -182,19 +188,22 @@
     <!-- Screen -->
     <div class="screen" onclick="toggleMenu()"></div>
 
+                  <!--* JS -->
     <!-- Service -->
     <script src="js/service/util.service.js"></script>
     <script src="js/service/storage.service.js"></script>
-
     <script src="js/service/upload.service.js"></script>
+    
+    <!-- i18 -->
     <script src="js/service/i18.service.js"></script>
 
-    <script src="js/service/meme.service.js"></script>
+    <!-- Gallery -->
     <script src="js/service/gallery.service.js"></script>
-
-    <!-- Controller -->
-    <script src="js/controller/meme.controller.js"></script>
     <script src="js/controller/gallery.controller.js"></script>
+
+    <!-- Editor -->
+    <script src="js/service/meme.service.js"></script>
+    <script src="js/controller/edit.controller.js"></script>
 
     <!-- Main Controller -->
     <script src="js/controller/main.controller.js"></script>

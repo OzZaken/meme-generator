@@ -11,29 +11,28 @@ const galleryController = {
 
 // render Filtered  
 function renderGallery() {
-    const saveMemes = storageService.loadFromStorage('memeDB') || []
-    const imgs = saveMemes.length ? saveMemes.concat(galleryService.getImgsForDisplay()) : galleryService.getImgsForDisplay()
-    const strHTMLs = imgs.map((img, idx) =>
+    const memes = galleryService.getMemesForDisplay()
+    const strHTMLs = memes.map((meme, idx) =>
         `
-        <img onclick="onImgSelect(${img.id})" 
-        class="gallery-img-container"
-        src=${img.url}
-        alt="Meme Background ${idx}"       
-        title="Meme Background ${idx}">
+        <img onclick="onImgSelect(${meme.url})" 
+        class="gallery-meme-container"
+        src=${meme.url}
+        alt="Meme ${idx + 1} ${meme.keywords.join(', ')}"       
+        title="Meme${idx + 1}\n${meme.keywords.join(', ')}">
         `
     )
-    // stat and upload image
-    const foundCount = imgs.length - 1 >= 0 ? imgs.length - 1 : '0'
+    // Stat and upload image
+    const foundCount = memes.length - 1 >= 0 ? memes.length - 1 : '0'
     strHTMLs.unshift(
         `
-        <div class="gallery-img-container gallery-stat">
-        <span title="filtered Meme count">${foundCount}</span>
-        &#47;
-        <span title="Total Memes Founds">${galleryService.getTotalCount()}</span>
-        <p>You can upload your own image!</p>
-        <input type="file" name="img" onchange="onUploadImg(event)"/>
-        </div>
-        `
+    <div class="gallery-meme-container gallery-stat">
+    <span title="filtered Meme count">${foundCount}</span>
+    &#47;
+    <span title="Total Memes Founds">${galleryService.getTotalCount()}</span>
+    <p>Upload your own image!</p>
+    <input type="file" name="img" onchange="onUploadImg(event)"/>
+    </div>
+    `
     )
     document.querySelector('.gallery-container').innerHTML = strHTMLs.join('')
 }
@@ -49,7 +48,18 @@ function renderKeywordsOptions() {
 
 // font Size Based CountMap
 function renderKeywordsBtns() {
-    const strHTMLs = Object.entries(galleryService.getKeyWordsCountMap()).map(keyword =>
+    const keyWordCountMap = galleryService.getKeyWordsCountMap()
+    const _getTopFive = (keyWordCountMap) => {
+        let topFive = Object.entries(keyWordCountMap)
+        topFive = topFive.sort((a, b) => {
+            return a[1] + b[1]
+        })
+        console.log(`🚀 ~ topFive`, topFive)
+        
+    }
+    _getTopFive(keyWordCountMap)
+
+    const strHTMLs = Object.entries(keyWordCountMap).map(keyword =>
         `
         <li>
         <button class="btn btn-keyword" onclick="onClickFilterKeyword(this)" 
