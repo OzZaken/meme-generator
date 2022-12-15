@@ -1,4 +1,5 @@
 'use strict'
+
 var gIsDraw
 var gCtx
 var gStroke = {
@@ -8,8 +9,8 @@ var gStroke = {
     size: 20,
 }
 
-
 function renderMeme() {
+    console.log('gMeme.selectedImgIdx:', gMeme.selectedImgIdx)
     const path = 'assets/img/gallery/'
     const img = new Image()
     img.src = `${path}${gMeme.selectedImgIdx}.jpg`
@@ -17,7 +18,7 @@ function renderMeme() {
     img.onload = () => {
         // 
         const { lines } = getMeme()
-        const { elMeme } = gSate.domEl
+        const elMeme = document.querySelector('#canvas')
         gCtx.drawImage(img, 0, 0, elMeme.width, elMeme.height)
         
         // Draw Lines
@@ -37,8 +38,17 @@ function renderMeme() {
 }
 
 
+function onDownloadMeme(elLink) {
+    const data = gElCanvas.toDataURL()
+    console.log('data:', data)
+    elLink.href = data
+    elLink.download = 'my-meme'
+}
 
-
+function onSaveMeme() {
+    const { newMeme } = gState
+    saveMeme(newMeme)
+}
 
 
 

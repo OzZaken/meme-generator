@@ -1,13 +1,14 @@
 'use strict'
+
 // import galleryService from '../service/gallery.service'
 
-const galleryController = {
-    renderGallery,
-    renderKeywordsOptions,
-    renderKeywordsBtns,
-    onUploadImg,
-    onSetFilter,
-}
+// const galleryController = {
+//     renderGallery,
+//     renderKeywordsOptions,
+//     renderKeywordsBtns,
+//     onUploadImg,
+//     onSetFilter,
+// }
 
 // render Filtered  
 function renderGallery() {
@@ -43,12 +44,12 @@ function renderGallery() {
 //  3:2 aspect-ratio: 2 ÷ 3 = .667, so you'd type in 66.7 next to the slider.
 //  4:3
 //  16:9
-function onGetCanvasWidth(elMeme,memeId) {
+function onGetCanvasWidth(elMeme, memeId) {
     //  NOTE: formula
     //      CH / CW = IH / IW
     //      CW = IH * CH / IW
     //      CH = IH * CW / IW
-    const canvasHight  = elMeme.naturalHeight * elMeme.offsetWidth / elMeme.naturalWidth
+    const canvasHight = elMeme.naturalHeight * elMeme.offsetWidth / elMeme.naturalWidth
     // elMeme.style.naturalHeight = Math.ceil(canvasHight)
 
 }
@@ -110,11 +111,10 @@ function onClickFilterKeyword(elKeyWord) {
 }
 
 // Last Function on Gallery Controller
-function onImgSelect(idx) {
-    console.log(`onImgSelect(${idx})`)
-    flashMsg(`Image ${idx}\n selected.`)
+function onImgSelect(imgIdx) {
+    console.log(`onImgSelect(${imgIdx})`)
+    flashMsg(`Image ${imgIdx}\n selected.`)
     onNav('edit')
-    setImg(idx)
-
+    setImg(imgIdx + 1)
     renderMeme()
 }

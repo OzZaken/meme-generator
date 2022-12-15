@@ -1,18 +1,9 @@
 'use strict'
-var gIsDraw
-var gCtx
-var gStroke = {
-    currShape: 'circle',
-    fillStyle: 'black',
-    strokeStyle: 'white',
-    size: 20,
-}
-// All Action From Dom Start From Here!
-//                          🐱‍👤 👀 🐱‍👤
+
 function onInit() {
-    galleryController.renderGallery()
-    galleryController.renderKeywordsOptions()
-    galleryController.renderKeywordsBtns()
+    renderGallery()
+    renderKeywordsOptions()
+    renderKeywordsBtns()
     
     // Set Global Controller State Variable
     window.gState = {
@@ -58,6 +49,7 @@ function onInit() {
     }, 5000)
 }
 
+// Navigation
 function onNav(navToStr) {
     if (gState.isMenuOpen) onToggleMenu()
     if (!navToStr) navToStr = 'Gallery'
@@ -84,15 +76,7 @@ function onNav(navToStr) {
     elActivePage.hidden = false
 }
 
-// User Msg 
-function flashMsg(str) {
-    const { elUserMsg } = gState.domEls
-    elUserMsg.innerText = str
-    elUserMsg.classList.add('user-msg-open')
-    setTimeout(() => elUserMsg.classList.remove('user-msg-open'), 3000)
-}
-
-// ☰ Mobile Menu
+// Mobile Menu ☰
 function onToggleMenu() {
     const { elMainNav, elBtnToggleNav } = gState.domEls
     // notify elScreen 
@@ -102,6 +86,14 @@ function onToggleMenu() {
     // menuBar animation
     elBtnToggleNav.classList.toggle('nav-open')
     gState.isMenuOpen = !gState.isMenuOpen
+}
+
+// User Msg 
+function flashMsg(str) {
+    const { elUserMsg } = gState.domEls
+    elUserMsg.innerText = str
+    elUserMsg.classList.add('user-msg-open')
+    setTimeout(() => elUserMsg.classList.remove('user-msg-open'), 3000)
 }
 
 // Audio
@@ -121,17 +113,4 @@ function playAudio(audioKey) {
         audio[audioKey].onended = resolve  // when done, resolve
     })
 
-}
-
-
-function onDownloadMeme(elLink) {
-    const data = gElCanvas.toDataURL()
-    console.log('data:', data)
-    elLink.href = data
-    elLink.download = 'my-meme'
-}
-
-function onSaveMeme() {
-    const { newMeme } = gState
-    saveMeme(newMeme)
 }

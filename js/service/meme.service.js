@@ -54,6 +54,7 @@ const gMeme = {
 }
 _createMemes()
 
+// gMeme
 function getMeme() {
     return gMeme
 }
@@ -91,43 +92,17 @@ function _loadFromStorage() {
     return storageService.loadFromStorage(STORAGE_KEY)
 }
 
-// return length
+// gMemes.length
 function getTotalCount() {
     return gMemes.length
 }
 
-//* //  ///   /////      🐱‍👤👀🐱‍👤     \\\\\    \\\  *\\
+// gMeme.selectedImgIdx
 function setImg(imgIdx) {
     gMeme.selectedImgIdx = imgIdx
 }
 
-function renderMeme() {
-    const path = 'assets/img/gallery/'
-    const img = new Image()
-    img.src = `${path}${gMeme.selectedImgIdx}.jpg`
-    
-    img.onload = () => {
-        // 
-        const { lines } = getMeme()
-        const { elMeme } = gSate.domEl
-        gCtx.drawImage(img, 0, 0, elMeme.width, elMeme.height)
-        
-        // Draw Lines
-        lines.forEach(line => {
-            const { x, y } = line.pos
-            gCtx.beginPath()
-            gCtx.lineWidth = line.lineWidth
-            gCtx.textAlign = line.align
-            gCtx.font = `${line.fontSize}px ${line.family}`
-            gCtx.fillStyle = line.color
-            gCtx.fillText(line.txt, x, y)
-            gCtx.strokeStyle = line.borderColor
-            gCtx.strokeText(line.txt, x, y)
-            gCtx.closePath()
-        })
-    }
-}
-
+//* //  ///   /////      🐱‍👤👀🐱‍👤     \\\\\    \\\  *\\
 
 function initCanvas() {
     gElCanvas = canvas
