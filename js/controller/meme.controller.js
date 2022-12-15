@@ -7,16 +7,22 @@ var gStroke = {
     strokeStyle: 'white',
     size: 20,
 }
+
+
 function renderMeme() {
+    const path = 'assets/img/gallery/'
     const img = new Image()
-    img.src = `img/${gMeme.selectedImgId}.jpg`
+    img.src = `${path}${gMeme.selectedImgIdx}.jpg`
+    
     img.onload = () => {
+        // 
         const { lines } = getMeme()
-        const {elMeme} = gSate.domEl
+        const { elMeme } = gSate.domEl
         gCtx.drawImage(img, 0, 0, elMeme.width, elMeme.height)
+        
+        // Draw Lines
         lines.forEach(line => {
             const { x, y } = line.pos
-            // Draw Line
             gCtx.beginPath()
             gCtx.lineWidth = line.lineWidth
             gCtx.textAlign = line.align
@@ -29,6 +35,13 @@ function renderMeme() {
         })
     }
 }
+
+
+
+
+
+
+
 
 function addListeners() {
     window.addEventListener('resize', () => {

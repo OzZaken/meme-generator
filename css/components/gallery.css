@@ -130,17 +130,19 @@ input[name="filter"] {
 /* Gallery */
 .gallery-container {
     gap: 8px;
-    width: 90vw;
+    width: 88vw;
     grid-auto-flow: row dense;
     /* auto-fill -> Not stretched the Imgs container */
     grid-template-columns: repeat(auto-fill, minmax(100px, 10fr));
-
-    align-content: center;
-    align-items: center;
+}
+.gallery-meme-container.gallery-stat {
+    align-self: stretch;
+    justify-self: stretch;
 }
 
+
 .gallery-meme-container {
-    /* aspect-ratio: auto; */
+    aspect-ratio: auto;
     border-radius: 10px;
     /* background-size: cover; */
     box-shadow: 1px 1px 10px 1px rgba(0, 0, 0);
@@ -155,18 +157,21 @@ input[name="filter"] {
 
 /* /~ TABLET ~/ */
 @media (min-width: 768px) {
-    /* .gallery-container { */
-        /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); */
-        /* align-content: center; */
-        /* align-items: center; */
-    /* } */
+    .gallery-container {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        align-content: flex-start;
+        align-items: flex-start;
+    }
+
+    
+
 }
 
 /* DESKTOP */
 @media (min-width: 1020px) {
-    /* .gallery-container { */
-        /* grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); */
-        /* align-content: center; */
-        /* align-items: center; */
-    /* } */
+    .gallery-container {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        align-content: center;
+        align-items: center;
+    }
 }

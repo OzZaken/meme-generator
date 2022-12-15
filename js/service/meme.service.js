@@ -1,30 +1,27 @@
 'use strict'
 
-const memeService = {
-    getMeme,
-}
-
 const STORAGE_KEY = 'memeDB'
 let gMemes // Saved to Store
 
-// initial Data
+// initial Data 
+// Images
 const gImgs = [
-    { url: 'assets/img/gallery/1.jpg', keywords: ['view','dance'] },
-    { url: 'assets/img/gallery/2.jpg', keywords: ['funny', 'celeb']},
+    { url: 'assets/img/gallery/1.jpg', keywords: ['view', 'dance'] },
+    { url: 'assets/img/gallery/2.jpg', keywords: ['funny', 'celeb'] },
     { url: 'assets/img/gallery/3.jpg', keywords: ['dog', 'cute',] },
     { url: 'assets/img/gallery/4.jpg', keywords: ['baby', 'angry'] },
-    { url: 'assets/img/gallery/5.jpg', keywords: ['dog', 'baby','cute'] },
-    { url: 'assets/img/gallery/6.jpg', keywords: ['cute','cat'] },
+    { url: 'assets/img/gallery/5.jpg', keywords: ['dog', 'baby', 'cute'] },
+    { url: 'assets/img/gallery/6.jpg', keywords: ['cute', 'cat'] },
     { url: 'assets/img/gallery/7.jpg', keywords: ['celeb'] },
-    { url: 'assets/img/gallery/8.jpg', keywords: ['funny','baby'] },
+    { url: 'assets/img/gallery/8.jpg', keywords: ['funny', 'baby'] },
     { url: 'assets/img/gallery/9.jpg', keywords: ['celeb'] },
     { url: 'assets/img/gallery/10.jpg', keywords: ['angry', 'celeb'] },
-    { url: 'assets/img/gallery/11.jpg', keywords: [ 'celeb'] },
+    { url: 'assets/img/gallery/11.jpg', keywords: ['celeb'] },
     { url: 'assets/img/gallery/12.jpg', keywords: ['funny', 'celeb'] },
-    { url: 'assets/img/gallery/13.jpg', keywords: ['funny','dance'] },
+    { url: 'assets/img/gallery/13.jpg', keywords: ['funny', 'dance'] },
     { url: 'assets/img/gallery/14.jpg', keywords: ['funny', 'celeb'] },
-    { url: 'assets/img/gallery/15.jpg', keywords: ['baby','surprised'] },
-    { url: 'assets/img/gallery/16.jpg', keywords: ['funny','dog'] },
+    { url: 'assets/img/gallery/15.jpg', keywords: ['baby', 'surprised'] },
+    { url: 'assets/img/gallery/16.jpg', keywords: ['funny', 'dog'] },
     { url: 'assets/img/gallery/17.jpg', keywords: ['funny', 'celeb'] },
     { url: 'assets/img/gallery/18.jpg', keywords: ['funny', 'celeb'] },
     { url: 'assets/img/gallery/19.jpg', keywords: ['celeb'] },
@@ -32,12 +29,13 @@ const gImgs = [
     { url: 'assets/img/gallery/21.jpg', keywords: ['funny', 'celeb'] },
     { url: 'assets/img/gallery/22.jpg', keywords: ['funny', 'celeb'] },
     { url: 'assets/img/gallery/23.jpg', keywords: ['celeb'] },
-    { url: 'assets/img/gallery/24.jpg', keywords: [ 'celeb', 'angry'] },
+    { url: 'assets/img/gallery/24.jpg', keywords: ['celeb', 'angry'] },
     { url: 'assets/img/gallery/25.jpg', keywords: ['funny', 'celeb'] },
 ]
 
+// initial Meme
 const gMeme = {
-    selectedImgId: null,
+    selectedImgIdx: null,
     selectedLineIdx: null,
     lines: [
         {
@@ -76,6 +74,7 @@ function _createMemes() {
 function _createMeme(imgIdx) {
     const { keywords, url } = gImgs[imgIdx]
     return {
+        id: makeId(),
         keywords,
         url,
         selectedImgId: null,
@@ -92,9 +91,41 @@ function _loadFromStorage() {
     return storageService.loadFromStorage(STORAGE_KEY)
 }
 
+// return length
+function getTotalCount() {
+    return gMemes.length
+}
+
 //* //  ///   /////      🐱‍👤👀🐱‍👤     \\\\\    \\\  *\\
-function setImg(imgId) {
-    gMeme.selectedImgId = imgId
+function setImg(imgIdx) {
+    gMeme.selectedImgIdx = imgIdx
+}
+
+function renderMeme() {
+    const path = 'assets/img/gallery/'
+    const img = new Image()
+    img.src = `${path}${gMeme.selectedImgIdx}.jpg`
+    
+    img.onload = () => {
+        // 
+        const { lines } = getMeme()
+        const { elMeme } = gSate.domEl
+        gCtx.drawImage(img, 0, 0, elMeme.width, elMeme.height)
+        
+        // Draw Lines
+        lines.forEach(line => {
+            const { x, y } = line.pos
+            gCtx.beginPath()
+            gCtx.lineWidth = line.lineWidth
+            gCtx.textAlign = line.align
+            gCtx.font = `${line.fontSize}px ${line.family}`
+            gCtx.fillStyle = line.color
+            gCtx.fillText(line.txt, x, y)
+            gCtx.strokeStyle = line.borderColor
+            gCtx.strokeText(line.txt, x, y)
+            gCtx.closePath()
+        })
+    }
 }
 
 
@@ -111,8 +142,6 @@ function resizeCanvas() {
     elContainer.width = gElCanvas.width
     elContainer.height = gElCanvas.height
 }
-
-
 
 //* Meme btns lines  
 function setLineText(txt) {

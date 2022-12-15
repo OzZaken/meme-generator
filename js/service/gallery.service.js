@@ -8,7 +8,7 @@ const galleryService = {
     getKeyWordsCountMap,
     setFilter,
     getTotalCount,
-    getTopCountMap,
+    getTopCountMap: getKeyOptionsToDisplay,
 }
 
 // Filter Memes
@@ -20,8 +20,14 @@ function getMemesForDisplay() {
     })
 }
 
-
+// return gKeyWordCountMap 
 function getKeyWordsCountMap() {
+if (!gKeyWordCountMap) _setKeyWordCountMap()
+    return gKeyWordCountMap
+}
+
+// Set gKeyWordCountMap 
+function _setKeyWordCountMap() {
     gKeyWordCountMap = {}
     gImgs.forEach(img => {
         const { keywords } = img
@@ -30,10 +36,11 @@ function getKeyWordsCountMap() {
         })
     })
     return gKeyWordCountMap
+  
 }
 
 // return only the Most common Images based keyword 
-function getTopCountMap() {
+function getKeyOptionsToDisplay() {
     let topFive = Object.entries(gKeyWordCountMap)
     return topFive.sort((a, b) => b[1] - a[1]).splice(0, 5)
 }
@@ -43,7 +50,3 @@ function setFilter(filterBy) {
     gFilterBy = filterBy
 }
 
-// return length
-function getTotalCount() {
-    return gMemes.length
-}
