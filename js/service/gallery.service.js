@@ -1,40 +1,49 @@
 'use strict'
 
 let gFilterBy
+let gKeyWordCountMap
 
 const galleryService = {
     getMemesForDisplay,
     getKeyWordsCountMap,
     setFilter,
     getTotalCount,
+    getTopCountMap,
 }
 
 // Filter Memes
 function getMemesForDisplay() {
-    console.log("🚀 ~ getMemesForDisplay")
-    
     if (!gFilterBy) return gMemes
     return gMemes.filter(meme => {
-        const regex = new RegExp(gFilterBy)
+        const regex = new RegExp(gFilterBy,'i')
         return meme.keywords.some(keyword => regex.test(keyword))
     })
 }
 
+
 function getKeyWordsCountMap() {
-    const countMap = {}
+    gKeyWordCountMap = {}
     gImgs.forEach(img => {
         const { keywords } = img
         keywords.forEach(keyword => {
-            countMap[keyword] = (countMap[keyword] || 0) + 1
+            gKeyWordCountMap[keyword] = (gKeyWordCountMap[keyword] || 0) + 1
         })
     })
-    return countMap
+    return gKeyWordCountMap
 }
 
+// return only the Most common Images based keyword 
+function getTopCountMap() {
+    let topFive = Object.entries(gKeyWordCountMap)
+    return topFive.sort((a, b) => b[1] - a[1]).splice(0, 5)
+}
+
+// Set gFilterBy
 function setFilter(filterBy) {
     gFilterBy = filterBy
 }
 
+// return length
 function getTotalCount() {
-    return gImgs.length - 1
+    return gMemes.length
 }

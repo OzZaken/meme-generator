@@ -19,8 +19,9 @@ function onInit() {
         activePageStr: 'gallery',
         isMenuOpen: false,
         domEls: {
+            elGalleryContainer:document.querySelector('.gallery-container'),
             elMeme: document.querySelector('#elMeme'),
-            elMemeContainer:document.querySelector('meme-container'),
+            elMemeContainer:document.querySelector('.meme-container'),
             elUserMsg: document.querySelector('.user-msg'),
             elMainNav: document.querySelector('.main-nav'),
             elBtnToggleNav: document.querySelector('.btn-toggle-menu'),
@@ -59,12 +60,12 @@ function onInit() {
 
 function onNav(navToStr) {
     if (gState.isMenuOpen) onToggleMenu()
-    else playAudio('click')
     if (!navToStr) navToStr = 'Gallery'
     const _capitalize = (str) => {
         return str[0].toUpperCase() + str.substring(1)
     }
-
+    
+    playAudio('click')
     // Remove First(and only) .active class and remove it
     document.querySelector('.active').classList.remove('active')
 
@@ -83,6 +84,7 @@ function onNav(navToStr) {
     elActivePage.hidden = false
 }
 
+// User Msg 
 function flashMsg(str) {
     const { elUserMsg } = gState.domEls
     elUserMsg.innerText = str

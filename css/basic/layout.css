@@ -1,7 +1,7 @@
 .main-layout {
     border-top: 1px solid var(--clr-main);
-    margin-inline-start: 3vw;
-    margin-inline-end: 3vw;
+    margin-inline-start: 1rem;
+    margin-inline-end: calc(1rem - 2px);
     border-right: 2px solid var(--clr-bright);
     border-left: 2px solid var(--clr-bright);
     margin-top: 80px;
@@ -17,6 +17,6 @@
 /* Desktop */
 @media (min-width: 1020px) {
     .main-layout>*:not(.full) {
-        max-width: var(--desktop);
+        width: var(--desktop);
     }
 }

@@ -18,13 +18,12 @@ function renderGallery() {
         class="gallery-meme-container"
         src=${meme.url}
         alt="Meme ${idx + 1} ${meme.keywords.join(', ')}"       
-        title="Meme${idx + 1}\n${meme.keywords.join(', ')}">
+        title="Meme #${idx + 1}\n${meme.keywords.join(', ')}">
         `
     )
     // Stat and upload image
-    const foundCount = memes.length - 1 >= 0 ? memes.length - 1 : '0'
-    strHTMLs.unshift(
-        `
+    const foundCount = memes.length >= 0 ? memes.length: '0'
+    strHTMLs.unshift(`
     <div class="gallery-meme-container gallery-stat">
     <span title="filtered Meme count">${foundCount}</span>
     &#47;
@@ -32,8 +31,7 @@ function renderGallery() {
     <p>Upload your own image!</p>
     <input type="file" name="img" onchange="onUploadImg(event)"/>
     </div>
-    `
-    )
+    `)
     document.querySelector('.gallery-container').innerHTML = strHTMLs.join('')
 }
 
@@ -48,21 +46,12 @@ function renderKeywordsOptions() {
 
 // font Size Based CountMap
 function renderKeywordsBtns() {
-    const keyWordCountMap = galleryService.getKeyWordsCountMap()
-    const _getTopFive = (keyWordCountMap) => {
-        let topFive = Object.entries(keyWordCountMap)
-        topFive = topFive.sort((a, b) => {
-            return a[1] + b[1]
-        })
-        console.log(`🚀 ~ topFive`, topFive)
-        
-    }
-    _getTopFive(keyWordCountMap)
-
-    const strHTMLs = Object.entries(keyWordCountMap).map(keyword =>
+    const strHTMLs = galleryService.getTopCountMap().map(keyword =>
         `
         <li>
-        <button class="btn btn-keyword" onclick="onClickFilterKeyword(this)" 
+        <button class="btn btn-keyword"
+        title="${keyword[1]} Meme Founds"
+         onclick="onClickFilterKeyword(this)" 
         data-fs="${keyword[1]}">${keyword[0]}
         </button>
         </li>
@@ -84,6 +73,10 @@ function onUploadImg(ev) {
     reader.readAsDataURL(ev.target.files[0])
 }
 
+function setAspectRatio(el) {
+
+}
+
 // Filter
 function onSetFilter(str) {
     const { elFilterBy } = gState.domEls.inputs
@@ -97,9 +90,8 @@ function onSetFilter(str) {
 function onClickFilterKeyword(elKeyWord) {
     const { dataset, innerText } = elKeyWord
     elKeyWord.style.color = utilService.getRandomColor()
-    const maxFontSize = 12
     onSetFilter(innerText)
-    if (+dataset.fs >= maxFontSize) return
+    if (+dataset.fs >=  16) return
     dataset.fs++
 }
 

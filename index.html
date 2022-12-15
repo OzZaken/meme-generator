@@ -56,18 +56,16 @@
     </header>
 
     <main class="main-layout">
-        
+
         <!-- Gallery -->
         <section class="page main-gallery-container">
             <label for="keywords"></label>
             <datalist id="keywords"></datalist>
             <form onsubmit="event.preventDefault;onSetFilter()" action="">
                 <input oninput="onSetFilter(this.value)" list="keywords" name="filter" type="search"
-                placeholder="Search Background">
+                    placeholder="Search Background">
 
             </form>
-
-
             <button class="btn btn-flexable" onclick="onFlex()">Be Flexable</button>
             <ul class="clean-list keyword-container"></ul>
             <div class="grid gallery-container"> </div>
@@ -87,7 +85,8 @@
                 <label for="Add New Text line"></label>
                 <input class="line-txt  fa flex" oninput="onSetLineText(this.value)" onsubmit="onAddTxtLine()"
                     type="text" placeholder="Add new text line" title="Add New Text line">
-
+                    
+                <!-- Grid Editor Btns -->
                 <div class="grid editor-container">
                     <i onclick="onChangeLinePos(0,-20)" title="Move text up" class="setting-btn fa-arrow-up"></i>
                     <i onclick="onChangeLinePos(0,20)" title="Move text Down" class="setting-btn  fa-arrow-down">
@@ -147,7 +146,7 @@
             <h2>about</h2>
         </section>
     </main>
-    
+
     <!-- Footer -->
     <footer class="footer main-layout full">
         <div class="footer-container">
@@ -188,23 +187,19 @@
     <!-- Screen -->
     <div class="screen" onclick="toggleMenu()"></div>
 
-                  <!--* JS -->
+    <!--* JS -->
     <!-- Service -->
     <script src="js/service/util.service.js"></script>
     <script src="js/service/storage.service.js"></script>
     <script src="js/service/upload.service.js"></script>
-    
-    <!-- i18 -->
+
+    <!-- i18, Edit, Galley -->
     <script src="js/service/i18.service.js"></script>
-
-    <!-- Gallery -->
-    <script src="js/service/gallery.service.js"></script>
-    <script src="js/controller/gallery.controller.js"></script>
-
-    <!-- Editor -->
     <script src="js/service/meme.service.js"></script>
-    <script src="js/controller/edit.controller.js"></script>
+    <script src="js/service/gallery.service.js"></script>
 
+    <script src="js/controller/edit.controller.js"></script>
+    <script src="js/controller/gallery.controller.js"></script>
     <!-- Main Controller -->
     <script src="js/controller/main.controller.js"></script>
 </body>
