@@ -11,9 +11,12 @@
 </head>
 
 <body onload="onInit()">
-    <header class="flex-row header">
-        <a class="logo" href="#" onclick="onNav('')"></a>
 
+    <header class="flex-row header">
+        <!-- Logo -->
+        <a class="logo" href="#" onclick="onNav('')"></a>
+        
+        <!-- Navigate -->
         <nav class="flex main-nav">
             <ul class="main-nav-list">
                 <li>
@@ -27,11 +30,11 @@
                 </li>
                 <li hidden>
                     <!-- query Serach Params? -->
-                    <a href="gallery/q?=saved/" onclick="onNav('saved')" class="link-saved">Saved</a>
+                    <a href="gallery/q?=saved/" onclick="onNav('saved');playAudio('click')" class="link-saved">Saved</a>
                 </li>
             </ul>
         </nav>
-        
+
         <!-- i18 -->
         <label for="select languge">
             <select class="lang" onchange="onSetLang(this.value)">
@@ -55,9 +58,10 @@
     <main class="main-layout">
         <!--* Gallery -->
         <section class="page main-gallery-container">
+            
             <label for="keywords"></label>
             <datalist id="keywords"></datalist>
-            <input list="keywords" name="keyword" onchange="onSetFilter(this.innerText)" type="search"
+            <input oninput="onSetFilter(this.value)" list="keywords" name="filter" type="search"
                 placeholder="Search Background">
 
             <button class="btn btn-flexable" onclick="onFlex()">Be Flexable</button>
@@ -189,4 +193,5 @@
     <script src="js/controller/gallery.controller.js"></script>
     <script src="js/controller/main.controller.js"></script>
 </body>
+
 </html>

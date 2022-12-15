@@ -1,14 +1,14 @@
 'use strict'
 
-// The Action Of the Model Append in The Front Service 
-// Later Send the Action || the new State to Remote Server
+let gFilterBy
 
 const galleryService = {
     getImgsForDisplay,
     getKeyWordsCountMap,
+    setFilter,
 }
 
-const gImgs = [
+const gMemes = [
     { id: 1, url: 'img/1.jpg', keywords: ['funny', 'celeb'] },
     { id: 2, url: 'img/2.jpg', keywords: ['dog', 'cute'] },
     { id: 3, url: 'img/3.jpg', keywords: ['dog', 'cute', 'baby'] },
@@ -30,16 +30,24 @@ const gImgs = [
 ]
 
 function getImgsForDisplay() {
-    return gImgs
+    if (!gFilterBy) return gMemes
+    return gMemes.filter(meme => {
+        const regex = new RegExp(gFilterBy)
+        return meme.keywords.some(keyword => regex.test(keyword))
+    })
 }
 
 function getKeyWordsCountMap() {
     const countMap = {}
-    gImgs.forEach(img => {
+    gMemes.forEach(img => {
         const { keywords } = img
         keywords.forEach(keyword => {
             countMap[keyword] = (countMap[keyword] || 0) + 1
         })
     })
     return countMap
+}
+
+function setFilter(filterBy) {
+    gFilterBy = filterBy
 }

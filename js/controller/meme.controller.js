@@ -10,6 +10,19 @@ var gStroke = {
     size: 20,
 }
 
+function addListeners() {
+    window.addEventListener('resize', () => {
+        OnResizeCanvas()
+    })
+    gElCanvas.addEventListener('mousedown', onDown)
+    gElCanvas.addEventListener('mousemove', onDraw)
+    gElCanvas.addEventListener('mouseup', onUp)
+
+    gElCanvas.addEventListener('touchstart', onDown)
+    gElCanvas.addEventListener('touchmove', onDraw)
+    gElCanvas.addEventListener('touchend', onUp)
+}
+
 function renderMeme() {
     const img = new Image()
     img.src = `img/${gMeme.selectedImgId}.jpg`

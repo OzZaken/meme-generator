@@ -1,13 +1,12 @@
 'use strict'
 
-// All Action From Dom Start and End From Here!
+// All Action From Dom Start From Here!
+
 function onInit() {
     galleryController.renderGallery()
     galleryController.renderKeywordsOptions()
     galleryController.renderKeywordsBtns()
-
     window.gMeme = {
-        filter: '',
         activePageStr: 'gallery',
         isMenuOpen: false,
         domEls: {
@@ -26,9 +25,11 @@ function onInit() {
                 elPageAbout: document.querySelector('.main-about-container')
             },
             inputs: {
-                elImgInput: document.querySelector('[name="img"]'),
+                elFilterBy: document.querySelector('input[name="filter"]'),
+                elImgInput: document.querySelector('input[name="img"]'),
             },
         },
+        audio: {},
     }
 
     // Get Default Language from User Browser, if (i18 contain Default) Set Language 
@@ -43,17 +44,10 @@ function onInit() {
         if (elLinkGallery.classList.contains('active')) flashMsg('Choose Meme Background!')
     }, 5000)
 }
-function onClickKeyword(elKeyWord) {
-    const { dataset } = elKeyWord
-    const maxFontSize = 12
-    if (+dataset.fs >= maxFontSize) return
-    dataset.fs++
-}
-
 
 function onNav(navToStr) {
     if (gMeme.isMenuOpen) onToggleMenu()
-
+    else playAudio('click')
     if (!navToStr) navToStr = 'Gallery'
     const _capitalize = (str) => {
         return str[0].toUpperCase() + str.substring(1)
@@ -70,26 +64,11 @@ function onNav(navToStr) {
     //  Hide all pages and 
     const elPages = document.querySelectorAll('.page')
     elPages.forEach(elPage => elPage.hidden = true)
+    
     // reveal curPage 
     const { pages } = gMeme.domEls
     const elActivePage = pages[`elPage${_capitalize(navToStr)}`]
     elActivePage.hidden = false
-}
-
-function onAddImg(ev) {
-    galleryController.loadImg(ev);
-}
-
-//                          🐱‍👤 👀 🐱‍👤
-function onToggleMenu() {
-    const { elMainNav, elBtnToggleNav } = gMeme.domEls
-    // notify elScreen 
-    document.body.classList.toggle('menu-opened')
-    // dropDown animation
-    elMainNav.classList.toggle('menu-opened')
-    // menuBar animation
-    elBtnToggleNav.classList.toggle('nav-open')
-    gMeme.isMenuOpen = !gMeme.isMenuOpen
 }
 
 function flashMsg(str) {
@@ -99,26 +78,8 @@ function flashMsg(str) {
     setTimeout(() => elUserMsg.classList.remove('user-msg-open'), 3000)
 }
 
-function addListeners() {
-    window.addEventListener('resize', () => {
-        OnResizeCanvas()
-    })
-    gElCanvas.addEventListener('mousedown', onDown)
-    gElCanvas.addEventListener('mousemove', onDraw)
-    gElCanvas.addEventListener('mouseup', onUp)
+//                          🐱‍👤 👀 🐱‍👤
 
-    gElCanvas.addEventListener('touchstart', onDown)
-    gElCanvas.addEventListener('touchmove', onDraw)
-    gElCanvas.addEventListener('touchend', onUp)
-}
-
-function onImgSelect(imgId) {
-    console.log(`onImgSelect(${imgId})`);
-    setMemeImg(imgId)
-    document.querySelector('.gallery-container').hidden = true
-    flashMsg('img selected')
-    renderMeme()
-}
 
 function setSelectedLineIdx() {
     const meme = getMeme()
@@ -137,4 +98,35 @@ function onDownloadMeme(elLink) {
 function onSaveMeme() {
     const { newMeme } = gMeme
     saveMeme(newMeme)
+}
+
+// Mobile 
+function onToggleMenu() {
+    const { elMainNav, elBtnToggleNav } = gMeme.domEls
+    // notify elScreen 
+    document.body.classList.toggle('menu-opened')
+    // dropDown animation
+    elMainNav.classList.toggle('menu-opened')
+    // menuBar animation
+    elBtnToggleNav.classList.toggle('nav-open')
+    gMeme.isMenuOpen = !gMeme.isMenuOpen
+}
+
+// Audio
+function playAudio(audioKey) {
+    const { audio } = gMeme
+    if (audio[audioKey]) audio[audioKey].pause()
+    return new Promise((resolve, reject) => { // return a promise
+        audio[audioKey] = new Audio()         // create audio wo/ src
+        audio[audioKey].preload = "auto"    // intend to play through
+        audio[audioKey].autoplay = true    // autoplay when loaded
+        if (/music/.test(audioKey)) {
+            audio[audioKey].loop = true
+            audio[audioKey].volume = 0.4
+        }
+        audio[audioKey].src = `assets/audio/${audioKey}.mp3`
+        audio[audioKey].onerror = reject   // on error, reject
+        audio[audioKey].onended = resolve  // when done, resolve
+    })
+
 }

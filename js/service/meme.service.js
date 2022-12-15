@@ -38,8 +38,8 @@ function createMems() {
 }
 
 function getImg() {
-    if (!gSearchFilter) return gImgs
-    return gImgs.filter((img) => img.keywords.includes(gSearchFilter))
+    if (!gSearchFilter) return gMemes
+    return gMemes.filter((img) => img.keywords.includes(gSearchFilter))
 }
 function setFilter(value) {
     gSearchFilter = value.toLowerCase()

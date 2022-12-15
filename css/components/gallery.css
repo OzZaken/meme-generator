@@ -9,7 +9,7 @@
     margin-left: 1rem;
 }
 
-input[name="keyword"] {
+input[name="filter"] {
     /* overflow: visible; */
     /* font-family: inherit; */
     cursor: pointer;
@@ -44,6 +44,7 @@ input[name="keyword"] {
     background-color: transparent;
     border: none;
     font-weight: 100;
+    color: var(--clr-txt);
 }
 .btn-keyword[data-fs='3'] {
     font-size: calc(1rem + 1px);
@@ -93,8 +94,8 @@ input[name="keyword"] {
     padding: 10px;
     grid-auto-flow: dense;
     width: 90vw;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); */
+    /* grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); */
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
 }
 
 .gallery-img-container {
@@ -104,13 +105,16 @@ input[name="keyword"] {
     box-shadow: 1px 1px 10px 1px rgba(0, 0, 0);
 }
 
+
 .gallery-img-container:hover {
     transition: opacity scale 0.4s;
     transform: scale(1.01);
     cursor: pointer;
     opacity: 0.8;
 }
-
+.gallery-img {
+max-width: max-content;
+}
 /* /~ TABLET ~/ */
 @media (min-width: 768px) {
     .gallery-container {

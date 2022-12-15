@@ -21,17 +21,21 @@ body::-webkit-scrollbar {
     width: 1em;
 }
 
+img {
+    width: 100%;
+}
+
 body::-webkit-scrollbar-track {
     box-shadow: inset 0 0 6px var(--clr-dark);
     -webkit-box-shadow: inset 0 0 6px var(--clr-main);
-	background-color:var(--clr-darker); 
+    background-color: var(--clr-darker);
 }
 
 body::-webkit-scrollbar-thumb {
     background-color: var(--clr-darkest);
     outline: 1px solid var(--clr-darker);
-    border-radius:25px ;
-	border: 1px solid var(--clr-main);
+    border-radius: 25px;
+    border: 1px solid var(--clr-main);
 }
 
 section {
@@ -61,9 +65,10 @@ a {
     color: var(--clr-brightest);
 }
 
-i{
+i {
     font-family: fa-solid;
 }
+
 @media (min-width: 768px) {
     html {
         font-size: 17px;
