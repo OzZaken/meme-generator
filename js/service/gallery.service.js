@@ -6,6 +6,7 @@ const galleryService = {
     getImgsForDisplay,
     getKeyWordsCountMap,
     setFilter,
+    getTotalCount,
 }
 
 const gMemes = [
@@ -29,6 +30,7 @@ const gMemes = [
     { id: 18, url: 'img/18.jpg', keywords: ['funny', 'celeb'] }
 ]
 
+// Filter Memes
 function getImgsForDisplay() {
     if (!gFilterBy) return gMemes
     return gMemes.filter(meme => {
@@ -50,4 +52,8 @@ function getKeyWordsCountMap() {
 
 function setFilter(filterBy) {
     gFilterBy = filterBy
+}
+
+function getTotalCount() {
+    return gMemes.length -1
 }

@@ -22,10 +22,14 @@ function renderGallery() {
         title="Meme Background ${idx}">
         `
     )
+    // stat and upload image
     strHTMLs.unshift(
         `
-        <div class="flex-column column gallery-img-container">
-        <h3>Choose your own image!</h3>
+        <div class="gallery-img-container gallery-stat">
+        <span title="filtered Meme count">${imgs.length-1}</span>
+        &#47;
+        <span title="Total Memes Founds">${galleryService.getTotalCount()}</span>
+        <p>You can upload your own image!</p>
         <input type="file" name="img" onchange="onUploadImg(event)"/>
         </div>
         `
@@ -82,9 +86,9 @@ function onSetFilter(str) {
 function onClickFilterKeyword(elKeyWord) {
     const { dataset, innerText } = elKeyWord
     const maxFontSize = 12
+    onSetFilter(innerText)
     if (+dataset.fs >= maxFontSize) return
     dataset.fs++
-    onSetFilter(innerText)
 }
 
 // Last Function on Gallery Controller

@@ -94,8 +94,8 @@ input[name="filter"] {
     padding: 10px;
     grid-auto-flow: dense;
     width: 90vw;
-    /* grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); */
-    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    /* grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); */
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
 }
 
 .gallery-img-container {
