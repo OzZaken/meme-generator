@@ -15,7 +15,7 @@
     <header class="flex-row header">
         <!-- Logo -->
         <a class="logo" href="#" onclick="onNav('')"></a>
-        
+
         <!-- Navigate -->
         <nav class="flex main-nav">
             <ul class="main-nav-list">
@@ -56,9 +56,8 @@
     </header>
 
     <main class="main-layout">
-        <!--* Gallery -->
+        <!-- Gallery -->
         <section class="page main-gallery-container">
-            
             <label for="keywords"></label>
             <datalist id="keywords"></datalist>
             <input oninput="onSetFilter(this.value)" list="keywords" name="filter" type="search"
@@ -69,15 +68,17 @@
             <div class="grid gallery-container"> </div>
         </section>
 
-        <!--* Editor -->
-        <section hidden class="page main-editor-container">
-            <div class="canvas-container">
-                <canvas class="meme-canvas" id="meme-canvas" height="350" width="350" onmouseout="onMouseOutCanvas()">
-                </canvas>
+        <!-- Editor -->
+        <section  class="page main-editor-container">
+            
+            <!-- Canvas -->
+            <div class="meme-container">
+                <canvas class="meme-canvas" id="elMeme" height="350" width="350"></canvas>
             </div>
 
-            <!--* Meme Btns -->
+            <!--  Btns -->
             <div class="btns-editor-container">
+                
                 <label for="Add New Text line"></label>
                 <input class="line-txt  fa flex" oninput="onSetLineText(this.value)" onsubmit="onAddTxtLine()"
                     type="text" placeholder="Add new text line" title="Add New Text line">
@@ -136,7 +137,7 @@
                 </div>
         </section>
 
-        <!--* About -->
+        <!-- About -->
         <section hidden class="page main-about-container">
             <h2>about</h2>
         </section>
@@ -176,21 +177,26 @@
         </div>
     </footer>
 
+    <!-- User Msg -->
     <div class="user-msg"></div>
+    <!-- Screen -->
     <div class="screen" onclick="toggleMenu()"></div>
 
     <!-- Service -->
     <script src="js/service/util.service.js"></script>
     <script src="js/service/storage.service.js"></script>
 
-    <script src="js/service/meme.service.js"></script>
-    <script src="js/service/gallery.service.js"></script>
     <script src="js/service/upload.service.js"></script>
     <script src="js/service/i18.service.js"></script>
+
+    <script src="js/service/meme.service.js"></script>
+    <script src="js/service/gallery.service.js"></script>
 
     <!-- Controller -->
     <script src="js/controller/meme.controller.js"></script>
     <script src="js/controller/gallery.controller.js"></script>
+
+    <!-- Main Controller -->
     <script src="js/controller/main.controller.js"></script>
 </body>
 

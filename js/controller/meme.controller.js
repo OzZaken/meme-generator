@@ -1,6 +1,6 @@
 'use strict'
 
-var gElCanvas
+
 var gCtx
 var gIsDraw
 var gStroke = {
@@ -8,6 +8,29 @@ var gStroke = {
     fillStyle: 'black',
     strokeStyle: 'white',
     size: 20,
+}
+
+function renderMeme() {
+    const img = new Image()
+    img.src = `img/${gMeme.selectedImgId}.jpg`
+    img.onload = () => {
+        const { lines } = getMeme()
+        const {elMeme} = gSate.domEl
+        gCtx.drawImage(img, 0, 0, elMeme.width, elMeme.height)
+        lines.forEach(line => {
+            const { x, y } = line.pos
+            // Draw Line
+            gCtx.beginPath()
+            gCtx.lineWidth = line.lineWidth
+            gCtx.textAlign = line.align
+            gCtx.font = `${line.fontSize}px ${line.family}`
+            gCtx.fillStyle = line.color
+            gCtx.fillText(line.txt, x, y)
+            gCtx.strokeStyle = line.borderColor
+            gCtx.strokeText(line.txt, x, y)
+            gCtx.closePath()
+        })
+    }
 }
 
 function addListeners() {
@@ -23,29 +46,6 @@ function addListeners() {
     gElCanvas.addEventListener('touchend', onUp)
 }
 
-function renderMeme() {
-    const img = new Image()
-    img.src = `img/${gMeme.selectedImgId}.jpg`
-    img.onload = () => {
-        var { lines } = getMeme()
-        gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
-        lines.forEach(line => {
-            const { x, y } = line.pos
-            gCtx.beginPath()
-            // NeedToAdd
-            gCtx.lineWidth = 2
-            //Added
-            gCtx.textAlign = line.align
-            gCtx.font = `${line.size}px ${line.font}`
-            gCtx.fillStyle = line.color
-            gCtx.fillText(line.txt, x, y)
-            gCtx.strokeStyle = line.borderColor
-            gCtx.strokeText(line.txt, x, y)
-            gCtx.closePath()
-        })
-        setSelectedLineIdx()
-    }
-}
 
 function OnResizeCanvas() {
     resizeCanvas()
@@ -80,12 +80,10 @@ function onDeleteTxtLine() {
 
 function onChangeElSize(num) {
     changeElSize(num)
-    playAudio('click', gAudio)
     renderMeme()
 }
 function onChangeAlign(dir) {
     changeAlign(dir)
-    playAudio('click', gAudio)
     renderMeme()
 }
 

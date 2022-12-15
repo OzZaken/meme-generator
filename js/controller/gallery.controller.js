@@ -1,6 +1,6 @@
 'use strict'
-// import galleryService from '../service/gallery.service'
 
+// import galleryService from '../service/gallery.service'
 const galleryController = {
     renderGallery,
     renderKeywordsOptions,
@@ -23,10 +23,11 @@ function renderGallery() {
         `
     )
     // stat and upload image
+    const foundCount = imgs.length - 1 >= 0 ? imgs.length - 1 : '0'
     strHTMLs.unshift(
         `
         <div class="gallery-img-container gallery-stat">
-        <span title="filtered Meme count">${imgs.length-1}</span>
+        <span title="filtered Meme count">${foundCount}</span>
         &#47;
         <span title="Total Memes Founds">${galleryService.getTotalCount()}</span>
         <p>You can upload your own image!</p>
@@ -75,7 +76,7 @@ function onUploadImg(ev) {
 
 // Filter
 function onSetFilter(str) {
-    const { elFilterBy } = gMeme.domEls.inputs
+    const { elFilterBy } = gState.domEls.inputs
     // const imgs = getImgsForDisplay()
     galleryService.setFilter(str)
     elFilterBy.value = str
@@ -85,6 +86,7 @@ function onSetFilter(str) {
 // keywords Buttons
 function onClickFilterKeyword(elKeyWord) {
     const { dataset, innerText } = elKeyWord
+    elKeyWord.style.color = utilService.getRandomColor()
     const maxFontSize = 12
     onSetFilter(innerText)
     if (+dataset.fs >= maxFontSize) return
@@ -94,7 +96,7 @@ function onClickFilterKeyword(elKeyWord) {
 // Last Function on Gallery Controller
 function onImgSelect(imgId) {
     console.log(`onImgSelect(${imgId})`)
-    setMemeImg(imgId)
+    setImg(imgId)
     document.querySelector('.gallery-container').hidden = true
     flashMsg('img selected')
     renderMeme()

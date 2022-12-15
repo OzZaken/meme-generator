@@ -1,55 +1,95 @@
 'use strict'
-const memeService = {
-    createMems,
-}
-const STORAGE_KEY = 'memesDB'
 
-var gSearchFilter = ''
-var gMeme = {
-    selectedImgId: 5,
-    selectedLineIdx: 0,
+const STORAGE_KEY = 'memeDB'
+let gMemes // Saved to Store
+
+const memeService = {
+    getMeme,
+}
+
+// initial Data
+const gImgs = [
+    { url: 'img/1.jpg', keywords: ['funny', 'celeb'] },
+    { url: 'img/2.jpg', keywords: ['dog', 'cute'] },
+    { url: 'img/3.jpg', keywords: ['dog', 'cute', 'baby'] },
+    { url: 'img/4.jpg', keywords: ['dog', 'cute'] },
+    { url: 'img/5.jpg', keywords: ['funny', 'baby'] },
+    { url: 'img/6.jpg', keywords: ['funny'] },
+    { url: 'img/7.jpg', keywords: ['funny', 'baby'] },
+    { url: 'img/8.jpg', keywords: ['funny'] },
+    { url: 'img/9.jpg', keywords: ['funny', 'baby'] },
+    { url: 'img/10.jpg', keywords: ['funny', 'celeb'] },
+    { url: 'img/11.jpg', keywords: ['funny'] },
+    { url: 'img/12.jpg', keywords: ['funny', 'celeb'] },
+    { url: 'img/13.jpg', keywords: ['celeb'] },
+    { url: 'img/14.jpg', keywords: ['celeb'] },
+    { url: 'img/15.jpg', keywords: ['celeb'] },
+    { url: 'img/16.jpg', keywords: ['funny'] },
+    { url: 'img/17.jpg', keywords: ['funny', 'celeb'] },
+    { url: 'img/18.jpg', keywords: ['funny', 'celeb'] }
+]
+const gMeme = {
+    selectedImgId: null,
+    selectedLineIdx: null,
     lines: [
         {
             txt: 'Add some text',
-            pos: { x: 250, y: 100 },
-            size: 30,
-            font: 'impact',
+            lineWidth: 2,
+            fontSize: 30,
             align: 'center',
             color: 'black',
-            borderColor: 'white',
+            pos: { x: 250, y: 100 },
+            family: 'impact',
+            borderColor: 'red',
+            isDrag: false,
             isSaved: false,
-            isDrag: false
         },
     ]
 }
+_createMemes()
 
+function getMeme() {
+    return gMeme
+}
 
-function createMems() {
-    const memes = loadFromStorage()
+// Private
+function _createMemes() {
+    let memes = _loadFromStorage(STORAGE_KEY)
     if (!memes || !memes.length) {
         memes = []
-        getImgs()
-        for (let i = 0; i < 99; i++) {
-            memes[i] = _createMeme()
+        for (let i = 0; i < gImgs.length; i++) {
+            memes[i] = _createMeme(i)
         }
     }
-    gBooks = memes
-    saveToStorage()
+    gMemes = memes
+    console.log("🚀 ~memes", memes)
+    _saveToStorage()
 }
 
-function getImg() {
-    if (!gSearchFilter) return gMemes
-    return gMemes.filter((img) => img.keywords.includes(gSearchFilter))
+function _createMeme(imgIdx) {
+    return {
+        keywords: gImgs[imgIdx],
+        bgc: gImgs[imgIdx].url,
+        selectedImgId: null,
+        selectedLineIdx: null,
+        lines: [],
+    }
 }
-function setFilter(value) {
-    gSearchFilter = value.toLowerCase()
-}
-function onSetFilterBy() {
-    const searchTxt = document.querySelector('[name = "filter"]').value
-    setFilter(searchTxt)
-    filterGallery()
 
+function _saveToStorage() {
+    storageService.saveToStorage(STORAGE_KEY, gMemes)
 }
+
+function _loadFromStorage() {
+    return storageService.loadFromStorage(STORAGE_KEY)
+}
+
+//* //  ///   /////      🐱‍👤👀🐱‍👤     \\\\\    \\\  *\\
+// need url
+function setImg(imgId) {
+    gMeme.selectedImgId = imgId
+}
+
 
 function initCanvas() {
     gElCanvas = canvas
@@ -65,13 +105,7 @@ function resizeCanvas() {
     elContainer.height = gElCanvas.height
 }
 
-function getMeme() {
-    return gMeme
-}
-function setMemeImg(imgId) {
-    const meme = getMeme()
-    meme.selectedImgId = imgId
-}
+
 
 //* Meme btns lines  
 function setLineText(txt) {
@@ -144,17 +178,8 @@ function changeFont(fontStyle) {
     lines[meme.selectedLineIdx].font = fontStyle
 
 }
-function saveMeme() {
-    gSavedMemes.push(gMeme)
-    console.log('gSavedMemes:', gSavedMemes)
-    _saveMemeToStorage()
-}
-function _saveMemeToStorage() {
-    saveToStorage(STORAGE_KEY, gSavedMemes)
-}
-function _LoadMemeFromStorage() {
-    return loadFromStorage(STORAGE_KEY)
-}
+
+
 
 //*      Draw   
 function getFillColor() {
@@ -181,4 +206,10 @@ function draw(pos) {
     gCtx.fillStyle = getFillColor()
     gCtx.lineTo(pos.x, pos.y)
     gCtx.stroke()
+}
+
+function saveMeme() {
+    gSavedMemes.push(gMeme)
+    console.log('gSavedMemes:', gSavedMemes)
+    _saveMemeToStorage()
 }

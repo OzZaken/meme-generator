@@ -1,15 +1,19 @@
 'use strict'
 
 // All Action From Dom Start From Here!
-
+//                          🐱‍👤 👀 🐱‍👤
 function onInit() {
     galleryController.renderGallery()
     galleryController.renderKeywordsOptions()
     galleryController.renderKeywordsBtns()
-    window.gMeme = {
+    
+    // Set Global Controller State Variable
+    window.gState = {
         activePageStr: 'gallery',
         isMenuOpen: false,
         domEls: {
+            elMeme: document.querySelector('#elMeme'),
+            elMemeContainer:document.querySelector('meme-container'),
             elUserMsg: document.querySelector('.user-msg'),
             elMainNav: document.querySelector('.main-nav'),
             elBtnToggleNav: document.querySelector('.btn-toggle-menu'),
@@ -32,21 +36,22 @@ function onInit() {
         audio: {},
     }
 
-    // Get Default Language from User Browser, if (i18 contain Default) Set Language 
+    // i18
     // setUserDefaultLang()
 
     flashMsg('Generate\n New Meme!')
     flashMsg('Welcome!')
-    console.log('gMeme:', gMeme.domEls)
+    console.log('gState:', gState.domEls)
+
     // If Not Move Paged In Timeout FlashMsg
     setTimeout(() => {
-        const { elLinkGallery } = gMeme.domEls.links
+        const { elLinkGallery } = gState.domEls.links
         if (elLinkGallery.classList.contains('active')) flashMsg('Choose Meme Background!')
     }, 5000)
 }
 
 function onNav(navToStr) {
-    if (gMeme.isMenuOpen) onToggleMenu()
+    if (gState.isMenuOpen) onToggleMenu()
     else playAudio('click')
     if (!navToStr) navToStr = 'Gallery'
     const _capitalize = (str) => {
@@ -57,7 +62,7 @@ function onNav(navToStr) {
     document.querySelector('.active').classList.remove('active')
 
     // add .active to curPage
-    const { links } = gMeme.domEls
+    const { links } = gState.domEls
     const elActiveLink = links[`elLink${_capitalize(navToStr)}`]
     elActiveLink.classList.add('active')
 
@@ -66,55 +71,33 @@ function onNav(navToStr) {
     elPages.forEach(elPage => elPage.hidden = true)
     
     // reveal curPage 
-    const { pages } = gMeme.domEls
+    const { pages } = gState.domEls
     const elActivePage = pages[`elPage${_capitalize(navToStr)}`]
     elActivePage.hidden = false
 }
 
 function flashMsg(str) {
-    const { elUserMsg } = gMeme.domEls
+    const { elUserMsg } = gState.domEls
     elUserMsg.innerText = str
     elUserMsg.classList.add('user-msg-open')
     setTimeout(() => elUserMsg.classList.remove('user-msg-open'), 3000)
 }
 
-//                          🐱‍👤 👀 🐱‍👤
-
-
-function setSelectedLineIdx() {
-    const meme = getMeme()
-    const { lines } = meme
-    meme.selectedLineIdx = lines.length - 1
-    document.querySelector('.line-txt').value = lines[meme.selectedLineIdx].txt
-}
-
-function onDownloadMeme(elLink) {
-    const data = gElCanvas.toDataURL()
-    console.log('data:', data)
-    elLink.href = data
-    elLink.download = 'my-meme'
-}
-
-function onSaveMeme() {
-    const { newMeme } = gMeme
-    saveMeme(newMeme)
-}
-
-// Mobile 
+// ☰ Mobile Menu
 function onToggleMenu() {
-    const { elMainNav, elBtnToggleNav } = gMeme.domEls
+    const { elMainNav, elBtnToggleNav } = gState.domEls
     // notify elScreen 
     document.body.classList.toggle('menu-opened')
     // dropDown animation
     elMainNav.classList.toggle('menu-opened')
     // menuBar animation
     elBtnToggleNav.classList.toggle('nav-open')
-    gMeme.isMenuOpen = !gMeme.isMenuOpen
+    gState.isMenuOpen = !gState.isMenuOpen
 }
 
 // Audio
 function playAudio(audioKey) {
-    const { audio } = gMeme
+    const { audio } = gState
     if (audio[audioKey]) audio[audioKey].pause()
     return new Promise((resolve, reject) => { // return a promise
         audio[audioKey] = new Audio()         // create audio wo/ src
@@ -129,4 +112,17 @@ function playAudio(audioKey) {
         audio[audioKey].onended = resolve  // when done, resolve
     })
 
+}
+
+
+function onDownloadMeme(elLink) {
+    const data = gElCanvas.toDataURL()
+    console.log('data:', data)
+    elLink.href = data
+    elLink.download = 'my-meme'
+}
+
+function onSaveMeme() {
+    const { newMeme } = gState
+    saveMeme(newMeme)
 }
