@@ -1,77 +1,142 @@
 'use strict'
+function getFlexibleMeme() {
+    let x = utilService.ask('https://jsonplaceholder.typicode.com/userssss')
+    console.log(`🚀 ~ x`, x)
+}
 
-var gIsDraw
-var gCtx
-var gStroke = {
-    currShape: 'circle',
-    fillStyle: 'black',
-    strokeStyle: 'white',
-    size: 20,
+//* //  ///   /////      🐱‍👤👀🐱‍👤     \\\\\    \\\  *\\
+// controller State on single Global Var
+// dependencies:
+// HTML: canvas#meme
+function initMemeController() {
+    window.gMemeController = {
+        elMeme: document.querySelector('#meme'),
+        ctx: null,
+        isDraw: false,
+        gStroke: {
+            currShape: 'circle',
+            fillStyle: 'black',
+            strokeStyle: 'white',
+            size: 20,
+        },
+
+    }
+    // gCtx.strokeStyle = 'black'
+    // resizeCanvas()
+    // window.addEventListener('resize', () => {
+    //     OnResizeCanvas()
+    // })
+    // gElCanvas.addEventListener('mousedown', onDown)
+    // gElCanvas.addEventListener('mousemove', onDraw)
+    // gElCanvas.addEventListener('mouseup', onUp)
+
+    // gElCanvas.addEventListener('touchstart', onDown)
+    // gElCanvas.addEventListener('touchmove', onDraw)
+    // gElCanvas.addEventListener('touchend', onUp)
+    setTimeout(_setCTX, 30)
+}
+
+function _setCTX() {
+    const { gMemeController } = window
+    const { elMeme } = gMemeController
+    gMemeController.ctx = elMeme.getContext('2d')
 }
 
 function renderMeme() {
-    console.log('gMeme.selectedImgIdx:', gMeme.selectedImgIdx)
-    const path = 'assets/img/gallery/'
     const img = new Image()
-    img.src = `${path}${gMeme.selectedImgIdx}.jpg`
-    
+    const path = 'assets/img/gallery/'
+    const { lines, selectedImgIdx } = getMeme()
+    img.src = `${path}${selectedImgIdx}.jpg`
     img.onload = () => {
-        // 
-        const { lines } = getMeme()
         const elMeme = document.querySelector('#canvas')
         gCtx.drawImage(img, 0, 0, elMeme.width, elMeme.height)
-        
+
         // Draw Lines
-        lines.forEach(line => {
-            const { x, y } = line.pos
-            gCtx.beginPath()
-            gCtx.lineWidth = line.lineWidth
-            gCtx.textAlign = line.align
-            gCtx.font = `${line.fontSize}px ${line.family}`
-            gCtx.fillStyle = line.color
-            gCtx.fillText(line.txt, x, y)
-            gCtx.strokeStyle = line.borderColor
-            gCtx.strokeText(line.txt, x, y)
-            gCtx.closePath()
-        })
+        lines.forEach(line => drawLine(line))
     }
 }
 
-
-function onDownloadMeme(elLink) {
-    const data = gElCanvas.toDataURL()
-    console.log('data:', data)
-    elLink.href = data
-    elLink.download = 'my-meme'
+function drawLine(line) {
+    const { x, y } = line.pos
+    gCtx.beginPath()
+    gCtx.lineWidth = line.lineWidth
+    gCtx.textAlign = line.align
+    gCtx.font = `${line.fontSize}px ${line.family}`
+    gCtx.fillStyle = line.color
+    gCtx.fillText(line.txt, x, y)
+    gCtx.strokeStyle = line.borderColor
+    gCtx.strokeText(line.txt, x, y)
+    gCtx.closePath()
 }
-
-function onSaveMeme() {
-    const { newMeme } = gState
-    saveMeme(newMeme)
-}
-
-
-
-
 function addListeners() {
+    addMouseListeners()
+    addTouchListeners()
     window.addEventListener('resize', () => {
-        OnResizeCanvas()
+        resizeCanvas()
+        const center = { x: elMeme.width / 2, y: elMeme.height / 2 }
+        createCircle(center)
+        renderCanvas()
     })
-    gElCanvas.addEventListener('mousedown', onDown)
-    gElCanvas.addEventListener('mousemove', onDraw)
-    gElCanvas.addEventListener('mouseup', onUp)
-
-    gElCanvas.addEventListener('touchstart', onDown)
-    gElCanvas.addEventListener('touchmove', onDraw)
-    gElCanvas.addEventListener('touchend', onUp)
 }
 
+function addMouseListeners() {
+    elMeme.addEventListener('mousemove', onMove)
+    elMeme.addEventListener('mousedown', onDown)
+    elMeme.addEventListener('mouseup', onUp)
+}
+
+function addTouchListeners() {
+    elMeme.addEventListener('touchmove', onMove)
+    elMeme.addEventListener('touchstart', onDown)
+    elMeme.addEventListener('touchend', onUp)
+}
 
 function OnResizeCanvas() {
     resizeCanvas()
     renderMeme()
 }
 
+function resizeCanvas() {
+    const elContainer = document.querySelector('.canvas-container')
+    // gElCanvas.height = gElCanvas.width
+    elContainer.width = elMeme.width
+    elContainer.height = elMeme.height
+}
+
+
+
+function getPos(ev) {
+    const pos = {
+        x: ev.offsetX,
+        y: ev.offsetY
+    }
+
+    const touchEvs = ['touchstart', 'touchmove', 'touchend']
+    if (touchEvs.includes(ev.type)) {
+        ev.preventDefault()
+        console.log('ev.changedTouches:', ev.changedTouches)
+        ev = ev.changedTouches[0] // Mobile take 1 Pos
+        console.log('ev.changedTouches:', ev.changedTouches)
+        // Calc current Pos
+        pos = {
+            x: ev.pageX - ev.target.offsetLeft,
+            y: ev.pageY - ev.target.offsetTop
+        }
+    }
+    return pos
+}
+
+function onDownloadMeme(elLink) {
+    const data = elMeme.toDataURL()
+    console.log('data:', data)
+    elLink.href = data
+    elLink.download = 'my-meme'
+}
+
+function onSaveMeme() {
+    const { newMeme } = gMainController
+    saveMeme(newMeme)
+}
 function onSetLineText(txt) {
     setLineText(txt)
     playAudio('click', gAudio)
@@ -125,7 +190,7 @@ function onMouseOutCanvas() {
     // gIsDraw = false
 }
 
-function getEvPos(ev) {
+function getPos(ev) {
     const touchEvs = ['touchstart', 'touchmove', 'touchend']
     let pos = {
         x: ev.offsetX,
@@ -166,21 +231,21 @@ function drawText() {
 
 function onUp() {
     gCtx.beginPath()
-    gIsDraw = false
+    isDraw = false
 }
 function onDown(ev) {
     console.log('gStroke:', gStroke)
-    gIsDraw = true
-    draw(getEvPos(ev))
+    isDraw = true
+    draw(getPos(ev))
 }
 function onUpdateStrokeSize(num) {
     // onUpdateStrokeSize(num)
     gStrokeSize = num // UpdateStrokeSize()?
 }
 function onDraw(ev) {
-    if (gIsDraw) draw(getEvPos(ev))
+    if (isDraw) draw(getPos(ev))
 }
-function getEvPos(ev) {
+function getPos(ev) {
     const touchEvs = ['touchstart', 'touchmove', 'touchend']
     let pos = {
         x: ev.offsetX,
@@ -198,7 +263,7 @@ function getEvPos(ev) {
 }
 function onMouseOutCanvas() {
     gCtx.beginPath()
-    gIsDraw = false
+    isDraw = false
 }
 function onClearMeme() {
     playAudio('click', gAudio)

@@ -1,50 +1,133 @@
 'use strict'
 
+// Later:
 // import galleryService from '../service/gallery.service'
-
-// const galleryController = {
-//     renderGallery,
-//     renderKeywordsOptions,
-//     renderKeywordsBtns,
-//     onUploadImg,
-//     onSetFilter,
+// export const galleryController = {
+//         renderGallery,
+//         renderKeywordsOptions,
+//         renderKeywordsBtns,
+//         onUploadImg,
+//         onSetFilter,
 // }
 
-// render Filtered  
+function initGalleryController(galleryName) {
+    // Dependencies:
+    //     · HTML:
+    // datalist#keywords
+    // datalist.keyword-container
+    // input[name="filter"]
+    // ul.gallery-keywords-container
+    //     · JS:
+    !galleryName ? galleryName = 'Image' : galleryName
+    console.log('initGalleryController:\nGallery Name:', galleryName)
+
+    //? callBack func onImgSelect
+    window.gGalleryController = {
+        galleryName,
+        elFilterBy: document.querySelector('input[name="gallery-filter"]'),
+        elDataList: document.querySelector('datalist#gallery-keywords'),
+        elKeywordContainer: document.querySelector('ul.gallery-keywords-container'),
+        elGallery: document.querySelector('div.gallery-container'),
+    }
+    // Opt, Better in Timeout for Ending init
+    setTimeout(() => {
+        renderGallery()
+        renderKeywordsOptions()
+        renderKeywordsBtns()
+    }, 30)
+}
+
+// render Gallery + filter-stat + upload-image   
 function renderGallery() {
-    const memes = galleryService.getMemesForDisplay()
-    const strHTMLs = memes.map((meme, idx) =>
-        `
-        <img onclick="onImgSelect('${idx + 1}')" 
-        onload="onGetCanvasWidth(this,'${meme.id}')"
-        class="gallery-meme-container"
-        src=${meme.url}
-        alt="Meme ${idx + 1} ${meme.keywords.join(', ')}"       
-        title="Meme #${idx + 1}\n${meme.keywords.join(', ')}">
-        `
+    const { galleryName } = gGalleryController
+    // Set Images template
+    const imgs = getImgsForDisplay()
+    const strHTMLs = imgs.map((img, idx) => {
+        return `
+        <img onclick="onImgSelect('${img.id}')" 
+        onload="setAspectRatio(this,'${img.id}')"
+        class="gallery-${galleryName}-container"
+        src=${img.url}
+        alt="${_capitalize(galleryName)} #${idx + 1} ${_capitalizes(img.keywords)}"       
+        title="${_capitalize(galleryName)} #${idx + 1}\n${_capitalizes(img.keywords)}">
+        `}
     )
-    // Stat and upload image
-    const foundCount = memes.length >= 0 ? memes.length : '0'
+    // Set Stats and Upload Option
+    const foundCount = imgs.length >= 0 ? imgs.length : '0'
     strHTMLs.unshift(`
-    <div class="gallery-meme-container gallery-stat">
-    <span title="filtered Meme count">${foundCount}</span>
+    <div class="gallery-${galleryName}-container gallery-stat">
+    <span title="filtered ${galleryName} count">${foundCount}</span>
     &#47;
-    <span title="Total Memes Founds">${galleryService.getTotalCount()}</span>
-    <p>Upload your own image!</p>
+    <span title="Total ${_capitalize(galleryName)}s Founds">${getTotalCount()}</span>
+    <p>Upload New ${galleryName}!</p>
     <input type="file" name="img" onchange="onUploadImg(event)"/>
     </div>
     `)
-    document.querySelector('.gallery-container').innerHTML = strHTMLs.join('')
+    // render Gallery
+    const { elGallery } = gGalleryController
+    elGallery.innerHTML = strHTMLs.join('')
 }
 
-//  common aspect-ratio for Images:
+// render Options keywords to the DataList
+function renderKeywordsOptions() {
+    const keywordsCountMap = getOptionsForDisplay()
+    console.log(`🚀 ~ keywordsCountMap`, keywordsCountMap)
+    const strHTMLs = keywordsCountMap.map(keywordStr =>
+        `<option value="${keywordStr}">${_capitalize(keywordStr)}</option>`
+    )
+    strHTMLs.unshift(`<option value=" ">ALL</option>`)
+    const { elDataList } = gGalleryController
+    elDataList.innerHTML = strHTMLs.join('')
+}
+
+// Filter
+function onSetFilter(str) {
+    !str || str === ' ' ? str = '' : str
+    // Give Option for emptySpace
+    // DOM
+    const { elFilterBy } = gGalleryController
+    elFilterBy.value = str
+
+    setFilter(str) // MODEL - GalleryService.
+    renderGallery()  // DOM
+}
+
+// render keywords buttons based sorted options 
+function renderKeywordsBtns() {
+    const { galleryName } = gGalleryController
+    const strHTMLs = getKeywordsForDisplay()
+        .map(keyword =>
+            `<li>
+            <button class="btn btn-keyword"
+            title="${keyword[1]} ${_capitalize(galleryName)}s Founds"
+             onclick="onClickFilterKeyword(ev,this)" 
+            data-fs="${keyword[1]}">${keyword[0]}
+            </button>
+            </li>`
+        )
+    const { elKeywordContainer } = gGalleryController
+    elKeywordContainer.innerHTML = strHTMLs.join('')
+}
+
+// Keywords Buttons
+function onClickFilterKeyword(ev, elKeyWord) {
+    ev.preventDefault()
+    ev.stopPropagations()
+    const { dataset, innerText } = elKeyWord
+    elKeyWord.style.color = utilService.getRandomColor()
+    onSetFilter(innerText)
+    if (+dataset.fs >= 16) return
+    dataset.fs++
+}
+
+// Common aspect-ratio for Images:
 //  1:1 a square image
 //  2:3 has an 500px × 750px, 1500px × 2250px
 //  2:3 aspect-ratio: 3 ÷ 2 = 1.5, so you'd drag the slider to 150.
 //  3:2 aspect-ratio: 2 ÷ 3 = .667, so you'd type in 66.7 next to the slider.
 //  4:3
 //  16:9
-function onGetCanvasWidth(elMeme, memeId) {
+function setAspectRatio(elMeme) {
     //  NOTE: formula
     //      CH / CW = IH / IW
     //      CW = IH * CH / IW
@@ -54,67 +137,34 @@ function onGetCanvasWidth(elMeme, memeId) {
 
 }
 
-// render options Based CountMap  
-function renderKeywordsOptions() {
-    const keywordsCountMap = galleryService.getKeyWordsCountMap()
-    const strHTMLs = Object.keys(keywordsCountMap).map(keywordStr =>
-        `<option value="${keywordStr}"></option>`
-    )
-    document.querySelector('#keywords').innerHTML = strHTMLs.join('')
-}
-
-// font Size Based CountMap
-function renderKeywordsBtns() {
-    const strHTMLs = galleryService.getTopCountMap().map(keyword =>
-        `
-        <li>
-        <button class="btn btn-keyword"
-        title="${keyword[1]} Meme Founds"
-         onclick="onClickFilterKeyword(this)" 
-        data-fs="${keyword[1]}">${keyword[0]}
-        </button>
-        </li>
-        `
-    )
-    document.querySelector('.keyword-container').innerHTML = strHTMLs.join('')
-}
-
-// Upload Meme Background
+// Upload Image // TODO:Save on the GalleryService
 function onUploadImg(ev) {
     const { elImgInput } = gMeme.domeEls.inputs
     elImgInput.innerHTML = ''
     const reader = new FileReader()
     reader.onload = (event) => {
         const img = new Image()
+
         img.src = event.target.result
         onChooseImg(event.target.result)
     }
     reader.readAsDataURL(ev.target.files[0])
+    console.log(reader.readAsDataURL(ev.target.files[0]));
 }
 
-// Filter
-function onSetFilter(str) {
-    const { elFilterBy } = gState.domEls.inputs
-    // const imgs = getImgsForDisplay()
-    galleryService.setFilter(str)
-    elFilterBy.value = str
-    renderGallery()
+function uploadImg() { // MODEL //  galleryService
+
 }
 
-// keywords Buttons
-function onClickFilterKeyword(elKeyWord) {
-    const { dataset, innerText } = elKeyWord
-    elKeyWord.style.color = utilService.getRandomColor()
-    onSetFilter(innerText)
-    if (+dataset.fs >= 16) return
-    dataset.fs++
+// Capitalize Arr 
+function _capitalizes(keywordsStr) {
+    return keywordsStr.slice(0, 3).map(keyword => {
+        if (keyword) return (_capitalize(keyword))
+    })
+        .join(', ')
 }
 
-// Last Function on Gallery Controller
-function onImgSelect(imgIdx) {
-    console.log(`onImgSelect(${imgIdx})`)
-    flashMsg(`Image ${imgIdx}\n selected.`)
-    onNav('edit')
-    setImg(imgIdx + 1)
-    renderMeme()
+// Capitalize Str 
+function _capitalize(word) {
+    return word.replace(/^\w/, c => c.toUpperCase())
 }

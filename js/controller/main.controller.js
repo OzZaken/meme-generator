@@ -1,18 +1,12 @@
 'use strict'
 
 function onInit() {
-    renderGallery()
-    renderKeywordsOptions()
-    renderKeywordsBtns()
-    
-    // Set Global Controller State Variable
-    window.gState = {
+    // Set Global State MainController 
+    window.gMainController = {
         activePageStr: 'gallery',
         isMenuOpen: false,
+        audio: {},
         domEls: {
-            elGalleryContainer:document.querySelector('.gallery-container'),
-            elMeme: document.querySelector('#elMeme'),
-            elMemeContainer:document.querySelector('.meme-container'),
             elUserMsg: document.querySelector('.user-msg'),
             elMainNav: document.querySelector('.main-nav'),
             elBtnToggleNav: document.querySelector('.btn-toggle-menu'),
@@ -28,69 +22,67 @@ function onInit() {
                 elPageAbout: document.querySelector('.main-about-container')
             },
             inputs: {
-                elFilterBy: document.querySelector('input[name="filter"]'),
                 elImgInput: document.querySelector('input[name="img"]'),
             },
         },
-        audio: {},
     }
+    // Gallery
+    initGalleryController('meme')
 
     // i18
     // setUserDefaultLang()
 
-    flashMsg('Generate\n New Meme!')
+    // User-Msg
     flashMsg('Welcome!')
-    console.log('gState:', gState.domEls)
-
-    // If Not Move Paged In Timeout FlashMsg
     setTimeout(() => {
-        const { elLinkGallery } = gState.domEls.links
+        const { elLinkGallery } = gMainController.domEls.links
         if (elLinkGallery.classList.contains('active')) flashMsg('Choose Meme Background!')
     }, 5000)
+    initMemeController()
 }
 
 // Navigation
 function onNav(navToStr) {
-    if (gState.isMenuOpen) onToggleMenu()
+    if (gMainController.isMenuOpen) onToggleMenu()
     if (!navToStr) navToStr = 'Gallery'
     const _capitalize = (str) => {
         return str[0].toUpperCase() + str.substring(1)
     }
-    
+
     playAudio('click')
     // Remove First(and only) .active class and remove it
     document.querySelector('.active').classList.remove('active')
 
     // add .active to curPage
-    const { links } = gState.domEls
+    const { links } = gMainController.domEls
     const elActiveLink = links[`elLink${_capitalize(navToStr)}`]
     elActiveLink.classList.add('active')
 
     //  Hide all pages and 
     const elPages = document.querySelectorAll('.page')
     elPages.forEach(elPage => elPage.hidden = true)
-    
+
     // reveal curPage 
-    const { pages } = gState.domEls
+    const { pages } = gMainController.domEls
     const elActivePage = pages[`elPage${_capitalize(navToStr)}`]
     elActivePage.hidden = false
 }
 
 // Mobile Menu ☰
 function onToggleMenu() {
-    const { elMainNav, elBtnToggleNav } = gState.domEls
+    const { elMainNav, elBtnToggleNav } = gMainController.domEls
     // notify elScreen 
     document.body.classList.toggle('menu-opened')
     // dropDown animation
     elMainNav.classList.toggle('menu-opened')
     // menuBar animation
     elBtnToggleNav.classList.toggle('nav-open')
-    gState.isMenuOpen = !gState.isMenuOpen
+    gMainController.isMenuOpen = !gMainController.isMenuOpen
 }
 
 // User Msg 
 function flashMsg(str) {
-    const { elUserMsg } = gState.domEls
+    const { elUserMsg } = gMainController.domEls
     elUserMsg.innerText = str
     elUserMsg.classList.add('user-msg-open')
     setTimeout(() => elUserMsg.classList.remove('user-msg-open'), 3000)
@@ -98,12 +90,13 @@ function flashMsg(str) {
 
 // Audio
 function playAudio(audioKey) {
-    const { audio } = gState
+    const { audio } = gMainController
     if (audio[audioKey]) audio[audioKey].pause()
     return new Promise((resolve, reject) => { // return a promise
         audio[audioKey] = new Audio()         // create audio wo/ src
         audio[audioKey].preload = "auto"    // intend to play through
         audio[audioKey].autoplay = true    // autoplay when loaded
+        // onlySong overLoop when loaded
         if (/music/.test(audioKey)) {
             audio[audioKey].loop = true
             audio[audioKey].volume = 0.4
@@ -113,4 +106,13 @@ function playAudio(audioKey) {
         audio[audioKey].onended = resolve  // when done, resolve
     })
 
+}
+
+// Last Function on GalleryController
+function onImgSelect(imgId) {
+    console.log(`onImgSelect(${imgId})`)
+    flashMsg(`Image ${imgId}\n selected.`)
+    onNav('edit')
+    setImg(imgId + 1)
+    renderMeme()
 }

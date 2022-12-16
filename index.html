@@ -59,15 +59,20 @@
 
         <!-- Gallery -->
         <section class="page main-gallery-container">
-            <label for="keywords"></label>
-            <datalist id="keywords"></datalist>
-            <form onsubmit="event.preventDefault;onSetFilter()" action="">
-                <input oninput="onSetFilter(this.value)" list="keywords" name="filter" type="search"
-                    placeholder="Search Background">
-
-            </form>
-            <button class="btn btn-flexable" onclick="onFlex()">Be Flexable</button>
-            <ul class="clean-list keyword-container"></ul>
+            <label for="Search Image"></label>
+            <datalist id="gallery-keywords"></datalist>
+            <!-- ? ev.stopPropagations() ↓ ?-->
+            <form class="gallery-form" onsubmit="ev.preventDefault();onSetFilter()">
+                <input 
+                        list="gallery-keywords" 
+                         oninput="onSetFilter(this.value)" 
+                         name="gallery-filter" 
+                         type="search"
+                          placeholder="Search Image"
+                          >
+                    <button class="btn btn-flexable">Be Flexable</button>
+                </form>
+                <ul class="clean-list gallery-keywords-container"></ul>
             <div class="grid gallery-container"> </div>
         </section>
 
@@ -76,7 +81,7 @@
 
             <!-- Canvas -->
             <div class="meme-container">
-                <canvas class="meme-canvas" id="elMeme" height="350" width="350"></canvas>
+                <canvas class="meme" id="meme" height="350" width="350"></canvas>
             </div>
 
             <!--  Btns -->
@@ -85,7 +90,7 @@
                 <label for="Add New Text line"></label>
                 <input class="line-txt  fa flex" oninput="onSetLineText(this.value)" onsubmit="onAddTxtLine()"
                     type="text" placeholder="Add new text line" title="Add New Text line">
-                    
+
                 <!-- Grid Editor Btns -->
                 <div class="grid editor-container">
                     <i onclick="onChangeLinePos(0,-20)" title="Move text up" class="setting-btn fa-arrow-up"></i>
@@ -128,7 +133,7 @@
                     </i>
                 </div>
 
-                <!--* Export -->
+                <!-- Export -->
                 <div class="export  flex justify-center align-center">
                     <button class="save-meme  btn btn-glass" onclick="onSaveMeme()">save</button>
                     <a class="config download-btn  btn btn-glass" href="#" onclick="onDownloadMeme(this)"
@@ -200,7 +205,7 @@
 
     <script src="js/controller/gallery.controller.js"></script>
     <script src="js/controller/meme.controller.js"></script>
-   
+
     <!-- Main Controller -->
     <script src="js/controller/main.controller.js"></script>
 </body>

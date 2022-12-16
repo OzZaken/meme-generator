@@ -36,3 +36,22 @@ function playAudio(AudioName, audioEco) {
     }
     new Audio(`audio/${AudioName}.mp3`).play()
 }
+
+function ask(askWho) {
+    let fetchStatus
+    fetch(`${askWho}`, {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json;charset=UTF-8"
+        }
+    }) 
+    // Save the response status in a variable to use later.
+        .then((response) => {
+            fetchStatus = response.status
+            // Handle success Convert the response to JSON and return
+            return response.json()
+        })
+        // ? Check if the response were success if (fetchStatus == 200)
+        .then(json => console.log(json))
+        .catch(error => console.log(error, fetchStatus))
+}

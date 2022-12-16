@@ -1,15 +1,15 @@
-.keyword-container {
+ul.gallery-keywords-container {
     clear: left;
     display: inline-flex;
     align-items: baseline;
     justify-content: center;
 }
 
-.keyword-container>li {
+.gallery-keywords-container>li {
     margin-left: 1rem;
 }
 
-input[name="filter"] {
+input[name="gallery-filter"] {
     /* overflow: visible; */
     /* font-family: inherit; */
     float: left;
@@ -23,7 +23,9 @@ input[name="filter"] {
     padding: 10px
 }
 
-/* Flexable button */
+/* Flexable button
+ Although the button does not belong in terms of the control.
+ It is in the gallery for better Ui*/
 .btn-flexable {
     float: right;
     margin-top: 5px;
@@ -135,6 +137,7 @@ input[name="filter"] {
     /* auto-fill -> Not stretched the Imgs container */
     grid-template-columns: repeat(auto-fill, minmax(100px, 10fr));
 }
+
 .gallery-meme-container.gallery-stat {
     align-self: stretch;
     justify-self: stretch;
@@ -163,7 +166,7 @@ input[name="filter"] {
         align-items: flex-start;
     }
 
-    
+
 
 }
 
