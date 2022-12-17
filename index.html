@@ -10,8 +10,8 @@
     <link rel="stylesheet" type="text/css" media="screen" href="css/main.css">
 </head>
 
-<body onload="onInit()">
-
+<body class="5 page-gallery"onload="onInit()">
+    <!-- Header -->
     <header class="flex-row header">
         <!-- Logo -->
         <a class="logo" href="#" onclick="onNav('')"></a>
@@ -55,6 +55,7 @@
         </div>
     </header>
 
+    <!-- Main -->
     <main class="main-layout">
 
         <!-- Gallery -->
@@ -63,16 +64,11 @@
             <datalist id="gallery-keywords"></datalist>
             <!-- ? ev.stopPropagations() ↓ ?-->
             <form class="gallery-form" onsubmit="ev.preventDefault();onSetFilter()">
-                <input 
-                        list="gallery-keywords" 
-                         oninput="onSetFilter(this.value)" 
-                         name="gallery-filter" 
-                         type="search"
-                          placeholder="Search Image"
-                          >
-                    <button class="btn btn-flexable">Be Flexable</button>
-                </form>
-                <ul class="clean-list gallery-keywords-container"></ul>
+                <input list="gallery-keywords" oninput="onSetFilter(this.value)" name="gallery-filter" type="search"
+                    placeholder="Search Image">
+                <button class="btn btn-flexable">I'am Flexable</button>
+            </form>
+            <ul class="clean-list gallery-keywords-container"></ul>
             <div class="grid gallery-container"> </div>
         </section>
 
@@ -189,10 +185,10 @@
 
     <!-- User Msg -->
     <div class="user-msg"></div>
+    
     <!-- Screen -->
     <div class="screen" onclick="toggleMenu()"></div>
 
-    <!--* JS -->
     <!-- Service -->
     <script src="js/service/util.service.js"></script>
     <script src="js/service/storage.service.js"></script>
@@ -200,12 +196,13 @@
 
     <!-- i18, Edit, Galley -->
     <script src="js/service/i18.service.js"></script>
-    <script src="js/service/meme.service.js"></script>
+    
     <script src="js/service/gallery.service.js"></script>
+    <script src="js/service/meme.service.js"></script>
 
     <script src="js/controller/gallery.controller.js"></script>
     <script src="js/controller/meme.controller.js"></script>
-
+    
     <!-- Main Controller -->
     <script src="js/controller/main.controller.js"></script>
 </body>

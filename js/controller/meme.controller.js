@@ -1,7 +1,21 @@
 'use strict'
-function getFlexibleMeme() {
-    let x = utilService.ask('https://jsonplaceholder.typicode.com/userssss')
-    console.log(`🚀 ~ x`, x)
+
+function getMeme1() {
+    let fetchStatus
+    fetch(`https://namo-memes.herokuapp.com/memes/:n`, {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json;charset=UTF-8"
+        }
+    }) 
+    // Save the response status in a variable to use later.
+        .then((response) => {
+            fetchStatus = response.status
+            // Handle success Convert the response to JSON and return
+            return response.json()
+        })
+        .then(json => console.log(json))
+        .catch(error => console.log(error, '\nfetchStatus:',fetchStatus))
 }
 
 //* //  ///   /////      🐱‍👤👀🐱‍👤     \\\\\    \\\  *\\
@@ -13,7 +27,7 @@ function initMemeController() {
         elMeme: document.querySelector('#meme'),
         ctx: null,
         isDraw: false,
-        gStroke: {
+        stroke: {
             currShape: 'circle',
             fillStyle: 'black',
             strokeStyle: 'white',
@@ -45,7 +59,7 @@ function _setCTX() {
 function renderMeme() {
     const img = new Image()
     const path = 'assets/img/gallery/'
-    const { lines, selectedImgIdx } = getMeme()
+    const { lines, selectedImgUrl: selectedImgIdx } = getMeme()
     img.src = `${path}${selectedImgIdx}.jpg`
     img.onload = () => {
         const elMeme = document.querySelector('#canvas')
@@ -68,6 +82,7 @@ function drawLine(line) {
     gCtx.strokeText(line.txt, x, y)
     gCtx.closePath()
 }
+
 function addListeners() {
     addMouseListeners()
     addTouchListeners()

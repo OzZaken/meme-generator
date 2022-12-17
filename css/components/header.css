@@ -87,7 +87,7 @@ select.lang {
         width: 100%;
     }
 
-    .menu-opened .main-nav-list {
+    .mobile-menu-open .main-nav-list {
         border-bottom: 1px solid #1d1d1d;
         max-height: 500px;
         transform-origin: top;

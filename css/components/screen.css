@@ -14,7 +14,7 @@
 }
 
 @media (max-width: 600px) {
-    .menu-opened .screen {
+    .mobile-menu-open .screen {
         opacity: 1;
         pointer-events: auto;
     }

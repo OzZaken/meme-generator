@@ -1,84 +1,50 @@
 'use strict'
 
-// StorageData
-const STORAGE_KEY = 'memeDB'
-let gMemes // Saved to Store
-
-// Initial Meme
-const gMeme = {
-    selectedImgIdx: null,
-    selectedLineIdx: 0,
-    lines: [
-        {
-            txt: 'Add some text',
-            lineWidth: 2,
-            fontSize: 30,
-            align: 'center',
-            color: 'black',
-            pos: { x: 250, y: 100 },
-            family: 'impact',
-            borderColor: 'red',
-            isDrag: false,
-            isSaved: false,
-        },
-    ]
+const MEME_SERVICE = {
+    // StorageData
+    storageKey: 'memeDB',
+    memes: null,
+    // Initial Meme
+    meme: {
+        selectedImgUrl: null,
+        selectedLineIdx: 0,
+        lines: [
+            {
+                txt: 'Add some text',
+                lineWidth: 2,
+                fontSize: 30,
+                align: 'center',
+                color: 'black',
+                pos: { x: 250, y: 100 },
+                family: 'impact',
+                borderColor: 'red',
+                isDrag: false,
+                isSaved: false,
+            },
+        ]
+    }
 }
 
-_createMemes()
-
-// return gMeme
+// return meme
 function getMeme() {
-    return gMeme
-}
-
-// Private
-function _createMemes() {
-    let memes = _loadFromStorage(STORAGE_KEY)
-    if (!memes || !memes.length) {
-        memes = []
-        for (let i = 0; i < gImgs.length; i++) {
-            memes[i] = _createMeme(i)
-        }
-    }
-    gMemes = memes
-    _saveToStorage()
-}
-
-function _createMeme(imgIdx) {
-    const { keywords, url } = gImgs[imgIdx]
-    return {
-        id: makeId(),
-        keywords,
-        url,
-        selectedImgId: null,
-        selectedLineIdx: null,
-        lines: [],
-    }
+    const {meme} = MEME_SERVICE
+    return meme
 }
 
 function _saveToStorage() {
-    storageService.saveToStorage(STORAGE_KEY, gMemes)
+    const { storageKey, memes } = MEME_SERVICE
+    storageService.saveToStorage(storageKey, memes)
 }
 
 function _loadFromStorage() {
-    return storageService.loadFromStorage(STORAGE_KEY)
+    const { storageKey} = MEME_SERVICE
+    return storageService.loadFromStorage(storageKey)
 }
-
-// gMemes.length
-function getTotalCount() {
-    return gMemes.length
+// imgUrl
+function setImg(imgUrl) {
+    const {meme} = MEME_SERVICE
+    meme.selectedImgUrl = imgUrl
 }
-
-// gMeme.selectedImgIdx
-function setImg(imgIdx) {
-    gMeme.selectedImgIdx = imgIdx
-}
-
-
-
-
-
-
 
 //* Meme btns lines  
 function setLineText(txt) {
@@ -186,3 +152,6 @@ function saveMeme() {
     console.log('gSavedMemes:', gSavedMemes)
     _saveMemeToStorage()
 }
+
+
+

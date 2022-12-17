@@ -1,27 +1,25 @@
 'use strict'
 
-// Later:
 // import galleryService from '../service/gallery.service'
-// export const galleryController = {
-//         renderGallery,
-//         renderKeywordsOptions,
-//         renderKeywordsBtns,
-//         onUploadImg,
-//         onSetFilter,
-// }
 
+const GALLERY_CONTROLLER = {
+    initGalleryController,
+    renderGallery,
+    renderKeywordsOpts,
+    renderKeywordsBtns,
+    onUploadImg,
+    onSetFilter,
+}
+
+// Init GalleryController State On window and render
 function initGalleryController(galleryName) {
-    // Dependencies:
-    //     · HTML:
+    // · HTML dependencies:
     // datalist#keywords
     // datalist.keyword-container
     // input[name="filter"]
     // ul.gallery-keywords-container
-    //     · JS:
     !galleryName ? galleryName = 'Image' : galleryName
-    console.log('initGalleryController:\nGallery Name:', galleryName)
-
-    //? callBack func onImgSelect
+    GALLERY_SERVICE.setStorageKey(galleryName)
     window.gGalleryController = {
         galleryName,
         elFilterBy: document.querySelector('input[name="gallery-filter"]'),
@@ -29,53 +27,49 @@ function initGalleryController(galleryName) {
         elKeywordContainer: document.querySelector('ul.gallery-keywords-container'),
         elGallery: document.querySelector('div.gallery-container'),
     }
-    // Opt, Better in Timeout for Ending init
-    setTimeout(() => {
-        renderGallery()
-        renderKeywordsOptions()
-        renderKeywordsBtns()
-    }, 30)
 }
 
-// render Gallery + filter-stat + upload-image   
+// Render Gallery + Filter-stat + Upload-image   
 function renderGallery() {
     const { galleryName } = gGalleryController
-    // Set Images template
     const imgs = getImgsForDisplay()
+
+    // Images template
     const strHTMLs = imgs.map((img, idx) => {
         return `
-        <img onclick="onImgSelect('${img.id}')" 
-        onload="setAspectRatio(this,'${img.id}')"
-        class="gallery-${galleryName}-container"
+        <img onclick="onImgSelect('${img.url}')" 
+        onload="onSetAspectRatio(this)"
+        class="gallery-img-container"
         src=${img.url}
         alt="${_capitalize(galleryName)} #${idx + 1} ${_capitalizes(img.keywords)}"       
         title="${_capitalize(galleryName)} #${idx + 1}\n${_capitalizes(img.keywords)}">
         `}
     )
-    // Set Stats and Upload Option
+
+    // Stats and Upload image Option
     const foundCount = imgs.length >= 0 ? imgs.length : '0'
     strHTMLs.unshift(`
     <div class="gallery-${galleryName}-container gallery-stat">
     <span title="filtered ${galleryName} count">${foundCount}</span>
     &#47;
-    <span title="Total ${_capitalize(galleryName)}s Founds">${getTotalCount()}</span>
-    <p>Upload New ${galleryName}!</p>
+    <span title="Total ${_capitalize(galleryName)}s Founds">${getImgsCount()}</span>
+    <p>Upload New ${_capitalize(galleryName)}!</p>
     <input type="file" name="img" onchange="onUploadImg(event)"/>
     </div>
     `)
+
     // render Gallery
     const { elGallery } = gGalleryController
     elGallery.innerHTML = strHTMLs.join('')
 }
 
-// render Options keywords to the DataList
-function renderKeywordsOptions() {
+// Render on DataList keywords Options
+function renderKeywordsOpts() {
     const keywordsCountMap = getOptionsForDisplay()
-    console.log(`🚀 ~ keywordsCountMap`, keywordsCountMap)
     const strHTMLs = keywordsCountMap.map(keywordStr =>
         `<option value="${keywordStr}">${_capitalize(keywordStr)}</option>`
     )
-    strHTMLs.unshift(`<option value=" ">ALL</option>`)
+    strHTMLs.push(`<option value=" ">ALL</option>`)
     const { elDataList } = gGalleryController
     elDataList.innerHTML = strHTMLs.join('')
 }
@@ -84,7 +78,6 @@ function renderKeywordsOptions() {
 function onSetFilter(str) {
     !str || str === ' ' ? str = '' : str
     // Give Option for emptySpace
-    // DOM
     const { elFilterBy } = gGalleryController
     elFilterBy.value = str
 
@@ -92,7 +85,7 @@ function onSetFilter(str) {
     renderGallery()  // DOM
 }
 
-// render keywords buttons based sorted options 
+// Render keywords buttons based sorted options 
 function renderKeywordsBtns() {
     const { galleryName } = gGalleryController
     const strHTMLs = getKeywordsForDisplay()
@@ -100,7 +93,7 @@ function renderKeywordsBtns() {
             `<li>
             <button class="btn btn-keyword"
             title="${keyword[1]} ${_capitalize(galleryName)}s Founds"
-             onclick="onClickFilterKeyword(ev,this)" 
+             onclick="onClickFilterKeyword(event,this)" 
             data-fs="${keyword[1]}">${keyword[0]}
             </button>
             </li>`
@@ -109,32 +102,32 @@ function renderKeywordsBtns() {
     elKeywordContainer.innerHTML = strHTMLs.join('')
 }
 
-// Keywords Buttons
+// Set filter and UI effect Buttons
 function onClickFilterKeyword(ev, elKeyWord) {
-    ev.preventDefault()
-    ev.stopPropagations()
     const { dataset, innerText } = elKeyWord
+    ev.preventDefault()
     elKeyWord.style.color = utilService.getRandomColor()
     onSetFilter(innerText)
     if (+dataset.fs >= 16) return
     dataset.fs++
 }
 
-// Common aspect-ratio for Images:
-//  1:1 a square image
-//  2:3 has an 500px × 750px, 1500px × 2250px
-//  2:3 aspect-ratio: 3 ÷ 2 = 1.5, so you'd drag the slider to 150.
-//  3:2 aspect-ratio: 2 ÷ 3 = .667, so you'd type in 66.7 next to the slider.
-//  4:3
-//  16:9
-function setAspectRatio(elMeme) {
-    //  NOTE: formula
-    //      CH / CW = IH / IW
-    //      CW = IH * CH / IW
-    //      CH = IH * CW / IW
-    const canvasHight = elMeme.naturalHeight * elMeme.offsetWidth / elMeme.naturalWidth
-    // elMeme.style.naturalHeight = Math.ceil(canvasHight)
+// Set elImage aspect-ratio CSS
+function onSetAspectRatio(elImage) {
+    elImage.style.aspectRatio = `${elImage.naturalWidth}/${elImage.naturalHeight}`
+}
 
+// Capitalize STRs 
+function _capitalizes(wordsStr) {
+    return wordsStr.slice(0, 3).map(keyword => {
+        if (keyword) return (_capitalize(keyword))
+    })
+        .join(', ')
+}
+
+// Capitalize Str 
+function _capitalize(word) {
+    return word.replace(/^\w/, c => c.toUpperCase())
 }
 
 // Upload Image // TODO:Save on the GalleryService
@@ -149,22 +142,112 @@ function onUploadImg(ev) {
         onChooseImg(event.target.result)
     }
     reader.readAsDataURL(ev.target.files[0])
+    console.log('reader.readAsDataURL(ev.target.files[0]):', reader.readAsDataURL(ev.target.files[0]))
     console.log(reader.readAsDataURL(ev.target.files[0]));
 }
 
-function uploadImg() { // MODEL //  galleryService
 
-}
-
-// Capitalize Arr 
-function _capitalizes(keywordsStr) {
-    return keywordsStr.slice(0, 3).map(keyword => {
-        if (keyword) return (_capitalize(keyword))
-    })
-        .join(', ')
-}
-
-// Capitalize Str 
-function _capitalize(word) {
-    return word.replace(/^\w/, c => c.toUpperCase())
-}
+// * Opt Give the Service initialize Data
+// const initializeImgs = {
+//     imgCount: 25,
+//     fileType: 'jpg',
+//     path: 'assets/img/gallery/',
+//     keywords: [
+//         [
+//             "view",
+//             "dance"
+//         ],
+//         [
+//             "funny",
+//             "celeb"
+//         ],
+//         [
+//             "dog",
+//             "cute"
+//         ],
+//         [
+//             "baby",
+//             "angry"
+//         ],
+//         [
+//             "dog",
+//             "baby",
+//             "cute"
+//         ],
+//         [
+//             "cute",
+//             "cat"
+//         ],
+//         [
+//             "celeb"
+//         ],
+//         [
+//             "funny",
+//             "baby"
+//         ],
+//         [
+//             "celeb"
+//         ],
+//         [
+//             "angry",
+//             "celeb"
+//         ],
+//         [
+//             "celeb"
+//         ],
+//         [
+//             "funny",
+//             "celeb"
+//         ],
+//         [
+//             "funny",
+//             "dance"
+//         ],
+//         [
+//             "funny",
+//             "celeb"
+//         ],
+//         [
+//             "baby",
+//             "surprised"
+//         ],
+//         [
+//             "funny",
+//             "dog"
+//         ],
+//         [
+//             "funny",
+//             "celeb"
+//         ],
+//         [
+//             "funny",
+//             "celeb"
+//         ],
+//         [
+//             "celeb"
+//         ],
+//         [
+//             "celeb",
+//             "angry"
+//         ],
+//         [
+//             "funny",
+//             "celeb"
+//         ],
+//         [
+//             "funny",
+//             "celeb"
+//         ],
+//         [
+//             "celeb"
+//         ],
+//         [
+//             "celeb",
+//             "angry"
+//         ],
+//         [
+//             "funny",
+//             "celeb"
+//         ]
+//     ],
+// }

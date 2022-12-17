@@ -1,7 +1,7 @@
 'use strict'
 
 function onInit() {
-    // Set Global State MainController 
+    // MainController 
     window.gMainController = {
         activePageStr: 'gallery',
         isMenuOpen: false,
@@ -28,6 +28,12 @@ function onInit() {
     }
     // Gallery
     initGalleryController('meme')
+    renderGallery()
+    renderKeywordsOpts()
+    renderKeywordsBtns()
+
+    //* Meme
+    // initMemeController()
 
     // i18
     // setUserDefaultLang()
@@ -35,46 +41,57 @@ function onInit() {
     // User-Msg
     flashMsg('Welcome!')
     setTimeout(() => {
-        const { elLinkGallery } = gMainController.domEls.links
-        if (elLinkGallery.classList.contains('active')) flashMsg('Choose Meme Background!')
+        const { elLinkGallery, activePageStr } = gMainController.domEls.links
+        if (document.body.classList.contains('active')) flashMsg('Choose Meme Background!')
+        // if (activePageStr === 'gallery') flashMsg('Choose Meme Background!')
+        // if (elLinkGallery.classList.contains('active')) flashMsg('Choose Meme Background!')
     }, 5000)
-    initMemeController()
 }
+; (() => {
+    console.log('🐱‍👤')
+})()
 
 // Navigation
 function onNav(navToStr) {
-    if (gMainController.isMenuOpen) onToggleMenu()
-    if (!navToStr) navToStr = 'Gallery'
-    const _capitalize = (str) => {
-        return str[0].toUpperCase() + str.substring(1)
-    }
+    const pageClassStrs = Object.keys(document.body.classList) // TODO: filter using regex
+    console.log(`🚀 ~ pageClassStrs`, pageClassStrs)
+    const curClassStr = pageClassStrs.find(classStr => /page-/.test(classStr))
 
-    playAudio('click')
-    // Remove First(and only) .active class and remove it
+    console.log(`🚀 ~ curPageStr`, curClassStr)
+    if (!navToStr) navToStr = 'gallery'
+    if (document.body.classList.contains('mobile-menu-open')) onToggleMenu()
+    const _capitalize = (str) => str[0].toUpperCase() + str.substring(1)
+
+    // Get First (and only) .active class and remove it
     document.querySelector('.active').classList.remove('active')
 
-    // add .active to curPage
+    // Add .active to current Link Page
     const { links } = gMainController.domEls
     const elActiveLink = links[`elLink${_capitalize(navToStr)}`]
     elActiveLink.classList.add('active')
 
-    //  Hide all pages and 
+    //  Hide all pages  
     const elPages = document.querySelectorAll('.page')
     elPages.forEach(elPage => elPage.hidden = true)
 
-    // reveal curPage 
+    // Notify other Element current page
+    document.body.classList.add(`page-${navToStr}`)
+
+    // Reveal current page 
     const { pages } = gMainController.domEls
     const elActivePage = pages[`elPage${_capitalize(navToStr)}`]
     elActivePage.hidden = false
+
+    playAudio('click')
 }
 
 // Mobile Menu ☰
 function onToggleMenu() {
     const { elMainNav, elBtnToggleNav } = gMainController.domEls
     // notify elScreen 
-    document.body.classList.toggle('menu-opened')
+    document.body.classList.toggle('mobile-menu-open')
     // dropDown animation
-    elMainNav.classList.toggle('menu-opened')
+    elMainNav.classList.toggle('mobile-menu-open')
     // menuBar animation
     elBtnToggleNav.classList.toggle('nav-open')
     gMainController.isMenuOpen = !gMainController.isMenuOpen
@@ -108,11 +125,11 @@ function playAudio(audioKey) {
 
 }
 
-// Last Function on GalleryController
-function onImgSelect(imgId) {
-    console.log(`onImgSelect(${imgId})`)
-    flashMsg(`Image ${imgId}\n selected.`)
+// the linking function Function on GalleryController
+function onImgSelect(imgUrl) {
+    console.log(`onImgSelect(${imgUrl})`)
+    flashMsg(`Image ${imgUrl}\n selected.`)
     onNav('edit')
-    setImg(imgId + 1)
+    setImg(imgUrl + 1) // memeService
     renderMeme()
 }
