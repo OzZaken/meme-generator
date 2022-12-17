@@ -1,4 +1,7 @@
 'use strict'
+; (() => {
+    console.log('Simania')
+})()
 
 function onInit() {
     // MainController 
@@ -44,9 +47,6 @@ function onInit() {
         if (document.body.classList.contains('page-gallery')) flashMsg('Choose Meme Background!')
     }, 5000)
 }
-; (() => {
-    console.log('SiManisMA🐱‍👤')
-})()
 
 // Navigation
 function onNav(navToStr) {
@@ -121,22 +121,16 @@ function playAudio(audioKey) {
 }
 
 // The linking Func between  
-// Input from  Gallery Controller
+// Input from Gallery Controller
 //   ↨
 // OutPut to Meme Service 
 function onImgSelect() {
     const meme = {
         imgSrc: event.target.src,
         keywords: event.target.dataset.keyword.split(','),
-
     }
-    // keyword
-    // path
     flashMsg(`Image\n selected.`)
-    setMeme(meme) // memeService
-    return
-
     onNav('edit')
+    setMeme(meme) 
     renderMeme()
 }
-

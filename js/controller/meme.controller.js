@@ -1,114 +1,56 @@
 'use strict'
 
-function getMeme1() {
-    let fetchStatus
-    fetch(`https://namo-memes.herokuapp.com/memes/:n`, {
-        method: "GET",
-        headers: {
-            "Content-type": "application/json;charset=UTF-8"
-        }
-    }) 
-    // Save the response status in a variable to use later.
-        .then((response) => {
-            fetchStatus = response.status
-            // Handle success Convert the response to JSON and return
-            return response.json()
-        })
-        .then(json => console.log(json))
-        .catch(error => console.log(error, '\nfetchStatus:',fetchStatus))
-}
-
-//* //  ///   /////      🐱‍👤👀🐱‍👤     \\\\\    \\\  *\\
-// controller State on single Global Var
-// dependencies:
-// HTML: canvas#meme
+// HTML dependencies:
+// div.meme-container
+// canvas#meme
 function initMemeController() {
     window.gMemeController = {
         elMeme: document.querySelector('#meme'),
-        ctx: null,
+        elMemeContainer: document.querySelector('.meme-container'),
         isDraw: false,
-        stroke: {
-            currShape: 'circle',
-            fillStyle: 'black',
-            strokeStyle: 'white',
-            size: 20,
-        },
-
+        elCtx: null,
     }
-    // gCtx.strokeStyle = 'black'
-    // resizeCanvas()
-    // window.addEventListener('resize', () => {
-    //     OnResizeCanvas()
-    // })
-    // gElCanvas.addEventListener('mousedown', onDown)
-    // gElCanvas.addEventListener('mousemove', onDraw)
-    // gElCanvas.addEventListener('mouseup', onUp)
-
-    // gElCanvas.addEventListener('touchstart', onDown)
-    // gElCanvas.addEventListener('touchmove', onDraw)
-    // gElCanvas.addEventListener('touchend', onUp)
-    setTimeout(_setCTX, 30)
+    _setCTX()
 }
 
 function _setCTX() {
-    const { gMemeController } = window
     const { elMeme } = gMemeController
-    gMemeController.ctx = elMeme.getContext('2d')
+    gMemeController.elCtx = elMeme.getContext('2d')
+    const { elCtx } = gMemeController
+    elCtx.currShape = 'circle'
+    elCtx.fillStyle = 'black'
+    elCtx.strokeStyle = 'white'
+    elCtx.size = 20
 }
 
 function renderMeme() {
     const img = new Image()
-    const path = 'assets/img/gallery/'
-    const { lines, selectedImgUrl: selectedImgIdx } = getMeme()
-    img.src = `${path}${selectedImgIdx}.jpg`
+    const { lines, imgSrc } = getMeme()
+    img.src = imgSrc
     img.onload = () => {
-        const elMeme = document.querySelector('#canvas')
-        gCtx.drawImage(img, 0, 0, elMeme.width, elMeme.height)
-
-        // Draw Lines
+        const { elMeme,  elCtx } = gMemeController
+        elCtx.drawImage(img, 0, 0, elMeme.width, elMeme.height)
         lines.forEach(line => drawLine(line))
     }
 }
+//* //  ///   /////      🐱‍👤👀🐱‍👤     \\\\\    \\\  *\\
 
-function drawLine(line) {
-    const { x, y } = line.pos
-    gCtx.beginPath()
-    gCtx.lineWidth = line.lineWidth
-    gCtx.textAlign = line.align
-    gCtx.font = `${line.fontSize}px ${line.family}`
-    gCtx.fillStyle = line.color
-    gCtx.fillText(line.txt, x, y)
-    gCtx.strokeStyle = line.borderColor
-    gCtx.strokeText(line.txt, x, y)
-    gCtx.closePath()
-}
-
-function addListeners() {
-    addMouseListeners()
-    addTouchListeners()
+function setListeners() {
+    const { elMeme } = gMemeController
+    elMeme.addEventListener(() => {
+        // Mouse
+        // elMeme.addEventListener('mousemove', onMove)
+        elMeme.addEventListener('mousedown', onDown)
+        elMeme.addEventListener('mouseup', onUp)
+        // Mobile
+        // elMeme.addEventListener('touchmove', onMove)
+        elMeme.addEventListener('touchstart', onDown)
+        elMeme.addEventListener('touchend', onUp)
+    })
     window.addEventListener('resize', () => {
         resizeCanvas()
-        const center = { x: elMeme.width / 2, y: elMeme.height / 2 }
-        createCircle(center)
         renderCanvas()
     })
-}
-
-function addMouseListeners() {
-    elMeme.addEventListener('mousemove', onMove)
-    elMeme.addEventListener('mousedown', onDown)
-    elMeme.addEventListener('mouseup', onUp)
-}
-
-function addTouchListeners() {
-    elMeme.addEventListener('touchmove', onMove)
-    elMeme.addEventListener('touchstart', onDown)
-    elMeme.addEventListener('touchend', onUp)
-}
-
-function OnResizeCanvas() {
-    resizeCanvas()
-    renderMeme()
 }
 
 function resizeCanvas() {
@@ -118,14 +60,11 @@ function resizeCanvas() {
     elContainer.height = elMeme.height
 }
 
-
-
 function getPos(ev) {
     const pos = {
         x: ev.offsetX,
         y: ev.offsetY
     }
-
     const touchEvs = ['touchstart', 'touchmove', 'touchend']
     if (touchEvs.includes(ev.type)) {
         ev.preventDefault()
@@ -168,7 +107,7 @@ function onAddTxtLine(txt) {
     renderMeme()
 }
 function onSwitchLines() {
-    switchLines()
+    switchSelectedLine()
     playAudio('click', gAudio)
     renderMeme()
 }
@@ -179,7 +118,7 @@ function onDeleteTxtLine() {
 }
 
 function onChangeElSize(num) {
-    setSize(num)
+    setTxtSize(num)
     renderMeme()
 }
 function onChangeAlign(dir) {
@@ -187,7 +126,17 @@ function onChangeAlign(dir) {
     renderMeme()
 }
 
-
+function resizeCanvas() {
+    var elContainer = document.querySelector('.canvas-container')
+    // Note: changing the canvas dimension this way clears the canvas
+    gElDrawCanvas.width = elContainer.offsetWidth - 100;
+}
+function downloadCanvas(elLink) {
+    // Todo: Make more reUse which Canvas to Download in case of multi
+    const data = gElDrawCanvas.toDataURL()
+    elLink.href = data
+    elLink.download = 'my-canvas'
+}
 
 
 function onSetColor(val, className) {
@@ -283,4 +232,24 @@ function onMouseOutCanvas() {
 function onClearMeme() {
     playAudio('click', gAudio)
     clearMeme()
+}
+
+function getEvPos(ev) {
+	const touchEvs = ['touchstart', 'touchmove', 'touchend']
+	//Gets the offset pos , the default pos
+	var pos = {
+		x: ev.offsetX,
+		y: ev.offsetY,
+	}
+
+	if (touchEvs.includes(ev.type)) {
+		ev.preventDefault()
+		ev = ev.changedTouches[0]
+		//Calc the right pos according to the touch screen
+		pos = {
+			x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
+			y: ev.pageY - ev.target.offsetTop - ev.target.clientTop - ev.target.offsetParent.offsetTop,
+		}
+	}
+	return pos
 }

@@ -1,7 +1,23 @@
 'use strict'
 
+function _saveToStorage() {
+    const { storageKey, memes } = MEME_SERVICE
+    storageService.saveToStorage(storageKey, memes)
+}
+
+function _loadFromStorage() {
+    const { storageKey } = MEME_SERVICE
+    return storageService.loadFromStorage(storageKey)
+}
+
 const MEME_SERVICE = {
-    // StorageData
+    setMeme,
+    getMeme,
+    setTxt,
+    setTxtSize,
+    switchSelectedLine,
+    drawLine,
+
 }
 
 const MEME = {
@@ -28,22 +44,9 @@ const MEME = {
     },
 }
 
-
-
 // Return Meme
 function getMeme() {
-    const { meme } = MEME_SERVICE
-    return meme
-}
-
-function _saveToStorage() {
-    const { storageKey, memes } = MEME_SERVICE
-    storageService.saveToStorage(storageKey, memes)
-}
-
-function _loadFromStorage() {
-    const { storageKey } = MEME_SERVICE
-    return storageService.loadFromStorage(storageKey)
+    return MEME.meme
 }
 
 // OverRight Meme
@@ -52,7 +55,6 @@ function setMeme(meme) {
         ...MEME.meme,
         ...meme
     }
-    console.log('MEME.meme:', MEME.meme)
 }
 
 function setTxt(txt) {
@@ -60,35 +62,35 @@ function setTxt(txt) {
     lines[selectedLineIdx].txt = txt
 }
 
-function setSize(diff) {
+function setTxtSize(diff) {
     const { lines,selectedLineIdx } = MEME.meme
     lines[selectedLineIdx].size += diff
 }
 
-function switchLines() {
+function switchSelectedLine() {
     const {meme} = MEME
     const linesCount = meme.lines.length
     if (meme.selectedLineIdx >= linesCount)meme.selectedLineIdx=0
     else meme.selectedLineIdx
 }
 
-function changeLinePos(x, y) {
-    const meme = getMeme()
-    const { lines } = meme
-    const { pos } = lines[meme.selectedLineIdx]
-    pos.x += x
-    pos.y += y
+
+function drawLine(line) {
+    const { ctx } = gMemeController
+    const { x, y } = line.pos
+    ctx.beginPath()
+    ctx.lineWidth = line.lineWidth
+    ctx.textAlign = line.align
+    ctx.font = `${line.fontSize}px ${line.family}`
+    ctx.fillStyle = line.color
+    ctx.fillText(line.txt, x, y)
+    ctx.strokeStyle = line.borderColor
+    ctx.strokeText(line.txt, x, y)
+    ctx.closePath()
 }
 
-function addTxtLine(txt) {
-    const val = document.querySelector('.line-txt').value
-    if (val === '') return
-    const meme = getMeme()
-    meme.lines.push(newLine(txt))
-    setSelectedLineIdx()
-    document.querySelector('.line-txt').value = ''
-    renderMeme()
-}
+
+
 function newLine(txt = 'New Line txt') {
     return {
         txt,
@@ -109,7 +111,13 @@ function deleteLastLine() {
     document.querySelector('.line-txt').value = ''
 }
 
-
+function changeLinePos(x, y) {
+    const meme = getMeme()
+    const { lines } = meme
+    const { pos } = lines[meme.selectedLineIdx]
+    pos.x += x
+    pos.y += y
+}
 function changeAlign(dir) {
     const meme = getMeme()
     const { lines } = meme
@@ -129,7 +137,6 @@ function changeFont(fontStyle) {
 
 
 
-//*      Draw   
 function getFillColor() {
     return gStroke.fillStyle
 }

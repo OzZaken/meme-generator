@@ -113,8 +113,8 @@ function onClickFilterKeyword(ev, elKeyWord) {
 }
 
 // Set elImage aspect-ratio CSS
-function onSetAspectRatio(elImage) {
-    elImage.style.aspectRatio = `${elImage.naturalWidth}/${elImage.naturalHeight}`
+function onSetAspectRatio(el) {
+    el.style.aspectRatio = `${el.naturalWidth}/${el.naturalHeight}`
 }
 
 // Capitalize STRs 
