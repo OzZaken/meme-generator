@@ -7,13 +7,15 @@ function initMemeController() {
     window.gMemeController = {
         elMeme: document.querySelector('#meme'),
         elMemeContainer: document.querySelector('.meme-container'),
+        elKeywordsContainer: document.querySelector('.meme-keywords-container'),
         isDraw: false,
         elCtx: null,
     }
-    _setCTX()
+    console.log('Init MemeControl', gMemeController)
+    _initCTX()
 }
 
-function _setCTX() {
+function _initCTX() {
     const { elMeme } = gMemeController
     gMemeController.elCtx = elMeme.getContext('2d')
     const { elCtx } = gMemeController
@@ -32,9 +34,12 @@ function renderMeme() {
         elCtx.drawImage(img, 0, 0, elMeme.width, elMeme.height)
         lines.forEach(line => drawLine(line))
     }
+    const {keywords} = getMeme()
+    const {elKeywordsContainer} = gMemeController
+    elKeywordsContainer.innerText = keywords.slice(0,3).join(', ')
 }
-//* //  ///   /////      🐱‍👤👀🐱‍👤     \\\\\    \\\  *\\
 
+//* //  ///   /////      🐱‍👤👀🐱‍👤     \\\\\    \\\  *\\
 function setListeners() {
     const { elMeme } = gMemeController
     elMeme.addEventListener(() => {

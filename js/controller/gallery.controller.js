@@ -1,7 +1,110 @@
 'use strict'
 
 // import galleryService from '../service/gallery.service'
-
+// * Opt Give the Service initialize Data
+// const initializeImgs = {
+//     imgCount: 25,
+//     fileType: 'jpg',
+//     path: 'assets/img/gallery/',
+//     keywords: [
+//         [
+//             "view",
+//             "dance"
+//         ],
+//         [
+//             "funny",
+//             "celeb"
+//         ],
+//         [
+//             "dog",
+//             "cute"
+//         ],
+//         [
+//             "baby",
+//             "angry"
+//         ],
+//         [
+//             "dog",
+//             "baby",
+//             "cute"
+//         ],
+//         [
+//             "cute",
+//             "cat"
+//         ],
+//         [
+//             "celeb"
+//         ],
+//         [
+//             "funny",
+//             "baby"
+//         ],
+//         [
+//             "celeb"
+//         ],
+//         [
+//             "angry",
+//             "celeb"
+//         ],
+//         [
+//             "celeb"
+//         ],
+//         [
+//             "funny",
+//             "celeb"
+//         ],
+//         [
+//             "funny",
+//             "dance"
+//         ],
+//         [
+//             "funny",
+//             "celeb"
+//         ],
+//         [
+//             "baby",
+//             "surprised"
+//         ],
+//         [
+//             "funny",
+//             "dog"
+//         ],
+//         [
+//             "funny",
+//             "celeb"
+//         ],
+//         [
+//             "funny",
+//             "celeb"
+//         ],
+//         [
+//             "celeb"
+//         ],
+//         [
+//             "celeb",
+//             "angry"
+//         ],
+//         [
+//             "funny",
+//             "celeb"
+//         ],
+//         [
+//             "funny",
+//             "celeb"
+//         ],
+//         [
+//             "celeb"
+//         ],
+//         [
+//             "celeb",
+//             "angry"
+//         ],
+//         [
+//             "funny",
+//             "celeb"
+//         ]
+//     ],
+// }
 const GALLERY_CONTROLLER = {
     initGalleryController,
     renderGallery,
@@ -112,11 +215,6 @@ function onClickFilterKeyword(ev, elKeyWord) {
     dataset.fs++
 }
 
-// Set elImage aspect-ratio CSS
-function onSetAspectRatio(el) {
-    el.style.aspectRatio = `${el.naturalWidth}/${el.naturalHeight}`
-}
-
 // Capitalize STRs 
 function _capitalizes(words) {
     return words.slice(0, 3).map(keyword => {
@@ -145,109 +243,3 @@ function onUploadImg(ev) {
     console.log('reader.readAsDataURL(ev.target.files[0]):', reader.readAsDataURL(ev.target.files[0]))
     console.log(reader.readAsDataURL(ev.target.files[0]));
 }
-
-
-// * Opt Give the Service initialize Data
-// const initializeImgs = {
-//     imgCount: 25,
-//     fileType: 'jpg',
-//     path: 'assets/img/gallery/',
-//     keywords: [
-//         [
-//             "view",
-//             "dance"
-//         ],
-//         [
-//             "funny",
-//             "celeb"
-//         ],
-//         [
-//             "dog",
-//             "cute"
-//         ],
-//         [
-//             "baby",
-//             "angry"
-//         ],
-//         [
-//             "dog",
-//             "baby",
-//             "cute"
-//         ],
-//         [
-//             "cute",
-//             "cat"
-//         ],
-//         [
-//             "celeb"
-//         ],
-//         [
-//             "funny",
-//             "baby"
-//         ],
-//         [
-//             "celeb"
-//         ],
-//         [
-//             "angry",
-//             "celeb"
-//         ],
-//         [
-//             "celeb"
-//         ],
-//         [
-//             "funny",
-//             "celeb"
-//         ],
-//         [
-//             "funny",
-//             "dance"
-//         ],
-//         [
-//             "funny",
-//             "celeb"
-//         ],
-//         [
-//             "baby",
-//             "surprised"
-//         ],
-//         [
-//             "funny",
-//             "dog"
-//         ],
-//         [
-//             "funny",
-//             "celeb"
-//         ],
-//         [
-//             "funny",
-//             "celeb"
-//         ],
-//         [
-//             "celeb"
-//         ],
-//         [
-//             "celeb",
-//             "angry"
-//         ],
-//         [
-//             "funny",
-//             "celeb"
-//         ],
-//         [
-//             "funny",
-//             "celeb"
-//         ],
-//         [
-//             "celeb"
-//         ],
-//         [
-//             "celeb",
-//             "angry"
-//         ],
-//         [
-//             "funny",
-//             "celeb"
-//         ]
-//     ],
-// }

@@ -75,22 +75,25 @@ function switchSelectedLine() {
 }
 
 
+
+
+
+
+
+
 function drawLine(line) {
-    const { ctx } = gMemeController
+    const {  elCtx } = gMemeController
     const { x, y } = line.pos
-    ctx.beginPath()
-    ctx.lineWidth = line.lineWidth
-    ctx.textAlign = line.align
-    ctx.font = `${line.fontSize}px ${line.family}`
-    ctx.fillStyle = line.color
-    ctx.fillText(line.txt, x, y)
-    ctx.strokeStyle = line.borderColor
-    ctx.strokeText(line.txt, x, y)
-    ctx.closePath()
+    elCtx.beginPath()
+    elCtx.lineWidth = line.lineWidth
+    elCtx.textAlign = line.align
+    elCtx.font = `${line.fontSize}px ${line.family}`
+    elCtx.fillStyle = line.color
+    elCtx.fillText(line.txt, x, y)
+    elCtx.strokeStyle = line.borderColor
+    elCtx.strokeText(line.txt, x, y)
+    elCtx.closePath()
 }
-
-
-
 function newLine(txt = 'New Line txt') {
     return {
         txt,
@@ -110,7 +113,6 @@ function deleteLastLine() {
     setSelectedLineIdx()
     document.querySelector('.line-txt').value = ''
 }
-
 function changeLinePos(x, y) {
     const meme = getMeme()
     const { lines } = meme
@@ -125,7 +127,6 @@ function changeAlign(dir) {
     else if (dir === 'right') lines[meme.selectedLineIdx].align = 'left'
     else lines[meme.selectedLineIdx].align = 'center'
 }
-
 // third line
 function changeFont(fontStyle) {
     console.log('fontStyle:', fontStyle)
@@ -134,9 +135,6 @@ function changeFont(fontStyle) {
     lines[meme.selectedLineIdx].font = fontStyle
 
 }
-
-
-
 function getFillColor() {
     return gStroke.fillStyle
 }
@@ -162,12 +160,8 @@ function draw(pos) {
     gCtx.lineTo(pos.x, pos.y)
     gCtx.stroke()
 }
-
 function saveMeme() {
     gSavedMemes.push(gMeme)
     console.log('gSavedMemes:', gSavedMemes)
     _saveMemeToStorage()
 }
-
-
-

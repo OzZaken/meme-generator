@@ -73,6 +73,17 @@
 
         <!-- Edit -->
         <section hidden class="page main-editor-container">
+            <h2>Edit your Meme
+                <hr />
+                Keywords:
+                <span class="meme-keywords-container">
+                    <!-- render -->
+                </span>
+                <span>
+                    <input type="text" name="add-keyword" id="add-keyword" placeholder="Add Keywords">
+                </span>
+
+            </h2>
 
             <!-- Canvas -->
             <div class="meme-container">
@@ -184,7 +195,7 @@
 
     <!-- User Msg -->
     <div class="user-msg"></div>
-    
+
     <!-- Screen -->
     <div class="screen" onclick="toggleMenu()"></div>
 
@@ -195,14 +206,15 @@
 
     <!-- i18, Edit, Galley -->
     <script src="js/service/i18.service.js"></script>
-    
+
     <script src="js/service/gallery.service.js"></script>
     <script src="js/service/meme.service.js"></script>
 
     <script src="js/controller/gallery.controller.js"></script>
     <script src="js/controller/meme.controller.js"></script>
-    
+
     <!-- Main Controller -->
     <script src="js/controller/main.controller.js"></script>
 </body>
+
 </html>

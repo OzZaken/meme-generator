@@ -12,12 +12,9 @@
 /* Components */
 @import "components/header.css";
 @import "components/gallery.css";
-@import "components/meme.css";
+@import "components/edit.css";
 @import "components/footer.css";
 
 /* Util Cmps*/
 @import "components/screen.css";
 @import "components/user-msg.css";
-
-/* Media Query */
-@import "basic/mq.css";

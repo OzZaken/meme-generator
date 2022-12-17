@@ -1,25 +1,6 @@
 'use strict'
 
-//  Export to GALLERY_CONTROLLER
-const GALLERY_SERVICE = {
-    setStorageKey,
-    setInitImgFolder,
-    getImgsCount,
-    getImgsForDisplay,
-    getOptionsForDisplay,
-    getKeywordsForDisplay,
-    getKeyWordsCountMap,
-    setFilter,
-}
-
-// GALLERY_SERVICE STATE MODEL
-const GALLERY = {
-    filterBy: null,
-    keywordsCountMap: null,
-    storageKey: null,
-    imgs: null,
-}
-
+//*                                                   Init
 // Initial Images 
 const gInitialImgs = [
     { url: 'assets/img/gallery/1.jpg', keywords: ['view', 'dance'] },
@@ -49,6 +30,26 @@ const gInitialImgs = [
     { url: 'assets/img/gallery/25.jpg', keywords: ['funny', 'celeb'] },
 ]
 
+//  Export to GALLERY_CONTROLLER
+const GALLERY_SERVICE = {
+    setStorageKey,
+    setInitImgFolder,
+    getImgsCount,
+    getImgsForDisplay,
+    getOptionsForDisplay,
+    getKeywordsForDisplay,
+    getKeyWordsCountMap,
+    setFilter,
+}
+
+// GALLERY_SERVICE STATE MODEL
+const GALLERY = {
+    filterBy: null,
+    keywordsCountMap: null,
+    storageKey: null,
+    imgs: null,
+}
+
 // Adjust GalleryService to Main App
 function setStorageKey(galleryName) {
     GALLERY.storageKey = `${galleryName}-gallery-DB`
@@ -65,11 +66,8 @@ function _createImgs() {
     storageService.saveToStorage(storageKey, GALLERY.imgs)
 }
 
-// imgs.length
-function getImgsCount() {
-    const { imgs } = GALLERY
-    return imgs.length
-}
+
+//*                                                   Filter
 
 // Filtered Images
 function getImgsForDisplay() {
@@ -79,6 +77,46 @@ function getImgsForDisplay() {
         const regex = new RegExp(filterBy, 'i') // Ignore Camel Case
         return img.keywords.some(keyword => regex.test(keyword))
     })
+}
+
+// Set filterBy
+function setFilter(filterBy) {
+    GALLERY.filterBy = filterBy
+}
+
+//*                                                   Keywords
+// Set keywordsCountMap 
+function _setKeyWordCountMap() {
+    const { imgs } = GALLERY
+    // Get All Keywords
+    const keyWords = imgs.reduce((acc, img) => {
+        acc.push(...img.keywords)
+        return acc
+    }, [])
+    // reduce to Map
+    GALLERY.keywordsCountMap = keyWords.reduce((acc, keyword) => {
+        if (!acc[keyword]) acc[keyword] = 0
+        acc[keyword]++
+        return acc
+    }, {})
+    console.log('GALLERY.keywordsCountMap:', GALLERY.keywordsCountMap)
+}
+
+// return All Possibles keywords
+function getKeyWords() {
+    let keyWordsSet = GALLERY.imgs.reduce((acc, img) => {
+        img.keywords.forEach(keyword => acc.add(keyword))
+        return acc.add(...img.keywords)
+    }, new Set())
+    return Array.from(keyWordsSet)
+}
+
+// Sort most common Keyword 
+function getKeywordsForDisplay() {
+    if (!GALLERY.keywordsCountMap) _setKeyWordCountMap()
+    return Object.entries(GALLERY.keywordsCountMap)
+        .sort((a, b) => b[1] - a[1])
+        .splice(0, 5)
 }
 
 // return sort common keyword only STR
@@ -91,13 +129,6 @@ function getOptionsForDisplay() {
     return keywordsStrs
 }
 
-// Sort most common Keyword 
-function getKeywordsForDisplay() {
-    return Object.entries(GALLERY.keywordsCountMap)
-        .sort((a, b) => b[1] - a[1])
-        .splice(0, 5)
-}
-
 // return KeywordsCountMap 
 function getKeyWordsCountMap() {
     const { keywordsCountMap } = GALLERY
@@ -105,27 +136,14 @@ function getKeyWordsCountMap() {
     return keywordsCountMap
 }
 
-// Set filterBy
-function setFilter(filterBy) {
-    GALLERY.filterBy = filterBy
-}
-
-// Set keywordsCountMap 
-function _setKeyWordCountMap() {
-    // Reset
-    GALLERY.keywordsCountMap = {}
-    // Set
-    const { keywordsCountMap, imgs } = GALLERY
-    imgs.forEach(img => {
-        const { keywords } = img
-        keywords.forEach(keyword => {
-            keywordsCountMap[keyword] = (keywordsCountMap[keyword] || 0) + 1
-        })
-    })
+// imgs.length
+function getImgsCount() {
+    const { imgs } = GALLERY
+    return imgs.length
 }
 
 function addImg(imgData) {
-    const {path, name, fileType, keywords} = imgData
+    const { path, name, fileType, keywords } = imgData
     GALLERY.imgs.push({ url: `${path}${name}.${fileType}`, keywords })
 }
 
@@ -133,6 +151,7 @@ function uploadImg() { // MODEL //  galleryService
 
 }
 
+// Opt
 function setInitImgFolder(path, imgCount, imgFileType, keywords) {
     GALLERY.imgs = []
     for (let i = 1; i <= imgCount; i++) {
@@ -141,3 +160,14 @@ function setInitImgFolder(path, imgCount, imgFileType, keywords) {
     _saveToStorage()
 }
 
+function getKeyWordsCountMapReduce() {
+    const { imgs } = GALLERY
+
+    var electionMap = votes.reduce((acc, vote) => {
+        console.log('Called with ', acc, vote)
+        if (!acc[vote]) acc[vote] = 0
+        acc[vote]++
+        return acc
+    }, {})
+    console.log('electionMap:', electionMap)
+}

@@ -134,3 +134,8 @@ function onImgSelect() {
     setMeme(meme) 
     renderMeme()
 }
+
+// Set aspect-ratio CSS on Gallery and Meme
+function onSetAspectRatio(el) {
+    el.style.aspectRatio = `${el.naturalWidth}/${el.naturalHeight}`
+}

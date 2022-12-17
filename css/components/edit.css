@@ -1,26 +1,19 @@
 .meme-container {
-    max-width: 90vw;
-    transition: all 3s;
+    transition: all .3s;
     flex-wrap: wrap;
+    margin: auto;
 }
 
 body.meme-container-open {
     transform: translateX(-150%);
 }
 
-.meme-container {
-    max-width: 95vw;
-    margin: auto;
-}
-
-.canvas {
-    cursor: crosshair;
+canvas#meme {
+    max-width: 90vw;
+    aspect-ratio: auto;
+    /* cursor: crosshair; */
     display: block;
     margin: 0 auto;
-}
-
-.meme-btns-container {
-    width: 100%;
 }
 
 .setting-btn {
