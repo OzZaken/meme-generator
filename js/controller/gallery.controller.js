@@ -35,21 +35,21 @@ function renderGallery() {
     const imgs = getImgsForDisplay()
 
     // Images template
-    const strHTMLs = imgs.map((img, idx) => {
-        return `
-        <img onclick="onImgSelect('${img.url}')" 
+    const strHTMLs = imgs.map((img, idx) => `
+        <img onclick="onImgSelect()" 
         onload="onSetAspectRatio(this)"
+        data-keyword="${img.keywords}"
         class="gallery-img-container"
         src=${img.url}
-        alt="${_capitalize(galleryName)} #${idx + 1} ${_capitalizes(img.keywords)}"       
-        title="${_capitalize(galleryName)} #${idx + 1}\n${_capitalizes(img.keywords)}">
-        `}
+        alt="${_capitalize(galleryName)} #${idx + 1}\n${_capitalizes(img.keywords).join(', ')}"       
+        title="${_capitalize(galleryName)} #${idx + 1}\n${_capitalizes(img.keywords).join(', ')}">
+        `
     )
 
     // Stats and Upload image Option
     const foundCount = imgs.length >= 0 ? imgs.length : '0'
     strHTMLs.unshift(`
-    <div class="gallery-${galleryName}-container gallery-stat">
+    <div class="gallery-img-container gallery-stat">
     <span title="filtered ${galleryName} count">${foundCount}</span>
     &#47;
     <span title="Total ${_capitalize(galleryName)}s Founds">${getImgsCount()}</span>
@@ -118,11 +118,11 @@ function onSetAspectRatio(elImage) {
 }
 
 // Capitalize STRs 
-function _capitalizes(wordsStr) {
-    return wordsStr.slice(0, 3).map(keyword => {
+function _capitalizes(words) {
+    return words.slice(0, 3).map(keyword => {
         if (keyword) return (_capitalize(keyword))
     })
-        .join(', ')
+       
 }
 
 // Capitalize Str 

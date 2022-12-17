@@ -52,11 +52,6 @@ section {
     max-width: 90vw;
 }
 
-section ::selection {
-    background-color: transparent;
-    color: transparent;
-}
-
 h1,
 h2,
 h3,

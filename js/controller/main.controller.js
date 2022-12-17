@@ -32,8 +32,8 @@ function onInit() {
     renderKeywordsOpts()
     renderKeywordsBtns()
 
-    //* Meme
-    // initMemeController()
+    // Meme
+    initMemeController()
 
     // i18
     // setUserDefaultLang()
@@ -41,59 +41,54 @@ function onInit() {
     // User-Msg
     flashMsg('Welcome!')
     setTimeout(() => {
-        const { elLinkGallery, activePageStr } = gMainController.domEls.links
-        if (document.body.classList.contains('active')) flashMsg('Choose Meme Background!')
-        // if (activePageStr === 'gallery') flashMsg('Choose Meme Background!')
-        // if (elLinkGallery.classList.contains('active')) flashMsg('Choose Meme Background!')
+        if (document.body.classList.contains('page-gallery')) flashMsg('Choose Meme Background!')
     }, 5000)
 }
 ; (() => {
-    console.log('🐱‍👤')
+    console.log('SiManisMA🐱‍👤')
 })()
 
 // Navigation
 function onNav(navToStr) {
-    const pageClassStrs = Object.keys(document.body.classList) // TODO: filter using regex
-    console.log(`🚀 ~ pageClassStrs`, pageClassStrs)
-    const curClassStr = pageClassStrs.find(classStr => /page-/.test(classStr))
+    !navToStr ? navToStr = 'gallery' : navToStr
 
-    console.log(`🚀 ~ curPageStr`, curClassStr)
-    if (!navToStr) navToStr = 'gallery'
-    if (document.body.classList.contains('mobile-menu-open')) onToggleMenu()
+    // Capitalize using methods 
     const _capitalize = (str) => str[0].toUpperCase() + str.substring(1)
 
+    // Set Mobile menu Bar
+    if (document.body.classList.contains('mobile-menu-open')) onToggleMenu()
+
+    // Set .active class
+    const { links } = gMainController.domEls
     // Get First (and only) .active class and remove it
     document.querySelector('.active').classList.remove('active')
-
     // Add .active to current Link Page
-    const { links } = gMainController.domEls
-    const elActiveLink = links[`elLink${_capitalize(navToStr)}`]
-    elActiveLink.classList.add('active')
+    links[`elLink${_capitalize(navToStr)}`].classList.add('active')
 
-    //  Hide all pages  
+    // Set body .page-${} class
+    const curClassStr = Object.values(document.body.classList)
+        .find(classStr => /page-/.test(classStr))
+    document.body.classList.remove(`${curClassStr}`)
+    document.body.classList.add(`page-${navToStr}`)
+
+    playAudio('click')
+
+    //TODO: the element need to know when to move with css
+    // Hide all pages
     const elPages = document.querySelectorAll('.page')
     elPages.forEach(elPage => elPage.hidden = true)
-
-    // Notify other Element current page
-    document.body.classList.add(`page-${navToStr}`)
 
     // Reveal current page 
     const { pages } = gMainController.domEls
     const elActivePage = pages[`elPage${_capitalize(navToStr)}`]
     elActivePage.hidden = false
-
-    playAudio('click')
 }
 
 // Mobile Menu ☰
 function onToggleMenu() {
-    const { elMainNav, elBtnToggleNav } = gMainController.domEls
-    // notify elScreen 
-    document.body.classList.toggle('mobile-menu-open')
-    // dropDown animation
-    elMainNav.classList.toggle('mobile-menu-open')
-    // menuBar animation
-    elBtnToggleNav.classList.toggle('nav-open')
+    const { elBtnToggleNav } = gMainController.domEls
+    document.body.classList.toggle('mobile-menu-open') // notify elScreen 
+    elBtnToggleNav.classList.toggle('nav-open') // menuBar animation
     gMainController.isMenuOpen = !gMainController.isMenuOpen
 }
 
@@ -125,11 +120,23 @@ function playAudio(audioKey) {
 
 }
 
-// the linking function Function on GalleryController
-function onImgSelect(imgUrl) {
-    console.log(`onImgSelect(${imgUrl})`)
-    flashMsg(`Image ${imgUrl}\n selected.`)
+// The linking Func between  
+// Input from  Gallery Controller
+//   ↨
+// OutPut to Meme Service 
+function onImgSelect() {
+    const meme = {
+        imgSrc: event.target.src,
+        keywords: event.target.dataset.keyword.split(','),
+
+    }
+    // keyword
+    // path
+    flashMsg(`Image\n selected.`)
+    setMeme(meme) // memeService
+    return
+
     onNav('edit')
-    setImg(imgUrl + 1) // memeService
     renderMeme()
 }
+

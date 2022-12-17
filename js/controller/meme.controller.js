@@ -153,7 +153,7 @@ function onSaveMeme() {
     saveMeme(newMeme)
 }
 function onSetLineText(txt) {
-    setLineText(txt)
+    setTxt(txt)
     playAudio('click', gAudio)
     renderMeme()
 }
@@ -179,7 +179,7 @@ function onDeleteTxtLine() {
 }
 
 function onChangeElSize(num) {
-    changeElSize(num)
+    setSize(num)
     renderMeme()
 }
 function onChangeAlign(dir) {

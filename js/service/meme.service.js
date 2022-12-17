@@ -2,12 +2,15 @@
 
 const MEME_SERVICE = {
     // StorageData
+}
+
+const MEME = {
     storageKey: 'memeDB',
     memes: null,
-    // Initial Meme
     meme: {
-        selectedImgUrl: null,
+        imgSrc: null,
         selectedLineIdx: 0,
+        keywords: null,
         lines: [
             {
                 txt: 'Add some text',
@@ -22,12 +25,14 @@ const MEME_SERVICE = {
                 isSaved: false,
             },
         ]
-    }
+    },
 }
 
-// return meme
+
+
+// Return Meme
 function getMeme() {
-    const {meme} = MEME_SERVICE
+    const { meme } = MEME_SERVICE
     return meme
 }
 
@@ -37,20 +42,36 @@ function _saveToStorage() {
 }
 
 function _loadFromStorage() {
-    const { storageKey} = MEME_SERVICE
+    const { storageKey } = MEME_SERVICE
     return storageService.loadFromStorage(storageKey)
 }
-// imgUrl
-function setImg(imgUrl) {
-    const {meme} = MEME_SERVICE
-    meme.selectedImgUrl = imgUrl
+
+// OverRight Meme
+function setMeme(meme) {
+    MEME.meme = {
+        ...MEME.meme,
+        ...meme
+    }
+    console.log('MEME.meme:', MEME.meme)
 }
 
-//* Meme btns lines  
-function setLineText(txt) {
-    const { lines } = gMeme
-    lines[gMeme.selectedLineIdx].txt = txt
+function setTxt(txt) {
+    const { lines,selectedLineIdx } = MEME
+    lines[selectedLineIdx].txt = txt
 }
+
+function setSize(diff) {
+    const { lines,selectedLineIdx } = MEME.meme
+    lines[selectedLineIdx].size += diff
+}
+
+function switchLines() {
+    const {meme} = MEME
+    const linesCount = meme.lines.length
+    if (meme.selectedLineIdx >= linesCount)meme.selectedLineIdx=0
+    else meme.selectedLineIdx
+}
+
 function changeLinePos(x, y) {
     const meme = getMeme()
     const { lines } = meme
@@ -58,14 +79,7 @@ function changeLinePos(x, y) {
     pos.x += x
     pos.y += y
 }
-function switchLines() {
-    const { lines } = getMeme()
-    if (lines.length === 2) {
-        let secPos = lines[1].pos
-        lines[1].pos = lines[0].pos
-        lines[0].pos = secPos
-    }
-}
+
 function addTxtLine(txt) {
     const val = document.querySelector('.line-txt').value
     if (val === '') return
@@ -95,12 +109,7 @@ function deleteLastLine() {
     document.querySelector('.line-txt').value = ''
 }
 
-// Second line
-function changeElSize(num) {
-    const meme = getMeme()
-    const { lines } = meme
-    lines[meme.selectedLineIdx].size += num
-}
+
 function changeAlign(dir) {
     const meme = getMeme()
     const { lines } = meme

@@ -1,16 +1,18 @@
 :root {
-    /* pallet */
+    /* pallettes */
     --clr-dark: #606060;
     --clr-darker: #292929;
     --clr-darkest: #1d1d1d;
+
     --clr-bright: #818181;
     --clr-brighter: #f8f8f8;
     --clr-brightest: #ffffff;
+
     --clr-main: #fb9623;
     --clr-hoover: #852399;
 
     /* Responsive */
     --desktop: 1020px;
     --tablet: 768px;
-    --mobile: 500px;
+    --mobile: 496px;
 }
