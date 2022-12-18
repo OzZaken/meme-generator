@@ -1,8 +1,6 @@
 'use strict'
-; (() => {
-    console.log('Simania')
-})()
 
+// Init Controllers
 function onInit() {
     // MainController 
     window.gMainController = {
@@ -21,7 +19,7 @@ function onInit() {
             },
             pages: {
                 elPageGallery: document.querySelector('.main-gallery-container'),
-                elPageEdit: document.querySelector('.main-editor-container'),
+                elPageEdit: document.querySelector('.main-edit-container'),
                 elPageAbout: document.querySelector('.main-about-container')
             },
             inputs: {
@@ -65,23 +63,21 @@ function onNav(navToStr) {
     // Add .active to current Link Page
     links[`elLink${_capitalize(navToStr)}`].classList.add('active')
 
-    // Set body .page-${} class
+    // Set body page class
     const curClassStr = Object.values(document.body.classList)
         .find(classStr => /page-/.test(classStr))
     document.body.classList.remove(`${curClassStr}`)
     document.body.classList.add(`page-${navToStr}`)
 
     playAudio('click')
-
-    //TODO: the element need to know when to move with css
-    // Hide all pages
-    const elPages = document.querySelectorAll('.page')
-    elPages.forEach(elPage => elPage.hidden = true)
+    // Hide all pages On CSS for animation
+    // const elPages = document.querySelectorAll('.page')
+    // elPages.forEach(elPage => elPage.hidden = true)
 
     // Reveal current page 
-    const { pages } = gMainController.domEls
-    const elActivePage = pages[`elPage${_capitalize(navToStr)}`]
-    elActivePage.hidden = false
+    // const { pages } = gMainController.domEls
+    // const elActivePage = pages[`elPage${_capitalize(navToStr)}`]
+    // elActivePage.hidden = false
 }
 
 // Mobile Menu ☰

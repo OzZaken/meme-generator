@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     color: var(--clr-main);
-    font-family: -apple-system, eurofurence, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: -apple-system, euro-regular, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 1.5em;
     font-weight: bolder;
 }

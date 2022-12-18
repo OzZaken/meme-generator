@@ -1,15 +1,5 @@
 'use strict'
 
-function _saveToStorage() {
-    const { storageKey, memes } = MEME_SERVICE
-    storageService.saveToStorage(storageKey, memes)
-}
-
-function _loadFromStorage() {
-    const { storageKey } = MEME_SERVICE
-    return storageService.loadFromStorage(storageKey)
-}
-
 const MEME_SERVICE = {
     setMeme,
     getMeme,
@@ -26,7 +16,7 @@ const MEME = {
     meme: {
         imgSrc: null,
         selectedLineIdx: 0,
-        keywords: null,
+        keywords: null,//[]
         lines: [
             {
                 txt: 'Add some text',
@@ -34,7 +24,7 @@ const MEME = {
                 fontSize: 30,
                 align: 'center',
                 color: 'black',
-                pos: { x: 250, y: 100 },
+                pos: { x: 250, y: 250 },
                 family: 'impact',
                 borderColor: 'red',
                 isDrag: false,
@@ -74,13 +64,6 @@ function switchSelectedLine() {
     else meme.selectedLineIdx
 }
 
-
-
-
-
-
-
-
 function drawLine(line) {
     const {  elCtx } = gMemeController
     const { x, y } = line.pos
@@ -94,6 +77,20 @@ function drawLine(line) {
     elCtx.strokeText(line.txt, x, y)
     elCtx.closePath()
 }
+
+// function _saveToStorage() {
+//     const { storageKey, memes } = MEME_SERVICE
+//     storageService.saveToStorage(storageKey, memes)
+// }
+
+// function _loadFromStorage() {
+//     const { storageKey } = MEME_SERVICE
+//     return storageService.loadFromStorage(storageKey)
+// }
+
+
+
+
 function newLine(txt = 'New Line txt') {
     return {
         txt,

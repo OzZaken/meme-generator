@@ -8,29 +8,13 @@ html {
     font-family: fa-solid, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif sans-serif;
 }
 
-
-
 body {
     color: var(--txt-clr);
     font-size: 1rem;
-    /* height: 100vh; */
-    /* overflow-x: hidden; */
-    /* width: 100%; */
 }
 
-::selection {
-    background-color: var(--clr-main);
-    color: var(--clr-hoover);
-}
-
-/* scrollbar */
 body::-webkit-scrollbar {
     width: 1em;
-}
-
-
-img {
-    width: 100%;
 }
 
 body::-webkit-scrollbar-track {
@@ -46,24 +30,62 @@ body::-webkit-scrollbar-thumb {
     border: 1px solid var(--clr-main);
 }
 
+::selection {
+    background-color: var(--clr-main);
+    color: var(--clr-hoover);
+}
+
+img {
+    width: 100%;
+}
+
 section {
     padding-bottom: 1rem;
-    border-bottom: 3px solid var(--clr-main);
     max-width: 90vw;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    margin: 0 0 1em;
-    line-height: 1.875rem;
-    color: var(--clr-dark);
+h1 {
+    max-width: 90vw;
+    font-size: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: capitalize;
+    border-bottom: 1.5px solid var(--clr-main);
+    line-height: 3rem;
+    color: var(--clr-hoover);
+    text-shadow: 2px 2px 2px 2px;
+    position: relative;
+    animation: fade-in-down .8s;
 }
 
+@keyframes fade-in-down {
+    from {
+        opacity: 0;
+        transform: translate3d(0, -100%, 0);
+    }
 
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.fade-in-down {
+    animation-name: fadeInDown;
+}
+
+h2 {
+    /* margin: 0 0 1em; */
+    line-height: 1.875rem;
+    color: var(--clr-hoover);
+}
+
+h3 {
+    /* margin: 0 0 1em; */
+    line-height: 1.875rem;
+    color: var(--clr-hoover);
+}
 
 a {
     text-decoration: none;
@@ -71,7 +93,8 @@ a {
 }
 
 i {
-    font-family: fa-solid;
+    font-size: inherit;
+    /* font-family: fa-solid; */
 }
 
 @media (min-width: 768px) {

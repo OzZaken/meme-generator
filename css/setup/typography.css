@@ -1,22 +1,20 @@
-.fa {
-    font-family: fa;
-}
-
-.fa-solid {
-    font-family: fa-solid;
-}
-
+/* Eurofurence*/
 @font-face {
-    font-family: eurofurence;
-    src: url(../../fonts/eurofurence/eurof55.woff);
+    font-family: euro-regular;
+    src: url(../../assets/font/eurofurence/eurof55.woff);
 }
 
+/* Font-Awesome */
 @font-face {
     font-family: fa;
-    src: url(../../fonts/font-awesome/fa-brands-400.ttf);
+    src: url(../../assets/font/font-awesome/fa-brands-400.ttf);
 }
 
 @font-face {
     font-family: fa-solid;
-    src: url(../../fonts/font-awesome/fa-solid-900.ttf);
+    src: url(../../assets/font/font-awesome/fa-solid-900.ttf);
 }
+
+/* For Icons without Css */
+.fa {font-family: fa;}
+.fa-solid {font-family: fa-solid;}

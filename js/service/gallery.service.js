@@ -30,6 +30,9 @@ const gInitialImgs = [
     { url: 'assets/img/gallery/25.jpg', keywords: ['funny', 'celeb'] },
 ]
 
+
+
+
 //  Export to GALLERY_CONTROLLER
 const GALLERY_SERVICE = {
     setStorageKey,
@@ -66,6 +69,32 @@ function _createImgs() {
     storageService.saveToStorage(storageKey, GALLERY.imgs)
 }
 
+// imgs.length
+function getImgsCount() {
+    const { imgs } = GALLERY
+    return imgs.length
+}
+
+
+
+function uploadImg() {
+
+}
+
+// Optional
+function setInitImgFolder(path, imgCount, imgFileType, keywords) {
+    GALLERY.imgs = []
+    for (let i = 1; i <= imgCount; i++) {
+        addImg(path, i, imgFileType, keywords[i - 1])
+    }
+}
+
+function addImg(imgData) {
+    const { path, name, fileType, keywords } = imgData
+    GALLERY.imgs.push({ url: `${path}${name}.${fileType}`, keywords })
+    const { storageKey } = GALLERY
+    storageService.saveToStorage(storageKey, GALLERY.imgs)
+}
 
 //*                                                   Filter
 
@@ -99,11 +128,17 @@ function _setKeyWordCountMap() {
         acc[keyword]++
         return acc
     }, {})
-    console.log('GALLERY.keywordsCountMap:', GALLERY.keywordsCountMap)
+}
+
+// return KeywordsCountMap 
+function getKeyWordsCountMap() {
+    const { keywordsCountMap } = GALLERY
+    if (!keywordsCountMap) _setKeyWordCountMap()
+    return keywordsCountMap
 }
 
 // return All Possibles keywords
-function getKeyWords() {
+function getKeywords() {
     let keyWordsSet = GALLERY.imgs.reduce((acc, img) => {
         img.keywords.forEach(keyword => acc.add(keyword))
         return acc.add(...img.keywords)
@@ -129,45 +164,5 @@ function getOptionsForDisplay() {
     return keywordsStrs
 }
 
-// return KeywordsCountMap 
-function getKeyWordsCountMap() {
-    const { keywordsCountMap } = GALLERY
-    if (!keywordsCountMap) _setKeyWordCountMap()
-    return keywordsCountMap
-}
 
-// imgs.length
-function getImgsCount() {
-    const { imgs } = GALLERY
-    return imgs.length
-}
 
-function addImg(imgData) {
-    const { path, name, fileType, keywords } = imgData
-    GALLERY.imgs.push({ url: `${path}${name}.${fileType}`, keywords })
-}
-
-function uploadImg() { // MODEL //  galleryService
-
-}
-
-// Opt
-function setInitImgFolder(path, imgCount, imgFileType, keywords) {
-    GALLERY.imgs = []
-    for (let i = 1; i <= imgCount; i++) {
-        addImg(path, i, imgFileType, keywords[i - 1])
-    }
-    _saveToStorage()
-}
-
-function getKeyWordsCountMapReduce() {
-    const { imgs } = GALLERY
-
-    var electionMap = votes.reduce((acc, vote) => {
-        console.log('Called with ', acc, vote)
-        if (!acc[vote]) acc[vote] = 0
-        acc[vote]++
-        return acc
-    }, {})
-    console.log('electionMap:', electionMap)
-}

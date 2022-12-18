@@ -1,110 +1,7 @@
 'use strict'
 
 // import galleryService from '../service/gallery.service'
-// * Opt Give the Service initialize Data
-// const initializeImgs = {
-//     imgCount: 25,
-//     fileType: 'jpg',
-//     path: 'assets/img/gallery/',
-//     keywords: [
-//         [
-//             "view",
-//             "dance"
-//         ],
-//         [
-//             "funny",
-//             "celeb"
-//         ],
-//         [
-//             "dog",
-//             "cute"
-//         ],
-//         [
-//             "baby",
-//             "angry"
-//         ],
-//         [
-//             "dog",
-//             "baby",
-//             "cute"
-//         ],
-//         [
-//             "cute",
-//             "cat"
-//         ],
-//         [
-//             "celeb"
-//         ],
-//         [
-//             "funny",
-//             "baby"
-//         ],
-//         [
-//             "celeb"
-//         ],
-//         [
-//             "angry",
-//             "celeb"
-//         ],
-//         [
-//             "celeb"
-//         ],
-//         [
-//             "funny",
-//             "celeb"
-//         ],
-//         [
-//             "funny",
-//             "dance"
-//         ],
-//         [
-//             "funny",
-//             "celeb"
-//         ],
-//         [
-//             "baby",
-//             "surprised"
-//         ],
-//         [
-//             "funny",
-//             "dog"
-//         ],
-//         [
-//             "funny",
-//             "celeb"
-//         ],
-//         [
-//             "funny",
-//             "celeb"
-//         ],
-//         [
-//             "celeb"
-//         ],
-//         [
-//             "celeb",
-//             "angry"
-//         ],
-//         [
-//             "funny",
-//             "celeb"
-//         ],
-//         [
-//             "funny",
-//             "celeb"
-//         ],
-//         [
-//             "celeb"
-//         ],
-//         [
-//             "celeb",
-//             "angry"
-//         ],
-//         [
-//             "funny",
-//             "celeb"
-//         ]
-//     ],
-// }
+
 const GALLERY_CONTROLLER = {
     initGalleryController,
     renderGallery,
@@ -116,50 +13,57 @@ const GALLERY_CONTROLLER = {
 
 // Init GalleryController State On window and render
 function initGalleryController(galleryName) {
+    !galleryName ? galleryName = 'Image' : galleryName
+    GALLERY_SERVICE.setStorageKey(galleryName)
     // · HTML dependencies:
     // datalist#keywords
     // datalist.keyword-container
     // input[name="filter"]
-    // ul.gallery-keywords-container
-    !galleryName ? galleryName = 'Image' : galleryName
-    GALLERY_SERVICE.setStorageKey(galleryName)
+    // ul.gallery-keyword-container
     window.gGalleryController = {
         galleryName,
         elFilterBy: document.querySelector('input[name="gallery-filter"]'),
-        elDataList: document.querySelector('datalist#gallery-keywords'),
-        elKeywordContainer: document.querySelector('ul.gallery-keywords-container'),
+        elDataList: document.querySelector('datalist#gallery-keyword'),
+        elKeywordContainer: document.querySelector('ul.gallery-keyword-container'),
         elGallery: document.querySelector('div.gallery-container'),
     }
 }
 
-// Render Gallery + Filter-stat + Upload-image   
+// Render Gallery + Stat + Upload-Image Opt   
 function renderGallery() {
     const { galleryName } = gGalleryController
+    const CapitalName = _capitalize(galleryName)
+
     const imgs = getImgsForDisplay()
+    console.log(`🚀 ~ imgs`, imgs)
+
+    const keyWords = getKeywords()
+    const titleKeywords = (keywords) => keywords.join(' | ')
+
 
     // Images template
-    const strHTMLs = imgs.map((img, idx) => `
-        <img onclick="onImgSelect()" 
+    const strHTMLs = imgs.map((img, idx) => `<img
+        onclick="onImgSelect()" 
         onload="onSetAspectRatio(this)"
         data-keyword="${img.keywords}"
         class="gallery-img-container"
-        src=${img.url}
-        alt="${_capitalize(galleryName)} #${idx + 1}\n${_capitalizes(img.keywords).join(', ')}"       
-        title="${_capitalize(galleryName)} #${idx + 1}\n${_capitalizes(img.keywords).join(', ')}">
-        `
-    )
+        alt="${CapitalName} #${idx + 1}\n${_capitalizes(img.keywords).join(', ')}"       
+        title="${CapitalName} #${idx + 1}\n${_capitalizes(img.keywords).join(' | ')}"
+        src=${img.url}>`)
 
-    // Stats and Upload image Option
+    // Stats and Upload Image Option
     const foundCount = imgs.length >= 0 ? imgs.length : '0'
     strHTMLs.unshift(`
     <div class="gallery-img-container gallery-stat">
-    <span title="filtered ${galleryName} count">${foundCount}</span>
+    <span title="Filtered ${galleryName} count">${foundCount}</span>
     &#47;
-    <span title="Total ${_capitalize(galleryName)}s Founds">${getImgsCount()}</span>
-    <p>Upload New ${_capitalize(galleryName)}!</p>
+    <span title="Total ${CapitalName}s Founds">${getImgsCount()}</span>
+    ${CapitalName}s
+    <p title="${titleKeywords(keyWords)}">${keyWords.length} KeyWords</p>
+    <p>upload New Image!</p>
     <input type="file" name="img" onchange="onUploadImg(event)"/>
-    </div>
-    `)
+    </div
+    >`)
 
     // render Gallery
     const { elGallery } = gGalleryController
@@ -169,6 +73,7 @@ function renderGallery() {
 // Render on DataList keywords Options
 function renderKeywordsOpts() {
     const keywordsCountMap = getOptionsForDisplay()
+    console.log(`🚀 ~ keywordsCountMap`, keywordsCountMap)
     const strHTMLs = keywordsCountMap.map(keywordStr =>
         `<option value="${keywordStr}">${_capitalize(keywordStr)}</option>`
     )
@@ -179,38 +84,38 @@ function renderKeywordsOpts() {
 
 // Filter
 function onSetFilter(str) {
-    !str || str === ' ' ? str = '' : str
     // Give Option for emptySpace
+    !str || str === ' ' ? str = '' : str
     const { elFilterBy } = gGalleryController
     elFilterBy.value = str
-
     setFilter(str) // MODEL - GalleryService.
-    renderGallery()  // DOM
+    renderGallery()
 }
 
-// Render keywords buttons based sorted options 
+// Render common keywords buttons 
 function renderKeywordsBtns() {
     const { galleryName } = gGalleryController
     const strHTMLs = getKeywordsForDisplay()
-        .map(keyword =>
-            `<li>
+        .map(keyword => `<li>
             <button class="btn btn-keyword"
-            title="${keyword[1]} ${_capitalize(galleryName)}s Founds"
-             onclick="onClickFilterKeyword(event,this)" 
-            data-fs="${keyword[1]}">${keyword[0]}
+            title="${keyword[1]} ${keyword[0]} ${_capitalize(galleryName)}s Founds"
+            onclick="onClickKeyword()" 
+            data-fs="${keyword[1]}"
+            value="${keyword[0]}"
+            >
+            ${keyword[0]}
             </button>
-            </li>`
-        )
+            </li>`)
     const { elKeywordContainer } = gGalleryController
     elKeywordContainer.innerHTML = strHTMLs.join('')
 }
 
 // Set filter and UI effect Buttons
-function onClickFilterKeyword(ev, elKeyWord) {
-    const { dataset, innerText } = elKeyWord
-    ev.preventDefault()
-    elKeyWord.style.color = utilService.getRandomColor()
-    onSetFilter(innerText)
+function onClickKeyword() {
+    const elBtn = event.target
+    const {style, dataset, value} = elBtn
+    style.color = utilService.getRandomColor()
+    onSetFilter(value)
     if (+dataset.fs >= 16) return
     dataset.fs++
 }
@@ -220,7 +125,7 @@ function _capitalizes(words) {
     return words.slice(0, 3).map(keyword => {
         if (keyword) return (_capitalize(keyword))
     })
-       
+
 }
 
 // Capitalize Str 

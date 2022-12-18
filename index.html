@@ -11,10 +11,9 @@
 </head>
 
 <body class="page-gallery" onload="onInit()">
-    <header class="flex-row header">
+    <header class="header">
         <!-- Logo -->
         <a class="logo" href="#" onclick="onNav('')"></a>
-
         <!-- Navigate -->
         <nav class="flex main-nav">
             <ul class="main-nav-list">
@@ -33,7 +32,6 @@
                 </li>
             </ul>
         </nav>
-
         <!-- i18 -->
         <label for="select languge">
             <select class="lang" onchange="onSetLang(this.value)">
@@ -41,7 +39,6 @@
                 <option value="he">עברית</option>
             </select>
         </label>
-
         <!-- ☰ Mobile Menu Btn-->
         <div hidden role="button" class="btn-toggle-menu" onclick="onToggleMenu()">
             <svg width="40" height="40" viewBox="0 0 40 40">
@@ -54,78 +51,68 @@
         </div>
     </header>
 
-    <!-- Main -->
     <main class="main-layout">
-
         <!-- Gallery -->
         <section class="page main-gallery-container">
+            <h1>choose meme background</h1>
+            <!-- Filter -->
             <label for="Search Image"></label>
-            <datalist id="gallery-keywords"></datalist>
-            <!-- ? ev.stopPropagations() ↓ ?-->
+            <datalist id="gallery-keyword"></datalist>
             <form class="gallery-form" onsubmit="ev.preventDefault();onSetFilter()">
-                <input list="gallery-keywords" oninput="onSetFilter(this.value)" name="gallery-filter" type="search"
+                <input list="gallery-keyword" oninput="onSetFilter(this.value)" name="gallery-filter" type="search"
                     placeholder="Search Image">
-                <button class="btn btn-flexable">I'am Flexable</button>
+                <button onclick="onSetRandMeme()" class="btn-big btn-i-flexible">I'am Flexable</button>
             </form>
-            <ul class="clean-list gallery-keywords-container"></ul>
-            <div class="grid gallery-container"> </div>
+            <!-- Keywords Btns -->
+            <ul class="gallery-keyword-container"></ul>
+            <!-- Images Container -->
+            <div class="gallery-container"> </div>
         </section>
-
         <!-- Edit -->
-        <section hidden class="page main-editor-container">
-            <h2>Edit your Meme
-                <hr />
-                Keywords:
-                <span class="meme-keywords-container">
-                    <!-- render -->
-                </span>
-                <span>
-                    <input type="text" name="add-keyword" id="add-keyword" placeholder="Add Keywords">
-                </span>
-
-            </h2>
-
-            <!-- Canvas -->
+        <section class="page main-edit-container">
+            <h1>edit your Meme</h1>
+            <h2 class="keyword-heading meme-keyword-container"></h2>
+            <label for="Add keyword"></label>
+            <h3 class="keyword-form-container">
+                <datalist id="all-keyword"></datalist>
+                <form list="all-keyword" class="meme-keyword-form" onsubmit="ev.preventDefault();onAddKeyword()">
+                    <input onsubmit="onAddKeyword(this.value)" name="meme-keyword" type="text"
+                        placeholder="Add new keyword">
+                </form>
+            </h3>
+            <!-- Meme -->
             <div class="meme-container">
                 <canvas class="meme" id="meme" height="350" width="350"></canvas>
             </div>
-
-            <!--  Btns -->
+            <!-- Add Text Line -->
             <div class="btns-editor-container">
+                <form onsubmit="event.preventDefault()">
+                    <label for="Add New Text line"></label>
+                    <input class="line-txt fa flex" oninput="onSetLineText(this.value)" onsubmit="onAddTxtLine()"
+                        type="text" placeholder="Add new text line" list="gallery-keyword" title="Add New Text line">
+                </form>
 
-                <label for="Add New Text line"></label>
-                <input class="line-txt  fa flex" oninput="onSetLineText(this.value)" onsubmit="onAddTxtLine()"
-                    type="text" placeholder="Add new text line" title="Add New Text line">
-
-                <!-- Grid Editor Btns -->
-                <div class="grid editor-container">
+                <div class="editor-container">
+                    <!-- Btns -->
                     <i onclick="onChangeLinePos(0,-20)" title="Move text up" class="setting-btn fa-arrow-up"></i>
-                    <i onclick="onChangeLinePos(0,20)" title="Move text Down" class="setting-btn  fa-arrow-down">
-                    </i>
+                    <i onclick="onChangeLinePos(0,20)" title="Move text Down" class="setting-btn  fa-arrow-down"></i>
                     <i onclick="onSwitchLines()" title="Switch between lines"
-                        class="setting-btn  fa-arrow-up-arrow-down">↑↓
-                    </i>
-                    <i onclick="onAddTxtLine()" title="Add txt line" class="add-text-line-btn  setting-btn  fa-plus">
-                    </i>
-                    <i onclick="onDeleteTxtLine()" title="Delete last line" class="setting-btn  fa-trash">
-                    </i>
-                    <i onclick="onChangeElSize(5)" title="Size Up" class="setting-btn">A+
-                    </i>
+                        class="setting-btn  fa-arrow-up-arrow-down">↑↓</i>
+                    <i onclick="onAddTxtLine()" title="Add txt line" class="add-text-line-btn setting-btn  fa-plus"></i>
+                    <i onclick="onDeleteTxtLine()" title="Delete last line" class="setting-btn fa-trash"></i>
+                    <i onclick="onChangeElSize(5)" title="Size Up" class="setting-btn">A+</i>
                     <i onclick="onChangeElSize(-5)" title="Size Down" class="1fa-text-size setting-btn">A-</i>
-                    <i onclick=" onChangeAlign('left')" title="align left" class="setting-btn  fa-align-left">
-                    </i>
-                    <i onclick="onChangeAlign('center')" title="align center" class="setting-btn  fa-align-center">
-                    </i>
-                    <i onclick="onChangeAlign('right')" title="align left" class="setting-btn  fa-align-right">
-                    </i>
-
+                    <i onclick=" onChangeAlign('left')" title="align left" class="setting-btn  fa-align-left"></i>
+                    <i onclick="onChangeAlign('center')" title="align center" class="setting-btn  fa-align-center"></i>
+                    <i onclick="onChangeAlign('right')" title="align left" class="setting-btn  fa-align-right"></i>
+                    <!-- Select Fonts -->
                     <select title="Select fonts" onchange="onChangeFont(this.value)" class="font-select fa-solid"
                         name="change-fonts">
-                        <option value="impact">impact</option>
-                        <option value="italic">italic</option>
-                        <option value="fa">fa</option>
-                        <option value="fa-solid">fa-solid</option>
-                        <option value="bold">bold</option>
+                        <option value="impact">Impact</option>
+                        <option value="italic">Italic</option>
+                        <option value="fa">Fa</option>
+                        <option value="fa-solid">Fa-solid</option>
+                        <option value="bold">Bold</option>
                     </select>
 
                     <i class="stroke-color  fa-s s-btn fa-solid setting-btn flex-center">
@@ -151,19 +138,17 @@
                     </p>
                 </div>
         </section>
-
         <!-- About -->
-        <section hidden class="page main-about-container">
-            <h2>about</h2>
+        <section class="page main-about-container">
+            <h1>about</h1>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer main-layout full">
+    <footer class="footer">
         <div class="footer-container">
             <div class="logo"></div>
 
-            <ul class="footer-text flex justify-center clean-list">
+            <ul class="footer-text flex justify-center">
                 &#45;&emsp;
                 <li class="flex flex-center ">
                     &copy;Oz&nbsp;Zaken&emsp;Coding&nbsp;Academy
@@ -175,44 +160,45 @@
                 </li>
             </ul>
 
-            <ul class="social-links-container flex clean-list">
+            <ul class="flex clean-list social-links-container ">
                 <li>
                     <a class="flex-center fa facebook" href=""></a>
                 </li>
+
                 <li>
                     <a class="flex-center fa twitter" href=""></a>
                 </li>
+
                 <li>
                     <a class="flex-center fa behance" href=""></a>
                 </li>
+
                 <li>
                     <a class="flex-center fa dribbble" href=""></a>
                 </li>
             </ul>
-
         </div>
     </footer>
 
-    <!-- User Msg -->
     <div class="user-msg"></div>
+    <div class="screen" onclick="onToggleMenu()"></div>
+    <!-- TODO: modal-->
+    <div class="modal" onclick="onToggleModal()"></div>
 
-    <!-- Screen -->
-    <div class="screen" onclick="toggleMenu()"></div>
-
+    <!-- JS -->
     <!-- Service -->
     <script src="js/service/util.service.js"></script>
     <script src="js/service/storage.service.js"></script>
     <script src="js/service/upload.service.js"></script>
-
+    <!-- Font-Awesome -->
+    <script src="https://kit.fontawesome.com/9e627fd092.js" crossorigin="anonymous"></script>
     <!-- i18, Edit, Galley -->
     <script src="js/service/i18.service.js"></script>
-
     <script src="js/service/gallery.service.js"></script>
     <script src="js/service/meme.service.js"></script>
-
+    <!-- Controller -->
     <script src="js/controller/gallery.controller.js"></script>
     <script src="js/controller/meme.controller.js"></script>
-
     <!-- Main Controller -->
     <script src="js/controller/main.controller.js"></script>
 </body>

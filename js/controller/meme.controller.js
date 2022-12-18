@@ -7,7 +7,7 @@ function initMemeController() {
     window.gMemeController = {
         elMeme: document.querySelector('#meme'),
         elMemeContainer: document.querySelector('.meme-container'),
-        elKeywordsContainer: document.querySelector('.meme-keywords-container'),
+        elKeywordsContainer: document.querySelector('.meme-keyword-container'),
         isDraw: false,
         elCtx: null,
     }

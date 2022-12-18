@@ -2,18 +2,20 @@
 @import "setup/vars.css";
 @import "setup/typography.css";
 @import "setup/font-awesome.css";
+@import "setup/icons.css";
 
 /* Basic */
+@import "basic/logo.css";
 @import "basic/base.css";
 @import "basic/layout.css";
 @import "basic/helper.css";
-@import "basic/logo.css";
 
 /* Components */
 @import "components/header.css";
 @import "components/gallery.css";
 @import "components/edit.css";
 @import "components/footer.css";
+@import "components/about.css";
 
 /* Util Cmps*/
 @import "components/screen.css";
