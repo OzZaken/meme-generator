@@ -15,18 +15,19 @@ const MEME = {
     memes: null,
     meme: {
         imgSrc: null,
+        aspectRatio: null,
         selectedLineIdx: 0,
-        keywords: null,//[]
+        keywords: [],
         lines: [
             {
+                pos: { x: null, y: null },
                 txt: 'Add some text',
                 lineWidth: 2,
                 fontSize: 30,
                 align: 'center',
                 color: 'black',
-                pos: { x: 250, y: 250 },
                 family: 'impact',
-                borderColor: 'red',
+                strokeStyle: 'red',
                 isDrag: false,
                 isSaved: false,
             },
@@ -48,33 +49,33 @@ function setMeme(meme) {
 }
 
 function setTxt(txt) {
-    const { lines,selectedLineIdx } = MEME
+    const { lines, selectedLineIdx } = MEME.meme
     lines[selectedLineIdx].txt = txt
 }
 
 function setTxtSize(diff) {
-    const { lines,selectedLineIdx } = MEME.meme
+    const { lines, selectedLineIdx } = MEME.meme
     lines[selectedLineIdx].size += diff
 }
 
 function switchSelectedLine() {
-    const {meme} = MEME
+    const { meme } = MEME
     const linesCount = meme.lines.length
-    if (meme.selectedLineIdx >= linesCount)meme.selectedLineIdx=0
-    else meme.selectedLineIdx
+    if (meme.selectedLineIdx >= linesCount) meme.selectedLineIdx = 0
+    meme.selectedLineIdx++
 }
 
 function drawLine(line) {
-    const {  elCtx } = gMemeController
-    const { x, y } = line.pos
+    const { elCtx, elMeme } = gMemeController
+    const center = { x: elMeme.width / 2, y: elMeme.height / 2 }
     elCtx.beginPath()
     elCtx.lineWidth = line.lineWidth
     elCtx.textAlign = line.align
     elCtx.font = `${line.fontSize}px ${line.family}`
     elCtx.fillStyle = line.color
-    elCtx.fillText(line.txt, x, y)
-    elCtx.strokeStyle = line.borderColor
-    elCtx.strokeText(line.txt, x, y)
+    elCtx.fillText(line.txt, center.x, center.y)
+    elCtx.strokeStyle = line.strokeStyle
+    elCtx.strokeText(line.txt, center.x, center.y)
     elCtx.closePath()
 }
 
@@ -91,7 +92,7 @@ function drawLine(line) {
 
 
 
-function newLine(txt = 'New Line txt') {
+function newLine(txt = 'New txt line ') {
     return {
         txt,
         pos: { x: 250, y: 250 },

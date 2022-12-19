@@ -1,6 +1,10 @@
-.grid {display: grid;}
+.grid {
+    display: grid;
+}
 
-.clean-list {list-style-type: none;}
+.clean-list {
+    list-style-type: none;
+}
 
 .btn-big {
     color: var(--clr-main);
@@ -14,6 +18,16 @@
     transition: scale .3s;
     transform: scale(1.01);
     border: solid 1px var(--clr-hoover);
+}
+
+.underline {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.hidden {
+    z-index: -1 important!;
+    display: none;
 }
 
 input,
@@ -67,7 +81,7 @@ button:hover {
     position: relative;
     color: var(--clr-brightest);
     cursor: pointer;
-    z-index: 1;
+    /* z-index: 1; */
     padding: 10px 20px;
     display: flex;
     align-items: center;
@@ -83,7 +97,7 @@ button:hover {
     position: absolute;
     bottom: 0;
     right: 0;
-    z-index: -1;
+    /* z-index: -1; */
     transition: all .4s;
 }
 

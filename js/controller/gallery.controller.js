@@ -1,7 +1,6 @@
 'use strict'
 
 // import galleryService from '../service/gallery.service'
-
 const GALLERY_CONTROLLER = {
     initGalleryController,
     renderGallery,
@@ -59,7 +58,7 @@ function renderGallery() {
     &#47;
     <span title="Total ${CapitalName}s Founds">${getImgsCount()}</span>
     ${CapitalName}s
-    <p title="${titleKeywords(keyWords)}">${keyWords.length} KeyWords</p>
+    <p role="button" class="underline" onclick="onClickTotalKeywords(event,this)" title="${titleKeywords(keyWords)}">${keyWords.length} KeyWords</p>
     <p>upload New Image!</p>
     <input type="file" name="img" onchange="onUploadImg(event)"/>
     </div
@@ -140,11 +139,21 @@ function onUploadImg(ev) {
     const reader = new FileReader()
     reader.onload = (event) => {
         const img = new Image()
-
         img.src = event.target.result
         onChooseImg(event.target.result)
     }
     reader.readAsDataURL(ev.target.files[0])
     console.log('reader.readAsDataURL(ev.target.files[0]):', reader.readAsDataURL(ev.target.files[0]))
     console.log(reader.readAsDataURL(ev.target.files[0]));
+}
+
+// Set aspect-ratio CSS on Gallery 
+function onSetAspectRatio(el) {
+    el.style.aspectRatio = `${el.naturalWidth}/${el.naturalHeight}`
+}
+
+function onClickTotalKeywords(ev,el) {
+    const {title} = el
+    console.log(title.split(' | '))
+    openModal(ev,title)
 }

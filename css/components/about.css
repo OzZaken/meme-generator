@@ -1,20 +1,20 @@
-.main-about-container {
+section.main-about-container {
     position: fixed;
     right: 101vw;
-    animation: fade-in-right 8.s;
+    animation: fade-in-down .8s;
 }
 
-.page-about .main-gallery-container {
+body.page-about .main-about-container {
     position: unset;
     right: unset;
 }
 
-.fade-in-right {animation-name: fade-in-right;}
+.fade-in-right {animation-name: fade-in-down;}
 
-@keyframes fade-in-right {
+@keyframes fade-in-down {
     from {
         opacity: 0;
-        transform: translate3d(100%, 0, 0);
+        transform: translate3d(0, 100%, 0);
     }
 
     to {

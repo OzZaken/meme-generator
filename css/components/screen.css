@@ -13,6 +13,11 @@
     opacity: 0;
 }
 
+.modal-open .screen {
+    opacity: 1;
+    pointer-events: auto;
+}
+
 @media (max-width: 600px) {
     .mobile-menu-open .screen {
         opacity: 1;

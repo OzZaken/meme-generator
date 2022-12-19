@@ -1,9 +1,9 @@
 'use strict'
 
-// HTML dependencies:
-// div.meme-container
-// canvas#meme
 function initMemeController() {
+    // HTML dependencies:
+    // div.meme-container
+    // canvas#meme
     window.gMemeController = {
         elMeme: document.querySelector('#meme'),
         elMemeContainer: document.querySelector('.meme-container'),
@@ -11,8 +11,8 @@ function initMemeController() {
         isDraw: false,
         elCtx: null,
     }
-    console.log('Init MemeControl', gMemeController)
     _initCTX()
+    setListeners()
 }
 
 function _initCTX() {
@@ -27,42 +27,69 @@ function _initCTX() {
 
 function renderMeme() {
     const img = new Image()
-    const { lines, imgSrc } = getMeme()
+    const { aspectRatio ,keywords,lines, imgSrc} = getMeme()
+    if (!imgSrc) {
+        flashMsg('Pick Meme Background first!')
+        drawLine({
+                txt: 'Pick Meme Background first!',
+                lineWidth: 2,
+                fontSize: 30,
+                align: 'center',
+                color: 'black',
+                family: 'impact',
+                strokeStyle: 'red',
+            }
+        )
+        return
+    }
+
+    // TODO: Fix aspectRatio
+    if (aspectRatio) {
+        const memeWidth = +aspectRatio.split('/')[0]
+        const memeHeight = +aspectRatio.split('/')[1]
+        const { style } = gMemeController.elMeme
+        style.aspectRatio = aspectRatio
+        style.width = memeWidth
+        style.height= memeHeight
+    }
+
+    if (keywords) {
+        const { elKeywordsContainer } = gMemeController
+        elKeywordsContainer.innerText = keywords.slice(0, 3).join(', ')
+    }
+
+    const { elCtx, elMeme } = gMemeController
     img.src = imgSrc
     img.onload = () => {
-        const { elMeme,  elCtx } = gMemeController
         elCtx.drawImage(img, 0, 0, elMeme.width, elMeme.height)
         lines.forEach(line => drawLine(line))
     }
-    const {keywords} = getMeme()
-    const {elKeywordsContainer} = gMemeController
-    elKeywordsContainer.innerText = keywords.slice(0,3).join(', ')
+    
 }
 
-//* //  ///   /////      🐱‍👤👀🐱‍👤     \\\\\    \\\  *\\
 function setListeners() {
     const { elMeme } = gMemeController
-    elMeme.addEventListener(() => {
-        // Mouse
-        // elMeme.addEventListener('mousemove', onMove)
-        elMeme.addEventListener('mousedown', onDown)
-        elMeme.addEventListener('mouseup', onUp)
-        // Mobile
-        // elMeme.addEventListener('touchmove', onMove)
-        elMeme.addEventListener('touchstart', onDown)
-        elMeme.addEventListener('touchend', onUp)
-    })
     window.addEventListener('resize', () => {
-        resizeCanvas()
-        renderCanvas()
+        resizeMeme()
+        renderMeme()
     })
+    // Mouse
+    // elMeme.addEventListener('mousemove', onMove)
+    elMeme.addEventListener('mousedown', onDown)
+    elMeme.addEventListener('mouseup', onUp)
+    // Mobile
+    // elMeme.addEventListener('touchmove', onMove)
+    elMeme.addEventListener('touchstart', onDown)
+    elMeme.addEventListener('touchend', onUp)
 }
+//* //  ///   /////      🐱‍👤👀🐱‍👤     \\\\\    \\\  *\\
 
-function resizeCanvas() {
-    const elContainer = document.querySelector('.canvas-container')
-    // gElCanvas.height = gElCanvas.width
-    elContainer.width = elMeme.width
-    elContainer.height = elMeme.height
+function resizeMeme() {
+    const { elMemeContainer, elMeme } = gMemeController
+    elMeme.style.aspectRatio = `${el.naturalWidth}/${el.naturalHeight}`
+    elMemeContainer.style.aspectRatio = `${el.naturalWidth}/${el.naturalHeight}`
+    // elMeme.width = elMemeContainer.offsetWidth
+    // elMeme.width = elMemeContainer.offsetWidth - 100;
 }
 
 function getPos(ev) {
@@ -131,11 +158,6 @@ function onChangeAlign(dir) {
     renderMeme()
 }
 
-function resizeCanvas() {
-    var elContainer = document.querySelector('.canvas-container')
-    // Note: changing the canvas dimension this way clears the canvas
-    gElDrawCanvas.width = elContainer.offsetWidth - 100;
-}
 function downloadCanvas(elLink) {
     // Todo: Make more reUse which Canvas to Download in case of multi
     const data = gElDrawCanvas.toDataURL()
@@ -240,21 +262,21 @@ function onClearMeme() {
 }
 
 function getEvPos(ev) {
-	const touchEvs = ['touchstart', 'touchmove', 'touchend']
-	//Gets the offset pos , the default pos
-	var pos = {
-		x: ev.offsetX,
-		y: ev.offsetY,
-	}
+    const touchEvs = ['touchstart', 'touchmove', 'touchend']
+    //Gets the offset pos , the default pos
+    var pos = {
+        x: ev.offsetX,
+        y: ev.offsetY,
+    }
 
-	if (touchEvs.includes(ev.type)) {
-		ev.preventDefault()
-		ev = ev.changedTouches[0]
-		//Calc the right pos according to the touch screen
-		pos = {
-			x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
-			y: ev.pageY - ev.target.offsetTop - ev.target.clientTop - ev.target.offsetParent.offsetTop,
-		}
-	}
-	return pos
+    if (touchEvs.includes(ev.type)) {
+        ev.preventDefault()
+        ev = ev.changedTouches[0]
+        //Calc the right pos according to the touch screen
+        pos = {
+            x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
+            y: ev.pageY - ev.target.offsetTop - ev.target.clientTop - ev.target.offsetParent.offsetTop,
+        }
+    }
+    return pos
 }

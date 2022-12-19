@@ -7,10 +7,11 @@ section.main-gallery-container {
 body.page-gallery .main-gallery-container {
     position: unset;
     right: unset;
+    animation: fade-in-left .8s;
 }
 
 .fade-in-left {
-    animation-name: fadeInLeft;
+    animation-name: fade-in-left;
 }
 
 @keyframes fade-in-left {

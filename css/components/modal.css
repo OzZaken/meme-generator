@@ -1,0 +1,30 @@
+.modal {
+    position: fixed;
+    display: flex;
+    /* z-index: 1; */
+    align-items: center;
+    justify-content: center;
+    min-height: 50px;
+    min-width: 100px;
+    background-color: var(--clr-brightest);
+    border: 1px solid var(--clr-main);
+    font-weight: bold;
+    border-radius: 20px;
+    padding: 5px;
+  
+    background: var(--clr-main) linear-gradient(to bottom,
+            var(--clr-main),
+            var(--clr-brightest) calc(50% - 10px),
+            var(--clr-brightest) calc(50% + 10px),
+            var(--clr-main));
+}
+
+.modal[hidden]{
+    left: -101vw;
+    top: -101vh;
+}
+
+.modal::selection {
+    background-color: var(--clr-hoover);
+    color: var(--clr-brighter);
+}

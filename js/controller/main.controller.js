@@ -11,6 +11,7 @@ function onInit() {
             elUserMsg: document.querySelector('.user-msg'),
             elMainNav: document.querySelector('.main-nav'),
             elBtnToggleNav: document.querySelector('.btn-toggle-menu'),
+            elModal: document.querySelector('.modal'),
             links: {
                 elLinkGallery: document.querySelector('.link-gallery'),
                 elLinkEdit: document.querySelector('.link-edit'),
@@ -80,6 +81,17 @@ function onNav(navToStr) {
     // elActivePage.hidden = false
 }
 
+// Black screen
+function onTouchScreen() {
+    event.stopPropagation()
+    if (document.body.classList.contains('mobile-menu-open')) {
+        console.log(`🚀 ~ mobile-menu-open`)
+        onToggleMenu()
+        return
+    }
+    closeModal()
+}
+
 // Mobile Menu ☰
 function onToggleMenu() {
     const { elBtnToggleNav } = gMainController.domEls
@@ -122,16 +134,35 @@ function playAudio(audioKey) {
 // OutPut to Meme Service 
 function onImgSelect() {
     const meme = {
+        aspectRatio: event.target.style.aspectRatio,
         imgSrc: event.target.src,
         keywords: event.target.dataset.keyword.split(','),
     }
     flashMsg(`Image\n selected.`)
     onNav('edit')
-    setMeme(meme) 
+    setMeme(meme)
     renderMeme()
 }
 
-// Set aspect-ratio CSS on Gallery and Meme
-function onSetAspectRatio(el) {
-    el.style.aspectRatio = `${el.naturalWidth}/${el.naturalHeight}`
+function openModal(ev, msg) {
+    const { elModal } = gMainController.domEls
+    // set Modal pos
+    const { clientX, clientY } = ev
+    const { style } = elModal
+    style.left = `${clientX}px`
+    style.top = `${clientY}px`
+    // Set txt 
+    elModal.innerText = msg
+    // Notify screen  
+    document.body.classList.add('modal-open')
+}
+
+function closeModal() {
+    const { elModal } = gMainController.domEls
+    // set Modal pos
+    const { style } = elModal
+    style.left = '-101vw'
+    style.top = '-101vh'
+    // Notify screen  
+    document.body.classList.remove('modal-open')
 }
