@@ -8,70 +8,43 @@ function initMemeController() {
         elMeme: document.querySelector('#meme'),
         elMemeContainer: document.querySelector('.meme-container'),
         elKeywordsContainer: document.querySelector('.meme-keyword-container'),
+        elCtx: document.querySelector('#meme').getContext('2d'),
         isDraw: false,
-        elCtx: null,
     }
     _initCTX()
     setListeners()
 }
 
+// After init Set elCtx
 function _initCTX() {
-    const { elMeme } = gMemeController
-    gMemeController.elCtx = elMeme.getContext('2d')
     const { elCtx } = gMemeController
-    elCtx.currShape = 'circle'
-    elCtx.fillStyle = 'black'
-    elCtx.strokeStyle = 'white'
-    elCtx.size = 20
+    console.log(`🚀 ~ elCtx`, elCtx)
+    elCtx.currShape = 'circle' // 🤨
+    elCtx.fillStyle = 'black'//#000000
+    elCtx.strokeStyle = 'white'//#000000
+    // Note: elCtx already declared 
+    // elCtx.size = 20 // 🤨
+    // elCtx.direction = 'ltr'//#ltr
+    // elCtx.wordSpacing = '0px'
+    // elCtx.filter = 'none'
+    // elCtx.textAlign = 'start'
+    // elCtx.shadowColor = 'rgba(0, 0, 0, 0)'
+    // elCtx.font = '10px sans-serif'// fontMap?
 }
 
-function renderMeme() {
-    const img = new Image()
-    const { aspectRatio ,keywords,lines, imgSrc} = getMeme()
-    if (!imgSrc) {
-        flashMsg('Pick Meme Background first!')
-        drawLine({
-                txt: 'Pick Meme Background first!',
-                lineWidth: 2,
-                fontSize: 30,
-                align: 'center',
-                color: 'black',
-                family: 'impact',
-                strokeStyle: 'red',
-            }
-        )
-        return
-    }
-
-    // TODO: Fix aspectRatio
-    if (aspectRatio) {
-        const memeWidth = +aspectRatio.split('/')[0]
-        const memeHeight = +aspectRatio.split('/')[1]
-        const { style } = gMemeController.elMeme
-        style.aspectRatio = aspectRatio
-        style.width = memeWidth
-        style.height= memeHeight
-    }
-
-    if (keywords) {
-        const { elKeywordsContainer } = gMemeController
-        elKeywordsContainer.innerText = keywords.slice(0, 3).join(', ')
-    }
-
-    const { elCtx, elMeme } = gMemeController
-    img.src = imgSrc
-    img.onload = () => {
-        elCtx.drawImage(img, 0, 0, elMeme.width, elMeme.height)
-        lines.forEach(line => drawLine(line))
-    }
-    
+function setCtx(...ctx) {
+    console.log(`🚀 ~ ctx`, ctx)
+    const { elCtx } = gMemeController
+    console.log(`🚀 ~ elCtx`, elCtx)
+    elCtx = { ...elCtx, ctx }
+    console.log(`🚀 ~ elCtx`, elCtx)
 }
 
+// Set Canvas Listeners 
 function setListeners() {
     const { elMeme } = gMemeController
     window.addEventListener('resize', () => {
         resizeMeme()
-        renderMeme()
     })
     // Mouse
     // elMeme.addEventListener('mousemove', onMove)
@@ -82,14 +55,67 @@ function setListeners() {
     elMeme.addEventListener('touchstart', onDown)
     elMeme.addEventListener('touchend', onUp)
 }
-//* //  ///   /////      🐱‍👤👀🐱‍👤     \\\\\    \\\  *\\
+
+
+function renderMeme() {
+    const img = new Image()
+    const { aspectRatio, keywords, lines, src } = getMeme()
+    const { elCtx, elMeme, elMemeContainer } = gMemeController
+    if (!src) {
+        flashMsg('Select Image first!')
+        elCtx.drawLine({
+            txt:'First Select Image!'
+        })
+        return
+    }
+    img.src = src
+    img.onload = () => {
+        // Render Meme keywords
+        if (keywords) {
+            const { elKeywordsContainer } = gMemeController
+            elKeywordsContainer.innerText = keywords.slice(0, 3).join(', ')
+        }
+        // Set aspect-ratio
+        if (aspectRatio) elMeme.style.aspectRatio = aspectRatio
+        elMeme.width = elMemeContainer.width = img.naturalWidth
+        elMeme.height = elMemeContainer.height = img.naturalHeight
+        elCtx.drawImage(img, 0, 0, elMeme.width, elMeme.height)
+        lines.forEach(line => drawLine(line))
+    }
+}
+
+// Get Line model from Service And render
+function drawLine(line) {
+    console.log(`🚀 ~ line`, line)
+    const { elCtx, elMeme } = gMemeController
+    elCtx.beginPath()
+    elCtx.lineWidth = line.lineWidth
+    elCtx.textAlign = line.textAlign
+    elCtx.fillStyle = line.fillStyle
+    elCtx.strokeStyle = line.strokeStyle
+    // Set Font 
+    const { fontMap } = line
+    elCtx.font = `${fontMap.size}${fontMap.sizeUnit} ${fontMap.family}`
+    // Set pos
+    let posX
+    let posY
+    if (!line.x) posX = elMeme.width / 2
+    if (!line.y) posY =  elMeme.height / 2
+    elCtx.fillText(line.txt, posX, posY)
+    elCtx.strokeText(line.txt, posX, posY)
+    elCtx.closePath()
+}
 
 function resizeMeme() {
-    const { elMemeContainer, elMeme } = gMemeController
-    elMeme.style.aspectRatio = `${el.naturalWidth}/${el.naturalHeight}`
-    elMemeContainer.style.aspectRatio = `${el.naturalWidth}/${el.naturalHeight}`
-    // elMeme.width = elMemeContainer.offsetWidth
-    // elMeme.width = elMemeContainer.offsetWidth - 100;
+    const { elMeme, elMemeContainer } = gMemeController
+    elMemeContainer.width = elMemeContainer.offsetWidth
+    elMeme.width = elMemeContainer.offsetWidth - 10;
+    renderMeme()
+}
+
+//*                                   🐱‍👤👀🐱‍👤   
+function setCtx() {
+
 }
 
 function getPos(ev) {
@@ -100,9 +126,8 @@ function getPos(ev) {
     const touchEvs = ['touchstart', 'touchmove', 'touchend']
     if (touchEvs.includes(ev.type)) {
         ev.preventDefault()
-        console.log('ev.changedTouches:', ev.changedTouches)
         ev = ev.changedTouches[0] // Mobile take 1 Pos
-        console.log('ev.changedTouches:', ev.changedTouches)
+        console.log(`🚀 ~ ev`, ev)
         // Calc current Pos
         pos = {
             x: ev.pageX - ev.target.offsetLeft,
@@ -139,7 +164,7 @@ function onAddTxtLine(txt) {
     renderMeme()
 }
 function onSwitchLines() {
-    switchSelectedLine()
+    setSelectedLine()
     playAudio('click', gAudio)
     renderMeme()
 }

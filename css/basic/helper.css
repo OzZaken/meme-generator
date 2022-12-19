@@ -25,11 +25,6 @@
     font-weight: bold;
 }
 
-.hidden {
-    z-index: -1 important!;
-    display: none;
-}
-
 input,
 select,
 option,

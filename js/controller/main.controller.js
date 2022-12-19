@@ -125,23 +125,22 @@ function playAudio(audioKey) {
         audio[audioKey].onerror = reject   // on error, reject
         audio[audioKey].onended = resolve  // when done, resolve
     })
-
 }
 
-// The linking Func between  
+// The linking Func between Gallery to Meme
 // Input from Gallery Controller
-//   ↨
+//   ↨  
 // OutPut to Meme Service 
 function onImgSelect() {
+    flashMsg(`Image\n selected.`)
     const meme = {
         aspectRatio: event.target.style.aspectRatio,
-        imgSrc: event.target.src,
+        src: event.target.src,
         keywords: event.target.dataset.keyword.split(','),
     }
-    flashMsg(`Image\n selected.`)
-    onNav('edit')
     setMeme(meme)
     renderMeme()
+    onNav('edit')
 }
 
 function openModal(ev, msg) {

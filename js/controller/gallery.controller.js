@@ -32,13 +32,9 @@ function initGalleryController(galleryName) {
 function renderGallery() {
     const { galleryName } = gGalleryController
     const CapitalName = _capitalize(galleryName)
-
     const imgs = getImgsForDisplay()
-    console.log(`🚀 ~ imgs`, imgs)
-
     const keyWords = getKeywords()
     const titleKeywords = (keywords) => keywords.join(' | ')
-
 
     // Images template
     const strHTMLs = imgs.map((img, idx) => `<img
@@ -72,7 +68,6 @@ function renderGallery() {
 // Render on DataList keywords Options
 function renderKeywordsOpts() {
     const keywordsCountMap = getOptionsForDisplay()
-    console.log(`🚀 ~ keywordsCountMap`, keywordsCountMap)
     const strHTMLs = keywordsCountMap.map(keywordStr =>
         `<option value="${keywordStr}">${_capitalize(keywordStr)}</option>`
     )
@@ -152,8 +147,8 @@ function onSetAspectRatio(el) {
     el.style.aspectRatio = `${el.naturalWidth}/${el.naturalHeight}`
 }
 
+// openModal with All Keywords 
 function onClickTotalKeywords(ev,el) {
     const {title} = el
-    console.log(title.split(' | '))
     openModal(ev,title)
 }

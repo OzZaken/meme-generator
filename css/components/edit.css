@@ -1,3 +1,4 @@
+/* Paging */
 section.main-edit-container {
     position: fixed;
     right: 120vw;
@@ -5,7 +6,7 @@ section.main-edit-container {
 
 body.page-edit .main-edit-container {
     position: unset;
-    animation: fade-in-right .6s;
+    animation: fade-in-right .8s;
     right: unset;
 }
 
