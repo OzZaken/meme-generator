@@ -12,10 +12,12 @@ body {
     color: var(--txt-clr);
     font-size: 1rem;
 }
-
-body::-webkit-scrollbar {
-    width: 1em;
+/* i18 */
+body.he{
+    direction: rtl;
 }
+/* Scroll*/
+body::-webkit-scrollbar {width: 1em;}
 
 body::-webkit-scrollbar-track {
     box-shadow: inset 0 0 6px var(--clr-dark);
@@ -35,9 +37,14 @@ body::-webkit-scrollbar-thumb {
     color: var(--clr-hoover);
 }
 
-img {
-    width: 100%;
+input:focus{
+    font-weight: bold;
+    font-size: 16px;
+    color: #852399;
+    border: 2px solid #fb9623;
 }
+
+img {width: 100%;}
 
 section {
     padding-bottom: 1rem;
@@ -46,7 +53,7 @@ section {
 
 h1 {
     max-width: 90vw;
-    font-size: 2em;
+    font-size: calc(2rem + 3px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -56,13 +63,14 @@ h1 {
     color: var(--clr-hoover);
     text-shadow: 2px 2px 2px 2px;
     position: relative;
-    animation: fade-in-down .8s;
+    text-shadow: 1px 0px 1px #222;
+    animation: fade-in-up .5s;
 }
 
-@keyframes fade-in-down {
+@keyframes fade-in-up {
     from {
         opacity: 0;
-        transform: translate3d(0, -100%, 0);
+        transform: translate3d(0, 100%, 0);
     }
 
     to {
@@ -71,7 +79,7 @@ h1 {
     }
 }
 
-.fade-in-down {
+.fade-in-up {
     animation-name: fadeInDown;
 }
 
@@ -94,7 +102,7 @@ a {
 
 i {
     font-size: inherit;
-    /* font-family: fa-solid; */
+    font-family: fa-solid;
 }
 
 @media (min-width: 768px) {

@@ -35,32 +35,40 @@ function renderGallery() {
     const imgs = getImgsForDisplay()
     const keyWords = getKeywords()
     const titleKeywords = (keywords) => keywords.join(' | ')
-
     // Images template
-    const strHTMLs = imgs.map((img, idx) => `<img
-        onclick="onImgSelect()" 
+    const strHTMLs = imgs.map((img, idx) =>
+        `<img
+        onclick="onImgSelect()"
         onload="onSetAspectRatio(this)"
         data-keyword="${img.keywords}"
-        class="gallery-img-container"
+        class="gallery-item"
         alt="${CapitalName} #${idx + 1}\n${_capitalizes(img.keywords).join(', ')}"       
         title="${CapitalName} #${idx + 1}\n${_capitalizes(img.keywords).join(' | ')}"
-        src=${img.url}>`)
-
-    // Stats and Upload Image Option
+        src=${img.url}>
+        `
+    )
+    // Stat and Upload Image Option
     const foundCount = imgs.length >= 0 ? imgs.length : '0'
     strHTMLs.unshift(`
-    <div class="gallery-img-container gallery-stat">
+    <div class="gallery-item gallery-stat">
+    <div class="filter-stat">
     <span title="Filtered ${galleryName} count">${foundCount}</span>
     &#47;
     <span title="Total ${CapitalName}s Founds">${getImgsCount()}</span>
     ${CapitalName}s
+    </div>
+    <hr/>
     <p role="button" class="underline" onclick="onClickTotalKeywords(event,this)" title="${titleKeywords(keyWords)}">${keyWords.length} KeyWords</p>
-    <p>upload New Image!</p>
-    <input type="file" name="img" onchange="onUploadImg(event)"/>
-    </div
-    >`)
-
-    // render Gallery
+    <hr/>
+    <div class="upload-img-container">
+    <label onclick="onUploadImg()" role="button" class"btn" for="Upload Image" class="underline">Upload Image
+    <i class="fa-solid fa-upload"></i>
+    <input style="visibility:hidden;"type="file" name="upload-img" onchange="onUploadImg(event)"/>
+    </label>
+    </div>
+    </div>`
+    )
+    // Render Gallery
     const { elGallery } = gGalleryController
     elGallery.innerHTML = strHTMLs.join('')
 }
@@ -78,11 +86,11 @@ function renderKeywordsOpts() {
 
 // Filter
 function onSetFilter(str) {
-    // Give Option for emptySpace
-    !str || str === ' ' ? str = '' : str
+    event.preventDefault()
     const { elFilterBy } = gGalleryController
+    !str ? str = elFilterBy.value : str
     elFilterBy.value = str
-    setFilter(str) // MODEL - GalleryService.
+    setFilter(str)
     renderGallery()
 }
 
@@ -107,7 +115,7 @@ function renderKeywordsBtns() {
 // Set filter and UI effect Buttons
 function onClickKeyword() {
     const elBtn = event.target
-    const {style, dataset, value} = elBtn
+    const { style, dataset, value } = elBtn
     style.color = utilService.getRandomColor()
     onSetFilter(value)
     if (+dataset.fs >= 16) return
@@ -127,7 +135,22 @@ function _capitalize(word) {
     return word.replace(/^\w/, c => c.toUpperCase())
 }
 
-// Upload Image // TODO:Save on the GalleryService
+// Set aspect-ratio CSS on Gallery 
+function onSetAspectRatio(el) {
+    el.style.aspectRatio = `${el.naturalWidth}/${el.naturalHeight}`
+}
+
+// openModal with All Keywords 
+function onClickTotalKeywords(ev, btnShowKeywords) {
+    const { title } = btnShowKeywords
+    const displayKeywords = title.split(' | ').map(keyword => {
+        return `<span role="button" data-pos="modal" class="btn-keyword" onclick="onSetFilter(this.innerText)">${keyword}</span>`
+    }).join('')
+    openModal(ev, displayKeywords)
+}
+
+// TODO:Save on the GalleryService
+// Upload Image 
 function onUploadImg(ev) {
     const { elImgInput } = gMeme.domeEls.inputs
     elImgInput.innerHTML = ''
@@ -140,15 +163,4 @@ function onUploadImg(ev) {
     reader.readAsDataURL(ev.target.files[0])
     console.log('reader.readAsDataURL(ev.target.files[0]):', reader.readAsDataURL(ev.target.files[0]))
     console.log(reader.readAsDataURL(ev.target.files[0]));
-}
-
-// Set aspect-ratio CSS on Gallery 
-function onSetAspectRatio(el) {
-    el.style.aspectRatio = `${el.naturalWidth}/${el.naturalHeight}`
-}
-
-// openModal with All Keywords 
-function onClickTotalKeywords(ev,el) {
-    const {title} = el
-    openModal(ev,title)
 }

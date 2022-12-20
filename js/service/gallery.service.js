@@ -1,6 +1,5 @@
 'use strict'
 
-//*                                                   Init
 // Initial Images 
 const gInitialImgs = [
     { url: 'assets/img/gallery/1.jpg', keywords: ['view', 'dance'] },
@@ -29,9 +28,6 @@ const gInitialImgs = [
     { url: 'assets/img/gallery/24.jpg', keywords: ['celeb', 'angry'] },
     { url: 'assets/img/gallery/25.jpg', keywords: ['funny', 'celeb'] },
 ]
-
-
-
 
 //  Export to GALLERY_CONTROLLER
 const GALLERY_SERVICE = {
@@ -75,18 +71,30 @@ function getImgsCount() {
     return imgs.length
 }
 
-
-
-function uploadImg() {
-
+function onSuccess(uploadedImgUrl) {
+    uploadedImgUrl = encodeURIComponent(uploadedImgUrl);
+    const strHtml = `
+    <a class="btn start-action" href="https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}" 
+    title="Share on Facebook" target="_blank" onclick="onCloseDownloadShareModal();
+    window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
+    Click to share on facebook   
+    </a>`;
+    toggleModalScreen(strHtml);
 }
 
-// Optional
-function setInitImgFolder(path, imgCount, imgFileType, keywords) {
-    GALLERY.imgs = []
-    for (let i = 1; i <= imgCount; i++) {
-        addImg(path, i, imgFileType, keywords[i - 1])
-    }
+function UploadImg(elForm, onSuccess) {
+    var formData = new FormData(elForm);
+    fetch('//ca-upload.com/here/upload.php', {
+        method: 'POST',
+        body: formData,
+    })
+        .then(function (res) {
+            return res.text();
+        })
+        .then(onSuccess)
+        .catch(function (err) {
+            console.error(err);
+        })
 }
 
 function addImg(imgData) {
@@ -164,5 +172,9 @@ function getOptionsForDisplay() {
     return keywordsStrs
 }
 
-
-
+function setInitImgFolder(path, imgCount, imgFileType, keywords) {
+    GALLERY.imgs = []
+    for (let i = 1; i <= imgCount; i++) {
+        addImg(path, i, imgFileType, keywords[i - 1])
+    }
+}

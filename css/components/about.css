@@ -1,10 +1,22 @@
 section.main-about-container {
     position: fixed;
     right: 101vw;
-    animation: fade-in-right .8s;
+    animation: fade-in-down .8s;
 }
 
 body.page-about .main-about-container {
     position: unset;
     right: unset;
+}
+
+@keyframes fade-in-down {
+    0% {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

@@ -1,6 +1,12 @@
+.modal::before{
+    content: 'X';
+    align-self: flex-start;
+}
+
 .modal {
     position: fixed;
     display: flex;
+    flex-direction: column;
     /* z-index: 1; */
     align-items: center;
     justify-content: center;

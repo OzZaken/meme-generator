@@ -89,7 +89,7 @@ function onTouchScreen() {
         onToggleMenu()
         return
     }
-    closeModal()
+    onTouchModal(true)
 }
 
 // Mobile Menu ☰
@@ -108,7 +108,7 @@ function flashMsg(str) {
     setTimeout(() => elUserMsg.classList.remove('user-msg-open'), 3000)
 }
 
-// Audio
+// Play audio
 function playAudio(audioKey) {
     const { audio } = gMainController
     if (audio[audioKey]) audio[audioKey].pause()
@@ -127,6 +127,56 @@ function playAudio(audioKey) {
     })
 }
 
+// Show Modal
+function openModal(ev, msg) {
+    console.log(`🚀 ~ msg`, msg)
+    const { elModal } = gMainController.domEls
+    // set Modal pos
+    const { clientX, clientY } = ev
+    const { style } = elModal
+    style.left = `${clientX}px`
+    style.top = `${clientY}px`
+    // Set txt 
+    elModal.innerHTML = msg
+    // Notify screen  
+    document.body.classList.add('modal-open')
+}
+
+// Hide Modal
+function onTouchModal(isClose) {
+    const touchPos = getEvPos(event)
+    if (isClose ||
+        touchPos.x <= 20 && touchPos.y <= 20) {// click on X
+        const { elModal } = gMainController.domEls
+        // set Modal pos
+        const { style } = elModal
+        style.left = '-101vw'
+        style.top = '-101vh'
+        // Notify screen  
+        document.body.classList.remove('modal-open')
+        // Todo: add hidden make sure impassible to see
+    }
+}
+
+// return current click Pos
+function getEvPos(ev) {
+    const pos = {
+        x: ev.offsetX,
+        y: ev.offsetY
+    }
+    const touchEvs = ['touchstart', 'touchmove', 'touchend']
+    if (touchEvs.includes(ev.type)) {
+        ev.preventDefault()
+        // Take 1 Mobile touch {Pos} in case of multi fingers clicking
+        ev = ev.changedTouches[0]
+        pos = {
+            x: ev.pageX - ev.target.offsetLeft,
+            y: ev.pageY - ev.target.offsetTop
+        }
+    }
+    return pos
+}
+
 // The linking Func between Gallery to Meme
 // Input from Gallery Controller
 //   ↨  
@@ -141,27 +191,4 @@ function onImgSelect() {
     setMeme(meme)
     renderMeme()
     onNav('edit')
-}
-
-function openModal(ev, msg) {
-    const { elModal } = gMainController.domEls
-    // set Modal pos
-    const { clientX, clientY } = ev
-    const { style } = elModal
-    style.left = `${clientX}px`
-    style.top = `${clientY}px`
-    // Set txt 
-    elModal.innerText = msg
-    // Notify screen  
-    document.body.classList.add('modal-open')
-}
-
-function closeModal() {
-    const { elModal } = gMainController.domEls
-    // set Modal pos
-    const { style } = elModal
-    style.left = '-101vw'
-    style.top = '-101vh'
-    // Notify screen  
-    document.body.classList.remove('modal-open')
 }

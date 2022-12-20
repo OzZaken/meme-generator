@@ -1,4 +1,5 @@
 'use strict'
+
 const storageService = {
     saveToStorage,
     loadFromStorage

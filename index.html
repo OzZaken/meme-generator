@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -11,6 +11,7 @@
 </head>
 
 <body class="page-gallery" onload="onInit()">
+    <!-- Header -->
     <header class="header">
         <!-- Logo -->
         <a class="logo" href="#" onclick="onNav('')"></a>
@@ -51,6 +52,7 @@
         </div>
     </header>
 
+    <!-- Main -->
     <main class="main-layout">
         <!-- Gallery -->
         <section class="page main-gallery-container">
@@ -58,11 +60,12 @@
             <!-- Filter -->
             <label for="Search Image"></label>
             <datalist id="gallery-keyword"></datalist>
-            <form class="gallery-form" onsubmit="ev.preventDefault();onSetFilter()">
+            <form class="gallery-search" onsubmit="onSetFilter()">
                 <input list="gallery-keyword" oninput="onSetFilter(this.value)" name="gallery-filter" type="search"
-                    placeholder="Search Image">
-                <button onclick="onSetRandMeme()" class="btn-big btn-i-flexible">I'am Flexable</button>
+                placeholder="Search Image">
+                <button class="btn-search"></button>
             </form>
+            <button onclick="onSetRandMeme()" class="btn-big btn-i-flexible">I'am Flexable</button>
             <!-- Keywords Btns -->
             <ul class="gallery-keyword-container"></ul>
             <!-- Images Container -->
@@ -72,28 +75,30 @@
         <!-- Edit -->
         <section class="page main-edit-container">
             <h1>edit your Meme</h1>
+            <!-- Meme Keywords -->
             <h2 class="keyword-heading meme-keyword-container"></h2>
-            <label for="Add keyword"></label>
-            <h3 class="keyword-form-container">
-                <datalist id="meme-keyword"></datalist>
-                <form list="meme-keyword" class="meme-keyword-form" onsubmit="ev.preventDefault();onAddKeyword()">
+            <div class="keyword-form-container">
+                <label for="Add keyword"></label>
+                <form list="gallery-keyword" class="meme-keyword-form" onsubmit="event.preventDefault();onAddKeyword()">
                     <input onsubmit="onAddKeyword(this.value)" name="meme-keyword" type="text"
                         placeholder="Add new keyword">
                 </form>
-            </h3>
-            <!-- Meme -->
+            </div>
+            <!-- Canvas -->
             <div class="meme-container">
                 <canvas id="meme" height="350" width="350"></canvas>
             </div>
             <!-- Add Text Line -->
-            <div class="btns-editor-container">
+            <div class="btns-editor">
                 <!-- Add Text Line -->
                 <form onsubmit="event.preventDefault()">
                     <label for="Add New Text line"></label>
-                    <input class="line-txt fa flex" oninput="onSetLineText(this.value)" onsubmit="onAddTxtLine()"
-                        type="text" placeholder="Add new text line" list="gallery-keyword" title="Add New Text line">
+                    <input name="line-txt" onsubmit="onAddTxtLine()" type="search" placeholder="Add new text line"
+                        list="gallery-keyword" title="Add New Text line">
                 </form>
-
+            </div>
+            <!-- 🐱‍👤 -->
+            <div class="btns-editor-container">
                 <div class="editor-container">
                     <!-- Btns -->
                     <i onclick="onChangeLinePos(0,-20)" title="Move text up" class="fa fa-arrow-up"></i>
@@ -144,10 +149,12 @@
         <!-- About -->
         <section class="page main-about-container">
             <h1>about</h1>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Maiores iure, ipsam recusandae minima beatae, earum perferendis aperiam veritatis labore neque ab unde sed non. Porro magnam quis ullam labore assumenda?
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Maiores iure, ipsam recusandae minima beatae,
+            earum perferendis aperiam veritatis labore neque ab unde sed non. Porro magnam quis ullam labore assumenda?
         </section>
     </main>
 
+    <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
             <div class="logo"></div>
@@ -184,24 +191,29 @@
         </div>
     </footer>
 
+    <!-- Util Comps-->
     <div class="user-msg"></div>
     <div class="screen" onclick="onTouchScreen()"></div>
-    <div class="modal" hidden onclick="onCloseModal()"></div>
+    <div class="modal" hidden onclick="onTouchModal()"></div>
 
-    <!-- JS -->
+    <!-- JS // TODO: Type Module-->
     <!-- Service -->
     <script src="js/service/util.service.js"></script>
     <script src="js/service/storage.service.js"></script>
     <script src="js/service/upload.service.js"></script>
-    <!-- Font-Awesome -->
-    <!-- <script src="https://kit.fontawesome.com/9e627fd092.js" crossorigin="anonymous"></script> -->
+
+    <!-- Font-Awesome: // TODO: something! -->
+    <script src="https://kit.fontawesome.com/9e627fd092.js" crossorigin="anonymous"></script>
+
     <!-- i18, Edit, Galley -->
     <script src="js/service/i18.service.js"></script>
     <script src="js/service/gallery.service.js"></script>
     <script src="js/service/meme.service.js"></script>
+
     <!-- Controller -->
     <script src="js/controller/gallery.controller.js"></script>
     <script src="js/controller/meme.controller.js"></script>
+
     <!-- Main Controller -->
     <script src="js/controller/main.controller.js"></script>
 </body>

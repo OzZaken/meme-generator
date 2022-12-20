@@ -54,7 +54,7 @@ ul.main-nav-list {
     box-shadow: inset -1px 0 0 var(--clr-darkest), inset 0 -6px 0 var(--clr-main);
 }
 
-/* Select language */
+/* i18 */
 select.lang {
     margin-inline-start: 5px;
     border: none;
@@ -64,9 +64,7 @@ select.lang {
     color: var(--clr-brightest);
 }
 
-.lang option {
-    color: var(--clr-darker);
-}
+.lang option {color: var(--clr-darker);}
 
 /* Media Query */
 /* Mobile */

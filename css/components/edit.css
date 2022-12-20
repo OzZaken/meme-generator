@@ -24,39 +24,36 @@ body.page-edit .main-edit-container {
     }
 }
 
+/* Meme Keywords */
+h2.keyword-heading {float: left;}
+h2.keyword-heading::before {content: 'Meme Keywords: ';}
 
-.meme-container {
-    transition: all .2s;
-    flex-wrap: wrap;
+/* add keyword Form */
+.keyword-form-container{
+    padding: 10px;
 }
+.meme-keyword-form {float: right;}
 
-.keyword-heading {
-    float: left;
+input[name="meme-keyword"] {
+    padding: 5px 5px;
+    margin: auto;
 }
-
-.keyword-heading::before {
-    content: 'Keywords: ';
-}
-
-.meme-keyword-form {
-    float: right;
-}
-
+/* Canvas */
 canvas#meme {
     clear: both;
     max-width: 90vw;
     display: block;
     margin: 0 auto;
 }
-
-
-
-
-input.color-input {
-    position: inherit;
-    height: 100%;
-    width: 100%;
-    opacity: 0;
+/*                                  🐱‍👤👀🐱‍👤 */
+input[name="line-txt"] {
+    display: flex;
+    font-family: fa-solid;
+    padding: 10px 15px;
+    width: 80%;
+    margin: auto;
+    grid-column-start: 1;
+    grid-column-end: 6;
 }
 
 .editor-container {
@@ -83,16 +80,7 @@ input.color-input {
     margin-top: 10px;
 }
 
-.line-txt {
-    padding: 10px 15px;
-    width: 80%;
-    margin: auto;
-    grid-column-start: 1;
-    grid-column-end: 6;
-}
-
 .font-select {
     grid-column-start: 1;
     grid-column-end: 4;
 }
-
