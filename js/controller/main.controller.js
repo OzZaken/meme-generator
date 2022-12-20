@@ -29,22 +29,46 @@ function onInit() {
         },
     }
     // Gallery
-    initGalleryController('meme')
-    renderGallery()
-    renderKeywordsOpts()
-    renderKeywordsBtns()
+    GALLERY_CONTROLLER.initGalleryController('meme')
+    GALLERY_CONTROLLER.renderGallery()
+    GALLERY_CONTROLLER.renderKeywordsOpts()
+    GALLERY_CONTROLLER.renderKeywordsBtns()
 
     // Meme
-    initMemeController()
+    MEME_CONTROLLER.initMemeController()
 
     // i18
-    // setUserDefaultLang()
+    I18_SERVICE.setUserDefaultLang(navigator.languages[1])
+    const userLang = I18_SERVICE.getLangStr()
+    // add class to html and body
+    document.documentElement.setAttribute("lang", userLang)
+    document.body.classList.add(userLang)
+    // Set the right Select on
+    document.querySelector('[name="select-lang"]').selectedOptions.value === userLang
+    // transDocument()
 
     // User-Msg
     flashMsg('Welcome!')
     setTimeout(() => {
         if (document.body.classList.contains('page-gallery')) flashMsg('Choose Meme Background!')
     }, 5000)
+}
+
+// get current lang and translate Dom
+function transDocument() {
+
+    // const elsText = document.querySelectorAll('[data-trans]')
+    // elsText.forEach(el => {
+    //     el.innerText = gTrans[el.dataset.trans][gUserLang]
+    // })
+    // const elsPlaceholder = document.querySelectorAll('[data-placeholdertrans]')
+    // elsPlaceholder.forEach(el => {
+    //     el.placeholder = gTrans[el.dataset.placeholdertrans][gUserLang]
+    // })
+    // const elsTitle = document.querySelectorAll('[data-titletrans]')
+    // elsTitle.forEach(el => {
+    //     el.title = gTrans[el.dataset.titletrans][gUserLang]
+    // })
 }
 
 // Navigation
@@ -129,7 +153,6 @@ function playAudio(audioKey) {
 
 // Show Modal
 function openModal(ev, msg) {
-    console.log(`🚀 ~ msg`, msg)
     const { elModal } = gMainController.domEls
     // set Modal pos
     const { clientX, clientY } = ev
@@ -177,10 +200,7 @@ function getEvPos(ev) {
     return pos
 }
 
-// The linking Func between Gallery to Meme
-// Input from Gallery Controller
-//   ↨  
-// OutPut to Meme Service 
+// The linking Func between GalleryController to  MemeService
 function onImgSelect() {
     flashMsg(`Image\n selected.`)
     const meme = {

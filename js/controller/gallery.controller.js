@@ -34,7 +34,7 @@ function renderGallery() {
     const CapitalName = _capitalize(galleryName)
     const imgs = getImgsForDisplay()
     const keyWords = getKeywords()
-    const titleKeywords = (keywords) => keywords.join(' | ')
+    const _titleKeywords = (keywords) => keywords.join(' | ')
     // Images template
     const strHTMLs = imgs.map((img, idx) =>
         `<img
@@ -57,14 +57,12 @@ function renderGallery() {
     <span title="Total ${CapitalName}s Founds">${getImgsCount()}</span>
     ${CapitalName}s
     </div>
-    <hr/>
-    <p role="button" class="underline" onclick="onClickTotalKeywords(event,this)" title="${titleKeywords(keyWords)}">${keyWords.length} KeyWords</p>
-    <hr/>
+    <p role="button" class="underline" onclick="onClickTotalKeywords(event,this)" title="${_titleKeywords(keyWords)}">${keyWords.length} KeyWords</p>
     <div class="upload-img-container">
-    <label onclick="onUploadImg()" role="button" class"btn" for="Upload Image" class="underline">Upload Image
-    <i class="fa-solid fa-upload"></i>
-    <input style="visibility:hidden;"type="file" name="upload-img" onchange="onUploadImg(event)"/>
+    <label onclick="onUploadImg()" class"btn underline" for="Upload Image">
+    Upload Image <i class="fa-solid fa-upload"></i>
     </label>
+    <input type="file" name="upload-img" onchange="onUploadImg(event)"/>
     </div>
     </div>`
     )
@@ -122,29 +120,16 @@ function onClickKeyword() {
     dataset.fs++
 }
 
-// Capitalize STRs 
-function _capitalizes(words) {
-    return words.slice(0, 3).map(keyword => {
-        if (keyword) return (_capitalize(keyword))
-    })
-
-}
-
-// Capitalize Str 
-function _capitalize(word) {
-    return word.replace(/^\w/, c => c.toUpperCase())
-}
-
 // Set aspect-ratio CSS on Gallery 
 function onSetAspectRatio(el) {
     el.style.aspectRatio = `${el.naturalWidth}/${el.naturalHeight}`
 }
 
 // openModal with All Keywords 
-function onClickTotalKeywords(ev, btnShowKeywords) {
-    const { title } = btnShowKeywords
+function onClickTotalKeywords(ev, elBtnKeywordsContainer) {
+    const { title } = elBtnKeywordsContainer
     const displayKeywords = title.split(' | ').map(keyword => {
-        return `<span role="button" data-pos="modal" class="btn-keyword" onclick="onSetFilter(this.innerText)">${keyword}</span>`
+        return `<span role="button" data-pos="modal" class="btn-keyword" onclick="onSetFilter(this.innerText);onTouchModal(true)">${keyword}</span>`
     }).join('')
     openModal(ev, displayKeywords)
 }
@@ -163,4 +148,17 @@ function onUploadImg(ev) {
     reader.readAsDataURL(ev.target.files[0])
     console.log('reader.readAsDataURL(ev.target.files[0]):', reader.readAsDataURL(ev.target.files[0]))
     console.log(reader.readAsDataURL(ev.target.files[0]));
+}
+
+// Capitalize STRs 
+function _capitalizes(words) {
+    return words.slice(0, 3).map(keyword => {
+        if (keyword) return (_capitalize(keyword))
+    })
+
+}
+
+// Capitalize Str 
+function _capitalize(word) {
+    return word.replace(/^\w/, c => c.toUpperCase())
 }

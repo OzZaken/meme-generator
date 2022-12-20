@@ -212,9 +212,23 @@ img.gallery-item:hover {
     justify-content: space-evenly;
     background-color: var(--clr-main);
 }
+
+label[name="upload-img"]{
+    color: red important!;
+    cursor: pointer;
+}
+
+input[name="upload-img"] {
+    opacity: 0;
+   position: relative;
+   z-index: -1;
+   top: -20px;
+}
+
 .gallery-item.gallery-stat {
     align-items: center;
 }
+
 .upload-img-container {
     position: relative;
     left: 60px;

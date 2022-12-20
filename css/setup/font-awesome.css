@@ -1,27 +1,14 @@
-/* first line */
 .fa-arrow-up::before {content: "\f062";}
-
 .fa-arrow-down::before {content: "\f063";}
-
 .fa-arrow-up-arrow-down {content: "\e099";}
-
 .fa-plus::before {content: "\2b";}
-
 .fa-trash::before {content: "\f1f8";}
-
-/* second line */
 .fa-text-size::before {content: "\f894";}
-
 .fa-align-center::before {content: "\f037";}
-
 .fa-align-left::before {content: "\f036";}
-
 .fa-align-right::before {content: "\f036";}
-
 .fa-align-right::before {content: "\f038";}
-
 .fa-s::before {content: "\53";}
-
 .fa-palette::before {content: "\f53f";}
-
 .fa-search::before {content: "\f002";}
+.fa-upload::before {content: "";}

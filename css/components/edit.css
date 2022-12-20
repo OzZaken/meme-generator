@@ -38,6 +38,7 @@ input[name="meme-keyword"] {
     padding: 5px 5px;
     margin: auto;
 }
+
 /* Canvas */
 canvas#meme {
     clear: both;
@@ -45,6 +46,8 @@ canvas#meme {
     display: block;
     margin: 0 auto;
 }
+
+canvas#meme {max-height: 50vh;}
 /*                                  🐱‍👤👀🐱‍👤 */
 input[name="line-txt"] {
     display: flex;

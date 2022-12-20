@@ -1,4 +1,7 @@
 'use strict'
+const MEME_CONTROLLER = {
+    initMemeController
+}
 
 // Init MemeController
 function initMemeController() {
@@ -107,7 +110,6 @@ function drawLine(line) {
     elCtx.closePath()
 }
 
-
 function setCtx(...ctx) {
     console.log(`🚀 ~ ctx`, ctx)
     const { elCtx } = gMemeController
@@ -115,6 +117,7 @@ function setCtx(...ctx) {
     elCtx = { ...elCtx, ctx }
     console.log(`🚀 ~ elCtx`, elCtx)
 }
+
 // isDraw = false TODO: check if needed
 function onMouseOutCanvas() {
     console.log('onMouseOutCanvas')
@@ -127,6 +130,11 @@ function onDownloadMeme(elLink) {
     elLink.href = data
     elLink.download = 'My Meme'
 }
+
+
+
+
+
 //*                                   🐱‍👤👀🐱‍👤   
 function onUp() {
     gMemeController.isDraw = false
