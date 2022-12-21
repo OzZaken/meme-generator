@@ -1,5 +1,4 @@
-'use strict'
-const UTIL_SERVICE = {
+export const UTIL_SERVICE = {
     getRandInclusive,
     makeId,
     getRandomColor,
@@ -40,11 +39,6 @@ function playAudio(AudioName, audioEco) {
     new Audio(`audio/${AudioName}.mp3`).play()
 }
 
-// Capitalize Str 
-function capitalize(word) {
-    return word.replace(/^\w/, c => c.toUpperCase())
-}
-
 // Capitalize  StrS 
 function capitalizes(words) {
     return words.slice(0, 3).map(keyword => {
@@ -52,4 +46,8 @@ function capitalizes(words) {
     })
 }
 
-const _capitalize = (str) => str[0].toUpperCase() + str.substring(1)
+// Capitalize Str 
+function capitalize(word) {
+    return word.replace(/^\w/, c => c.toUpperCase())
+}
+

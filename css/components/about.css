@@ -1,3 +1,5 @@
+/* Paging */
+
 section.main-about-container {
     position: fixed;
     right: 101vw;
@@ -20,3 +22,5 @@ body.page-about .main-about-container {
         transform: translateY(0);
     }
 }
+
+/* TODO: about using checkBox hack */

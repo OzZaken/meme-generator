@@ -1,7 +1,19 @@
-'use strict'
+import { STORAGE_SERVICE } from '../service/storage.service.js'
+
+export const GALLERY_SERVICE = {
+    setFilter,
+    setInitImgFolder,
+    getImgsCount,
+    getImgsForDisplay,
+    getKeywords,
+    getOptionsForDisplay,
+    getKeywordsForDisplay,
+    getKeyWordsCountMap,
+    setGalleryStorageKey,
+}
 
 // Initial Images 
-const gInitialImgs = [
+const INIT_IMAGES = [
     { url: 'assets/img/gallery/1.jpg', keywords: ['view', 'dance'] },
     { url: 'assets/img/gallery/2.jpg', keywords: ['funny', 'celeb'] },
     { url: 'assets/img/gallery/3.jpg', keywords: ['dog', 'cute',] },
@@ -29,19 +41,7 @@ const gInitialImgs = [
     { url: 'assets/img/gallery/25.jpg', keywords: ['funny', 'celeb'] },
 ]
 
-//  Export to GALLERY_CONTROLLER
-const GALLERY_SERVICE = {
-    setStorageKey,
-    setInitImgFolder,
-    getImgsCount,
-    getImgsForDisplay,
-    getOptionsForDisplay,
-    getKeywordsForDisplay,
-    getKeyWordsCountMap,
-    setFilter,
-}
-
-// GALLERY_SERVICE STATE MODEL
+// GALLERY_SERVICE MODEL STATE 
 const GALLERY = {
     filterBy: null,
     keywordsCountMap: null,
@@ -50,19 +50,20 @@ const GALLERY = {
 }
 
 // Adjust GalleryService to Main App
-function setStorageKey(galleryName) {
+function setGalleryStorageKey(galleryName) {
     GALLERY.storageKey = `${galleryName}-gallery-DB`
     _createImgs()
 }
 
-// After Get StorageKey Find Or Create Imgs
+// After Update StorageKey Find Or Create Imgs
 function _createImgs() {
     const { storageKey } = GALLERY
-    GALLERY.imgs = storageService.loadFromStorage(storageKey)
+    GALLERY.imgs = STORAGE_SERVICE.loadFromStorage(storageKey)
     if (!GALLERY.imgs || !GALLERY.imgs.length) {
-        GALLERY.imgs = gInitialImgs
+        GALLERY.imgs = INIT_IMAGES
     }
-    storageService.saveToStorage(storageKey, GALLERY.imgs)
+    const { imgs } = GALLERY
+    STORAGE_SERVICE.saveToStorage(storageKey, imgs)
 }
 
 // imgs.length
@@ -82,7 +83,7 @@ function onSuccess(uploadedImgUrl) {
     toggleModalScreen(strHtml);
 }
 
-function UploadImg(elForm, onSuccess) {
+function uploadImg(elForm, onSuccess) {
     var formData = new FormData(elForm);
     fetch('//ca-upload.com/here/upload.php', {
         method: 'POST',
@@ -98,10 +99,11 @@ function UploadImg(elForm, onSuccess) {
 }
 
 function addImg(imgData) {
+    console.log(`🚀 ~ Saving Image`, imgData)
     const { path, name, fileType, keywords } = imgData
     GALLERY.imgs.push({ url: `${path}${name}.${fileType}`, keywords })
     const { storageKey } = GALLERY
-    storageService.saveToStorage(storageKey, GALLERY.imgs)
+    STORAGE_SERVICE.saveToStorage(storageKey, GALLERY.imgs)
 }
 
 //*                                                   Filter
@@ -165,9 +167,10 @@ function getKeywordsForDisplay() {
 // return sort common keyword only STR
 function getOptionsForDisplay() {
     if (!GALLERY.keywordsCountMap) _setKeyWordCountMap()
+    const _capitalizeWord = (str) => str[0].toUpperCase() + str.substring(1)
     const keywordsStrs = []
     getKeywordsForDisplay().forEach(words => {
-        keywordsStrs.push(_capitalize(words[0]))
+        keywordsStrs.push(_capitalizeWord(words[0]))
     })
     return keywordsStrs
 }

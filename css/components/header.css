@@ -54,11 +54,9 @@ ul.main-nav-list {
     box-shadow: inset -1px 0 0 var(--clr-darkest), inset 0 -6px 0 var(--clr-prim);
 }
 
-
-
 .nav-back::before {
     content: '←';
-    font-size: 1.5rem;
+    font-size: 2rem;
     color: var(--clr-prim);
     font-family: fa-solid;
 }

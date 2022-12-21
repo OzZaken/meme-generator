@@ -1,6 +1,6 @@
-'use strict'
+// import { STORAGE_SERVICE } from './service/storage.service.js'
 
-const storageService = {
+export const STORAGE_SERVICE = {
     saveToStorage,
     loadFromStorage
 }

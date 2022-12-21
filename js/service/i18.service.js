@@ -1,6 +1,5 @@
-'use strict'
-
-const I18_SERVICE = {
+import { STORAGE_SERVICE } from '../service/storage.service.js'
+export const I18_SERVICE = {
     getLangStr,
     setUserDefaultLang,
 }
@@ -107,9 +106,9 @@ function setUserDefaultLang(langStr) {setLang(langStr)}
 // By user || local storage || navigator.languages[1] 
 function setLang(langStr) {
     const { storageKey } = TRANSLATE
-    if (!langStr) langStr = storageService.loadFromStorage(storageKey)
+    if (!langStr) langStr = STORAGE_SERVICE.loadFromStorage(storageKey)
     TRANSLATE.userLang = langStr
     const { userLang } = TRANSLATE
-    saveToStorage(storageKey, userLang)
-    storageService.loadFromStorage(storageKey)
+    STORAGE_SERVICE.saveToStorage(storageKey, userLang)
+    STORAGE_SERVICE.loadFromStorage(storageKey)
 }

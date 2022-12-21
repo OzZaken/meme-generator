@@ -1,5 +1,9 @@
 .modal::before{
     content: 'X';
+    font: bold;
+    font-size: 2rem;
+    font-family: fa;
+    color: red;
     align-self: flex-start;
 }
 
@@ -7,20 +11,20 @@
     position: fixed;
     display: flex;
     flex-direction: column;
-    /* z-index: 1; */
+    justify-content: space-between;
+    z-index: 1;
     align-items: center;
-    justify-content: center;
     min-height: 50px;
     min-width: 100px;
     background-color: var(--clr-brightest);
-    border: 1px solid var(--clr-prim);
+    border: 3px solid var(--clr-sec);
     font-weight: bold;
-    border-radius: 20px;
+    border-radius: .5em;
     padding: 5px;
   
     background: var(--clr-prim) linear-gradient(to bottom,
             var(--clr-prim),
-            var(--clr-brightest) calc(50% - 10px),
+            var(--clr-brighter) calc(50% - 10px),
             var(--clr-brightest) calc(50% + 10px),
             var(--clr-prim));
 }

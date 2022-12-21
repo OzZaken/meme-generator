@@ -10,39 +10,39 @@
     <link rel="stylesheet" type="text/css" media="screen" href="css/main.css">
 </head>
 
-<body class="page-gallery" onload="onInit()">
+<body class="page-gallery" onload="app.onInit()">
     <!-- Header -->
     <header class="header">
         <!-- Logo -->
-        <a class="logo" href="#" onclick="onNav()"></a>
+        <a class="logo" href="#" onclick="app.onReLoadPage()"></a>
         <!-- Navigate -->
         <nav class="flex main-nav">
             <ul class="main-nav-list">
                 <li>
-                    <a href="#" onclick="onNav()" class="active link-gallery">gallery</a>
+                    <a href="#" onclick="app.onNav()" class="active link-gallery">gallery</a>
                 </li>
                 <li>
-                    <a href="#edit" onclick="onNav('edit')" class="link-edit">editor</a>
+                    <a href="#edit" onclick="app.onNav('edit')" class="link-edit">editor</a>
                 </li>
                 <li>
-                    <a href="#about" onclick="onNav('about')" class="link-about">about</a>
+                    <a href="#about" onclick="app.onNav('about')" class="link-about">about</a>
                 </li>
                 <li hidden>
                     <!-- query Search Params-->
-                    <a href="/q?=save" onclick="onNav('save')" class="link-saved">Saved Memes</a>
+                    <a href="/q?=save" onclick="app.onNav('save')" class="link-saved">Saved Memes</a>
                 </li>
             </ul>
         </nav>
         <!-- i18 -->
-        <label for="select languge">
-            <select name="select-lang" class="lang" onchange="onSetLang(this.value)">
+        <label for="select-lang"></label>
+            <select name="select-lang" class="lang" onchange="app.onSetLang(this.value)">
                 <option value="en">English</option>
                 <option value="he">עברית</option>
             </select>
-        </label>
-        <a class="nav-back" onclick="onNav()" hidden title="return to gallery" href="#"></a>
+        <!-- Nav Back -->
+        <a class="nav-back" onclick="app.onNav();onTouchScreen()" hidden title="return to gallery" href="#"></a>
         <!-- ☰ Mobile Menu Btn-->
-        <div hidden role="button" class="btn-toggle-menu" onclick="onToggleMenu()">
+        <div hidden role="button" class="btn-toggle-menu" onclick="app.onToggleMenu()">
             <svg width="40" height="40" viewBox="0 0 40 40">
                 <g id="btn-toggle-menu">
                     <rect class="line1" y="8" width="65" height="4" />
@@ -59,15 +59,15 @@
         <section class="page main-gallery-container">
             <h1>choose meme background</h1>
             <!-- Filter -->
-            <label for="Search Image"></label>
+            <label for="Filter Images"></label>
             <datalist id="gallery-keyword"></datalist>
-            <form class="gallery-search" onsubmit="onSetFilter()">
-                <input list="gallery-keyword" oninput="onSetFilter(this.value)" name="gallery-filter" type="search"
-                    placeholder="Search Image">
+            <form class="gallery-search" onsubmit="app.onSetFilter()">
+                <input list="gallery-keyword" oninput="app.onSetFilter(this.value)" 
+                name="gallery-filter" type="search" placeholder="Search Image">
                 <button class="btn-filter"></button>
             </form>
-            <button onclick="onSetRandMeme()" class="btn-big btn-i-flexible">I'am Flexable</button>
-            <!-- Keywords Btns -->
+            <button onclick="app.onSetRandMeme()" class="btn-big btn-i-flexible">I'am Flexable</button>
+            <!-- Keywords Btns Container -->
             <ul class="gallery-keyword-container"></ul>
             <!-- Images Container -->
             <div class="gallery-container"> </div>
@@ -75,13 +75,13 @@
 
         <!-- Edit -->
         <section class="page main-edit-container">
-            <h1>choose image first!</h1>
+            <h1 class="edit-heading">choose image first!</h1>
             <!-- Meme Keywords -->
             <h2 class="keyword-heading meme-keyword-container"></h2>
             <div  class="keyword-form-container">
                 <label for="Add keyword"></label>
                 <form list="gallery-keyword" class="meme-keyword-form" onsubmit="event.preventDefault();onAddKeyword()">
-                    <input onsubmit="onAddKeyword(this.value)" name="meme-keyword" type="text"
+                    <input onsubmit="app.onAddKeyword(this.value)" name="meme-keyword" type="text"
                         placeholder="Add new keyword">
                 </form>
             </div>
@@ -94,7 +94,7 @@
                 <!-- Add Text Line -->
                 <form onsubmit="event.preventDefault()">
                     <label for="Add New Text line"></label>
-                    <input name="line-txt" onsubmit="onAddTxtLine()" type="search" placeholder="Add new text line"
+                    <input name="line-txt" onsubmit="app.onAddTxtLine()" type="search" placeholder="Add new text line"
                         list="gallery-keyword" title="Add New Text line">
                 </form>
             </div>
@@ -102,19 +102,19 @@
             <div class="btns-editor-container">
                 <div class="editor-container">
                     <!-- Btns -->
-                    <i onclick="onChangeLinePos(0,-20)" title="Move text up" class="fa fa-arrow-up"></i>
-                    <i onclick="onChangeLinePos(0,20)" title="Move text Down" class="setting-btn  fa-arrow-down"></i>
-                    <i onclick="onSwitchLines()" title="Switch between lines"
+                    <i onclick="app.onChangeLinePos(0,-20)" title="Move text up" class="fa fa-arrow-up"></i>
+                    <i onclick="app.onChangeLinePos(0,20)" title="Move text Down" class="setting-btn  fa-arrow-down"></i>
+                    <i onclick="app.onSwitchLines()" title="Switch between lines"
                         class="setting-btn  fa-arrow-up-arrow-down">↑↓</i>
-                    <i onclick="onAddTxtLine()" title="Add txt line" class="add-text-line-btn setting-btn  fa-plus"></i>
-                    <i onclick="onDeleteTxtLine()" title="Delete last line" class="setting-btn fa-trash"></i>
-                    <i onclick="onChangeElSize(5)" title="Size Up" class="setting-btn">A+</i>
-                    <i onclick="onChangeElSize(-5)" title="Size Down" class="1fa-text-size setting-btn">A-</i>
+                    <i onclick="app.onAddTxtLine()" title="Add txt line" class="add-text-line-btn setting-btn  fa-plus"></i>
+                    <i onclick="app.onDeleteTxtLine()" title="Delete last line" class="setting-btn fa-trash"></i>
+                    <i onclick="app.onChangeElSize(5)" title="Size Up" class="setting-btn">A+</i>
+                    <i onclick="app.onChangeElSize(-5)" title="Size Down" class="1fa-text-size setting-btn">A-</i>
                     <i onclick=" onChangeAlign('left')" title="align left" class="setting-btn  fa-align-left"></i>
-                    <i onclick="onChangeAlign('center')" title="align center" class="setting-btn  fa-align-center"></i>
-                    <i onclick="onChangeAlign('right')" title="align left" class="setting-btn  fa-align-right"></i>
+                    <i onclick="app.onChangeAlign('center')" title="align center" class="setting-btn  fa-align-center"></i>
+                    <i onclick="app.onChangeAlign('right')" title="align left" class="setting-btn  fa-align-right"></i>
                     <!-- Select Fonts -->
-                    <select title="Select fonts" onchange="onChangeFont(this.value)" class="font-select fa-solid"
+                    <select title="Select fonts" onchange="app.onChangeFont(this.value)" class="font-select fa-solid"
                         name="change-fonts">
                         <option value="impact">Impact</option>
                         <option value="italic">Italic</option>
@@ -124,22 +124,22 @@
                     </select>
 
                     <i class="stroke-color  fa-s s-btn fa-solid setting-btn flex-center">
-                        <input class="color-input flex-center" oninput="onSetColor(this.value,'stroke-color')"
+                        <input class="color-input flex-center" oninput="app.onSetColor(this.value,'stroke-color')"
                             type="color" name="stroke-color" title="Change stroke color">
                     </i>
 
                     <i class="fill-color  fa-palette fa-solid  setting-btn flex-center">
-                        <input class="color-input" oninput="onSetColor(this.value,'fill-color')" type="color"
+                        <input class="color-input" oninput="app.onSetColor(this.value,'fill-color')" type="color"
                             name="fill-color" title="Change fill color">
                     </i>
                 </div>
 
                 <!-- Export -->
                 <div class="export  flex justify-center align-center">
-                    <button class="save-meme  btn btn-glass" onclick="onSaveMeme()">save</button>
-                    <a class="config download-btn  btn btn-glass" href="#" onclick="onDownloadMeme(this)"
+                    <button class="save-meme  btn btn-glass" onclick="app.onSaveMeme()">save</button>
+                    <a class="config download-btn  btn btn-glass" href="#" onclick="app.onDownloadMeme(this)"
                         download="My-Meme">Download</a>
-                    <button class="config share-btn  btn btn-glass" onclick="onShareMeme(this)">Share Meme</button>
+                    <button class="config share-btn  btn btn-glass" onclick="app.onShareMeme(this)">Share Meme</button>
                     <p class="url-msg">
                         <button hidden class=""></button>
                     </p>
@@ -193,30 +193,10 @@
 
     <!-- Util Comps-->
     <div class="user-msg"></div>
-    <div class="screen" onclick="onTouchScreen()"></div>
-    <div class="modal" hidden onclick="onTouchModal()"></div>
+    <div class="screen" onclick="app.onTouchScreen()"></div>
+    <div class="modal" hidden onclick="app.onTouchModal()"></div>
 
-    <!-- JS // TODO: Type Module-->
-    <!-- Service -->
-    <script src="js/service/util.service.js"></script>
-    <script src="js/service/storage.service.js"></script>
-    <script src="js/service/upload.service.js"></script>
-
-    <!-- Font-Awesome: // something! -->
-    <script src="https://kit.fontawesome.com/9e627fd092.js" crossorigin="anonymous"></script>
-
-    <!-- i18, Edit, Galley -->
-    <script src="js/service/i18.service.js"></script>
-    <script src="js/service/gallery.service.js"></script>
-    <script src="js/service/meme.service.js"></script>
-
-    <!-- Controller -->
-    <script src="js/controller/gallery.controller.js"></script>
-    <script src="js/controller/meme.controller.js"></script>
-
-    <!-- Main Controller -->
-    <!-- type="text/module" -->
-    <script src="js/controller/main.controller.js"></script>
+    <script type="module"  src="js/controller/main.controller.js"></script>
 </body>
 
 </html>
