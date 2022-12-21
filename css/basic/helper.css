@@ -7,17 +7,17 @@
 }
 
 .btn-big {
-    color: var(--clr-main);
+    color: var(--clr-prim);
     background-color: var(--clr-darkest);
     border-radius: 10px;
-    border: solid 1px var(--clr-main);
+    border: solid 1px var(--clr-prim);
     padding: 10px;
 }
 
 .btn-big:hover {
     transition: scale .3s;
     transform: scale(1.01);
-    border: solid 1px var(--clr-hoover);
+    border: solid 1px var(--clr-sec);
 }
 
 .underline {
@@ -27,18 +27,22 @@
 
 input,
 select,
-option,
+label[for="upload-img"],
 [role="button"],
 .btn,
 button:hover {
     cursor: pointer;
 }
+
 .btn,
 [role="button"]:hover {
     transform: scale(1.05);
 }
+
 /*   Flex-helpers */
-.flex {display: flex;}
+.flex {
+    display: flex;
+}
 
 .flex-column {
     display: flex;
@@ -75,7 +79,7 @@ button:hover {
     position: relative;
     color: var(--clr-brightest);
     cursor: pointer;
-    /* z-index: 1; */
+    z-index: 1;
     padding: 10px 20px;
     display: flex;
     align-items: center;
@@ -91,7 +95,7 @@ button:hover {
     position: absolute;
     bottom: 0;
     right: 0;
-    /* z-index: -1; */
+    z-index: -1;
     transition: all .4s;
 }
 

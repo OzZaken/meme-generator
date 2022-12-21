@@ -11,7 +11,7 @@ header.header {
 
     z-index: 1;
     height: 80px;
-    
+
     padding: 1rem;
     color: var(--clr-brightest);
     background-color: var(--clr-darker);
@@ -46,12 +46,55 @@ ul.main-nav-list {
 }
 
 .main-nav-list li a:hover {
-    color: var(--clr-main);
-    box-shadow: inset -1px 0 0 var(--clr-darkest), inset 0 -6px 0 var(--clr-main);
+    color: var(--clr-prim);
+    box-shadow: inset -1px 0 0 var(--clr-darkest), inset 0 -6px 0 var(--clr-prim);
 }
 
 .main-nav-list li a.active {
-    box-shadow: inset -1px 0 0 var(--clr-darkest), inset 0 -6px 0 var(--clr-main);
+    box-shadow: inset -1px 0 0 var(--clr-darkest), inset 0 -6px 0 var(--clr-prim);
+}
+
+
+
+.nav-back::before {
+    content: '←';
+    font-size: 1.5rem;
+    color: var(--clr-prim);
+    font-family: fa-solid;
+}
+
+.nav-back {
+    animation: tilt-shaking .2s infinite;
+
+}
+
+@keyframes tilt-shaking {
+    0% {
+        transform: rotate(0deg);
+        color: var(--clr-prim);
+    }
+
+    25% {
+        transform: rotate(5deg);
+        color: var(--clr-sec);
+    }
+
+    50% {
+        transform: rotate(0deg);
+        color: var(--clr-prim);
+
+    }
+
+    75% {
+        transform: rotate(-5deg);
+        color: var(--clr-sec);
+    }
+
+    100% {
+        transform: rotate(0deg);
+        color: var(--clr-prim);
+
+    }
 }
 
 /* i18 */
@@ -64,7 +107,9 @@ select.lang {
     color: var(--clr-brightest);
 }
 
-.lang option {color: var(--clr-darker);}
+.lang option {
+    color: var(--clr-darker);
+}
 
 /* Media Query */
 /* Mobile */
@@ -105,7 +150,7 @@ select.lang {
 
     .btn-toggle-menu svg *,
     .btn-toggle-menu.nav-open svg * {
-        fill: var(--clr-main);
+        fill: var(--clr-prim);
     }
 
     .btn-toggle-menu .line1 {

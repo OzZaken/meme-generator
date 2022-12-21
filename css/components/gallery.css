@@ -29,7 +29,7 @@ body.page-gallery .main-gallery-container {
 /* Filter */
 form.gallery-search {
     float: left;
-    border-bottom: 2px solid var(--clr-main);
+    border-bottom: 2px solid var(--clr-prim);
     border-top: none;
     display: inline;
     font-size: 1rem;
@@ -39,19 +39,18 @@ form.gallery-search {
 }
 
 input[name="gallery-filter"] {
-    background-color: transparent;
     border: none;
     height: 40px;
 }
 
-.btn-search::before {
+.btn-filter::before {
     font-family: fa-solid;
     font-size: 1.70em;
-    color: var(--clr-main);
+    color: var(--clr-prim);
     content: '\f002';
 }
 
-.btn-search {
+.btn-filter {
     background-color: transparent;
     border: none;
 }
@@ -82,6 +81,86 @@ ul.keyword-container,
     padding: 10px;
 }
 
+/*  Gallery Layout */
+.gallery-container {
+    margin: 0 auto;
+    width: 90%;
+    padding-top: 10px;
+
+    display: grid;
+    justify-content: center;
+    justify-items: center;
+    grid-auto-flow: row dense;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 2fr));
+    gap: 10px;
+}
+
+/* /~ TABLET ~/ */
+@media (min-width: 768px) {
+    .gallery-container {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 5fr))
+    }
+}
+
+/* DESKTOP */
+@media (min-width: 1020px) {
+    .gallery-container {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 12fr))
+    }
+}
+
+.gallery-container ::selection {
+    background-color: transparent;
+}
+
+/*  Grid Item */
+.gallery-item {
+    border-radius: 1em;
+    box-shadow: 1px 1px 10px 1px rgba(0, 0, 0);
+    border: 1px solid var(--clr-prim);
+}
+
+img.gallery-item:hover {
+    cursor: pointer;
+    transition: opacity scale 1s;
+    transform: scale(1.04);
+    filter: opacity(0.8);
+}
+
+/* Stat */
+.gallery-item.gallery-stat {
+    display: flex;
+    font-weight: bold;
+    align-items: center;
+    flex-direction: column;
+    align-self: stretch;
+    justify-self: stretch;
+    justify-content: space-evenly;
+    background-color: var(--clr-prim);
+    border: 1px solid var(--clr-sec);
+}
+
+/* Upload-Image input*/
+input#upload-img {
+    display: none;
+}
+
+label[for="upload-img"]:hover {
+    transform: scale(1.05);
+}
+
+label[for="upload-img"]::after {
+    content: " \f093";
+    font-family: fa-solid;
+}
+
+label[for="upload-img"] {
+    text-decoration: underline;
+    font-weight: bold;
+    color: var(--clr-hoover);
+}
+
+
 /* Keywords Btns */
 .btn-keyword[data-pos='modal'] {
     font-size: calc(1rem + 1px);
@@ -99,7 +178,7 @@ ul.keyword-container,
 
 .btn-keyword[data-fs='3'] {
     font-size: calc(1rem + 1px);
-    font-weight: 200;
+    font-weight: light;
 }
 
 .btn-keyword[data-fs='4'] {
@@ -166,84 +245,4 @@ ul.keyword-container,
 .btn-keyword[data-fs='16'] {
     font-size: calc(1rem + 14px);
     font-weight: bolder;
-}
-
-/*  Gallery */
-.gallery-container {
-    margin: 0 auto;
-    width: 90%;
-    padding: 10px 5px;
-
-    display: grid;
-    justify-content: center;
-    justify-items: center;
-    grid-auto-flow: row dense;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 12fr));
-    gap: 10px;
-}
-
-.gallery-container ::selection {
-    background-color: transparent;
-}
-
-/*  Grid Item */
-.gallery-item {
-    grid-auto-rows: 0;
-    border-radius: 1em;
-    box-shadow: 1px 1px 10px 1px rgba(0, 0, 0);
-    border: 1px solid var(--clr-main);
-}
-
-img.gallery-item:hover {
-    cursor: pointer;
-    transition: opacity scale 1s;
-    transform: scale(1.04);
-    filter: opacity(0.8);
-}
-
-/* Stat */
-.gallery-item.gallery-stat {
-    border: 1px solid var(--clr-hoover);
-    font-weight: bold;
-    flex-direction: column;
-    align-self: stretch;
-    justify-self: stretch;
-    display: flex;
-    justify-content: space-evenly;
-    background-color: var(--clr-main);
-}
-
-label[name="upload-img"]{
-    color: red important!;
-    cursor: pointer;
-}
-
-input[name="upload-img"] {
-    opacity: 0;
-   position: relative;
-   z-index: -1;
-   top: -20px;
-}
-
-.gallery-item.gallery-stat {
-    align-items: center;
-}
-
-.upload-img-container {
-    position: relative;
-    left: 60px;
-}
-
-/* /~ TABLET ~/ */
-@media (min-width: 768px) {
-    .gallery-container {
-        grid-template-columns: repeat(auto-fit, minmax(130px, 12fr))
-    }
-}
-
-/* DESKTOP */
-@media (min-width: 1020px) {
-    .gallery-container {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 12fr))
-    }
 }

@@ -76,7 +76,7 @@ input[name="line-txt"] {
 
 .editor-container i:hover {
     cursor: pointer;
-    color: var(--clr-main);
+    color: var(--clr-prim);
 }
 
 .export {

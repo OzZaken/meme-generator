@@ -13,16 +13,16 @@
     min-height: 50px;
     min-width: 100px;
     background-color: var(--clr-brightest);
-    border: 1px solid var(--clr-main);
+    border: 1px solid var(--clr-prim);
     font-weight: bold;
     border-radius: 20px;
     padding: 5px;
   
-    background: var(--clr-main) linear-gradient(to bottom,
-            var(--clr-main),
+    background: var(--clr-prim) linear-gradient(to bottom,
+            var(--clr-prim),
             var(--clr-brightest) calc(50% - 10px),
             var(--clr-brightest) calc(50% + 10px),
-            var(--clr-main));
+            var(--clr-prim));
 }
 
 .modal[hidden]{
@@ -31,6 +31,6 @@
 }
 
 .modal::selection {
-    background-color: var(--clr-hoover);
+    background-color: var(--clr-sec);
     color: var(--clr-brighter);
 }

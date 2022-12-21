@@ -31,7 +31,7 @@ function initGalleryController(galleryName) {
 // Render Gallery + Stat + Upload-Image Opt   
 function renderGallery() {
     const { galleryName } = gGalleryController
-    const CapitalName = _capitalize(galleryName)
+    const CapitalName = capitalize(galleryName)
     const imgs = getImgsForDisplay()
     const keyWords = getKeywords()
     const _titleKeywords = (keywords) => keywords.join(' | ')
@@ -42,8 +42,8 @@ function renderGallery() {
         onload="onSetAspectRatio(this)"
         data-keyword="${img.keywords}"
         class="gallery-item"
-        alt="${CapitalName} #${idx + 1}\n${_capitalizes(img.keywords).join(', ')}"       
-        title="${CapitalName} #${idx + 1}\n${_capitalizes(img.keywords).join(' | ')}"
+        alt="${CapitalName} #${idx + 1}\n${capitalizes(img.keywords).join(' | ')}"       
+        title="${CapitalName} #${idx + 1}\n${capitalizes(img.keywords).join(' | ')}"
         src=${img.url}>
         `
     )
@@ -54,16 +54,14 @@ function renderGallery() {
     <div class="filter-stat">
     <span title="Filtered ${galleryName} count">${foundCount}</span>
     &#47;
-    <span title="Total ${CapitalName}s Founds">${getImgsCount()}</span>
+    <span title="Total ${CapitalName}s founds">${getImgsCount()}</span>
     ${CapitalName}s
     </div>
-    <p role="button" class="underline" onclick="onClickTotalKeywords(event,this)" title="${_titleKeywords(keyWords)}">${keyWords.length} KeyWords</p>
-    <div class="upload-img-container">
-    <label onclick="onUploadImg()" class"btn underline" for="Upload Image">
-    Upload Image <i class="fa-solid fa-upload"></i>
-    </label>
-    <input type="file" name="upload-img" onchange="onUploadImg(event)"/>
-    </div>
+    <p role="button" class="underline" onclick="onClickTotalKeywords(event,this)" title="${_titleKeywords(keyWords)}">
+    ${keyWords.length} KeyWords
+    </p>
+    <label for="upload-img">Upload Image</label>
+    <input type="file" name="upload-img" id="upload-img" onchange="onUploadImg(event)"/>
     </div>`
     )
     // Render Gallery
@@ -75,7 +73,7 @@ function renderGallery() {
 function renderKeywordsOpts() {
     const keywordsCountMap = getOptionsForDisplay()
     const strHTMLs = keywordsCountMap.map(keywordStr =>
-        `<option value="${keywordStr}">${_capitalize(keywordStr)}</option>`
+        `<option value="${keywordStr}">${capitalize(keywordStr)}</option>`
     )
     strHTMLs.push(`<option value=" ">ALL</option>`)
     const { elDataList } = gGalleryController
@@ -98,7 +96,7 @@ function renderKeywordsBtns() {
     const strHTMLs = getKeywordsForDisplay()
         .map(keyword => `<li>
             <button class="btn btn-keyword"
-            title="${keyword[1]} ${keyword[0]} ${_capitalize(galleryName)}s Founds"
+            title="${keyword[1]} ${keyword[0]} ${capitalize(galleryName)}s Founds"
             onclick="onClickKeyword()" 
             data-fs="${keyword[1]}"
             value="${keyword[0]}"
@@ -114,7 +112,7 @@ function renderKeywordsBtns() {
 function onClickKeyword() {
     const elBtn = event.target
     const { style, dataset, value } = elBtn
-    style.color = utilService.getRandomColor()
+    style.color = UTIL_SERVICE.getRandomColor()
     onSetFilter(value)
     if (+dataset.fs >= 16) return
     dataset.fs++
@@ -131,7 +129,7 @@ function onClickTotalKeywords(ev, elBtnKeywordsContainer) {
     const displayKeywords = title.split(' | ').map(keyword => {
         return `<span role="button" data-pos="modal" class="btn-keyword" onclick="onSetFilter(this.innerText);onTouchModal(true)">${keyword}</span>`
     }).join('')
-    openModal(ev, displayKeywords)
+    renderModal(ev, displayKeywords)
 }
 
 // TODO:Save on the GalleryService
@@ -148,17 +146,4 @@ function onUploadImg(ev) {
     reader.readAsDataURL(ev.target.files[0])
     console.log('reader.readAsDataURL(ev.target.files[0]):', reader.readAsDataURL(ev.target.files[0]))
     console.log(reader.readAsDataURL(ev.target.files[0]));
-}
-
-// Capitalize STRs 
-function _capitalizes(words) {
-    return words.slice(0, 3).map(keyword => {
-        if (keyword) return (_capitalize(keyword))
-    })
-
-}
-
-// Capitalize Str 
-function _capitalize(word) {
-    return word.replace(/^\w/, c => c.toUpperCase())
 }

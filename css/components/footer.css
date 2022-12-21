@@ -32,7 +32,7 @@
 }
 
 .footer a:hover {
-    background-color: var(--clr-main);
+    background-color: var(--clr-prim);
 }
 
 .footer-container {
@@ -56,18 +56,18 @@
 }
 
 .link-github a::before {
-    color: var(--clr-hoover);
+    color: var(--clr-sec);
     content: "Click Here to see more projects";
 }
 
 .link-github a:hover {
     background-color: unset;
-    color: var(--clr-hoover);
+    color: var(--clr-sec);
     scale: 1.01;
 }
 
 .link-github a {
-    color: var(--clr-hoover);
+    color: var(--clr-sec);
 }
 
 /* Icons */

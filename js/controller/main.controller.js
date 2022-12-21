@@ -1,6 +1,9 @@
 'use strict'
 
-// Init Controllers
+const MAIN_CONTROLLER = {
+    getPosOnEl,
+}
+
 function onInit() {
     // MainController 
     window.gMainController = {
@@ -12,11 +15,13 @@ function onInit() {
             elMainNav: document.querySelector('.main-nav'),
             elBtnToggleNav: document.querySelector('.btn-toggle-menu'),
             elModal: document.querySelector('.modal'),
+            elEditHeading: document.querySelector('.edit-heading'),
             links: {
                 elLinkGallery: document.querySelector('.link-gallery'),
                 elLinkEdit: document.querySelector('.link-edit'),
                 elLinkAbout: document.querySelector('.link-about'),
                 elLinkSaved: document.querySelector('.link-saved'),
+                elNavBack: document.querySelector('.nav-back'),
             },
             pages: {
                 elPageGallery: document.querySelector('.main-gallery-container'),
@@ -42,9 +47,11 @@ function onInit() {
     const userLang = I18_SERVICE.getLangStr()
     // add class to html and body
     document.documentElement.setAttribute("lang", userLang)
-    document.body.classList.add(userLang)
     // Set the right Select on
+    //TODO: need on the body? or just set direction to rtl
+    document.body.classList.add(userLang)
     document.querySelector('[name="select-lang"]').selectedOptions.value === userLang
+    // TODO:
     // transDocument()
 
     // User-Msg
@@ -52,9 +59,12 @@ function onInit() {
     setTimeout(() => {
         if (document.body.classList.contains('page-gallery')) flashMsg('Choose Meme Background!')
     }, 5000)
+    // UT
+    console.log('window.innerWidth:', window.innerWidth)
+    console.log('document.body.offsetWidth:', document.body.offsetWidth)
 }
 
-// get current lang and translate Dom
+// i18 control 
 function transDocument() {
 
     // const elsText = document.querySelectorAll('[data-trans]')
@@ -74,35 +84,44 @@ function transDocument() {
 // Navigation
 function onNav(navToStr) {
     !navToStr ? navToStr = 'gallery' : navToStr
-
-    // Capitalize using methods 
-    const _capitalize = (str) => str[0].toUpperCase() + str.substring(1)
-
+    const capitalName = UTIL_SERVICE.capitalize(navToStr)
     // Set Mobile menu Bar
     if (document.body.classList.contains('mobile-menu-open')) onToggleMenu()
+
+    // If navigate to Edit without pick image, show nac-back
+    const { elEditHeading } = gMainController.domEls
+    const { elNavBack } = gMainController.domEls.links
+    
+    if (navToStr === 'edit') {
+        const { imgSrc } = MEME_SERVICE.getMeme()
+        if (!imgSrc)elNavBack.hidden = false
+        else elEditHeading.value = 'Edit Your Meme!'
+    }
+    else elNavBack.hidden = true
 
     // Set .active class
     const { links } = gMainController.domEls
     // Get First (and only) .active class and remove it
     document.querySelector('.active').classList.remove('active')
     // Add .active to current Link Page
-    links[`elLink${_capitalize(navToStr)}`].classList.add('active')
+    console.log(`🚀 ~ capitalName`, capitalName)
+    links[`elLink${capitalName}`].classList.add('active')
 
-    // Set body page class
+    // Set elBody .page- 
     const curClassStr = Object.values(document.body.classList)
         .find(classStr => /page-/.test(classStr))
     document.body.classList.remove(`${curClassStr}`)
     document.body.classList.add(`page-${navToStr}`)
 
-    playAudio('click')
-    // Hide all pages On CSS for animation
-    // const elPages = document.querySelectorAll('.page')
-    // elPages.forEach(elPage => elPage.hidden = true)
+    // make sure all pages are Hidden apart from current page 
+    const elPages = document.querySelectorAll('.page')
+    elPages.forEach(elPage => elPage.hidden = true)
+    // Reveal 
+    const { pages } = gMainController.domEls
+    const elActivePage = pages[`elPage${capitalName}`]
+    elActivePage.hidden = false
 
-    // Reveal current page 
-    // const { pages } = gMainController.domEls
-    // const elActivePage = pages[`elPage${_capitalize(navToStr)}`]
-    // elActivePage.hidden = false
+    playAudio('click')
 }
 
 // Black screen
@@ -152,22 +171,32 @@ function playAudio(audioKey) {
 }
 
 // Show Modal
-function openModal(ev, msg) {
-    const { elModal } = gMainController.domEls
-    // set Modal pos
-    const { clientX, clientY } = ev
+function renderModal(ev, strHTML) {
+    console.log(`🚀 ~ msg`, strHTML)
+    const { elModal } = gMainController.domEls.links
+
+    // if !ev Set modal pos in center of viewPort
     const { style } = elModal
-    style.left = `${clientX}px`
-    style.top = `${clientY}px`
+    if (!ev) {
+        style.top = '50%'
+        style.left = '50%'
+        style.transform = 'translate(-50%, -50%)'
+        style.minWidth = window.innerWidth / 2
+    }
+    else {
+        const { clientX, clientY } = ev
+        style.top = `${clientY}px`
+        style.left = `${clientX}px`
+    }
     // Set txt 
-    elModal.innerHTML = msg
+    elModal.innerHTML = strHTML
     // Notify screen  
     document.body.classList.add('modal-open')
 }
 
 // Hide Modal
 function onTouchModal(isClose) {
-    const touchPos = getEvPos(event)
+    const touchPos = getPosOnEl(event)
     if (isClose ||
         touchPos.x <= 20 && touchPos.y <= 20) {// click on X
         const { elModal } = gMainController.domEls
@@ -182,7 +211,7 @@ function onTouchModal(isClose) {
 }
 
 // return current click Pos
-function getEvPos(ev) {
+function getPosOnEl(ev) {
     const pos = {
         x: ev.offsetX,
         y: ev.offsetY
@@ -200,7 +229,7 @@ function getEvPos(ev) {
     return pos
 }
 
-// The linking Func between GalleryController to  MemeService
+// The linking Func between GALLERY to MEME
 function onImgSelect() {
     flashMsg(`Image\n selected.`)
     const meme = {
@@ -208,7 +237,6 @@ function onImgSelect() {
         src: event.target.src,
         keywords: event.target.dataset.keyword.split(','),
     }
-    setMeme(meme)
-    renderMeme()
+    MEME_CONTROLLER.onSetMeme(meme)
     onNav('edit')
 }

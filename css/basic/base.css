@@ -12,16 +12,20 @@ body {
     color: var(--txt-clr);
     font-size: 1rem;
 }
+
 /* i18 */
-body.he{
+body.he {
     direction: rtl;
 }
+
 /* Scroll*/
-body::-webkit-scrollbar {width: 1em;}
+body::-webkit-scrollbar {
+    width: 1em;
+}
 
 body::-webkit-scrollbar-track {
     box-shadow: inset 0 0 6px var(--clr-dark);
-    -webkit-box-shadow: inset 0 0 6px var(--clr-main);
+    -webkit-box-shadow: inset 0 0 6px var(--clr-prim);
     background-color: var(--clr-darker);
 }
 
@@ -29,22 +33,24 @@ body::-webkit-scrollbar-thumb {
     background-color: var(--clr-darkest);
     outline: 1px solid var(--clr-darker);
     border-radius: 25px;
-    border: 1px solid var(--clr-main);
+    border: 1px solid var(--clr-prim);
 }
 
 ::selection {
-    background-color: var(--clr-main);
-    color: var(--clr-hoover);
+    background-color: var(--clr-prim);
+    color: var(--clr-sec);
 }
 
-input:focus{
+input:focus {
     font-weight: bold;
-    font-size: 16px;
-    color: #852399;
-    border: 2px solid #fb9623;
+    transition: background-color .8s;
+    color: var(--clr-sec);
+    background-color: var(--clr-prim);
 }
 
-img {width: 100%;}
+img {
+    width: 100%;
+}
 
 section {
     padding-bottom: 1rem;
@@ -58,9 +64,9 @@ h1 {
     justify-content: center;
     align-items: center;
     text-transform: capitalize;
-    border-bottom: 1.5px solid var(--clr-main);
+    border-bottom: 1.5px solid var(--clr-prim);
     line-height: 3rem;
-    color: var(--clr-hoover);
+    color: var(--clr-sec);
     text-shadow: 2px 2px 2px 2px;
     position: relative;
     text-shadow: 1px 0px 1px #222;
@@ -86,13 +92,13 @@ h1 {
 h2 {
     /* margin: 0 0 1em; */
     line-height: 1.875rem;
-    color: var(--clr-hoover);
+    color: var(--clr-sec);
 }
 
 h3 {
     /* margin: 0 0 1em; */
     line-height: 1.875rem;
-    color: var(--clr-hoover);
+    color: var(--clr-sec);
 }
 
 a {

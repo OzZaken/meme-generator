@@ -14,22 +14,22 @@
     <!-- Header -->
     <header class="header">
         <!-- Logo -->
-        <a class="logo" href="#" onclick="onNav('')"></a>
+        <a class="logo" href="#" onclick="onNav()"></a>
         <!-- Navigate -->
         <nav class="flex main-nav">
             <ul class="main-nav-list">
                 <li>
-                    <a href="#" onclick="onNav('')" class="active link-gallery">gallery</a>
+                    <a href="#" onclick="onNav()" class="active link-gallery">gallery</a>
                 </li>
                 <li>
-                    <a href="#" onclick="onNav('edit')" class="link-edit">editor</a>
+                    <a href="#edit" onclick="onNav('edit')" class="link-edit">editor</a>
                 </li>
                 <li>
-                    <a href="#" onclick="onNav('about')" class="link-about">about</a>
+                    <a href="#about" onclick="onNav('about')" class="link-about">about</a>
                 </li>
                 <li hidden>
                     <!-- query Search Params-->
-                    <a href="gallery/q?=saved/" onclick="onNav('saved');playAudio('click')" class="link-saved">Saved</a>
+                    <a href="/q?=save" onclick="onNav('save')" class="link-saved">Saved Memes</a>
                 </li>
             </ul>
         </nav>
@@ -40,6 +40,7 @@
                 <option value="he">עברית</option>
             </select>
         </label>
+        <a class="nav-back" onclick="onNav()" hidden title="return to gallery" href="#"></a>
         <!-- ☰ Mobile Menu Btn-->
         <div hidden role="button" class="btn-toggle-menu" onclick="onToggleMenu()">
             <svg width="40" height="40" viewBox="0 0 40 40">
@@ -62,8 +63,8 @@
             <datalist id="gallery-keyword"></datalist>
             <form class="gallery-search" onsubmit="onSetFilter()">
                 <input list="gallery-keyword" oninput="onSetFilter(this.value)" name="gallery-filter" type="search"
-                placeholder="Search Image">
-                <button class="btn-search"></button>
+                    placeholder="Search Image">
+                <button class="btn-filter"></button>
             </form>
             <button onclick="onSetRandMeme()" class="btn-big btn-i-flexible">I'am Flexable</button>
             <!-- Keywords Btns -->
@@ -74,17 +75,17 @@
 
         <!-- Edit -->
         <section class="page main-edit-container">
-            <h1>edit your Meme</h1>
+            <h1>choose image first!</h1>
             <!-- Meme Keywords -->
             <h2 class="keyword-heading meme-keyword-container"></h2>
-            <div class="keyword-form-container">
+            <div  class="keyword-form-container">
                 <label for="Add keyword"></label>
                 <form list="gallery-keyword" class="meme-keyword-form" onsubmit="event.preventDefault();onAddKeyword()">
                     <input onsubmit="onAddKeyword(this.value)" name="meme-keyword" type="text"
                         placeholder="Add new keyword">
                 </form>
             </div>
-            <!-- Canvas -->
+            <!-- Meme -->
             <div class="meme-container">
                 <canvas id="meme" height="350" width="350"></canvas>
             </div>
@@ -139,7 +140,6 @@
                     <a class="config download-btn  btn btn-glass" href="#" onclick="onDownloadMeme(this)"
                         download="My-Meme">Download</a>
                     <button class="config share-btn  btn btn-glass" onclick="onShareMeme(this)">Share Meme</button>
-                    <input class="file-input  btn" type="file" class="" name="image" onchange="onImgInput(event)" />
                     <p class="url-msg">
                         <button hidden class=""></button>
                     </p>
@@ -202,7 +202,7 @@
     <script src="js/service/storage.service.js"></script>
     <script src="js/service/upload.service.js"></script>
 
-    <!-- Font-Awesome: // TODO: something! -->
+    <!-- Font-Awesome: // something! -->
     <script src="https://kit.fontawesome.com/9e627fd092.js" crossorigin="anonymous"></script>
 
     <!-- i18, Edit, Galley -->
@@ -215,6 +215,7 @@
     <script src="js/controller/meme.controller.js"></script>
 
     <!-- Main Controller -->
+    <!-- type="text/module" -->
     <script src="js/controller/main.controller.js"></script>
 </body>
 

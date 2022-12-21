@@ -1,10 +1,13 @@
 'use strict'
-const utilService = {
+const UTIL_SERVICE = {
     getRandInclusive,
     makeId,
     getRandomColor,
     playAudio,
+    capitalize,
+    capitalizes,
 }
+
 function getRandInclusive(min, max) {
     min = Math.ceil(min)
     max = Math.floor(max)
@@ -37,4 +40,16 @@ function playAudio(AudioName, audioEco) {
     new Audio(`audio/${AudioName}.mp3`).play()
 }
 
-   
+// Capitalize Str 
+function capitalize(word) {
+    return word.replace(/^\w/, c => c.toUpperCase())
+}
+
+// Capitalize  StrS 
+function capitalizes(words) {
+    return words.slice(0, 3).map(keyword => {
+        if (keyword) return (capitalize(keyword))
+    })
+}
+
+const _capitalize = (str) => str[0].toUpperCase() + str.substring(1)

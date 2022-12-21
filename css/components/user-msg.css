@@ -1,5 +1,5 @@
 .user-msg {
-    color: var(--clr-main);
+    color: var(--clr-prim);
     position: fixed;
     bottom: -100px;
     right: 10px;
