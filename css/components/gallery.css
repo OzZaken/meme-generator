@@ -80,6 +80,7 @@ ul.keyword-container,
     line-height: 1.15;
     padding: 10px;
 }
+
 /* TODO: fix galley layout */
 /*  Gallery Layout */
 .gallery-container {
@@ -95,17 +96,21 @@ ul.keyword-container,
     gap: 10px;
 }
 
+.gallery-loading {
+    background-color: #fb9623;
+}
+
 /* /~ TABLET ~/ */
 @media (min-width: 768px) {
     .gallery-container {
-        grid-template-columns: repeat(auto-fit, minmax(100px, 5fr))
+        grid-template-columns: repeat(auto-fill, minmax(100px))
     }
 }
 
 /* DESKTOP */
 @media (min-width: 1020px) {
     .gallery-container {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 12fr))
+        grid-template-columns: repeat(auto-fill, minmax(150px, 12fr))
     }
 }
 
@@ -114,9 +119,10 @@ ul.keyword-container,
 }
 
 /*  Grid Item */
-.gallery-item {
+.gallery-item,
+.gallery-loading {
     border-radius: 1em;
-    box-shadow: 1px 1px 10px 1px rgba(0, 0, 0);
+    box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.637);
     border: 1px solid var(--clr-prim);
 }
 

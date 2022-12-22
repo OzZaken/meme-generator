@@ -14,7 +14,7 @@
     <!-- Header -->
     <header class="header">
         <!-- Logo -->
-        <a class="logo" href="#" onclick="app.onReLoadPage()"></a>
+        <a class="logo" href="#" onclick="location.reload()"></a>
         <!-- Navigate -->
         <nav class="flex main-nav">
             <ul class="main-nav-list">
@@ -57,7 +57,7 @@
     <main class="main-layout">
         <!-- Gallery -->
         <section class="page main-gallery-container">
-            <h1>choose meme background</h1>
+            <h1 class="gallery-heading">Loading Images...</h1>
             <!-- Filter -->
             <label for="Filter Images"></label>
             <datalist id="gallery-keyword"></datalist>
@@ -70,7 +70,9 @@
             <!-- Keywords Btns Container -->
             <ul class="gallery-keyword-container"></ul>
             <!-- Images Container -->
-            <div class="gallery-container"> </div>
+            <div class="gallery-container"> 
+
+            </div>
         </section>
 
         <!-- Edit -->

@@ -6,7 +6,9 @@
     color: red;
     align-self: flex-start;
 }
-
+.modal .nav-back::before{
+    color: green;
+}
 .modal {
     position: fixed;
     display: flex;

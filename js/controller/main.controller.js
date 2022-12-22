@@ -1,5 +1,4 @@
 
-// <!-- i18, Edit, FA,Galley -->
 import { I18_SERVICE } from "../service/i18.service.js";
 import { UTIL_SERVICE } from "../service/util.service.js";
 import { GALLERY_CONTROLLER } from "../controller/gallery.controller.js";
@@ -9,37 +8,29 @@ import { MEME_SERVICE } from "../service/meme.service.js";
 // Pointer to Controller dependencies
 let gMainController
 
-// #1 rule: Give  only What necessary
-window.app = { onInit }
+// #1 rule: give only What necessary
+window.app = {onInit}
 
 function onInit() {
-    const { onSetAspectRatio, onClickKeyword, onSetFilter } = GALLERY_CONTROLLER
-
-    window.app = {
-        // MainController
-        onReLoadPage,
-        onTranslateDom,
-        onNav,
-        onTouchScreen,
-        onToggleMenu,
-        onTouchModal,
-        onImgSelect,
-        onUploadImg,
-        flashMsg, // ??? use it? 
-        playAudio, // ??? use it? 
-        renderModal, // ??? use it? 
-        onSetFilter,
-        onSetAspectRatio,
-        onClickKeyword,
-    }
     // TODO: if user already been in the site welcome back
+    const initGalleryData = {
+        galleryName: 'meme',
+        elGalleryHeading: document.querySelector('h1.gallery-heading'),
+        elGallery: document.querySelector('div.gallery-container'),
+        renderModal,
+    }
+    const initMemeData = {
+        elEditHeading: document.querySelector('h1.edit-heading'),
+        flashMsg,
+    }
+
+    // CONTROLLER
     gMainController = {
         audio: {},
         elUserMsg: document.querySelector('.user-msg'),
         elModal: document.querySelector('.modal'),
         elMainNav: document.querySelector('.main-nav'),
         elBtnToggleNav: document.querySelector('.btn-toggle-menu'),
-        elEditHeading: document.querySelector('.edit-heading'),
         elUploadImg: document.querySelector('#upload-img'),
         links: {
             elLinkGallery: document.querySelector('.link-gallery'),
@@ -53,11 +44,31 @@ function onInit() {
             elPageEdit: document.querySelector('.main-edit-container'),
             elPageAbout: document.querySelector('.main-about-container')
         },
-        ...GALLERY_CONTROLLER.initGalleryController('meme'),
-        ...MEME_CONTROLLER.initMemeController(),
+        ...GALLERY_CONTROLLER.initGalleryController(initGalleryData),
+        ...MEME_CONTROLLER.initMemeController(initMemeData)
     }
 
-    console.log(`🚀 ~ gMainController`, gMainController)
+    // After collected All dependencies Send To Dom
+    const { onSetAspectRatio, onClickKeyword, onSetFilter ,onClickTotalKeywords} = GALLERY_CONTROLLER
+    window.app = {
+        // gMainController,//TODO UT : remember remove
+        onReLoadPage,
+        onTranslateDom,
+        onNav,
+        onTouchScreen,
+        onToggleMenu,
+        onTouchModal,
+        // Gallery
+        onImgSelect,
+        onUploadImg,
+        onSetFilter,
+        onSetAspectRatio,
+        onClickKeyword,
+        onClickTotalKeywords,
+        // Meme
+
+    }
+
     // Gallery
     GALLERY_CONTROLLER.renderGallery()
     GALLERY_CONTROLLER.renderKeywordsOpts()
@@ -119,9 +130,9 @@ function onNav(navToStr) {
         if (!src) {
             elNavBack.hidden = false
             const strHTML = `
-            Image needed!
-            <a class="nav-back" onclick="onNav()" title="return to gallery" href="#"></a>
-            Choose from the Gallery
+           <h2>Image needed!</h2>
+            <a class="nav-back" onclick="app.onNav()" title="return to gallery" href="#"></a>
+            <p>Choose from the Gallery</p>
             <label for="upload-img">Or Choose from Your Device!</label>
             `
             renderModal(false, strHTML)
@@ -172,7 +183,6 @@ function onToggleMenu() {
 // Hide Modal.
 function onTouchModal(isForceClose) {
     const touchPos = getPosOnEl(event)
-    console.log(`🚀 ~ touchPos`, touchPos)
     if (isForceClose || // click on X
         touchPos.x <= 30 && touchPos.y <= 36) {
         const { elModal } = gMainController
@@ -186,7 +196,6 @@ function onTouchModal(isForceClose) {
     }
 }
 
-// ? Private?
 // User Msg.
 function flashMsg(str) {
     const { elUserMsg } = gMainController
@@ -256,6 +265,7 @@ function getPosOnEl(ev) {
 }
 
 function onUploadImg(event) {
+    console.log(`🚀 ~ event`, event)
     const { elUploadImg } = gMainController
     elUploadImg.innerHTML = ''
     const reader = new FileReader()

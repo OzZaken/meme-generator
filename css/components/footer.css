@@ -3,8 +3,10 @@
     margin: auto;
     margin-top: 1rem;
     list-style-type: none;
-
 }
+
+/* Hide on Edit page */
+body.page-edit footer{display: none;} 
 
 .footer-container {
     width: 100%;

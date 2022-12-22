@@ -13,9 +13,66 @@ body {
     font-size: 1rem;
 }
 
+/* TODO: make sure needed */
+body.page-edit {
+    max-width: 100vh;
+    max-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
 /* i18 */
 body.he {
     direction: rtl;
+}
+
+/* ViewPort Typography*/
+h1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: capitalize;
+    border-bottom: 1.5px solid var(--clr-prim);
+    line-height: 3rem;
+    color: var(--clr-sec);
+    text-shadow: 2px 2px 2px 2px;
+    position: relative;
+    text-shadow: 1px 0px 1px #222;
+    font-size: 5.9vw;
+}
+
+h1:not(:first-child) {
+    animation: fade-in-up .5s;
+}
+
+@keyframes fade-in-up {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 100%, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+h2 {
+    font-size: 4.9vw;
+    line-height: 1.875rem;
+    color: var(--clr-sec);
+    font-size: 3.0vh;
+}
+
+h3 {
+    /* margin: 0 0 1em; */
+    font-size: 3.9vw;
+    line-height: 1.875rem;
+    color: var(--clr-sec);
+}
+
+p {
+    font-size: 2vmin;
 }
 
 /* Scroll*/
@@ -55,50 +112,6 @@ img {
 section {
     padding-bottom: 1rem;
     max-width: 90vw;
-}
-/* TODO: Diffrent between h3 h2 h1*/
-h1 {
-    max-width: 90vw;
-    font-size: calc(2rem + 3px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-transform: capitalize;
-    border-bottom: 1.5px solid var(--clr-prim);
-    line-height: 3rem;
-    color: var(--clr-sec);
-    text-shadow: 2px 2px 2px 2px;
-    position: relative;
-    text-shadow: 1px 0px 1px #222;
-    animation: fade-in-up .5s;
-}
-
-@keyframes fade-in-up {
-    from {
-        opacity: 0;
-        transform: translate3d(0, 100%, 0);
-    }
-
-    to {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-    }
-}
-
-.fade-in-up {
-    animation-name: fadeInDown;
-}
-
-h2 {
-    /* margin: 0 0 1em; */
-    line-height: 1.875rem;
-    color: var(--clr-sec);
-}
-
-h3 {
-    /* margin: 0 0 1em; */
-    line-height: 1.875rem;
-    color: var(--clr-sec);
 }
 
 a {

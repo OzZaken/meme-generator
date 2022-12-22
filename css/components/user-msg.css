@@ -1,5 +1,10 @@
 .user-msg {
+    font-size: calc(3vw + 4px);
+    font-family: fantasy;
+    display: flex;
+    border-radius: .5em;
     color: var(--clr-prim);
+
     position: fixed;
     bottom: -100px;
     right: 10px;

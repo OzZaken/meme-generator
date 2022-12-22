@@ -5,13 +5,24 @@ export const MEME_CONTROLLER = {
     onSetMeme,
 }
 
+function shareMeme(uploadedImgUrl) {
+    uploadedImgUrl = encodeURIComponent(uploadedImgUrl);
+    const strHtml = 
+    `
+    <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}" 
+    title="Share on Facebook" target="_blank" onclick="app.()";
+    window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
+    Click to share on facebook   
+    </a>`
+    renderModal(strHtml)
+}
+
+//  dependencies pointer:
 let gMemeController
 
-function initMemeController() {
-    // HTML dependencies:
-    // div.meme-container
-    // canvas#meme
+function initMemeController(args) {
     gMemeController = {
+        ...args,
         isTouchScreen: false,
         isDraw: false,
         isGrab: false,
@@ -25,7 +36,7 @@ function initMemeController() {
     gMemeController.elCtx.fillStyle = 'black'
     gMemeController.elCtx.strokeShape = 'circle'
     gMemeController.elCtx.strokeStyle = 'white'
-    
+
     // Set Canvas Listeners
     const { elMeme } = gMemeController
     window.addEventListener('resize', resizeMeme)
@@ -38,6 +49,7 @@ function initMemeController() {
     elMeme.addEventListener('touchstart', onDown)
     elMeme.addEventListener('touchend', onUp)
 
+    // Update Main controller
     return gMemeController
 }
 
@@ -60,13 +72,11 @@ function resizeMeme() {
 function renderMeme() {
     const img = new Image()
     const { aspectRatio, keywords, lines, src } = MEME_SERVICE.getMeme()
-    console.log(`🚀 ~ src`, src)
     const { elCtx, elMeme, elMemeContainer } = gMemeController
-    console.log(`🚀 ~ elCtx`, elCtx)
     if (!src) {
         // TODO: Fill Text on the Canvas Must Pick Image
-        flashMsg('Select Image first!')
-        console.log('no src');
+        gMemeController.flashMsg('Select Image first!')
+        console.log('no Image src');
         return
     }
     img.src = src
@@ -81,7 +91,6 @@ function renderMeme() {
         elMeme.width = elMemeContainer.width = img.naturalWidth
         elMeme.height = elMemeContainer.height = img.naturalHeight
         // render Meme Canvas
-        console.log(`🚀 ~ elCtx`, elCtx)
         elCtx.drawImage(img, 0, 0, elMeme.width, elMeme.height)
         lines.forEach(line => drawLine(line))
     }
@@ -116,56 +125,12 @@ function setCtx(ctxKeys) {
     elCtx = { ...elCtx, ...ctxKeys }
 }
 
-//*                                   🐱‍👤👀🐱‍👤   
 function onDownloadMeme(elLink) {
     const data = elMeme.toDataURL()
-    console.log('data:', data)
     elLink.href = data
-    elLink.download = 'My Meme'
+    elLink.download = 'My_Meme'
 }
-function onShareMeme() {
-    renderMeme(false)
-    setTimeout(() => {
-        const imgDataUrl = convertMemeToJpeg()
-        function onSuccess(uploadedImgUrl) {
-            const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
-            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}`);
-        }
-        onUploadImg(imgDataUrl, onSuccess);
-    }, 100)
-    resumeEditing()
-}
-// function onUploadImg(elForm, onSuccess) {
-//     let formData = new FormData(elForm);
-//     console.log(`🚀 ~ formData`, formData)
-//     fetch('//ca-upload.com/here/upload.php', {
-//         method: 'POST',
-//         body: formData,
-//     })
-//         .then(res => res.text())
-//         .then(onSuccess)
-//         .catch(err => console.error(err))
-// }
-function onUploadImg(ev) {
-    console.log(`🚀 ~ ev`, ev)
-    // document.querySelector('.share-container').innerHTML = '';
-    let reader = new FileReader()
-    console.log(`🚀 ~ reader`, reader)
-    // New Event 
-    reader.onload = (event) => {
-        console.log(`🚀 ~ event`, event.target)
-        let img = new Image()
-        img.src = event.target.result
-        const meme = { src: event.target.result }
-        // Set Meme new src
-        console.log(`🚀 ~ meme`, meme)
-        MEME_SERVICE.setMeme(meme)
-        onNav('edit')
-    }
-    console.log('ev.target.files:', ev.target.files)
-    reader.readAsDataURL(ev.target.files[0])
-}
-//Download& share
+//*                                   🐱‍👤👀🐱‍👤   
 function onMove(ev) {
     const { isTouchScreen, isDarg, isScale, isDraw } = gMemeController
     if (!isTouchScreen) return
@@ -195,6 +160,40 @@ function onUp() {
 function onDown(ev) {
     console.log(ev);
 }
+
+// function onUploadImg(elForm, onSuccess) {
+//     let formData = new FormData(elForm);
+//     console.log(`🚀 ~ formData`, formData)
+//     fetch('//ca-upload.com/here/upload.php', {
+//         method: 'POST',
+//         body: formData,
+//     })
+//         .then(res => res.text())
+//         .then(onSuccess)
+//         .catch(err => console.error(err))
+// }
+function onUploadImg(ev) {
+    console.log(`🚀 ~ ev`, ev)
+    // document.querySelector('.share-container').innerHTML = '';
+    let reader = new FileReader()
+    console.log(`🚀 ~ reader`, reader)
+    // New Event 
+    reader.onload = (event) => {
+        console.log(`🚀 ~ event`, event.target)
+        let img = new Image()
+        img.src = event.target.result
+        const meme = { src: event.target.result }
+        // Set Meme new src
+        console.log(`🚀 ~ meme`, meme)
+        MEME_SERVICE.setMeme(meme)
+    }
+    console.log('ev.target.files:', ev.target.files)
+    reader.readAsDataURL(ev.target.files[0])
+    console.log(`🚀 ~ ev.target.files[0]`, ev.target.files[0])
+    onNav('edit')
+}
+//Download& share
+
 // function moveLine(diffX = 0, diffY = 0) {
 //     const line = getLine()
 //     // don't let the text to go out of the canvas completely

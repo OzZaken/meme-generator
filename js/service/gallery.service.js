@@ -2,7 +2,6 @@ import { STORAGE_SERVICE } from '../service/storage.service.js'
 
 export const GALLERY_SERVICE = {
     setFilter,
-    setInitImgFolder,
     getImgsCount,
     getImgsForDisplay,
     getKeywords,
@@ -72,32 +71,6 @@ function getImgsCount() {
     return imgs.length
 }
 
-function onSuccess(uploadedImgUrl) {
-    uploadedImgUrl = encodeURIComponent(uploadedImgUrl);
-    const strHtml = `
-    <a class="btn start-action" href="https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}" 
-    title="Share on Facebook" target="_blank" onclick="onCloseDownloadShareModal();
-    window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
-    Click to share on facebook   
-    </a>`;
-    toggleModalScreen(strHtml);
-}
-
-function uploadImg(elForm, onSuccess) {
-    var formData = new FormData(elForm);
-    fetch('//ca-upload.com/here/upload.php', {
-        method: 'POST',
-        body: formData,
-    })
-        .then(function (res) {
-            return res.text();
-        })
-        .then(onSuccess)
-        .catch(function (err) {
-            console.error(err);
-        })
-}
-
 function addImg(imgData) {
     console.log(`🚀 ~ Saving Image`, imgData)
     const { path, name, fileType, keywords } = imgData
@@ -106,8 +79,7 @@ function addImg(imgData) {
     STORAGE_SERVICE.saveToStorage(storageKey, GALLERY.imgs)
 }
 
-//*                                                   Filter
-
+//*               Filter
 // Filtered Images
 function getImgsForDisplay() {
     const { filterBy, imgs } = GALLERY
@@ -123,7 +95,7 @@ function setFilter(filterBy) {
     GALLERY.filterBy = filterBy
 }
 
-//*                                                   Keywords
+//*               Keywords
 // Set keywordsCountMap 
 function _setKeyWordCountMap() {
     const { imgs } = GALLERY
@@ -175,9 +147,13 @@ function getOptionsForDisplay() {
     return keywordsStrs
 }
 
-function setInitImgFolder(path, imgCount, imgFileType, keywords) {
-    GALLERY.imgs = []
-    for (let i = 1; i <= imgCount; i++) {
-        addImg(path, i, imgFileType, keywords[i - 1])
-    }
+function uploadToServer(elForm, onSuccess) {
+    var formData = new FormData(elForm);
+    fetch('//ca-upload.com/here/upload.php', {
+        method: 'POST',
+        body: formData,
+    })
+        .then((res) => res.text())
+        .then(onSuccess)
+        .catch((err) => console.error(err))
 }

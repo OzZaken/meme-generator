@@ -32,6 +32,9 @@ label[for="upload-img"],
 .btn,
 button:hover {
     cursor: pointer;
+    background-color: transparent;
+    border: none;
+    font-weight: bold;
 }
 
 .btn,

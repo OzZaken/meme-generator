@@ -9,29 +9,31 @@ export const GALLERY_CONTROLLER = {
     onSetFilter,
     onSetAspectRatio,
     onClickKeyword,
+    onClickTotalKeywords,
 }
 
 // Dependencies reference pointer 
 let gGallery
 
 // Init GalleryController State On window and render
-function initGalleryController(galleryName) {
-    !galleryName ? galleryName = 'image' : galleryName
+function initGalleryController(args) {
+    const { galleryName: name } = args
+    let galleryName
+    !name ? galleryName = 'image' : galleryName
     GALLERY_SERVICE.setGalleryStorageKey(galleryName)
-    gGallery =  {
-        galleryName,
+    gGallery = {
+        ...args,
+        elKeywordContainer: document.querySelector('ul.gallery-keyword-container'),
         elFilterBy: document.querySelector('input[name="gallery-filter"]'),
         elGalleyData: document.querySelector('datalist#gallery-keyword'),
-        elKeywordContainer: document.querySelector('ul.gallery-keyword-container'),
-        elGallery: document.querySelector('div.gallery-container'),
     }
     return gGallery
 }
 
 // Render Gallery + Stat + Upload-Image Opt   
 function renderGallery() {
-    const { elGallery } = gGallery
-    const { galleryName } = gGallery
+    const { elGallery, galleryName, elGalleryHeading } = gGallery
+    elGalleryHeading.innerHTML = '<h1>choose meme background!</h1>'
     const CapitalName = UTIL_SERVICE.capitalize(galleryName)
     const imgs = GALLERY_SERVICE.getImgsForDisplay()
     const keyWords = GALLERY_SERVICE.getKeywords()
@@ -52,9 +54,9 @@ function renderGallery() {
     const foundCount = imgs.length >= 0 ? imgs.length : '0'
     strHTMLs.unshift(`
     <div class="gallery-item gallery-stat">
-    <p role="button" class="underline" onclick="app.onClickTotalKeywords(event,this)" title="${keyWords.join(' | ')}">
+    <button role="button" class="underline" onclick="app.onClickTotalKeywords(event,this)" title="${keyWords.join(' | ')}">
     ${keyWords.length} KeyWords
-    </p>
+    </button>
     <div class="filter-stat">
     <span title="Filtered ${galleryName} count">${foundCount}</span>
     &#47;
@@ -75,7 +77,7 @@ function renderKeywordsOpts() {
     const strHTMLs = keywordsCountMap.map(keywordStr => {
         return `<option value="${keywordStr}">${UTIL_SERVICE.capitalize(keywordStr)}</option>`
     })
-    strHTMLs.push(`<option value=" ">ALL</option>`)
+    strHTMLs.push(`<option value=" ">Show All Images</option>`)
     const { elGalleyData } = gGallery
     elGalleyData.innerHTML = strHTMLs.join('')
 }
@@ -85,7 +87,7 @@ function onSetFilter(str) {
     event.preventDefault()
     const { elFilterBy } = gGallery
     !str ? str = elFilterBy.value : str
-    elFilterBy.value = str
+    elFilterBy.value = str === ' ' ? null : str
     GALLERY_SERVICE.setFilter(str)
     renderGallery()
 }
@@ -129,7 +131,7 @@ function onSetAspectRatio(el) {
 function onClickTotalKeywords(ev, elBtnKeywordsContainer) {
     const { title } = elBtnKeywordsContainer
     const displayKeywords = title.split(' | ').map(keyword => {
-        return `<span role="button" data-pos="modal" class="btn-keyword" onclick="app.onSetFilter(this.innerText);onTouchModal(true)">${keyword}</span>`
+        return `<span role="button" data-pos="modal" class="btn-keyword" onclick="app.onSetFilter(this.innerText);app.onTouchModal(true)">${keyword}</span>`
     }).join('')
-    renderModal(ev, displayKeywords)
+    gGallery.renderModal(ev, displayKeywords)
 }
