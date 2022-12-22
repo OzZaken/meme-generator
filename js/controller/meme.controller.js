@@ -1,43 +1,24 @@
 import { MEME_SERVICE } from "../service/meme.service.js"
 
-export const MEME_CONTROLLER = {
-    initMemeController,
-    onSetMeme,
-}
+export const MEME_CONTROLLER = { init }
 
-function shareMeme(uploadedImgUrl) {
-    uploadedImgUrl = encodeURIComponent(uploadedImgUrl);
-    const strHtml = 
-    `
-    <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}" 
-    title="Share on Facebook" target="_blank" onclick="app.()";
-    window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
-    Click to share on facebook   
-    </a>`
-    renderModal(strHtml)
-}
-function onDownloadMeme(elLink) {
-    const data = elMeme.toDataURL()
-    elLink.href = data
-    elLink.download = 'My_Meme'
-}
 //  dependencies pointer:
 let gMemeController
 
-function initMemeController(args) {
-    gMemeController = {
-        ...args,
+function init(dependencies) {
+    gMemeController = {...dependencies,
         isTouchScreen: false,
         isDraw: false,
         isGrab: false,
         isScale: false,
-        elMeme: document.querySelector('#meme'),
-        elMemeContainer: document.querySelector('.meme-container'),
-        elKeywordsContainer: document.querySelector('.meme-keyword-container'),
-        elCtx: document.querySelector('#meme').getContext('2d'),
+        elCtx: dependencies.elMeme.getContext('2d'),
+        onSaveMeme,
+        onSetLinePos,
+        onSetMeme,
     }
-    // Init Ctx
     gMemeController.elCtx.fillStyle = 'black'
+    // Init Ctx
+    console.log(`🚀 ~ gMemeController`, gMemeController)
     gMemeController.elCtx.strokeShape = 'circle'
     gMemeController.elCtx.strokeStyle = 'white'
 
@@ -54,9 +35,52 @@ function initMemeController(args) {
     elMeme.addEventListener('touchend', onUp)
 
     // Update Main controller
+    console.log('gMemeController:', gMemeController)
     return gMemeController
 }
 
+function onSaveMeme() {
+    console.log(`🚀 ~ onSaveMeme`,)
+    console.log('event:', event)
+    console.log('getMeme(),', getMeme());
+}
+
+// Events handler
+function onMove() {
+    const { isTouchScreen, isDarg, isScale, isDraw } = gMemeController
+    if (!isTouchScreen) return
+    const pos = getPosOnEl(ev)
+    console.log(`🚀 ~ pos`, pos)
+    // if (isMemeDrag()) {
+    //     ev.preventDefault()
+    //     const pos = getEvPos(ev)
+
+    //     const dx = pos.x - gDragStartPos.x
+    //     const dy = pos.y - gDragStartPos.y
+    //     moveLine(dx, dy)
+    //     gDragStartPos = pos
+    //     renderMeme()
+    // } else {
+    //     if (isInLine(pos, false)) document.body.style.cursor = 'grab'
+    //     else document.body.style.cursor = 'default'
+    // }
+}
+
+function onUp() {
+    gMemeController.isDraw = gMemeController.isGrab =
+        gMemeController.isScale = gMemeController.isScale = false
+    console.log('document.body.offsetWidth:', document.body.offsetWidth)
+    console.log('window.innerWidth:', window.innerWidth)
+    // document.body.style.cursor = 'grab';
+}
+
+function onDown() {
+    const touchPos = gMemeController.getPosOnEl(event)
+    console.log(`🚀 ~ touchPos`, touchPos)
+}
+function onSetLinePos() {
+    console.log('event:', event)
+}
 // come to MainController
 function onSetMeme(meme) {
     console.log(`🚀 ~ onSetMeme`, meme)
@@ -66,9 +90,8 @@ function onSetMeme(meme) {
 
 // Resize Using offsetWidth and render again
 function resizeMeme() {
-    const { elMeme, elMemeContainer } = gMemeController
+    const { elMemeContainer } = gMemeController
     elMemeContainer.width = elMemeContainer.offsetWidth
-    elMeme.width = elMemeContainer.offsetWidth;
     renderMeme()
 }
 
@@ -76,13 +99,13 @@ function resizeMeme() {
 function renderMeme() {
     const img = new Image()
     const { aspectRatio, keywords, lines, src } = MEME_SERVICE.getMeme()
-    const { elCtx, elMeme, elMemeContainer } = gMemeController
+    const { elCtx, elMeme, elMemeContainer, elEditHeading } = gMemeController
     if (!src) {
         // TODO: Fill Text on the Canvas Must Pick Image
         gMemeController.flashMsg('Select Image first!')
-        console.log('no Image src');
         return
     }
+    else elEditHeading.innerText = 'edit your meme!'
     img.src = src
     img.onload = () => {
         // Render Meme keywords
@@ -123,57 +146,43 @@ function drawLine(line) {
     elCtx.closePath()
 }
 
+
 // run over elCtx  
 function setCtx(ctxKeys) {
     let elCtx = { elCtx } = gMemeController
     elCtx = { ...elCtx, ...ctxKeys }
 }
-
-
-//*                                   🐱‍👤👀🐱‍👤   
-function onMove(ev) {
-    const { isTouchScreen, isDarg, isScale, isDraw } = gMemeController
-    if (!isTouchScreen) return
-    const pos = getPosOnEl(ev)
-    console.log(`🚀 ~ pos`, pos)
-    // if (isMemeDrag()) {
-    //     ev.preventDefault()
-    //     const pos = getEvPos(ev)
-
-    //     const dx = pos.x - gDragStartPos.x
-    //     const dy = pos.y - gDragStartPos.y
-    //     moveLine(dx, dy)
-    //     gDragStartPos = pos
-    //     renderMeme()
-    // } else {
-    //     if (isInLine(pos, false)) document.body.style.cursor = 'grab'
-    //     else document.body.style.cursor = 'default'
-    // }
+function shareMeme(uploadedImgUrl) {
+    uploadedImgUrl = encodeURIComponent(uploadedImgUrl);
+    const strHtml =
+        `
+    <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}" 
+    title="Share on Facebook" target="_blank" onclick="app.()";
+    window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
+    Click to share on facebook   
+    </a>`
+    renderModal(strHtml)
 }
-function onUp() {
-    gMemeController.isDraw = gMemeController.isGrab =
-        gMemeController.isScale = gMemeController.isScale = false
-    console.log('document.body.offsetWidth:', document.body.offsetWidth)
-    console.log('window.innerWidth:', window.innerWidth)
-    // document.body.style.cursor = 'grab';
+function onDownloadMeme(elLink) {
+    const data = elMeme.toDataURL()
+    elLink.href = data
+    elLink.download = 'My_Meme'
 }
-function onDown(ev) {
-    console.log(ev);
-}
+
 
 //Download& share
 
-// function moveLine(diffX = 0, diffY = 0) {
-//     const line = getLine()
-//     // don't let the text to go out of the canvas completely
-//     const posX = line.pos.x + diffX
-//     const posY = line.pos.y + diffY
-//     if (posY < 0 || posY > gCanvas.height) return
-//     if (posX < 0 || posX > gCanvas.width) return
+function moveLine(diffX = 0, diffY = 0) {
+    const line = getLine()
+    const { elMeme } = gMemeController
+    const posX = line.pos.x + diffX
+    const posY = line.pos.y + diffY
+    if (posY < 0 || posY > elMeme.height) return
+    if (posX < 0 || posX > elMeme.width) return
 
-//     line.pos.x = posX
-//     line.pos.y = posY
-// }
+    line.pos.x = posX
+    line.pos.y = posY
+}
 
 
 // function onDownloadMeme() {
@@ -199,8 +208,8 @@ function onDown(ev) {
 //     ev.preventDefault();
 //     resetSelections();
 //     renderCanvas();
-//     document.getElementById('imgData').value = gElCanvas.toDataURL('image/jpeg');
 
+//     document.getElementById('imgData').value = gElCanvas.toDataURL('image/jpeg');
 //     // A function to be called if request succeeds
 //     function onSuccess(uploadedImgUrl) {
 //         uploadedImgUrl = encodeURIComponent(uploadedImgUrl);

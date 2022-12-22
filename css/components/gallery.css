@@ -26,6 +26,7 @@ body.page-gallery .main-gallery-container {
     }
 }
 
+
 /* Filter */
 form.gallery-search {
     float: left;
@@ -79,7 +80,7 @@ ul.keyword-container,
     padding: 10px;
 }
 
-/*  Gallery Layout  TODO: fix galley layout*/
+/*  Gallery Layout */
 .gallery-container {
     margin: 0 auto;
     width: 90%;
@@ -92,9 +93,7 @@ ul.keyword-container,
     gap: 10px;
 }
 
-.gallery-loading {
-    background-color: #fb9623;
-}
+.gallery-loading {background-color: #fb9623;}
 
 /* /~ TABLET ~/ */
 @media (min-width: 768px) {

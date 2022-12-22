@@ -70,21 +70,20 @@
             <!-- Keywords Btns Container -->
             <ul class="gallery-keyword-container"></ul>
             <!-- Images Container -->
-            <div class="gallery-container">
-
-            </div>
+            <div class="gallery-container"></div>
         </section>
 
         <!-- Edit -->
         <section class="page main-edit-container">
             <h1 class="edit-heading">choose image first!</h1>
             <!-- Meme Keywords -->
-            <h2 class="keyword-heading meme-keyword-container"></h2>
+            <h3 class="keyword-heading meme-keyword-container"></h3>
 
-            <!-- Meme -->
+            <!-- Canvas -->
             <div class="meme-container">
                 <canvas id="meme" height="350" width="350"></canvas>
             </div>
+
             <!-- meme-Inputs-container -->
             <div class="Inputs-meme-container">
                 <!-- Add Text Line -->
@@ -102,24 +101,37 @@
                     <button hidden></button>
                 </form>
             </div>
+
             <!-- 🐱‍👤 -->
             <div class="btns-editor-container">
                 <div class="editor-container">
                     <!-- Btns -->
-                    <i onclick="app.onChangeLinePos(0,-20)" title="Move text up" class="fa fa-arrow-up"></i>
-                    <i onclick="app.onChangeLinePos(0,20)" title="Move text Down"
-                        class="setting-btn  fa-arrow-down"></i>
+                    <i onclick="app.onSetLinePos()" value="0,10" role="button" title="Move text up"
+                        class="fa fa-arrow-up">
+                    </i>
+                    <i value="0,-10" onclick="app.onSetLinePos()" title="Move text Down"
+                        class="setting-btn  fa-arrow-down">
+                    </i>
                     <i onclick="app.onSwitchLines()" title="Switch between lines"
-                        class="setting-btn  fa-arrow-up-arrow-down">↑↓</i>
-                    <i onclick="app.onAddTxtLine()" title="Add txt line"
-                        class="add-text-line-btn setting-btn  fa-plus"></i>
-                    <i onclick="app.onDeleteTxtLine()" title="Delete last line" class="setting-btn fa-trash"></i>
-                    <i onclick="app.onChangeElSize(5)" title="Size Up" class="setting-btn">A+</i>
-                    <i onclick="app.onChangeElSize(-5)" title="Size Down" class="1fa-text-size setting-btn">A-</i>
-                    <i onclick=" onChangeAlign('left')" title="align left" class="setting-btn  fa-align-left"></i>
-                    <i onclick="app.onChangeAlign('center')" title="align center"
-                        class="setting-btn  fa-align-center"></i>
-                    <i onclick="app.onChangeAlign('right')" title="align left" class="setting-btn  fa-align-right"></i>
+                        class="setting-btn  fa-arrow-up-arrow-down">
+                        ↑↓
+                    </i>
+                    <i onclick="app.onAddTxtLine()" title="Add txt line" class="add-text-line-btn setting-btn  fa-plus">
+                    </i>
+                    <i onclick="app.onDeleteTxtLine()" title="Delete last line" class="setting-btn fa-trash">
+                    </i>
+                    <i onclick="app.onChangeElSize(5)" title="Size Up" class="setting-btn">
+                        A+
+                    </i>
+                    <i onclick="app.onChangeElSize(-5)" title="Size Down" class="1fa-text-size setting-btn">
+                        A-
+                    </i>
+                    <i onclick=" onChangeAlign('left')" title="align left" class="setting-btn  fa-align-left">
+                    </i>
+                    <i onclick="app.onChangeAlign('center')" title="align center" class="setting-btn  fa-align-center">
+                    </i>
+                    <i onclick="app.onChangeAlign('right')" title="align left" class="setting-btn  fa-align-right">
+                    </i>
                     <!-- Select Fonts -->
                     <select title="Select fonts" onchange="app.onChangeFont(this.value)" class="font-select fa-solid"
                         name="change-fonts">
@@ -156,7 +168,7 @@
         <!-- About -->
         <section class="page main-about-container">
             <h1>about</h1>
-            
+
             <article class="about-me">
                 <h2>me</h2>
                 <div class="about-me-img"></div>
@@ -166,27 +178,30 @@
                 </p>
             </article>
 
-           <article class="about-meme-gen">
-            <h2>MemeGenerator</h2>
-            <p>
-                Meme Generator is a web-based tool that allows users to quickly and easily create their own visual image meme. In this case, a meme is media content that usually consists of a popular image and typically two sections of text: one at the top and one at the bottom.
-            </p>
-           </article>
-           
+            <article class="about-meme-gen">
+                <h2>MemeGenerator</h2>
+                <p>
+                    Meme Generator is a web-based tool that allows users to quickly and easily create their own visual
+                    image meme. In this case, a meme is media content that usually consists of a popular image and
+                    typically two sections of text: one at the top and one at the bottom.
+                </p>
+            </article>
+
             <label for="is-about-work">read about my Work ➤</label>
             <input id="is-about-work" type="checkbox" />
 
             <article class="about-work">
                 <h2>Creating The App</h2>
-            <div class="about-work-img"></div>
+                <div class="about-work-img"></div>
                 <p>
-                    well... ⏰ it`s take lots off Coffee, relax, tranquillo yahabibi dolor sit amet consectetur adipisicing elit.
+                    well... ⏰ it`s take lots off Coffee, relax, tranquillo yahabibi dolor sit amet consectetur
+                    adipisicing elit.
                     Vitae,
                     alias debitis aspernatur quos dolore non placeat sint in voluptates assumenda eius cupiditate quia
                     delectus enim hic culpa, magnam impedit tenetur?
                 </p>
             </article>
-            
+
         </section>
     </main>
 
@@ -228,7 +243,8 @@
         </div>
     </footer>
 
-    <!-- Util Comps-->
+    <!-- Util Tags/Cmps -->
+    <input hidden type="file" accept="image/png, image/jpeg, image/jpg" id="upload-img" name="upload-img" onchange="app.onUploadImg()"/>
     <div class="user-msg"></div>
     <div class="screen" onclick="app.onTouchScreen()"></div>
     <div class="modal" hidden onclick="app.onTouchModal()"></div>

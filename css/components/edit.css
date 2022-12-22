@@ -1,23 +1,27 @@
 /* Paging */
 section.main-edit-container {
-    position: fixed;
+    position: relative;
     right: 120vw;
 }
 
-/* TODO: make sure needed */
-body.page-edit {
-    /* overflow-x: hidden; */
-    /* overflow-y: hidden; */
-}
-
 body.page-edit .main-edit-container {
-    position: unset;
-    animation: fade-in-right .8s;
+    position: relative;
+    animation: fade-in-right .8s, fade-out-up 4s;
     right: unset;
 }
+/* On js */
+.fade-out-up {animation: fade-out-up;}
 
-.fade-in-right {
-    animation-name: fade-in-right;
+@keyframes fade-out-up {
+    from {
+        position: relative;
+        opacity: 1;
+    }
+
+    to {
+        position: relative;
+        transform: translate3d(0, -15vh, 0);
+    }
 }
 
 @keyframes fade-in-right {
@@ -41,6 +45,9 @@ body.page-edit .main-edit-container {
 @media (min-width: 1020px) {
     .main-edit-container {}
 }
+
+
+
 
 /* Meme Keywords */
 h2.keyword-heading {
@@ -79,7 +86,7 @@ canvas#meme {
 
 /*                                  🐱‍👤👀🐱‍👤 */
 .form-meme-keyword,
-.form-meme-line-txt{
+.form-meme-line-txt {
     display: flex;
     width: 50%;
 }
@@ -90,11 +97,11 @@ input[name="line-txt"] {
     font-family: fa-solid;
 }
 
-.form-meme-keyword{
+.form-meme-keyword {
     float: left;
 }
 
-.form-meme-line-txt{
+.form-meme-line-txt {
     float: right;
 }
 

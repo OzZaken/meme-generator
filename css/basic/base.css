@@ -26,23 +26,21 @@ h1 {
 
     width: 100%;
     line-height: 3rem;
-
     margin-top: 0;
     padding-top: 0;
+    min-height: 15vh;
     
-    background-image: url('../../assets/img/heading.png');
     color: var(--clr-prim);
+    background-image: url('../../assets/img/heading.png');
     border-bottom: 1.5px solid var(--clr-prim);
-    
 
     text-transform: capitalize;
-    text-shadow: 1px 0px 1px var(--clr-prim);
+    text-shadow: 1px 0px 1px var(--clr-darkest);
     font-size: 5.9vw;
 }
 
-h1:not(:first-child) {
-    animation: fade-in-up .5s;
-}
+/* cancel animation on searching img*/
+h1:not(:first-child) {animation: fade-in-up .5s;}
 
 @keyframes fade-in-up {
     from {
@@ -57,12 +55,12 @@ h1:not(:first-child) {
 }
 
 h2 {
+    padding: 20px 15px;
     text-transform: capitalize;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     font-size: calc(3vw + 1em);
-    width: 100%;
     color: var(--clr-sec);
 }
 
@@ -122,8 +120,10 @@ body::-webkit-scrollbar-thumb {
 button,
 .btn,
 .btn-big,
-input {
-    transition: scale .5s, background-color 3s, font-size 1s;
+input,
+label {
+    font-weight: bold;
+    transition: scale .5s, background-color 3s, font-size .3s;
     background-color: transparent;
     border: none;
     font-weight: bold;
@@ -133,23 +133,25 @@ input {
 button,
 .btn,
 .btn-big,
-input,
-label:hover {
-    font-size: calc(100% + 2px);
+input:hover {
+    font-size: calc(1rem + .5px);
     cursor: pointer;
 }
 
-button,
-.btn,
-[role="button"]:active {
-    transform: scale(1.03);
+label{
+    cursor: pointer;
+    padding: 5px;
+    margin-inline-start: 10px;
+    text-decoration: underline;
 }
 
 button,
 .btn,
-[role="button"]:hover {
-    transform: scale(1.01);
-}
+[role="button"]:active {transform: scale(1.03);}
+
+button,
+.btn,
+[role="button"]:hover {transform: scale(1.01);}
 
 .btn-big {
     color: var(--clr-prim);
@@ -161,9 +163,9 @@ button,
 }
 
 .btn-big:hover {
-    color: #b321d0;
-    transition: all .3s;
+    /* transition: all .3s; */
     background-color: var(--clr-darker);
+    color: #b321d0;
     border: solid 3px #852399;
 }
 
@@ -176,6 +178,13 @@ input:hover {
     background-color: var(--clr-prim);
 }
 
+input:focus {
+    font-weight: bold;
+    transition: background-color .8s;
+    color: var(--clr-sec);
+    background-color: var(--clr-prim);
+}
+
 /* tap target */
 button,
 [role="button"],
@@ -184,13 +193,6 @@ button,
 nav a {
     min-width: 48px;
     min-height: 48px;
-}
-
-input:focus {
-    font-weight: bold;
-    transition: background-color .8s;
-    color: var(--clr-sec);
-    background-color: var(--clr-prim);
 }
 
 /*  no stretching media */

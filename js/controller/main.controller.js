@@ -1,40 +1,48 @@
 
 import { I18_SERVICE } from "../service/i18.service.js";
 import { UTIL_SERVICE } from "../service/util.service.js";
+
 import { GALLERY_CONTROLLER } from "../controller/gallery.controller.js";
 import { MEME_CONTROLLER } from "../controller/meme.controller.js";
-import { MEME_SERVICE } from "../service/meme.service.js";
-// switch img based url 
-// const fileName = url.substr(url.lastIndexOf('/') + 1)
-// imgAvatar.src = 'img/' + fileName.replace(/\d/, digit => (+digit >= 5) ? 1 : +digit + 1)
 
-// Pointer to Controller dependencies
+// Pointer Controller dependencies
 let gMainController
 
 // #1 rule: give only What necessary
 window.app = { onInit }
 
+// TODO: 01 if user already been in the site welcome back
+//       02 LoadingSvg...
 function onInit() {
-    // TODO: if user already been in the site welcome back
+    // Gallery dependencies
     const initGalleryData = {
         galleryName: 'meme',
+        elKeywordContainer: document.querySelector('ul.gallery-keyword-container'),
         elGalleryHeading: document.querySelector('h1.gallery-heading'),
+        elFilterBy: document.querySelector('[name="gallery-filter"]'),
+        elGalleyData: document.querySelector('datalist#gallery-keyword'),
         elGallery: document.querySelector('div.gallery-container'),
+        elUploadImg: document.querySelector('#upload-img'),
         renderModal,
     }
+
+    // Meme dependencies 
     const initMemeData = {
         elEditHeading: document.querySelector('h1.edit-heading'),
+        elMeme: document.querySelector('#meme'),
+        elMemeContainer: document.querySelector('.meme-container'),
+        elKeywordsContainer: document.querySelector('.meme-keyword-container'),
         flashMsg,
+        getPosOnEl,
     }
 
-    // CONTROLLER
+    // Set Controller State
     gMainController = {
         audio: {},
         elUserMsg: document.querySelector('.user-msg'),
         elModal: document.querySelector('.modal'),
         elMainNav: document.querySelector('.main-nav'),
         elBtnToggleNav: document.querySelector('.btn-toggle-menu'),
-        elUploadImg: document.querySelector('#upload-img'),
         links: {
             elLinkGallery: document.querySelector('.link-gallery'),
             elLinkEdit: document.querySelector('.link-edit'),
@@ -47,14 +55,30 @@ function onInit() {
             elPageEdit: document.querySelector('.main-edit-container'),
             elPageAbout: document.querySelector('.main-about-container')
         },
-        ...GALLERY_CONTROLLER.initGalleryController(initGalleryData),
-        ...MEME_CONTROLLER.initMemeController(initMemeData)
+        ...GALLERY_CONTROLLER.init(initGalleryData),
+        ...MEME_CONTROLLER.init(initMemeData)
     }
 
-    // After collected All dependencies Send To Dom
-    const { onSetAspectRatio, onClickKeyword, onSetFilter, onClickTotalKeywords } = GALLERY_CONTROLLER
+    // Send Dom The App
+    // 
+    const {
+        onSetAspectRatio,
+        onClickKeyword,
+        onSetFilter,
+        onClickTotalKeywords
+    } = gMainController
+// renderGallery,
+// renderKeywordsOpts,
+// renderKeywordsBtns,
+
+// onSetFilter,
+// onSetAspectRatio,
+// onClickKeyword,
+// onClickTotalKeywords,
+// onAddImg,
+
     window.app = {
-        // gMainController,//TODO UT : remember remove
+        gMainController, //TODO UT : remember Delete!
         onUploadImg,
         onReLoadPage,
         onTranslateDom,
@@ -69,13 +93,14 @@ function onInit() {
         onClickKeyword,
         onClickTotalKeywords,
         // Meme
-
     }
 
     // Gallery
-    GALLERY_CONTROLLER.renderGallery()
-    GALLERY_CONTROLLER.renderKeywordsOpts()
-    GALLERY_CONTROLLER.renderKeywordsBtns()
+    gMainController.renderGallery()
+    gMainController.elGalleryStatContainer = document.querySelector('.gallery-stat')
+
+    gMainController.renderKeywordsOpts()
+    gMainController.renderKeywordsBtns()
 
     // i18
     I18_SERVICE.setUserDefaultLang(navigator.languages[1])
@@ -93,6 +118,25 @@ function onInit() {
     setTimeout(() => {
         if (document.body.classList.contains('page-gallery')) flashMsg('Choose Meme Background!')
     }, 5000)
+}
+
+// return current click Pos on Element.
+function getPosOnEl(ev) {
+    const pos = {
+        x: ev.offsetX,
+        y: ev.offsetY
+    }
+    const touchEvs = ['touchstart', 'touchmove', 'touchend']
+    if (touchEvs.includes(ev.type)) {
+        ev.preventDefault()
+        // Take 1 Mobile touch {Pos} in case of multi fingers clicking
+        ev = ev.changedTouches[0]
+        pos = {
+            x: ev.pageX - ev.target.offsetLeft,
+            y: ev.pageY - ev.target.offsetTop
+        }
+    }
+    return pos
 }
 
 // location.reload().
@@ -133,14 +177,22 @@ function onNav(navToStr) {
         if (!src) {
             elNavBack.hidden = false
             const strHTML = `
-           <h2>Image needed!</h2>
+           <h2>no image selected!</h2>
             <a class="nav-back" onclick="app.onNav()" title="return to gallery" href="#"></a>
-            <p>Choose from the Gallery</p>
+            <p>
+            Choose from the the
+            <span role="link" data-href="#" class="btn underline" title="return to gallery" onclick="app.onNav()" tabindex="0">
+            Gallery
+            </span>
+            </p>
             <label for="upload-img">Or Choose from Your Device!</label>
             `
             renderModal(false, strHTML)
         }
-        else elEditHeading.value = 'Edit Your Meme!'
+        else {
+            elEditHeading.value = 'Edit Your Meme!'
+            setTimeout(() => elEditHeading.style.marginTop = '-15vh', 4000)
+        }
     }
     else {
         onTouchScreen()
@@ -250,51 +302,32 @@ function renderModal(ev, strHTML) {
     document.body.classList.add('modal-open')
 }
 
-// return current click Pos on Element.
-function getPosOnEl(ev) {
-    const pos = {
-        x: ev.offsetX,
-        y: ev.offsetY
-    }
-    const touchEvs = ['touchstart', 'touchmove', 'touchend']
-    if (touchEvs.includes(ev.type)) {
-        ev.preventDefault()
-        // Take 1 Mobile touch {Pos} in case of multi fingers clicking
-        ev = ev.changedTouches[0]
-        pos = {
-            x: ev.pageX - ev.target.offsetLeft,
-            y: ev.pageY - ev.target.offsetTop
-        }
-    }
-    return pos
-}
-
 // The linking Func between GALLERY to MEME.
-function onImgSelect(event, uploadImgSrc) {
-    flashMsg(`Image\n selected.`)
+function onImgSelect(ev) {
+    flashMsg(`Image\n selected!`)
 
-    const isSelectExitImage = event.type === 'click'
-    const isUploadNewImage = event.type === 'change'
+    const isSelectExitImage = ev.type === 'click'
+    const isUploadNewImage = ev.type === 'load'
 
-    const memeSrc = isSelectExitImage ? event.target.src : isUploadNewImage ? uploadImgSrc : null
-    const memeKeywords = isSelectExitImage ? event.target.dataset.keyword.split(',') : []
-    // const aspectRatio = isSelectExitImage ? event.target.style.aspectRatio : null
+    const memeSrc = isSelectExitImage || isUploadNewImage ? ev.target.src : null
+    const memeKeywords = isSelectExitImage ? ev.target.dataset.keyword.split(',') : []
 
     const meme = {
         src: memeSrc,
         keywords: memeKeywords,
-        // aspectRatio,
     }
-    MEME_CONTROLLER.onSetMeme(meme)
+
+    gMainController.onSetMeme(meme)
     onNav('edit')
 }
 
-function onUploadImg(ev) {
+// Upload new image 
+function onUploadImg() {
     let reader = new FileReader()
-    reader.onload = (event) => {
+    reader.onload = (ev) => {
         let img = new Image()
-        img.src = event.target.result
-        onImgSelect(ev, event.target.result)
+        img.src = ev.target.result
+        img.onload = (ev) => onImgSelect(ev)
     }
-    reader.readAsDataURL(ev.target.files[0])
+    reader.readAsDataURL(event.target.files[0])
 }

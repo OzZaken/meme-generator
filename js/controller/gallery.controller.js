@@ -1,34 +1,33 @@
 import { GALLERY_SERVICE } from "../service/gallery.service.js"
 import { UTIL_SERVICE } from '../service/util.service.js'
 
-export const GALLERY_CONTROLLER = {
-    initGalleryController,
 
-    renderGallery,
-    renderKeywordsOpts,
-    renderKeywordsBtns,
+export const GALLERY_CONTROLLER = { init }
 
-    onSetFilter,
-    onSetAspectRatio,
-    onClickKeyword,
-    onClickTotalKeywords,
-    onAddImg,
-}
-
-// Dependencies reference pointer 
+// Controller dependencies reference pointer 
 let gGallery
 
-// Init GalleryController State On window and render
-function initGalleryController(args) {
-    const { galleryName: name } = args
-    let galleryName
-    !name ? galleryName = 'image' : galleryName
+// Init State
+function init(args) {
+    const { galleryName } = args
+    !galleryName ? galleryName = 'image' : galleryName
     GALLERY_SERVICE.setGalleryStorageKey(galleryName)
+    console.log(`🚀 ~ init`, galleryName)
+    
+    // switch img based url 
+    // const fileName = url.substr(url.lastIndexOf('/') + 1)
+    // imgAvatar.src = 'gallery/' + fileName.replace(/\d/, digit => (+digit >= imgs.length) ? 1 : +digit + 1)
+
     gGallery = {
         ...args,
-        elKeywordContainer: document.querySelector('ul.gallery-keyword-container'),
-        elFilterBy: document.querySelector('input[name="gallery-filter"]'),
-        elGalleyData: document.querySelector('datalist#gallery-keyword'),
+        renderGallery,
+        renderKeywordsBtns,
+        renderKeywordsOpts,
+        
+        onClickKeyword,
+        onSetAspectRatio,
+        onSetFilter,
+        onClickTotalKeywords,
     }
     return gGallery
 }
@@ -67,7 +66,7 @@ function renderGallery() {
     ${CapitalName}s
     </div>
     <label for="upload-img">Upload Image</label>
-    <input type="file" accept="image/png, image/jpeg, image/jpg" id="upload-img" name="upload-img" onchange="app.onUploadImg(event)"/>
+    
     </div>
     `)
     // Render Gallery
@@ -95,8 +94,7 @@ function onSetFilter(str) {
     renderGallery()
 }
 
-// Calc how menyKeywords btns can put with the with of the userDeisplay
-// TODO: Render common keywords buttons based Space left
+// TODO: Render All and Hide with Css
 // console.log(`UT:window.innerWidth:\n${window.innerWidth}`)
 // console.log(`body.offsetWidth:\n${document.body.offsetWidth}`)
 function renderKeywordsBtns() {
@@ -125,7 +123,7 @@ function onClickKeyword() {
     dataset.fs++
 }
 
-// Set aspect-ratio CSS on Gallery 
+// Set aspect-ratio style On Image // TODO: use it to dix the Grid layout
 function onSetAspectRatio(el) {
     el.style.aspectRatio = `${el.naturalWidth}/${el.naturalHeight}`
 }
@@ -139,25 +137,25 @@ function onClickTotalKeywords(ev, elBtnKeywordsContainer) {
     gGallery.renderModal(ev, displayKeywords)
 }
 
-function doUploadImg(imgDataUrl, onSuccess) {
-    const formData = new FormData()
-    formData.append('img', imgDataUrl)
+// function doUploadImg(imgDataUrl, onSuccess) {
+//     const formData = new FormData()
+//     formData.append('img', imgDataUrl)
 
-    fetch('//ca-upload.com/here/upload.php', {
-        method: 'POST',
-        body: formData
-    })
-        .then(res => res.text())
-        .then((url) => {
+//     fetch('//ca-upload.com/here/upload.php', {
+//         method: 'POST',
+//         body: formData
+//     })
+//         .then(res => res.text())
+//         .then((url) => {
 
 
-            console.log('Got back live url:', url)
-            onSuccess(url)
-        })
-        .catch((err) => {
-            console.error(err)
-        })
-}
+//             console.log('Got back live url:', url)
+//             onSuccess(url)
+//         })
+//         .catch((err) => {
+//             console.error(err)
+//         })
+// }
 
 function onAddImg(src) {
     GALLERY_SERVICE.createImage(src)

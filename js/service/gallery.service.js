@@ -58,7 +58,9 @@ function setGalleryStorageKey(galleryName) {
 // After Update StorageKey Find Or Create Imgs
 function _createImgs() {
     const { storageKey } = GALLERY
+    console.log(`🚀 ~ storageKey`, storageKey)
     GALLERY.imgs = STORAGE_SERVICE.loadFromStorage(storageKey)
+    console.log(`🚀 ~ _createImgs`,storageKey)
     if (!GALLERY.imgs || !GALLERY.imgs.length) {
         GALLERY.imgs = INIT_IMAGES
     }

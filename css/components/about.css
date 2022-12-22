@@ -25,20 +25,23 @@ body.page-about .main-about-container {
 .main-about-container article h2 {
     display: inline;
 }
+
 /* The Checkbox Hack */
 .about-work {
     /* float: left; */
+    display: none;
     opacity: 0;
-    transition: .5s;
+    transition:  opacity .5s;
 }
 
 #is-about-work {
-    opacity: 0;
     /* display: none; */
+    opacity: 0;
 }
 
 #is-about-work:checked+.about-work {
     display: block;
+    margin-top: 20px;
     opacity: 1;
 }
 
