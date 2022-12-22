@@ -9,7 +9,7 @@
 }
 
 .logo::first-letter {
-    color: var(--clr-sec);
+    color: var(--clr-hoover);
 }
 
 .logo::before {
@@ -17,6 +17,6 @@
 }
 
 .logo::after {
-    color: var(--clr-sec);
+    color: var(--clr-hoover);
     content: 'Gen';
 }

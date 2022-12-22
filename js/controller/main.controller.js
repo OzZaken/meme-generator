@@ -142,7 +142,10 @@ function onNav(navToStr) {
         }
         else elEditHeading.value = 'Edit Your Meme!'
     }
-    else elNavBack.hidden = true
+    else {
+        onTouchScreen()
+        elNavBack.hidden = true
+    }
 
     // Set .active class
     const { links } = gMainController

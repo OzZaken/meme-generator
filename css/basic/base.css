@@ -49,7 +49,6 @@ h1:not(:first-child) {
     }
 }
 
-
 h2 {
     text-transform: capitalize;
     display: flex;
@@ -79,6 +78,11 @@ p::first-line {
     font-style: italic;
 }
 
+p::first-letter {
+    font-size: 1.3rem;
+    font-style: oblique;
+}
+
 /* Scroll*/
 body::-webkit-scrollbar {
     width: 1em;
@@ -106,6 +110,75 @@ body::-webkit-scrollbar-thumb {
     color: var(--clr-bright);
 }
 
+/* buttons */
+[role="button"],
+button,
+.btn,
+.btn-big,
+input {
+    transition: scale .5s, background-color 3s, font-size 1s;
+    background-color: transparent;
+    border: none;
+    font-weight: bold;
+}
+
+[role="button"],
+button,
+.btn,
+.btn-big,
+input,
+label:hover {
+    font-size: calc(100% + 2px);
+    cursor: pointer;
+}
+
+button,
+.btn,
+[role="button"]:active {
+    transform: scale(1.03);
+}
+
+button,
+.btn,
+[role="button"]:hover {
+    transform: scale(1.01);
+}
+
+.btn-big {
+    color: var(--clr-prim);
+    background-color: var(--clr-darkest);
+    border-radius: 10px;
+    border: solid 1.5px var(--clr-prim);
+    padding: 10px;
+    font-size: calc(2px + 1rem);
+}
+
+.btn-big:hover {
+    color: #b321d0;
+    transition: all .3s;
+    background-color: var(--clr-darker);
+    border: solid 3px #852399;
+}
+
+.btn-big:active {
+    transition: scale .3s;
+    transform: scale(1.03);
+}
+
+input:hover {
+    background-color: var(--clr-prim);
+}
+
+/* tap target */
+button,
+[role="button"],
+.btn,
+.btn-big,
+nav a {
+    min-width: 48px;
+    min-height: 48px;
+}
+
 input:focus {
     font-weight: bold;
     transition: background-color .8s;
@@ -113,8 +186,12 @@ input:focus {
     background-color: var(--clr-prim);
 }
 
-img {
-    width: 100%;
+/*  no stretching media */
+img,
+embed,
+video,
+object {
+    max-width: 100%;
 }
 
 section {

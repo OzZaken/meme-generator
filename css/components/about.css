@@ -22,9 +22,11 @@ body.page-about .main-about-container {
         transform: translateY(0);
     }
 }
-
+.main-about-container article h2 {
+    display: inline;
+}
 /* The Checkbox Hack */
-.about-work  {
+.about-work {
     /* float: left; */
     opacity: 0;
     transition: .5s;
@@ -47,10 +49,10 @@ body.page-about .main-about-container {
 }
 
 .about-me-img {
-
     float: right;
     border-radius: 50%;
-    background-image: url('../../assets/img/gallery/7.jpg');
+    background-attachment: fixed;
+    background-image: url('../../assets/img/me.jpg');
 }
 
 .about-meme-img {
@@ -58,3 +60,7 @@ body.page-about .main-about-container {
     border-radius: .3em;
     background-image: url('../../assets/img/gallery/2.jpg');
 }
+
+/* section article p:not(even) { */
+    /* float: left; */
+/* } */

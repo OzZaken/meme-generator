@@ -33,12 +33,11 @@ form.gallery-search {
     border-top: none;
     display: inline;
     font-size: 1rem;
-    max-width: 200px;
     padding: 2px;
     margin-top: 5px;
 }
 
-input[name="gallery-filter"] {
+[name="gallery-filter"] {
     border: none;
     height: 40px;
 }
@@ -57,7 +56,6 @@ input[name="gallery-filter"] {
 
 .btn-i-flexible {
     float: right;
-    font-size: calc(2px + 1rem);
     margin-top: 5px;
     margin-inline-start: 10px;
 }
@@ -81,8 +79,7 @@ ul.keyword-container,
     padding: 10px;
 }
 
-/* TODO: fix galley layout */
-/*  Gallery Layout */
+/*  Gallery Layout  TODO: fix galley layout*/
 .gallery-container {
     margin: 0 auto;
     width: 90%;
