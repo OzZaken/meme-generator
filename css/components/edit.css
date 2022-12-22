@@ -6,23 +6,25 @@ section.main-edit-container {
 
 body.page-edit .main-edit-container {
     position: relative;
-    animation: fade-in-right .8s, fade-out-up 4s;
+    animation: fade-in-right .8s, fade-out-up 3s;
     right: unset;
 }
-/* On js */
-.fade-out-up {animation: fade-out-up;}
 
-@keyframes fade-out-up {
-    from {
-        position: relative;
-        opacity: 1;
-    }
+/* TODO: fix with js */
+/* .fade-out-up {animation: fade-out-up;} */
 
-    to {
-        position: relative;
-        transform: translate3d(0, -15vh, 0);
-    }
-}
+/* @keyframes fade-out-up { */
+    /* from { */
+        /* position: relative; */
+        /* opacity: 1; */
+    /* } */
+
+    /* to { */
+        /* position: relative; */
+        /* margin-top: -15vh; */
+        /* /~ transform: translate3d(0, -15vh, 0); ~/ */
+    /* } */
+/* } */
 
 @keyframes fade-in-right {
     from {
@@ -45,9 +47,6 @@ body.page-edit .main-edit-container {
 @media (min-width: 1020px) {
     .main-edit-container {}
 }
-
-
-
 
 /* Meme Keywords */
 h2.keyword-heading {

@@ -58,9 +58,7 @@ function setGalleryStorageKey(galleryName) {
 // After Update StorageKey Find Or Create Imgs
 function _createImgs() {
     const { storageKey } = GALLERY
-    console.log(`🚀 ~ storageKey`, storageKey)
     GALLERY.imgs = STORAGE_SERVICE.loadFromStorage(storageKey)
-    console.log(`🚀 ~ _createImgs`,storageKey)
     if (!GALLERY.imgs || !GALLERY.imgs.length) {
         GALLERY.imgs = INIT_IMAGES
     }
@@ -87,7 +85,6 @@ function createImage(src) {
     STORAGE_SERVICE.saveToStorage(storageKey, GALLERY.imgs)
 }
 
-//*               Filter
 // Filtered Images
 function getImgsForDisplay() {
     const { filterBy, imgs } = GALLERY
@@ -103,7 +100,6 @@ function setFilter(filterBy) {
     GALLERY.filterBy = filterBy
 }
 
-//*               Keywords
 // Set keywordsCountMap 
 function _setKeyWordCountMap() {
     const { imgs } = GALLERY

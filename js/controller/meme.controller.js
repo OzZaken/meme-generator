@@ -1,24 +1,25 @@
-import { MEME_SERVICE } from "../service/meme.service.js"
+import { MEME_SERVICE } from "../service/meme.service.js";
 
 export const MEME_CONTROLLER = { init }
 
-//  dependencies pointer:
+//  Dependencies Pointer:
 let gMemeController
 
 function init(dependencies) {
-    gMemeController = {...dependencies,
+    const { getMeme } = MEME_SERVICE
+    gMemeController = {
+        ...dependencies,
         isTouchScreen: false,
         isDraw: false,
         isGrab: false,
         isScale: false,
         elCtx: dependencies.elMeme.getContext('2d'),
+        getMeme,
         onSaveMeme,
-        onSetLinePos,
         onSetMeme,
     }
-    gMemeController.elCtx.fillStyle = 'black'
     // Init Ctx
-    console.log(`🚀 ~ gMemeController`, gMemeController)
+    gMemeController.elCtx.fillStyle = 'black'
     gMemeController.elCtx.strokeShape = 'circle'
     gMemeController.elCtx.strokeStyle = 'white'
 
@@ -35,17 +36,9 @@ function init(dependencies) {
     elMeme.addEventListener('touchend', onUp)
 
     // Update Main controller
-    console.log('gMemeController:', gMemeController)
     return gMemeController
 }
 
-function onSaveMeme() {
-    console.log(`🚀 ~ onSaveMeme`,)
-    console.log('event:', event)
-    console.log('getMeme(),', getMeme());
-}
-
-// Events handler
 function onMove() {
     const { isTouchScreen, isDarg, isScale, isDraw } = gMemeController
     if (!isTouchScreen) return
@@ -65,7 +58,6 @@ function onMove() {
     //     else document.body.style.cursor = 'default'
     // }
 }
-
 function onUp() {
     gMemeController.isDraw = gMemeController.isGrab =
         gMemeController.isScale = gMemeController.isScale = false
@@ -73,22 +65,12 @@ function onUp() {
     console.log('window.innerWidth:', window.innerWidth)
     // document.body.style.cursor = 'grab';
 }
-
 function onDown() {
     const touchPos = gMemeController.getPosOnEl(event)
     console.log(`🚀 ~ touchPos`, touchPos)
 }
-function onSetLinePos() {
-    console.log('event:', event)
-}
-// come to MainController
-function onSetMeme(meme) {
-    console.log(`🚀 ~ onSetMeme`, meme)
-    MEME_SERVICE.setMeme(meme)
-    renderMeme()
-}
 
-// Resize Using offsetWidth and render again
+// Resize Meme Container offsetWidth and render again
 function resizeMeme() {
     const { elMemeContainer } = gMemeController
     elMemeContainer.width = elMemeContainer.offsetWidth
@@ -125,32 +107,72 @@ function renderMeme() {
 
 // Get Line model from Service And render
 function drawLine(line) {
-    if (!event.type === 'resize') console.log(`🚀 UT~ line`, line)
-
+    // console.log(`🚀 ~ line`, line)
     const { elCtx, elMeme } = gMemeController
     elCtx.beginPath()
     elCtx.lineWidth = line.lineWidth
     elCtx.textAlign = line.textAlign
     elCtx.fillStyle = line.fillStyle
     elCtx.strokeStyle = line.strokeStyle
+
     // Set Font 
     const { fontMap } = line
     elCtx.font = `${fontMap.size}${fontMap.sizeUnit} ${fontMap.family}`
-    // Set pos
+
+    // Opt start without Pos
     let posX
     let posY
-    if (!line.x) posX = elMeme.width / 2
-    if (!line.y) posY = elMeme.height / 2
+    if (!line.x) {
+        posX = elMeme.width / 2
+        const updatePos = {
+            pos: {
+                x: posX
+            }
+        }
+        MEME_SERVICE.setLine(updatePos)
+    }
+    if (!line.y) {
+        posY = elMeme.height / 2
+        const updatePos = {
+            pos: {
+                y: posY
+            }
+        }
+        MEME_SERVICE.setLine(updatePos)
+        posY = elMeme.height / 2
+    }
     elCtx.fillText(line.txt, posX, posY)
     elCtx.strokeText(line.txt, posX, posY)
     elCtx.closePath()
 }
 
+// Go to MainController
+function onSetMeme(meme) {
+    if (meme) MEME_SERVICE.setMeme(meme)
+    else {
+        const { elMeme } = gMemeController
+        switch (event.target.value) {
+            case 'up':
+                console.log('up');
+                const { y } = gMemeController.getMeme().pos || elMeme.height / 2
+                const updatedData = { y: y + 5 + 'px' }
+                MEME_SERVICE.setMeme(updatedData)
+                break;
 
-// run over elCtx  
-function setCtx(ctxKeys) {
-    let elCtx = { elCtx } = gMemeController
-    elCtx = { ...elCtx, ...ctxKeys }
+            default:
+                console.log('Default?');
+                break;
+        }
+    }
+    renderMeme()
+}
+function onSaveMeme() {
+    console.log(`🚀 ~ onSaveMeme`,)
+    console.log('event:', event)
+    console.log('getMeme(),', getMeme());
+}
+function onShareMeme() {
+    console.log('onShareMeme event:', event)
 }
 function shareMeme(uploadedImgUrl) {
     uploadedImgUrl = encodeURIComponent(uploadedImgUrl);
@@ -163,15 +185,32 @@ function shareMeme(uploadedImgUrl) {
     </a>`
     renderModal(strHtml)
 }
+
+
+
+
+// function setTxt(txt) {
+//     const { lines, selectedLineIdx } = MEME.meme
+//     lines[selectedLineIdx].txt = txt
+// }
+
+// function setTxtSize(diff) {
+//     const { lines, selectedLineIdx } = MEME.meme
+//     lines[selectedLineIdx].size += diff
+// }
+
+// run over elCtx  
+function setCtx(ctxKeys) {
+    let elCtx = { elCtx } = gMemeController
+    elCtx = { ...elCtx, ...ctxKeys }
+}
+
 function onDownloadMeme(elLink) {
     const data = elMeme.toDataURL()
     elLink.href = data
     elLink.download = 'My_Meme'
 }
-
-
 //Download& share
-
 function moveLine(diffX = 0, diffY = 0) {
     const line = getLine()
     const { elMeme } = gMemeController
@@ -183,7 +222,6 @@ function moveLine(diffX = 0, diffY = 0) {
     line.pos.x = posX
     line.pos.y = posY
 }
-
 
 // function onDownloadMeme() {
 //     renderMeme(false)

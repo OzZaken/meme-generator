@@ -1,7 +1,7 @@
 export const MEME_SERVICE = {
-    setMeme,
     getMeme,
-    setSelectedLine,
+    setMeme,
+    setLine,
 }
 
 const MEME = {
@@ -27,9 +27,9 @@ const MEME = {
                 },
                 isDrag: false,
                 isSaved: false,
-            },
+            }
         ]
-    },
+    }
 }
 
 // Return Meme
@@ -39,34 +39,26 @@ function getMeme() {
 
 // OverRight Meme
 function setMeme(meme) {
+    console.log(`📝 ~ Service update MEME`, MEME.meme,'\nWITH:',meme)
     MEME.meme = {
         ...MEME.meme,
         ...meme
     }
+    console.log(`📝 ~ Service UPDATED MEME`, MEME.meme)
 }
 
-function setSelectedLine(diff) {
+// OverRight Line
+function setLine(updatedValues) {
+    console.log(`📝 ~ Service update LINE`, updatedValues)
     const { meme } = MEME
-    const { lines } = meme
-    if (meme.selectedLineIdx >= lines.length) meme.selectedLineIdx = 0
-    meme.selectedLineIdx += diff
+    const { lines, selectedLineIdx } = meme
+    lines[selectedLineIdx] = {
+        ...lines[selectedLineIdx],
+        ...updatedValues
+    }
+    console.log(`📝 ~ Service UPDATED LINE`, lines[selectedLineIdx])
 }
 
-
-
-function onSaveMeme() {
-    
-}
-
-// function setTxt(txt) {
-//     const { lines, selectedLineIdx } = MEME.meme
-//     lines[selectedLineIdx].txt = txt
-// }
-
-// function setTxtSize(diff) {
-//     const { lines, selectedLineIdx } = MEME.meme
-//     lines[selectedLineIdx].size += diff
-// }
 
 // function getNewLine(txt = 'New txt line') {
 //     return {
@@ -183,7 +175,7 @@ function onSaveMeme() {
 // function getStokeSize() {
 //     return gStroke.size
 // }
-// function drawRect(x, y) { //? have some bugs 
+// function drawRect(x, y) { //? have some bugs
 //     gCtx.beginPath()
 //     gCtx.rect(gPosOnDown.x, gPosOnDown.y, x - gPosOnDown.x, y - gPosOnDown.y)
 //     gCtx.fillStyle = gFillColor

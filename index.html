@@ -106,32 +106,36 @@
             <div class="btns-editor-container">
                 <div class="editor-container">
                     <!-- Btns -->
-                    <i onclick="app.onSetLinePos()" value="0,10" role="button" title="Move text up"
-                        class="fa fa-arrow-up">
-                    </i>
-                    <i value="0,-10" onclick="app.onSetLinePos()" title="Move text Down"
+                    <button onclick="app.onSetMeme()" value="up" role="button" title="Move text up"
+                        class="i-arrow-up">
+                    </button>
+
+                    <button value="{0,-10}" onclick="app.onSetLine()" title="Move text Down"
                         class="setting-btn  fa-arrow-down">
-                    </i>
-                    <i onclick="app.onSwitchLines()" title="Switch between lines"
-                        class="setting-btn  fa-arrow-up-arrow-down">
+                    </button>
+
+                    <button onclick="app.onSwitchLines()" title="Switch between lines"
+                        class="setting-btn fa-arrow-up-arrow-down">
                         ↑↓
-                    </i>
-                    <i onclick="app.onAddTxtLine()" title="Add txt line" class="add-text-line-btn setting-btn  fa-plus">
-                    </i>
-                    <i onclick="app.onDeleteTxtLine()" title="Delete last line" class="setting-btn fa-trash">
-                    </i>
-                    <i onclick="app.onChangeElSize(5)" title="Size Up" class="setting-btn">
+                    </button>
+                    <button onclick="app.onAddTxtLine()" title="Add txt line"
+                        class="add-text-line-btn setting-btn  fa-plus">
+                    </button>
+                    <button onclick="app.onDeleteTxtLine()" title="Delete last line" class="setting-btn fa-trash">
+                    </button>
+                    <button onclick="app.onChangeElSize(5)" title="Size Up" class="setting-btn">
                         A+
-                    </i>
-                    <i onclick="app.onChangeElSize(-5)" title="Size Down" class="1fa-text-size setting-btn">
+                    </button>
+                    <button onclick="app.onChangeElSize(-5)" title="Size Down" class="1fa-text-size setting-btn">
                         A-
-                    </i>
-                    <i onclick=" onChangeAlign('left')" title="align left" class="setting-btn  fa-align-left">
-                    </i>
-                    <i onclick="app.onChangeAlign('center')" title="align center" class="setting-btn  fa-align-center">
-                    </i>
-                    <i onclick="app.onChangeAlign('right')" title="align left" class="setting-btn  fa-align-right">
-                    </i>
+                    </button>
+                    <button onclick=" onChangeAlign('left')" title="align left" class="setting-btn  fa-align-left">
+                    </button>
+                    <button onclick="app.onChangeAlign('center')" title="align center"
+                        class="setting-btn  fa-align-center">
+                    </button>
+                    <button onclick="app.onChangeAlign('right')" title="align left" class="setting-btn  fa-align-right">
+                    </button>
                     <!-- Select Fonts -->
                     <select title="Select fonts" onchange="app.onChangeFont(this.value)" class="font-select fa-solid"
                         name="change-fonts">
@@ -244,7 +248,8 @@
     </footer>
 
     <!-- Util Tags/Cmps -->
-    <input hidden type="file" accept="image/png, image/jpeg, image/jpg" id="upload-img" name="upload-img" onchange="app.onUploadImg()"/>
+    <input hidden type="file" accept="image/png, image/jpeg, image/jpg" id="upload-img" name="upload-img"
+        onchange="app.onUploadImg()" />
     <div class="user-msg"></div>
     <div class="screen" onclick="app.onTouchScreen()"></div>
     <div class="modal" hidden onclick="app.onTouchModal()"></div>

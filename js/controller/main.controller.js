@@ -5,6 +5,14 @@ import { UTIL_SERVICE } from "../service/util.service.js";
 import { GALLERY_CONTROLLER } from "../controller/gallery.controller.js";
 import { MEME_CONTROLLER } from "../controller/meme.controller.js";
 
+// #MVC rules:
+// renderFunc Execute From controller.
+// onFunc in controller Deliver and end on MainController.
+// controller have One Global State reference.
+// Service have Init State Updated by his controller only.
+
+
+
 // Pointer Controller dependencies
 let gMainController
 
@@ -59,23 +67,14 @@ function onInit() {
         ...MEME_CONTROLLER.init(initMemeData)
     }
 
-    // Send Dom The App
-    // 
+    // Send Dom The App Func
     const {
         onSetAspectRatio,
         onClickKeyword,
         onSetFilter,
-        onClickTotalKeywords
+        onClickTotalKeywords,
+        onSetMeme,
     } = gMainController
-// renderGallery,
-// renderKeywordsOpts,
-// renderKeywordsBtns,
-
-// onSetFilter,
-// onSetAspectRatio,
-// onClickKeyword,
-// onClickTotalKeywords,
-// onAddImg,
 
     window.app = {
         gMainController, //TODO UT : remember Delete!
@@ -93,6 +92,7 @@ function onInit() {
         onClickKeyword,
         onClickTotalKeywords,
         // Meme
+        onSetMeme,
     }
 
     // Gallery
@@ -173,19 +173,19 @@ function onNav(navToStr) {
     const { elNavBack } = gMainController.links
 
     if (navToStr === 'edit') {
-        const { src } = MEME_SERVICE.getMeme()
+        const { src } = gMainController.getMeme()
         if (!src) {
             elNavBack.hidden = false
-            const strHTML = `
-           <h2>no image selected!</h2>
+            const strHTML = 
+            `
+            <h2>no image selected!</h2>
             <a class="nav-back" onclick="app.onNav()" title="return to gallery" href="#"></a>
-            <p>
-            Choose from the the
+            <p>Choose from the the
             <span role="link" data-href="#" class="btn underline" title="return to gallery" onclick="app.onNav()" tabindex="0">
             Gallery
             </span>
             </p>
-            <label for="upload-img">Or Choose from Your Device!</label>
+            <label for="upload-img">We Recommended Uploads Your Image!</label>
             `
             renderModal(false, strHTML)
         }
