@@ -3,13 +3,16 @@ import { UTIL_SERVICE } from '../service/util.service.js'
 
 export const GALLERY_CONTROLLER = {
     initGalleryController,
+
     renderGallery,
     renderKeywordsOpts,
     renderKeywordsBtns,
+
     onSetFilter,
     onSetAspectRatio,
     onClickKeyword,
     onClickTotalKeywords,
+    onAddImg,
 }
 
 // Dependencies reference pointer 
@@ -64,7 +67,7 @@ function renderGallery() {
     ${CapitalName}s
     </div>
     <label for="upload-img">Upload Image</label>
-    <input type="file" id="upload-img" name="upload-img" onchange="app.onUploadImg(event)"/>
+    <input type="file" accept="image/png, image/jpeg, image/jpg" id="upload-img" name="upload-img" onchange="app.onUploadImg(event)"/>
     </div>
     `)
     // Render Gallery
@@ -134,4 +137,28 @@ function onClickTotalKeywords(ev, elBtnKeywordsContainer) {
         return `<span role="button" data-pos="modal" class="btn-keyword" onclick="app.onSetFilter(this.innerText);app.onTouchModal(true)">${keyword}</span>`
     }).join('')
     gGallery.renderModal(ev, displayKeywords)
+}
+
+function doUploadImg(imgDataUrl, onSuccess) {
+    const formData = new FormData()
+    formData.append('img', imgDataUrl)
+
+    fetch('//ca-upload.com/here/upload.php', {
+        method: 'POST',
+        body: formData
+    })
+        .then(res => res.text())
+        .then((url) => {
+
+
+            console.log('Got back live url:', url)
+            onSuccess(url)
+        })
+        .catch((err) => {
+            console.error(err)
+        })
+}
+
+function onAddImg(src) {
+    GALLERY_SERVICE.createImage(src)
 }

@@ -9,6 +9,7 @@ export const GALLERY_SERVICE = {
     getKeywordsForDisplay,
     getKeyWordsCountMap,
     setGalleryStorageKey,
+    createImage,
 }
 
 // Initial Images 
@@ -71,10 +72,15 @@ function getImgsCount() {
     return imgs.length
 }
 
-function addImg(imgData) {
-    console.log(`🚀 ~ Saving Image`, imgData)
-    const { path, name, fileType, keywords } = imgData
-    GALLERY.imgs.push({ url: `${path}${name}.${fileType}`, keywords })
+function createImage(src) {
+    console.log(`🚀 ~ Saving Image`, src)
+    const url = src
+
+
+    return
+    const { path, name, fileType, keywords } = src
+    GALLERY.imgs.push({ src: `${path}${name}.${fileType}` })
+
     const { storageKey } = GALLERY
     STORAGE_SERVICE.saveToStorage(storageKey, GALLERY.imgs)
 }

@@ -89,8 +89,7 @@ ul.keyword-container,
     padding-top: 10px;
 
     display: grid;
-    justify-content: center;
-    justify-items: center;
+    place-content: center;
     grid-auto-flow: row dense;
     grid-template-columns: repeat(auto-fill, minmax(100px, 2fr));
     gap: 10px;
@@ -123,14 +122,13 @@ ul.keyword-container,
 .gallery-loading {
     border-radius: 1em;
     box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.637);
+    transition: opacity scale 1s;
     border: 1px solid var(--clr-prim);
 }
 
 img.gallery-item:hover {
     cursor: pointer;
-    transition: opacity scale 1s;
     transform: scale(1.04);
-    filter: opacity(0.8);
 }
 
 /* Stat */

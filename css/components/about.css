@@ -23,4 +23,38 @@ body.page-about .main-about-container {
     }
 }
 
-/* TODO: about using checkBox hack */
+/* The Checkbox Hack */
+.about-work  {
+    /* float: left; */
+    opacity: 0;
+    transition: .5s;
+}
+
+#is-about-work {
+    opacity: 0;
+    /* display: none; */
+}
+
+#is-about-work:checked+.about-work {
+    display: block;
+    opacity: 1;
+}
+
+.about-me-img,
+.about-meme-img {
+    height: 30vw;
+    width: 30vw;
+}
+
+.about-me-img {
+
+    float: right;
+    border-radius: 50%;
+    background-image: url('../../assets/img/gallery/7.jpg');
+}
+
+.about-meme-img {
+    float: left;
+    border-radius: .3em;
+    background-image: url('../../assets/img/gallery/2.jpg');
+}

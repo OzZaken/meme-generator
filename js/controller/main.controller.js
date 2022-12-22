@@ -4,12 +4,15 @@ import { UTIL_SERVICE } from "../service/util.service.js";
 import { GALLERY_CONTROLLER } from "../controller/gallery.controller.js";
 import { MEME_CONTROLLER } from "../controller/meme.controller.js";
 import { MEME_SERVICE } from "../service/meme.service.js";
+// switch img based url 
+// const fileName = url.substr(url.lastIndexOf('/') + 1)
+// imgAvatar.src = 'img/' + fileName.replace(/\d/, digit => (+digit >= 5) ? 1 : +digit + 1)
 
 // Pointer to Controller dependencies
 let gMainController
 
 // #1 rule: give only What necessary
-window.app = {onInit}
+window.app = { onInit }
 
 function onInit() {
     // TODO: if user already been in the site welcome back
@@ -49,9 +52,10 @@ function onInit() {
     }
 
     // After collected All dependencies Send To Dom
-    const { onSetAspectRatio, onClickKeyword, onSetFilter ,onClickTotalKeywords} = GALLERY_CONTROLLER
+    const { onSetAspectRatio, onClickKeyword, onSetFilter, onClickTotalKeywords } = GALLERY_CONTROLLER
     window.app = {
         // gMainController,//TODO UT : remember remove
+        onUploadImg,
         onReLoadPage,
         onTranslateDom,
         onNav,
@@ -60,7 +64,6 @@ function onInit() {
         onTouchModal,
         // Gallery
         onImgSelect,
-        onUploadImg,
         onSetFilter,
         onSetAspectRatio,
         onClickKeyword,
@@ -166,10 +169,10 @@ function onNav(navToStr) {
 function onTouchScreen() {
     event.stopPropagation()
     if (document.body.classList.contains('mobile-menu-open')) {
-        console.log(`🚀 ~ mobile-menu-open`)
         onToggleMenu()
         return
     }
+
     onTouchModal(true)
 }
 
@@ -192,7 +195,6 @@ function onTouchModal(isForceClose) {
         style.top = '-101vh'
         // Notify screen  
         document.body.classList.remove('modal-open')
-        // Todo: add hidden make sure impassible to see
     }
 }
 
@@ -264,29 +266,14 @@ function getPosOnEl(ev) {
     return pos
 }
 
-function onUploadImg(event) {
-    console.log(`🚀 ~ event`, event)
-    const { elUploadImg } = gMainController
-    elUploadImg.innerHTML = ''
-    const reader = new FileReader()
-    reader.onload = (event) => {
-        const img = new Image()
-        img.src = src
-        onImgSelect(event)
-    }
-    reader.readAsDataURL(ev.target.files[0])
-}
-
 // The linking Func between GALLERY to MEME.
-function onImgSelect(event) {
+function onImgSelect(event, uploadImgSrc) {
     flashMsg(`Image\n selected.`)
-    console.log('event.type:', event.type)
-
 
     const isSelectExitImage = event.type === 'click'
     const isUploadNewImage = event.type === 'change'
 
-    const memeSrc = isSelectExitImage ? event.target.src : isUploadNewImage ? event.target.result : null
+    const memeSrc = isSelectExitImage ? event.target.src : isUploadNewImage ? uploadImgSrc : null
     const memeKeywords = isSelectExitImage ? event.target.dataset.keyword.split(',') : []
     // const aspectRatio = isSelectExitImage ? event.target.style.aspectRatio : null
 
@@ -299,43 +286,12 @@ function onImgSelect(event) {
     onNav('edit')
 }
 
-
-// function onShareMeme() {
-//     var elCanvas = getElCanvas()
-//     console.log('elCanvas:', elCanvas)
-//     const imgDataUrl = elCanvas.toDataURL('image/jpeg')
-//     // A function to be called if request succeeds
-//     function onSuccess(uploadedImgUrl) {
-//         const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
-//         // console.log(encodedUploadedImgUrl)
-//         document.querySelector(
-//             '.url-msg'
-//         ).innerText = `Your photo is available here: ${uploadedImgUrl}`
-//         document.querySelector('.sharing-btn').innerHTML = `
-//             <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
-//                Share
-//             </a>`
-//     }
-//     doUploadImg(imgDataUrl, onSuccess)
-// }
-
-// function doUploadImg(imgDataUrl, onSuccess) {
-
-//     const formData = new FormData();
-//     formData.append('img', imgDataUrl)
-
-//     fetch('//ca-upload.com/here/upload.php', {
-//         method: 'POST',
-//         body: formData
-//     })
-//         .then(res => res.text())
-//         .then((url) => {
-
-
-//             console.log('Got back live url:', url)
-//             onSuccess(url)
-//         })
-//         .catch((err) => {
-//             console.error(err)
-//         })
-// }
+function onUploadImg(ev) {
+    let reader = new FileReader()
+    reader.onload = (event) => {
+        let img = new Image()
+        img.src = event.target.result
+        onImgSelect(ev, event.target.result)
+    }
+    reader.readAsDataURL(ev.target.files[0])
+}

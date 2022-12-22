@@ -4,13 +4,21 @@ section.main-edit-container {
     right: 120vw;
 }
 
+/* TODO: make sure needed */
+body.page-edit {
+    /* overflow-x: hidden; */
+    /* overflow-y: hidden; */
+}
+
 body.page-edit .main-edit-container {
     position: unset;
     animation: fade-in-right .8s;
     right: unset;
 }
 
-.fade-in-right {animation-name: fade-in-right;}
+.fade-in-right {
+    animation-name: fade-in-right;
+}
 
 @keyframes fade-in-right {
     from {
@@ -24,15 +32,33 @@ body.page-edit .main-edit-container {
     }
 }
 
+/* Laptop */
+@media (min-width: 769px) {
+    .main-edit-container {}
+}
+
+/* DESKTOP */
+@media (min-width: 1020px) {
+    .main-edit-container {}
+}
+
 /* Meme Keywords */
-h2.keyword-heading {float: left;}
-h2.keyword-heading::before {content: 'Meme Keywords: ';}
+h2.keyword-heading {
+    float: left;
+}
+
+h2.keyword-heading::before {
+    content: 'Meme Keywords: ';
+}
 
 /* add keyword Form */
-.keyword-form-container{
+.keyword-form-container {
     padding: 10px;
 }
-.meme-keyword-form {float: right;}
+
+.meme-keyword-form {
+    float: right;
+}
 
 input[name="meme-keyword"] {
     padding: 5px 5px;
@@ -47,19 +73,34 @@ canvas#meme {
     margin: 0 auto;
 }
 
-canvas#meme {max-height: 50vh;}
-/*                                  🐱‍👤👀🐱‍👤 */
-input[name="line-txt"] {
-    display: flex;
-    font-family: fa-solid;
-    padding: 10px 15px;
-    width: 80%;
-    margin: auto;
-    grid-column-start: 1;
-    grid-column-end: 6;
+canvas#meme {
+    max-height: 50vh;
 }
 
+/*                                  🐱‍👤👀🐱‍👤 */
+.form-meme-keyword,
+.form-meme-line-txt{
+    display: flex;
+    width: 50%;
+}
+
+input[name="meme-keyword"],
+input[name="line-txt"] {
+    padding: 10px 15px;
+    font-family: fa-solid;
+}
+
+.form-meme-keyword{
+    float: left;
+}
+
+.form-meme-line-txt{
+    float: right;
+}
+
+
 .editor-container {
+    clear: both;
     display: grid;
     justify-content: center;
     grid-template-columns: repeat(5, 4em);

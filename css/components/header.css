@@ -10,7 +10,8 @@ header.header {
     width: 100%;
 
     z-index: 1;
-    height: 80px;
+    min-height: auto;
+    max-height: 80px;
 
     padding: 1rem;
     color: var(--clr-brightest);

@@ -33,14 +33,14 @@
                 </li>
             </ul>
         </nav>
-        <!-- i18 -->
+        <!-- I18n -->
         <label for="select-lang"></label>
-            <select name="select-lang" class="lang" onchange="app.onSetLang(this.value)">
-                <option value="en">English</option>
-                <option value="he">עברית</option>
-            </select>
+        <select name="select-lang" class="lang" onchange="app.onSetLang(this.value)">
+            <option value="en">English</option>
+            <option value="he">עברית</option>
+        </select>
         <!-- Nav Back -->
-        <a class="nav-back" onclick="app.onNav();onTouchScreen()" hidden title="return to gallery" href="#"></a>
+        <a class="nav-back" onclick="app.onNav();app.onTouchScreen()" hidden title="return to gallery" href="#"></a>
         <!-- ☰ Mobile Menu Btn-->
         <div hidden role="button" class="btn-toggle-menu" onclick="app.onToggleMenu()">
             <svg width="40" height="40" viewBox="0 0 40 40">
@@ -62,15 +62,15 @@
             <label for="Filter Images"></label>
             <datalist id="gallery-keyword"></datalist>
             <form class="gallery-search" onsubmit="app.onSetFilter()">
-                <input list="gallery-keyword" oninput="app.onSetFilter(this.value)" 
-                name="gallery-filter" type="search" placeholder="Search Image">
+                <input list="gallery-keyword" oninput="app.onSetFilter(this.value)" name="gallery-filter" type="search"
+                    placeholder="Search Image">
                 <button class="btn-filter"></button>
             </form>
             <button onclick="app.onSetRandMeme()" class="btn-big btn-i-flexible">I'am Flexable</button>
             <!-- Keywords Btns Container -->
             <ul class="gallery-keyword-container"></ul>
             <!-- Images Container -->
-            <div class="gallery-container"> 
+            <div class="gallery-container">
 
             </div>
         </section>
@@ -80,24 +80,26 @@
             <h1 class="edit-heading">choose image first!</h1>
             <!-- Meme Keywords -->
             <h2 class="keyword-heading meme-keyword-container"></h2>
-            <div  class="keyword-form-container">
-                <label for="Add keyword"></label>
-                <form list="gallery-keyword" class="meme-keyword-form" onsubmit="event.preventDefault();onAddKeyword()">
-                    <input onsubmit="app.onAddKeyword(this.value)" name="meme-keyword" type="text"
-                        placeholder="Add new keyword">
-                </form>
-            </div>
+
             <!-- Meme -->
             <div class="meme-container">
                 <canvas id="meme" height="350" width="350"></canvas>
             </div>
-            <!-- Add Text Line -->
-            <div class="btns-editor">
+            <!-- meme-Inputs-container -->
+            <div class="Inputs-meme-container">
                 <!-- Add Text Line -->
-                <form onsubmit="event.preventDefault()">
-                    <label for="Add New Text line"></label>
+                <label for="Add New Text line"></label>
+                <form class="form-meme-line-txt" onsubmit="ev.preventDefault();app.onAddTxtLine()">
                     <input name="line-txt" onsubmit="app.onAddTxtLine()" type="search" placeholder="Add new text line"
                         list="gallery-keyword" title="Add New Text line">
+                    <button hidden></button>
+                </form>
+                <!-- Add Keyword -->
+                <label for="Add keyword"></label>
+                <form list="gallery-keyword" class="form-meme-keyword" onsubmit="event.preventDefault();onAddKeyword()">
+                    <input onsubmit="app.onAddKeyword(this.value)" name="meme-keyword" type="text"
+                        placeholder="Add new keyword">
+                    <button hidden></button>
                 </form>
             </div>
             <!-- 🐱‍👤 -->
@@ -105,15 +107,18 @@
                 <div class="editor-container">
                     <!-- Btns -->
                     <i onclick="app.onChangeLinePos(0,-20)" title="Move text up" class="fa fa-arrow-up"></i>
-                    <i onclick="app.onChangeLinePos(0,20)" title="Move text Down" class="setting-btn  fa-arrow-down"></i>
+                    <i onclick="app.onChangeLinePos(0,20)" title="Move text Down"
+                        class="setting-btn  fa-arrow-down"></i>
                     <i onclick="app.onSwitchLines()" title="Switch between lines"
                         class="setting-btn  fa-arrow-up-arrow-down">↑↓</i>
-                    <i onclick="app.onAddTxtLine()" title="Add txt line" class="add-text-line-btn setting-btn  fa-plus"></i>
+                    <i onclick="app.onAddTxtLine()" title="Add txt line"
+                        class="add-text-line-btn setting-btn  fa-plus"></i>
                     <i onclick="app.onDeleteTxtLine()" title="Delete last line" class="setting-btn fa-trash"></i>
                     <i onclick="app.onChangeElSize(5)" title="Size Up" class="setting-btn">A+</i>
                     <i onclick="app.onChangeElSize(-5)" title="Size Down" class="1fa-text-size setting-btn">A-</i>
                     <i onclick=" onChangeAlign('left')" title="align left" class="setting-btn  fa-align-left"></i>
-                    <i onclick="app.onChangeAlign('center')" title="align center" class="setting-btn  fa-align-center"></i>
+                    <i onclick="app.onChangeAlign('center')" title="align center"
+                        class="setting-btn  fa-align-center"></i>
                     <i onclick="app.onChangeAlign('right')" title="align left" class="setting-btn  fa-align-right"></i>
                     <!-- Select Fonts -->
                     <select title="Select fonts" onchange="app.onChangeFont(this.value)" class="font-select fa-solid"
@@ -151,14 +156,38 @@
         <!-- About -->
         <section class="page main-about-container">
             <h1>about</h1>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Maiores iure, ipsam recusandae minima beatae,
-            earum perferendis aperiam veritatis labore neque ab unde sed non. Porro magnam quis ullam labore assumenda?
+            
+            <article class="about-me">
+                <h2>me</h2>
+                <div class="about-me-img"></div>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium consectetur fugiat aliquid
+                    nesciunt assumenda similique, veniam ratione tempore debitis obcaecati ab maiores reprehenderit
+                    maxime quaerat dignissimos incidunt? Voluptas, aliquid sint!
+                </p>
+            </article>
+           <article class="about-meme-gen">
+            <h2>MemeGenerator</h2>
+            <p>
+                Meme Generator is a web-based tool that allows users to quickly and easily create their own visual image meme. In this case, a meme is media content that usually consists of a popular image and typically two sections of text: one at the top and one at the bottom.
+            </p>
+           </article>
+            <label for="is-about-work">Open My Work ➤</label>
+            <input id="is-about-work" type="checkbox" />
+            <article class="about-work">
+                <h2>Creating The App</h2>
+            <div class="about-work-img"></div>
+                <p>well... ⏰ it`s take lots off Coffee, relax, tranquillo yahabibi dolor sit amet consectetur adipisicing elit.
+                    Vitae,
+                    alias debitis aspernatur quos dolore non placeat sint in voluptates assumenda eius cupiditate quia
+                    delectus enim hic culpa, magnam impedit tenetur?</p>
+            </article>
         </section>
     </main>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
+            <span>Generate Your way</span>
             <div class="logo"></div>
 
             <ul class="footer-text flex justify-center">
@@ -198,7 +227,7 @@
     <div class="screen" onclick="app.onTouchScreen()"></div>
     <div class="modal" hidden onclick="app.onTouchModal()"></div>
 
-    <script type="module"  src="js/controller/main.controller.js"></script>
+    <script type="module" src="js/controller/main.controller.js"></script>
 </body>
 
 </html>

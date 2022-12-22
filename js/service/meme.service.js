@@ -52,39 +52,52 @@ function setSelectedLine(diff) {
     meme.selectedLineIdx += diff
 }
 
-function setTxt(txt) {
-    const { lines, selectedLineIdx } = MEME.meme
-    lines[selectedLineIdx].txt = txt
+
+function onSaveMeme() {
+    
 }
 
-function setTxtSize(diff) {
-    const { lines, selectedLineIdx } = MEME.meme
-    lines[selectedLineIdx].size += diff
-}
-
-function getNewLine(txt = 'New txt line') {
-    return {
-        txt,
-        lineWidth: 2,
-        textAlign: 'center',
-        fillStyle: 'black',
-        strokeStyle: 'red',
-        fontMap: {
-            size: 30,
-            sizeUnit: 'px',
-            family: 'impact',
-        },
-    }
-}
-
-// function _saveToStorage() {
-//     const { storageKey, memes } = MEME_SERVICE
-//     STORAGE_SERVICE.saveToStorage(storageKey, memes)
+// function setTxt(txt) {
+//     const { lines, selectedLineIdx } = MEME.meme
+//     lines[selectedLineIdx].txt = txt
 // }
 
-// function _loadFromStorage() {
-//     const { storageKey } = MEME_SERVICE
-//     return STORAGE_SERVICE.loadFromStorage(storageKey)
+// function setTxtSize(diff) {
+//     const { lines, selectedLineIdx } = MEME.meme
+//     lines[selectedLineIdx].size += diff
+// }
+
+// function getNewLine(txt = 'New txt line') {
+//     return {
+//         txt,
+//         lineWidth: 2,
+//         textAlign: 'center',
+//         fillStyle: 'black',
+//         strokeStyle: 'red',
+//         fontMap: {
+//             size: 30,
+//             sizeUnit: 'px',
+//             family: 'impact',
+//         },
+//     }
+// }
+// function onShareMeme() {
+//     var elCanvas = getElCanvas()
+//     console.log('elCanvas:', elCanvas)
+//     const imgDataUrl = elCanvas.toDataURL('image/jpeg')
+//     // A function to be called if request succeeds
+//     function onSuccess(uploadedImgUrl) {
+//         const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
+//         // console.log(encodedUploadedImgUrl)
+//         document.querySelector(
+//             '.url-msg'
+//         ).innerText = `Your photo is available here: ${uploadedImgUrl}`
+//         document.querySelector('.sharing-btn').innerHTML = `
+//             <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
+//                Share
+//             </a>`
+//     }
+//     doUploadImg(imgDataUrl, onSuccess)
 // }
 // function isDrag() {
 // 	return MEME.meme.isDrag
@@ -185,8 +198,4 @@ function getNewLine(txt = 'New txt line') {
 //     gCtx.lineTo(pos.x, pos.y)
 //     gCtx.stroke()
 // }
-// function saveMeme() {
-//     gSavedMemes.push(gMeme)
-//     console.log('gSavedMemes:', gSavedMemes)
-//     _saveMemeToStorage()
-// }
+

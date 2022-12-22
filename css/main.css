@@ -2,6 +2,7 @@
 @import "setup/var.css";
 @import "setup/typography.css";
 @import "setup/font-awesome.css";
+@import "setup/normalize.css";
 
 /* Basic */
 @import "basic/logo.css";

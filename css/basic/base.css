@@ -13,14 +13,6 @@ body {
     font-size: 1rem;
 }
 
-/* TODO: make sure needed */
-body.page-edit {
-    max-width: 100vh;
-    max-height: 100vh;
-    overflow-x: hidden;
-    overflow-y: hidden;
-}
-
 /* i18 */
 body.he {
     direction: rtl;
@@ -57,11 +49,15 @@ h1:not(:first-child) {
     }
 }
 
+
 h2 {
-    font-size: 4.9vw;
-    line-height: 1.875rem;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(3vw + 1em);
+    width: 100%;
     color: var(--clr-sec);
-    font-size: 3.0vh;
 }
 
 h3 {
@@ -72,7 +68,15 @@ h3 {
 }
 
 p {
-    font-size: 2vmin;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    padding: 0 10px;
+    color: var(--clr-darkest);
+    font-size: 2vmin + 1rem;
+}
+
+p::first-line {
+    color: var(--clr-sec);
+    font-style: italic;
 }
 
 /* Scroll*/
@@ -88,14 +92,18 @@ body::-webkit-scrollbar-track {
 
 body::-webkit-scrollbar-thumb {
     background-color: var(--clr-darkest);
-    outline: 1px solid var(--clr-darker);
-    border-radius: 25px;
+    border-radius: 20px;
     border: 1px solid var(--clr-prim);
 }
 
 ::selection {
     background-color: var(--clr-prim);
     color: var(--clr-sec);
+}
+
+::placeholder {
+    font-size: 1rem;
+    color: var(--clr-bright);
 }
 
 input:focus {

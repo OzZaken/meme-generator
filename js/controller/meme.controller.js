@@ -16,7 +16,11 @@ function shareMeme(uploadedImgUrl) {
     </a>`
     renderModal(strHtml)
 }
-
+function onDownloadMeme(elLink) {
+    const data = elMeme.toDataURL()
+    elLink.href = data
+    elLink.download = 'My_Meme'
+}
 //  dependencies pointer:
 let gMemeController
 
@@ -125,11 +129,7 @@ function setCtx(ctxKeys) {
     elCtx = { ...elCtx, ...ctxKeys }
 }
 
-function onDownloadMeme(elLink) {
-    const data = elMeme.toDataURL()
-    elLink.href = data
-    elLink.download = 'My_Meme'
-}
+
 //*                                   🐱‍👤👀🐱‍👤   
 function onMove(ev) {
     const { isTouchScreen, isDarg, isScale, isDraw } = gMemeController
@@ -161,37 +161,6 @@ function onDown(ev) {
     console.log(ev);
 }
 
-// function onUploadImg(elForm, onSuccess) {
-//     let formData = new FormData(elForm);
-//     console.log(`🚀 ~ formData`, formData)
-//     fetch('//ca-upload.com/here/upload.php', {
-//         method: 'POST',
-//         body: formData,
-//     })
-//         .then(res => res.text())
-//         .then(onSuccess)
-//         .catch(err => console.error(err))
-// }
-function onUploadImg(ev) {
-    console.log(`🚀 ~ ev`, ev)
-    // document.querySelector('.share-container').innerHTML = '';
-    let reader = new FileReader()
-    console.log(`🚀 ~ reader`, reader)
-    // New Event 
-    reader.onload = (event) => {
-        console.log(`🚀 ~ event`, event.target)
-        let img = new Image()
-        img.src = event.target.result
-        const meme = { src: event.target.result }
-        // Set Meme new src
-        console.log(`🚀 ~ meme`, meme)
-        MEME_SERVICE.setMeme(meme)
-    }
-    console.log('ev.target.files:', ev.target.files)
-    reader.readAsDataURL(ev.target.files[0])
-    console.log(`🚀 ~ ev.target.files[0]`, ev.target.files[0])
-    onNav('edit')
-}
 //Download& share
 
 // function moveLine(diffX = 0, diffY = 0) {
