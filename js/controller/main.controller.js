@@ -5,15 +5,13 @@ import { UTIL_SERVICE } from "../service/util.service.js";
 import { GALLERY_CONTROLLER } from "../controller/gallery.controller.js";
 import { MEME_CONTROLLER } from "../controller/meme.controller.js";
 
-// #MVC rules:
+// #MVC :
 // renderFunc Execute From controller.
 // onFunc in controller Deliver and end on MainController.
 // controller have One Global State reference.
 // Service have Init State Updated by his controller only.
 
-
-
-// Pointer Controller dependencies
+//  Controller State
 let gMainController
 
 // #1 rule: give only What necessary

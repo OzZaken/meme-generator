@@ -2,6 +2,8 @@ export const MEME_SERVICE = {
     getMeme,
     setMeme,
     setLine,
+    setLinePos,
+    getLinePos,
 }
 
 const MEME = {
@@ -27,19 +29,17 @@ const MEME = {
                 },
                 isDrag: false,
                 isSaved: false,
-            }
+            },
         ]
     }
 }
 
-// Return Meme
+//  Meme
 function getMeme() {
     return MEME.meme
 }
-
-// OverRight Meme
 function setMeme(meme) {
-    console.log(`📝 ~ Service update MEME`, MEME.meme,'\nWITH:',meme)
+    console.log(`📝 ~ Service update MEME`, MEME.meme, '\nWITH:', meme)
     MEME.meme = {
         ...MEME.meme,
         ...meme
@@ -47,16 +47,32 @@ function setMeme(meme) {
     console.log(`📝 ~ Service UPDATED MEME`, MEME.meme)
 }
 
-// OverRight Line
-function setLine(updatedValues) {
-    console.log(`📝 ~ Service update LINE`, updatedValues)
+// Line
+function getLine() {
+    const { lines, selectedLineIdx } = MEME.meme
+    return lines[selectedLineIdx]
+}
+function getLinePos() {
+    return getLine().pos
+}
+function setLine(val) {
     const { meme } = MEME
     const { lines, selectedLineIdx } = meme
+    console.log(`📝 ~ Service update LINE`, MEME.meme.lines[selectedLineIdx], '\nWITH:', val)
     lines[selectedLineIdx] = {
         ...lines[selectedLineIdx],
-        ...updatedValues
+        ...val
     }
-    console.log(`📝 ~ Service UPDATED LINE`, lines[selectedLineIdx])
+    console.log(`📝 ~ Service UPDATED RESULT`, lines[selectedLineIdx])
+}
+function setLinePos(val) {
+    const selectedLine = getLine()
+    console.log(`🚀 ~ UPDATE POS`, selectedLine.pos,'\nWITH:',val)
+    selectedLine.pos = {
+        ...selectedLine.pos,
+        ...val
+    }
+    console.log(`🚀 ~ UPDATE POS`, selectedLine.pos)
 }
 
 
@@ -191,4 +207,3 @@ function setLine(updatedValues) {
 //     gCtx.lineTo(pos.x, pos.y)
 //     gCtx.stroke()
 // }
-

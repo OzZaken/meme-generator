@@ -6,7 +6,8 @@ export const MEME_CONTROLLER = { init }
 let gMemeController
 
 function init(dependencies) {
-    const { getMeme } = MEME_SERVICE
+    // Take and Past to Controller what needed
+    const { getMeme, setLinePos, getLinePos, setLine } = MEME_SERVICE
     gMemeController = {
         ...dependencies,
         isTouchScreen: false,
@@ -17,7 +18,11 @@ function init(dependencies) {
         getMeme,
         onSaveMeme,
         onSetMeme,
+        getLinePos,
+        setLine,
+        setLinePos
     }
+
     // Init Ctx
     gMemeController.elCtx.fillStyle = 'black'
     gMemeController.elCtx.strokeShape = 'circle'
@@ -76,7 +81,6 @@ function resizeMeme() {
     elMemeContainer.width = elMemeContainer.offsetWidth
     renderMeme()
 }
-
 // Render Meme 
 function renderMeme() {
     const img = new Image()
@@ -108,7 +112,7 @@ function renderMeme() {
 // Get Line model from Service And render
 function drawLine(line) {
     // console.log(`🚀 ~ line`, line)
-    const { elCtx, elMeme } = gMemeController
+    const { elCtx } = gMemeController
     elCtx.beginPath()
     elCtx.lineWidth = line.lineWidth
     elCtx.textAlign = line.textAlign
@@ -119,44 +123,42 @@ function drawLine(line) {
     const { fontMap } = line
     elCtx.font = `${fontMap.size}${fontMap.sizeUnit} ${fontMap.family}`
 
-    // Opt start without Pos
+    // Set Pos, Opt start without Pos
+    const { elMeme } = gMemeController
     let posX
-    let posY
     if (!line.x) {
         posX = elMeme.width / 2
-        const updatePos = {
-            pos: {
-                x: posX
-            }
-        }
-        MEME_SERVICE.setLine(updatePos)
+        const horizontal = { x: posX }
+        gMemeController.setLinePos(horizontal)
     }
+    else posX = line.x
+    let posY
     if (!line.y) {
         posY = elMeme.height / 2
-        const updatePos = {
-            pos: {
-                y: posY
-            }
-        }
-        MEME_SERVICE.setLine(updatePos)
-        posY = elMeme.height / 2
+        const vertical = { y: posY }
+        gMemeController.setLinePos(vertical)
     }
+    else posY = line.y
+
     elCtx.fillText(line.txt, posX, posY)
     elCtx.strokeText(line.txt, posX, posY)
     elCtx.closePath()
 }
 
-// Go to MainController
 function onSetMeme(meme) {
     if (meme) MEME_SERVICE.setMeme(meme)
     else {
-        const { elMeme } = gMemeController
+        // const { elMeme } = gMemeController
         switch (event.target.value) {
             case 'up':
                 console.log('up');
-                const { y } = gMemeController.getMeme().pos || elMeme.height / 2
-                const updatedData = { y: y + 5 + 'px' }
-                MEME_SERVICE.setMeme(updatedData)
+                const { y } = gMemeController.getLinePos()
+                console.log(`🚀 ~ y`, y)
+                const diff = y + 10
+                const updatedData = { y: diff}
+                console.log(`🚀 ~ diff`, diff)
+                console.log(`🚀 ~ updatedData`, updatedData)
+                MEME_SERVICE.setLinePos(updatedData)
                 break;
 
             default:
@@ -166,11 +168,13 @@ function onSetMeme(meme) {
     }
     renderMeme()
 }
+
 function onSaveMeme() {
     console.log(`🚀 ~ onSaveMeme`,)
     console.log('event:', event)
     console.log('getMeme(),', getMeme());
 }
+
 function onShareMeme() {
     console.log('onShareMeme event:', event)
 }
