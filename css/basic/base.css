@@ -23,13 +23,20 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    text-transform: capitalize;
-    border-bottom: 1.5px solid var(--clr-prim);
+
+    width: 100%;
     line-height: 3rem;
-    color: var(--clr-sec);
-    text-shadow: 2px 2px 2px 2px;
-    position: relative;
-    text-shadow: 1px 0px 1px #222;
+
+    margin-top: 0;
+    padding-top: 0;
+    
+    background-image: url('../../assets/img/heading.png');
+    color: var(--clr-prim);
+    border-bottom: 1.5px solid var(--clr-prim);
+    
+
+    text-transform: capitalize;
+    text-shadow: 1px 0px 1px var(--clr-prim);
     font-size: 5.9vw;
 }
 
@@ -196,7 +203,6 @@ object {
 
 section {
     padding-bottom: 1rem;
-    max-width: 90vw;
 }
 
 a {

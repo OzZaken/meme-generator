@@ -36,7 +36,7 @@ function initGalleryController(args) {
 // Render Gallery + Stat + Upload-Image Opt   
 function renderGallery() {
     const { elGallery, galleryName, elGalleryHeading } = gGallery
-    elGalleryHeading.innerHTML = '<h1>choose meme background!</h1>'
+    elGalleryHeading.innerText = 'choose meme background!'
     const CapitalName = UTIL_SERVICE.capitalize(galleryName)
     const imgs = GALLERY_SERVICE.getImgsForDisplay()
     const keyWords = GALLERY_SERVICE.getKeywords()

@@ -8,13 +8,13 @@
 /* Tablet */
 @media (min-width: 768px) {
     .main-layout>*:not(.full) {
-        margin-inline-end: calc(1rem - 2px);
+        margin-inline-end: 4vw;
     }
 }
 
 /* Desktop */
 @media (min-width: 1020px) {
     .main-layout>*:not(.full) {
-        margin-inline-end: calc(1rem - 2px);
+        margin-inline-end: 5vw;
     }
 }
