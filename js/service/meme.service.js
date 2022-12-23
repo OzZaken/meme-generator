@@ -1,43 +1,48 @@
 export const MEME_SERVICE = {
     getMeme,
     setMeme,
+    getLine,
     setLine,
-    setLinePos,
     getLinePos,
-    setSelectedLineIdx,
+    setLinePos,
     createLine,
     removeLine,
+    setSelectedLineIdx,
+    setFontMap,
+    getFontMap,
 }
 
 const MEME = {
     storageKey: 'memeDB',
     memes: null,
+    // setMeme
     meme: {
         src: null,
         selectedLineIdx: 0,
         keywords: [],
         lines: [
+            // setLine
             {
-                fontMap: {
-                    size: 30,
-                    sizeUnit: 'px',
-                    family: 'impact',
-                },
-                pos: { x: null, y: null },
                 txt: 'Add some text',
                 lineWidth: 2,
                 textAlign: 'center',
                 fillStyle: 'black',
                 strokeStyle: 'red',
+                //setLinePos
+                pos: { x: null, y: null },
+                // setFontMap
+                fontMap: {
+                    size: 30,
+                    sizeUnit: 'px',
+                    family: 'impact',
+                },
             },
         ]
     }
 }
 
 //  Meme
-function getMeme() {
-    return MEME.meme
-}
+function getMeme() { return MEME.meme }
 function setMeme(meme) {
     // console.log(`📝 ~ Service update MEME`, MEME.meme, '\nWITH:', meme)
     MEME.meme = {
@@ -46,101 +51,81 @@ function setMeme(meme) {
     }
     // console.log(`📝 ~ Service UPDATED MEME`, MEME.meme)
 }
+
 // Line
-function getLines() {
-    return getMeme().lines
-}
 function createLine() {
-    getLines().push({
-        fontMap: {
-            size: 30,
-            sizeUnit: 'px',
-            family: 'impact',
-        },
-        pos: { x: null, y: null },
-        txt: 'New Text Line',
-        lineWidth: 2,
-        textAlign: 'center',
-        fillStyle: 'black',
-        strokeStyle: 'red',
-    })
+    getLines().push(
+        {
+            fontMap: {
+                size: 36,
+                sizeUnit: 'px',
+                family: 'fa-solid',
+            },
+            pos: { x: null, y: null },
+            txt: 'New Line',
+            lineWidth: 2,
+            textAlign: 'center',
+            fillStyle: 'black',
+            strokeStyle: 'red',
+        }
+    )
     setSelectedLineIdx()
 }
+
 function removeLine() {
     getLines().splice(-1)
     setSelectedLineIdx()
-}
-function setSelectedLineIdx() {
-    const { meme } = MEME
-    const { lines } = meme
-    if (!lines.length >= meme.selectedLineIdx) meme.selectedLineIdx++
-    else meme.selectedLineIdx = 0
 }
 
 function getLine() {
     const { lines, selectedLineIdx } = MEME.meme
     return lines[selectedLineIdx]
 }
+
 function setLine(val) {
-    const { meme } = MEME
-    const { lines, selectedLineIdx } = meme
-    // console.log(`📝 ~ Service update LINE`, MEME.meme.lines[selectedLineIdx], '\nWITH:', val)
-    lines[selectedLineIdx] = {
-        ...lines[selectedLineIdx],
+    console.log(`🚀 ~ setLine with`, val)
+    const selectedLine = getLine()
+    selectedLine = {
+        ...selectedLine,
         ...val
     }
-    // console.log(`📝 ~ Service UPDATED RESULT`, lines[selectedLineIdx])
 }
 
-function getLinePos() {
-    return getLine().pos
+function setSelectedLineIdx() {
+    const lines = getLines()
+    const { meme } = MEME
+    if (meme.selectedLineIdx >= lines.length) meme.selectedLineIdx = 0
+    else meme.selectedLineIdx++
 }
+
+function getLines() { return getMeme().lines }
+
+function getLinePos() { return getLine().pos }
+
 function setLinePos(val) {
     const selectedLine = getLine()
-    // console.log(`🚀 ~ UPDATE POS`, selectedLine.pos,'\nWITH:',val)
     selectedLine.pos = {
         ...selectedLine.pos,
         ...val
     }
-    // console.log(`🚀 ~ UPDATE POS`, selectedLine.pos)
 }
 
+function setFontMap(key, val) {
+    console.log(`🚀 ~ setFontMap:${key}`, val)
+    getLine().fontMap[key] = val
+}
 
-// function getNewLine(txt = 'New txt line') {
-//     return {
-//         txt,
-//         lineWidth: 2,
-//         textAlign: 'center',
-//         fillStyle: 'black',
-//         strokeStyle: 'red',
-//         fontMap: {
-//             size: 30,
-//             sizeUnit: 'px',
-//             family: 'impact',
-//         },
-//     }
+function getFontMap() {return getLine().fontMap}
+// function changeLinePos(x, y) {
+//     console.log(`🚀 ~ y`, y)
+//     console.log(`🚀 ~ x`, x)
+//     const meme = getMeme()
+//     const { lines } = meme
+//     const { pos } = lines[meme.selectedLineIdx]
+//     pos.x += x
+//     pos.y += y
 // }
-// function onShareMeme() {
-//     var elCanvas = getElCanvas()
-//     console.log('elCanvas:', elCanvas)
-//     const imgDataUrl = elCanvas.toDataURL('image/jpeg')
-//     // A function to be called if request succeeds
-//     function onSuccess(uploadedImgUrl) {
-//         const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
-//         // console.log(encodedUploadedImgUrl)
-//         document.querySelector(
-//             '.url-msg'
-//         ).innerText = `Your photo is available here: ${uploadedImgUrl}`
-//         document.querySelector('.sharing-btn').innerHTML = `
-//             <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
-//                Share
-//             </a>`
-//     }
-//     doUploadImg(imgDataUrl, onSuccess)
-// }
-// function isDrag() {
-// 	return MEME.meme.isDrag
-// }
+
 // function moveLine(diffX = 0, diffY = 0) {
 // 	const line = getLine()
 // 	// don't let the text to go out of the canvas completely
@@ -151,13 +136,6 @@ function setLinePos(val) {
 
 // 	line.pos.x = posX
 // 	line.pos.y = posY
-// }
-// function changeAlign(str) {
-//     const meme = getMeme()
-//     const { lines } = meme
-//     if (dir === 'left') lines[meme.selectedLineIdx].align = 'right'
-//     else if (dir === 'right') lines[meme.selectedLineIdx].align = 'left'
-//     else lines[meme.selectedLineIdx].align = 'center'
 // }
 // function isInLine(pos, isClicked) {
 // 	// reverse order so we chose the line on top
@@ -174,66 +152,4 @@ function setLinePos(val) {
 // 		}
 // 	}
 // 	return false
-// }
-// function addNewLine(txt = 'New line') {
-// 	gMeme.lines.push({
-// 		pos: { x: gCanvas.width / 2, y: gCanvas.height / 2 },
-// 		txt,
-// 		size: (48 * gCanvas.width) / 500,
-// 		align: 'center',
-// 		textColor: 'white',
-// 		strokeColor: 'black',
-// 	})
-
-// 	if (txt !== 'TOP TEXT' && txt !== 'BOTTOM TEXT') {
-// 		gMeme.selectedLineIdx = gMeme.lines.length - 1
-// 	}
-// }
-// function removeLine() {
-// 	if (gMeme.lines.length === 0) return
-
-// 	gMeme.lines.splice(gMeme.selectedLineIdx, 1)
-
-// 	if (gMeme.selectedLineIdx === gMeme.lines.length) gMeme.selectedLineIdx = 0
-// }
-// function changeLinePos(x, y) {
-//     console.log(`🚀 ~ y`, y)
-//     console.log(`🚀 ~ x`, x)
-//     const meme = getMeme()
-//     const { lines } = meme
-//     const { pos } = lines[meme.selectedLineIdx]
-//     pos.x += x
-//     pos.y += y
-// }
-// function changeFont(fontStyle) {
-//     console.log('fontStyle:', fontStyle)
-//     const meme = getMeme()
-//     const { lines } = meme
-//     lines[meme.selectedLineIdx].font = fontStyle
-
-// }
-// function getFillColor() {
-//     return gStroke.fillStyle
-// }
-// function getStrokeColor() {
-//     return gStroke.strokeStyle
-// }
-// function getStokeSize() {
-//     return gStroke.size
-// }
-// function drawRect(x, y) { //? have some bugs
-//     gCtx.beginPath()
-//     gCtx.rect(gPosOnDown.x, gPosOnDown.y, x - gPosOnDown.x, y - gPosOnDown.y)
-//     gCtx.fillStyle = gFillColor
-//     gCtx.fillRect(gPosOnDown.x, gPosOnDown.y, x - gPosOnDown.x, y - gPosOnDown.y)
-//     gCtx.strokeStyle = getStrokeColor()
-//     gCtx.stroke()
-//     gCtx.closePath()
-// }
-// function draw(pos) {
-//     gCtx.lineWidth = getStokeSize()
-//     gCtx.strokeStyle = getStrokeColor()
-//     gCtx.fillStyle = getFillColor()
-//     gCtx.lineTo(pos.x, pos.y)
-//     gCtx.stroke()
 // }

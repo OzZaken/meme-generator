@@ -106,40 +106,19 @@
             <div class="btns-editor-container">
                 <div class="editor-container">
                     <!-- Btns -->
-                    <button value="up" onclick="app.onSetMeme()" role="button" title="Move text up" class="arrow-up">
-                    </button>
+                    <button value="up" onclick="app.onSetMeme()" role="button" title="Move text up" class="btn-arrow-up"></button>
+                    <button value="down" onclick="app.onSetMeme()" title="Move text Down" class="btn-arrow-down"></button>
+                    <button value="switchLine" onclick="app.onSetMeme()" title="Switch between lines" class="btn-arrow-up-arrow-down"></button>
+                    <button value="createLine" onclick="app.onSetMeme()" title="Add New txt line" class="btn-plus"></button>
+                    <button value="removeLine" onclick="app.onSetMeme()" title="Delete last line" class="btn-trash"></button>
+                    <button value="fSUp" onclick="app.onSetMeme()" title="Size Up" class="btn-font-size-plus"></button>
+                    <button value="fSDown" onclick="app.onSetMeme()" title="Size Down" class="btn-font-size-minus"></button>
+                    <button value="alienL" onclick="onSetMeme()" title="align left" class="btn-align-left"></button>
+                    <button value="alienC" onclick="app.onSetMeme()" title="align center" class="btn-align-center"></button>
+                    <button value="alienR" onclick="app.onSetMeme()" title="align left" class="btn-align-right"></button>
 
-                    <button value="down" onclick="app.onSetMeme()" title="Move text Down" class="arrow-down">
-                    </button>
-
-                    <button onclick="app.onSetSelectedLine()" title="Switch between lines" class="arrow-up-arrow-down">
-                    </button>
-
-                    <button onclick="app.onCreateTxtLine()" title="Add New txt line" class="plus">
-                    </button>
-
-                    <button onclick="app.onDeleteTxtLine()" title="Delete last line" class="trash">
-                    </button>
-
-                    <button onclick="app.onChangeElSize(5)" title="Size Up" class="setting-btn">
-                        A+
-                    </button>
-
-                    <button onclick="app.onChangeElSize(-5)" title="Size Down" class="1fa-text-size setting-btn">
-                        A-
-                    </button>
-
-                    <button onclick=" onChangeAlign('left')" title="align left" class="setting-btn  fa-align-left">
-                    </button>
-
-                    <button onclick="app.onChangeAlign('center')" title="align center"
-                        class="setting-btn  fa-align-center">
-                    </button>
-
-                    <button onclick="app.onChangeAlign('right')" title="align left" class="setting-btn  fa-align-right">
-                    </button>
                     <!-- Select Fonts -->
-                    <select title="Select fonts" onchange="app.onChangeFont(this.value)" class="font-select fa-solid"
+                    <select title="Select fonts" onchange="app.onSetMeme()" class="font-select fa-solid"
                         name="change-fonts">
                         <option value="impact">Impact</option>
                         <option value="italic">Italic</option>
@@ -149,12 +128,12 @@
                     </select>
 
                     <i class="stroke-color  fa-s s-btn fa-solid setting-btn flex-center">
-                        <input class="color-input flex-center" oninput="app.onSetColor(this.value,'stroke-color')"
+                        <input class="color-input flex-center" oninput="app.onSetMeme(this.value,'stroke-color')"
                             type="color" name="stroke-color" title="Change stroke color">
                     </i>
 
                     <i class="fill-color  fa-palette fa-solid  setting-btn flex-center">
-                        <input class="color-input" oninput="app.onSetColor(this.value,'fill-color')" type="color"
+                        <input class="color-input" oninput="app.onSetMeme(this.value,'fill-color')" type="color"
                             name="fill-color" title="Change fill color">
                     </i>
                 </div>

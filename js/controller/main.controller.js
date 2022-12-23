@@ -67,11 +67,16 @@ function onInit() {
 
     // Send Dom The App Func
     const {
-        onSetAspectRatio,
+        // MAIN_CONTROLLER
         onClickKeyword,
         onSetFilter,
         onClickTotalKeywords,
+        // GALLERY_CONTROLLER
+        onSetAspectRatio,
+        // MEME_CONTROLLER
         onSetMeme,
+        
+        
     } = gMainController
 
     window.app = {
@@ -158,7 +163,6 @@ function onTranslateDom() {
     // })
 }
 
-// Navigation.
 function onNav(navToStr) {
     !navToStr ? navToStr = 'gallery' : navToStr
     const capitalName = UTIL_SERVICE.capitalize(navToStr)
@@ -189,7 +193,7 @@ function onNav(navToStr) {
         }
         else {
             elEditHeading.value = 'Edit Your Meme!'
-            setTimeout(() => elEditHeading.style.marginTop = '-15vh', 4000)
+            // setTimeout(() => elEditHeading.style.marginTop = '-15vh', 4000)
         }
     }
     else {

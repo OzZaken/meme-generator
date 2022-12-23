@@ -6,29 +6,48 @@ export const MEME_CONTROLLER = { init }
 let gMemeController
 
 function init(dependencies) {
-    // Take and Past to Controller what needed
-    const { getMeme, setLinePos, getLinePos, setLine } = MEME_SERVICE
+    // MEME_SERVICE //TODO: At the end send Main controller only those who need!
+    const {
+        getMeme,
+        setMeme,
+        getLine,
+        setLine,
+        getLinePos,
+        setLinePos,
+        createLine,
+        removeLine,
+        setSelectedLineIdx,
+        getFontMap,
+        setFontMap,
+    } = MEME_SERVICE
+
     gMemeController = {
+        // MEME_SERVICE
+        getMeme,
+        setMeme,
+        getLine,
+        setLine,
+        getLinePos,
+        setLinePos,
+        createLine,
+        removeLine,
+        setSelectedLineIdx,
+        getFontMap,
+        setFontMap,
+        // MAIN_CONTROLLER
         ...dependencies,
+        // MEME_CONTROLLER
         isTouchScreen: false,
         isDraw: false,
         isGrab: false,
         isScale: false,
         elCtx: dependencies.elMeme.getContext('2d'),
-        getMeme,
         onSaveMeme,
         onSetMeme,
-        getLinePos,
-        setLine,
-        setLinePos
+        onCreateLine,
     }
 
-    // Init Ctx
-    gMemeController.elCtx.fillStyle = 'black'
-    gMemeController.elCtx.strokeShape = 'circle'
-    gMemeController.elCtx.strokeStyle = 'white'
-
-    // Set Canvas Listeners
+    // Set Listeners
     const { elMeme } = gMemeController
     window.addEventListener('resize', resizeMeme)
     // Mouse
@@ -44,6 +63,7 @@ function init(dependencies) {
     return gMemeController
 }
 
+// HANDLE EVENTS 
 function onMove() {
     const { isTouchScreen, isDarg, isScale, isDraw } = gMemeController
     if (!isTouchScreen) return
@@ -63,6 +83,7 @@ function onMove() {
     //     else document.body.style.cursor = 'default'
     // }
 }
+
 function onUp() {
     gMemeController.isDraw = gMemeController.isGrab =
         gMemeController.isScale = gMemeController.isScale = false
@@ -70,44 +91,20 @@ function onUp() {
     console.log('window.innerWidth:', window.innerWidth)
     // document.body.style.cursor = 'grab';
 }
+
 function onDown() {
     const touchPos = gMemeController.getPosOnEl(event)
     console.log(`🚀 ~ touchPos`, touchPos)
 }
 
-function onSetMeme(meme) {
-    if (meme) MEME_SERVICE.setMeme(meme)
-    else {
-        const { elMeme } = gMemeController
-        const val = event.target.value
 
-        // Vertical
-        const posY = gMemeController.getLinePos().y
-        if (val === 'up') {
-            if (posY <= 50) return
-            const updatedPos = posY - elMeme.height / 20
-            MEME_SERVICE.setLinePos({ y: updatedPos })
-        }
-        else if (val === 'down') {
-            if (posY >= elMeme.height ) return
-            const updatedPos = posY + elMeme.height / 20
-            MEME_SERVICE.setLinePos({ y: updatedPos })
-        }
-
-    }
-    renderMeme()
-}
-
-function onCreateTxtLine() {
-    MEME_SERVICE.createTxtLine()
-}
-
-// Resize Meme Container offsetWidth and render again
+// Resize Meme Container based offsetWidth 
 function resizeMeme() {
     const { elMemeContainer } = gMemeController
     elMemeContainer.width = elMemeContainer.offsetWidth
     renderMeme()
 }
+
 // Render Meme 
 function renderMeme() {
     const img = new Image()
@@ -174,66 +171,75 @@ function drawLine(line) {
     elCtx.closePath()
 }
 
+// 🐱‍👤
+function onSetMeme(meme) {
+    if (meme) MEME_SERVICE.setMeme(meme)
+    else {
+        const { elMeme } = gMemeController
+        const val = event.target.value
+        // 🐱‍👤 funcMap 🐱‍👤
+        const editor = {
+            up: () => {
+                const posY = gMemeController.getLinePos().y
+                if (posY <= 50) return
+                const updatedPos = posY - elMeme.height / 20
+                MEME_SERVICE.setLinePos({ y: updatedPos })
+            },
+            down: () => {
+                const posY = gMemeController.getLinePos().y
+                if (posY >= elMeme.height - 1) return
+                const updatedPos = posY + elMeme.height / 20
+                MEME_SERVICE.setLinePos({ y: updatedPos })
+            },
+            switchLine: () => MEME_SERVICE.setSelectedLineIdx(),
+            createLine: () => MEME_SERVICE.createLine(),
+            removeLine: () => MEME_SERVICE.removeLine(),
+            fSUp: () => MEME_SERVICE.setFontMap('size',  MEME_SERVICE.getLine().fontMap.size + 10),
+            fSDown: () => MEME_SERVICE.setFontMap('size', MEME_SERVICE.getLine().fontMap.size - 10),
+            alienL: () => MEME_SERVICE.setLine({textAlign:'left'}),
+            alienC: () => MEME_SERVICE.setLine({textAlign:'center'}),
+            alienR: () => MEME_SERVICE.setLine({textAlign:'right'})
+        }
+        editor[val]()
+    }
+    renderMeme()
+}
 
-
+function onCreateLine() {
+    MEME_SERVICE.createLine()
+}
 function onSaveMeme() {
     console.log(`🚀 ~ onSaveMeme`,)
     console.log('event:', event)
     console.log('getMeme(),', getMeme());
 }
 
-function onShareMeme() {
-    console.log('onShareMeme event:', event)
-}
-function shareMeme(uploadedImgUrl) {
-    uploadedImgUrl = encodeURIComponent(uploadedImgUrl);
-    const strHtml =
-        `
-    <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}" 
-    title="Share on Facebook" target="_blank" onclick="app.()";
-    window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
-    Click to share on facebook   
-    </a>`
-    renderModal(strHtml)
-}
-
-
-
-
-// function setTxt(txt) {
-//     const { lines, selectedLineIdx } = MEME.meme
-//     lines[selectedLineIdx].txt = txt
-// }
-
-// function setTxtSize(diff) {
-//     const { lines, selectedLineIdx } = MEME.meme
-//     lines[selectedLineIdx].size += diff
-// }
-
 // run over elCtx  
 function setCtx(ctxKeys) {
-    let elCtx = { elCtx } = gMemeController
-    elCtx = { ...elCtx, ...ctxKeys }
+    gMemeController.elCtx = { ...gMemeController.elCtx, ...ctxKeys }
 }
+// function setSaveLink() {
+//     const imgContent = gElCanvas.toDataURL('image/jpeg');
+//     addToSavedMemes(imgContent)
+//     const strHtml = `<a class="btn start-action">Meme has been saved</a>  <div class="modal-btns-container flex space-between"><button onClick="onCloseDownloadShareModal()">Close</button></div`;
+//     toggleModalScreen(strHtml)
+// }
+// function onDownloadMeme(elLink) {
+//     const data = elMeme.toDataURL()
+//     elLink.href = data
+//     elLink.download = 'My_Meme'
+// }
+// function moveLine(diffX = 0, diffY = 0) {
+//     const line = getLine()
+//     const { elMeme } = gMemeController
+//     const posX = line.pos.x + diffX
+//     const posY = line.pos.y + diffY
+//     if (posY < 0 || posY > elMeme.height) return
+//     if (posX < 0 || posX > elMeme.width) return
 
-function onDownloadMeme(elLink) {
-    const data = elMeme.toDataURL()
-    elLink.href = data
-    elLink.download = 'My_Meme'
-}
-//Download& share
-function moveLine(diffX = 0, diffY = 0) {
-    const line = getLine()
-    const { elMeme } = gMemeController
-    const posX = line.pos.x + diffX
-    const posY = line.pos.y + diffY
-    if (posY < 0 || posY > elMeme.height) return
-    if (posX < 0 || posX > elMeme.width) return
-
-    line.pos.x = posX
-    line.pos.y = posY
-}
-
+//     line.pos.x = posX
+//     line.pos.y = posY
+// }
 // function onDownloadMeme() {
 //     renderMeme(false)
 //     setTimeout(() => {
@@ -253,32 +259,17 @@ function moveLine(diffX = 0, diffY = 0) {
 //     const data = elMeme.toDataURL('image/jpeg');
 //     const strHtml = `<a href="${data}" class="btn" download="Awesomeme">Click to download</a>`;
 // }
-// function uploadImg(elForm, ev) {
-//     ev.preventDefault();
-//     resetSelections();
-//     renderCanvas();
-
-//     document.getElementById('imgData').value = gElCanvas.toDataURL('image/jpeg');
+// function onSuccess(uploadedImgUrl) {
+//     // document.getElementById('imgData').value = gElCanvas.toDataURL('image/jpeg');
 //     // A function to be called if request succeeds
-//     function onSuccess(uploadedImgUrl) {
-//         uploadedImgUrl = encodeURIComponent(uploadedImgUrl);
-//         const strHtml = `
+//     uploadedImgUrl = encodeURIComponent(uploadedImgUrl);
+//     const strHtml = `
 //         <a class="btn start-action" href="https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}"
 //         title="Share on Facebook" target="_blank" onclick="onCloseDownloadShareModal();
 //         window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
 //         Click to share on facebook
 //         </a>`;
-//         toggleModalScreen(strHtml);
-//     }
-
-//     onUploadImg(elForm, onSuccess);
-// }
-
-// function setSaveLink() {
-//     const imgContent = gElCanvas.toDataURL('image/jpeg');
-//     addToSavedMemes(imgContent)
-//     const strHtml = `<a class="btn start-action">Meme has been saved</a>  <div class="modal-btns-container flex space-between"><button onClick="onCloseDownloadShareModal()">Close</button></div`;
-//     toggleModalScreen(strHtml)
+//     toggleModalScreen(strHtml);
 // }
 // function onClickSavedMeme(ev, elImg) {
 //     ev.stopPropagation()
@@ -287,4 +278,36 @@ function moveLine(diffX = 0, diffY = 0) {
 //     <a href="#" class="btn start-action meme-action"
 //     onClick="onDeleteMeme('${elImg.dataset.id}')">Delete meme</a>`;
 //     toggleModalScreen(strHtml)
+// }
+// function onShareMeme() {
+//     console.log('onShareMeme event:', event)
+// }
+// function onShareMeme() {
+//     var elCanvas = getElCanvas()
+//     console.log('elCanvas:', elCanvas)
+//     const imgDataUrl = elCanvas.toDataURL('image/jpeg')
+//     // A function to be called if request succeeds
+//     function onSuccess(uploadedImgUrl) {
+//         const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
+//         // console.log(encodedUploadedImgUrl)
+//         document.querySelector(
+//             '.url-msg'
+//         ).innerText = `Your photo is available here: ${uploadedImgUrl}`
+//         document.querySelector('.sharing-btn').innerHTML = `
+//             <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
+//                Share
+//             </a>`
+//     }
+//     doUploadImg(imgDataUrl, onSuccess)
+// }
+// function shareMeme(uploadedImgUrl) {
+//     uploadedImgUrl = encodeURIComponent(uploadedImgUrl);
+//     const strHtml =
+//         `
+//     <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}"
+//     title="Share on Facebook" target="_blank" onclick="app.()";
+//     window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
+//     Click to share on facebook
+//     </a>`
+//     renderModal(strHtml)
 // }

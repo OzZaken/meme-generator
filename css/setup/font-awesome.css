@@ -1,53 +1,63 @@
-.arrow-up::before {
+.btn-arrow-up::before {
     font-family: fa-solid;
     content: "\f062";
 }
 
-.arrow-down::before {
+.btn-arrow-down::before {
     font-family: fa-solid;
     content: "\f063";
 }
 
-.arrow-up-arrow-down::before {
+.btn-arrow-up-arrow-down::before {
     font-family: fa-solid;
     content: "\f062\f063";
 }
 
-.plus::before {
+.btn-plus::before {
     font-family: fa-solid;
     content: "\2b";
 }
 
-.trash::before {
+.btn-trash::before {
     font-family: fa-solid;
     content: "\f1f8";
 }
 
-.fa-text-size::before {
+.btn-font-size-plus::before {
     font-family: fa-solid;
-    content: "\f894";
+    content: "A\2b";
+}
+.btn-font-size-minus::before {
+    font-family: fa-solid;
+    content: "A\f068";
 }
 
-.fa-align-center::before {
+.btn-align-center::before {
+    font-family: fa-solid;
     content: "\f037";
 }
 
-.fa-align-left::before {
+.btn-align-left::before {
+    font-family: fa-solid;
     content: "\f036";
 }
 
-.fa-align-right::before {
+.btn-align-right::before {
+    font-family: fa-solid;
     content: "\f036";
 }
 
-.fa-align-right::before {
+.btn-align-right::before {
+    font-family: fa-solid;
     content: "\f038";
 }
 
-.fa-s::before {
+.btn-s::before {
+    font-family: fa-solid;
     content: "\53";
 }
 
-.fa-palette::before {
+.btn-palette::before {
+    font-family: fa-solid;
     content: "\f53f";
 }
