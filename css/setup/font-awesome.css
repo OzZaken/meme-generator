@@ -3,23 +3,28 @@
     content: "\f062";
 }
 
-.fa-arrow-down::before {
+.arrow-down::before {
+    font-family: fa-solid;
     content: "\f063";
 }
 
-.fa-arrow-up-arrow-down {
-    content: "\e099";
+.arrow-up-arrow-down::before {
+    font-family: fa-solid;
+    content: "\f062\f063";
 }
 
-.fa-plus::before {
+.plus::before {
+    font-family: fa-solid;
     content: "\2b";
 }
 
-.fa-trash::before {
+.trash::before {
+    font-family: fa-solid;
     content: "\f1f8";
 }
 
 .fa-text-size::before {
+    font-family: fa-solid;
     content: "\f894";
 }
 

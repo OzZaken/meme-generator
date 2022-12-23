@@ -106,34 +106,36 @@
             <div class="btns-editor-container">
                 <div class="editor-container">
                     <!-- Btns -->
-                    <button onclick="app.onSetMeme()" value="up" role="button" title="Move text up"
-                        class="arrow-up">
+                    <button value="up" onclick="app.onSetMeme()" role="button" title="Move text up" class="arrow-up">
                     </button>
 
-                    <button value="down" onclick="app.onSetMeme()" title="Move text Down"
-                        class="setting-btn  fa-arrow-down">
+                    <button value="down" onclick="app.onSetMeme()" title="Move text Down" class="arrow-down">
                     </button>
 
-                    <button onclick="app.onSwitchLines()" title="Switch between lines"
-                        class="setting-btn fa-arrow-up-arrow-down">
-                        ↑↓
+                    <button onclick="app.onSetSelectedLine()" title="Switch between lines" class="arrow-up-arrow-down">
                     </button>
-                    <button onclick="app.onAddTxtLine()" title="Add txt line"
-                        class="add-text-line-btn setting-btn  fa-plus">
+
+                    <button onclick="app.onCreateTxtLine()" title="Add New txt line" class="plus">
                     </button>
-                    <button onclick="app.onDeleteTxtLine()" title="Delete last line" class="setting-btn fa-trash">
+
+                    <button onclick="app.onDeleteTxtLine()" title="Delete last line" class="trash">
                     </button>
+
                     <button onclick="app.onChangeElSize(5)" title="Size Up" class="setting-btn">
                         A+
                     </button>
+
                     <button onclick="app.onChangeElSize(-5)" title="Size Down" class="1fa-text-size setting-btn">
                         A-
                     </button>
+
                     <button onclick=" onChangeAlign('left')" title="align left" class="setting-btn  fa-align-left">
                     </button>
+
                     <button onclick="app.onChangeAlign('center')" title="align center"
                         class="setting-btn  fa-align-center">
                     </button>
+
                     <button onclick="app.onChangeAlign('right')" title="align left" class="setting-btn  fa-align-right">
                     </button>
                     <!-- Select Fonts -->

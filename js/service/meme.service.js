@@ -4,6 +4,9 @@ export const MEME_SERVICE = {
     setLine,
     setLinePos,
     getLinePos,
+    setSelectedLineIdx,
+    createLine,
+    removeLine,
 }
 
 const MEME = {
@@ -11,24 +14,21 @@ const MEME = {
     memes: null,
     meme: {
         src: null,
-        aspectRatio: null,
         selectedLineIdx: 0,
         keywords: [],
         lines: [
             {
+                fontMap: {
+                    size: 30,
+                    sizeUnit: 'px',
+                    family: 'impact',
+                },
                 pos: { x: null, y: null },
                 txt: 'Add some text',
                 lineWidth: 2,
                 textAlign: 'center',
                 fillStyle: 'black',
                 strokeStyle: 'red',
-                fontMap: {
-                    size: 30,
-                    sizeUnit: 'px',
-                    family: 'impact',
-                },
-                isDrag: false,
-                isSaved: false,
             },
         ]
     }
@@ -39,40 +39,70 @@ function getMeme() {
     return MEME.meme
 }
 function setMeme(meme) {
-    console.log(`📝 ~ Service update MEME`, MEME.meme, '\nWITH:', meme)
+    // console.log(`📝 ~ Service update MEME`, MEME.meme, '\nWITH:', meme)
     MEME.meme = {
         ...MEME.meme,
         ...meme
     }
-    console.log(`📝 ~ Service UPDATED MEME`, MEME.meme)
+    // console.log(`📝 ~ Service UPDATED MEME`, MEME.meme)
+}
+// Line
+function getLines() {
+    return getMeme().lines
+}
+function createLine() {
+    getLines().push({
+        fontMap: {
+            size: 30,
+            sizeUnit: 'px',
+            family: 'impact',
+        },
+        pos: { x: null, y: null },
+        txt: 'New Text Line',
+        lineWidth: 2,
+        textAlign: 'center',
+        fillStyle: 'black',
+        strokeStyle: 'red',
+    })
+    setSelectedLineIdx()
+}
+function removeLine() {
+    getLines().splice(-1)
+    setSelectedLineIdx()
+}
+function setSelectedLineIdx() {
+    const { meme } = MEME
+    const { lines } = meme
+    if (!lines.length >= meme.selectedLineIdx) meme.selectedLineIdx++
+    else meme.selectedLineIdx = 0
 }
 
-// Line
 function getLine() {
     const { lines, selectedLineIdx } = MEME.meme
     return lines[selectedLineIdx]
 }
-function getLinePos() {
-    return getLine().pos
-}
 function setLine(val) {
     const { meme } = MEME
     const { lines, selectedLineIdx } = meme
-    console.log(`📝 ~ Service update LINE`, MEME.meme.lines[selectedLineIdx], '\nWITH:', val)
+    // console.log(`📝 ~ Service update LINE`, MEME.meme.lines[selectedLineIdx], '\nWITH:', val)
     lines[selectedLineIdx] = {
         ...lines[selectedLineIdx],
         ...val
     }
-    console.log(`📝 ~ Service UPDATED RESULT`, lines[selectedLineIdx])
+    // console.log(`📝 ~ Service UPDATED RESULT`, lines[selectedLineIdx])
+}
+
+function getLinePos() {
+    return getLine().pos
 }
 function setLinePos(val) {
     const selectedLine = getLine()
-    console.log(`🚀 ~ UPDATE POS`, selectedLine.pos,'\nWITH:',val)
+    // console.log(`🚀 ~ UPDATE POS`, selectedLine.pos,'\nWITH:',val)
     selectedLine.pos = {
         ...selectedLine.pos,
         ...val
     }
-    console.log(`🚀 ~ UPDATE POS`, selectedLine.pos)
+    // console.log(`🚀 ~ UPDATE POS`, selectedLine.pos)
 }
 
 

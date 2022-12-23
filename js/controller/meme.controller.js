@@ -75,6 +75,33 @@ function onDown() {
     console.log(`🚀 ~ touchPos`, touchPos)
 }
 
+function onSetMeme(meme) {
+    if (meme) MEME_SERVICE.setMeme(meme)
+    else {
+        const { elMeme } = gMemeController
+        const val = event.target.value
+
+        // Vertical
+        const posY = gMemeController.getLinePos().y
+        if (val === 'up') {
+            if (posY <= 50) return
+            const updatedPos = posY - elMeme.height / 20
+            MEME_SERVICE.setLinePos({ y: updatedPos })
+        }
+        else if (val === 'down') {
+            if (posY >= elMeme.height ) return
+            const updatedPos = posY + elMeme.height / 20
+            MEME_SERVICE.setLinePos({ y: updatedPos })
+        }
+
+    }
+    renderMeme()
+}
+
+function onCreateTxtLine() {
+    MEME_SERVICE.createTxtLine()
+}
+
 // Resize Meme Container offsetWidth and render again
 function resizeMeme() {
     const { elMemeContainer } = gMemeController
@@ -84,7 +111,9 @@ function resizeMeme() {
 // Render Meme 
 function renderMeme() {
     const img = new Image()
-    const { aspectRatio, keywords, lines, src } = MEME_SERVICE.getMeme()
+    const meme = gMemeController.getMeme()
+    const { aspectRatio, keywords, lines, src } = meme
+
     const { elCtx, elMeme, elMemeContainer, elEditHeading } = gMemeController
     if (!src) {
         // TODO: Fill Text on the Canvas Must Pick Image
@@ -111,7 +140,6 @@ function renderMeme() {
 
 // Get Line model from Service And render
 function drawLine(line) {
-    // console.log(`🚀 ~ line`, line)
     const { elCtx } = gMemeController
     elCtx.beginPath()
     elCtx.lineWidth = line.lineWidth
@@ -125,49 +153,28 @@ function drawLine(line) {
 
     // Set Pos, Opt start without Pos
     const { elMeme } = gMemeController
+
     let posX
-    if (!line.x) {
+    if (!line.pos.x) {
         posX = elMeme.width / 2
         const horizontal = { x: posX }
         gMemeController.setLinePos(horizontal)
     }
-    else posX = line.x
+    else posX = line.pos.x
     let posY
-    if (!line.y) {
+    if (!line.pos.y) {
         posY = elMeme.height / 2
         const vertical = { y: posY }
         gMemeController.setLinePos(vertical)
     }
-    else posY = line.y
+    else posY = line.pos.y
 
     elCtx.fillText(line.txt, posX, posY)
     elCtx.strokeText(line.txt, posX, posY)
     elCtx.closePath()
 }
 
-function onSetMeme(meme) {
-    if (meme) MEME_SERVICE.setMeme(meme)
-    else {
-        // const { elMeme } = gMemeController
-        switch (event.target.value) {
-            case 'up':
-                console.log('up');
-                const { y } = gMemeController.getLinePos()
-                console.log(`🚀 ~ y`, y)
-                const diff = y + 10
-                const updatedData = { y: diff}
-                console.log(`🚀 ~ diff`, diff)
-                console.log(`🚀 ~ updatedData`, updatedData)
-                MEME_SERVICE.setLinePos(updatedData)
-                break;
 
-            default:
-                console.log('Default?');
-                break;
-        }
-    }
-    renderMeme()
-}
 
 function onSaveMeme() {
     console.log(`🚀 ~ onSaveMeme`,)
