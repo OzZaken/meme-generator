@@ -11,6 +11,16 @@
 </head>
 
 <body class="page-gallery" onload="app.onInit()">
+    <input onchange="app.onUploadImg()" type="file" id="upload-img" name="upload-img" hidden
+        accept="image/png, image/jpeg, image/jpg" />
+    <input oninput="app.setElColor()" onchange="app.onSetMeme()" hidden id="set-stroke-color" type="color"
+        name="stroke-color" title="Change stroke color">
+    <input oninput="app.setElColor()" onchange="app.onSetMeme()" hidden name="fill-color" type="color"
+        title="Change fill color">
+    <datalist id="gallery-keyword"></datalist>
+    <input oninput="app.onSetTxtLine()" id="set-txt" list="gallery-keyword" name="line-txt" type="select"
+        placeholder="We Recommended Adding Exiting Keyword!" title="Add New Text line">
+
     <!-- Header -->
     <header class="header">
         <!-- Logo -->
@@ -60,9 +70,8 @@
             <h1 class="gallery-heading">Loading Images...</h1>
             <!-- Filter -->
             <label for="Filter Images"></label>
-            <datalist id="gallery-keyword"></datalist>
-            <form class="gallery-search" onsubmit="app.onSetFilter()">
-                <input list="gallery-keyword" oninput="app.onSetFilter(this.value)" name="gallery-filter" type="search"
+            <form onsubmit="app.onSetFilter()" class="gallery-search">
+                <input oninput="app.onSetFilter()" list="gallery-keyword" name="gallery-filter" type="search"
                     placeholder="Search Image">
                 <button class="btn-filter"></button>
             </form>
@@ -75,6 +84,7 @@
 
         <!-- Edit -->
         <section class="page main-edit-container">
+
             <h1 class="edit-heading">choose image first!</h1>
             <!-- Meme Keywords -->
             <h3 class="keyword-heading meme-keyword-container"></h3>
@@ -84,57 +94,71 @@
                 <canvas id="meme" height="350" width="350"></canvas>
             </div>
 
-            <!-- meme-Inputs-container -->
-            <div class="Inputs-meme-container">
-                <!-- Add Text Line -->
-                <label for="Add New Text line"></label>
-                <form class="form-meme-line-txt" onsubmit="ev.preventDefault();app.onAddTxtLine()">
-                    <input name="line-txt" onsubmit="app.onAddTxtLine()" type="search" placeholder="Add new text line"
-                        list="gallery-keyword" title="Add New Text line">
-                    <button hidden></button>
-                </form>
-                <!-- Add Keyword -->
-                <label for="Add keyword"></label>
-                <form list="gallery-keyword" class="form-meme-keyword" onsubmit="event.preventDefault();onAddKeyword()">
-                    <input onsubmit="app.onAddKeyword(this.value)" name="meme-keyword" type="text"
-                        placeholder="Add new keyword">
-                    <button hidden></button>
-                </form>
-            </div>
+            <!-- Add Text Line -->
+            <label for="Add New Text line"></label>
+
+            <form hidden class="set-line-txt" onsubmit="ev.preventDefault();app.onAddTxtLine()">
+
+                <button hidden></button>
+            </form>
+
+            <!-- Add Keyword -->
+            <label for="Add keyword"></label>
+            <form onsubmit="event.preventDefault();onAddKeyword()" list="gallery-keyword" class="form-meme-keyword">
+                <input onsubmit="app.onAddKeyword(this.value)" name="meme-keyword" type="text"
+                    placeholder="Add new keyword">
+                <button hidden></button>
+            </form>
 
             <!-- 🐱‍👤 -->
             <div class="btns-editor-container">
                 <div class="editor-container">
                     <!-- Btns -->
-                    <button value="up" onclick="app.onSetMeme()" role="button" title="Move text up" class="btn-arrow-up"></button>
-                    <button value="down" onclick="app.onSetMeme()" title="Move text Down" class="btn-arrow-down"></button>
-                    <button value="switchLine" onclick="app.onSetMeme()" title="Switch between lines" class="btn-arrow-up-arrow-down"></button>
-                    <button value="createLine" onclick="app.onSetMeme()" title="Add New txt line" class="btn-plus"></button>
-                    <button value="removeLine" onclick="app.onSetMeme()" title="Delete last line" class="btn-trash"></button>
-                    <button value="fSUp" onclick="app.onSetMeme()" title="Size Up" class="btn-font-size-plus"></button>
-                    <button value="fSDown" onclick="app.onSetMeme()" title="Size Down" class="btn-font-size-minus"></button>
-                    <button value="alienL" onclick="app.onSetMeme()" title="align left" class="btn-align-left"></button>
-                    <button value="alienC" onclick="app.onSetMeme()" title="align center" class="btn-align-center"></button>
-                    <button value="alienR" onclick="app.onSetMeme()" title="align left" class="btn-align-right"></button>
+                    <button value="onUp" onclick="app.onSetMeme()" role="button" title="Move text up"
+                        class="btn-arrow-up"></button>
+                    <button value="onDown" onclick="app.onSetMeme()" title="Move text Down"
+                        class="btn-arrow-down"></button>
+                    <button value="onSwitchLine" onclick="app.onSetMeme()" title="Switch between lines"
+                        class="btn-arrow-up-arrow-down"></button>
+                    <button value="onCreateLine" onclick="app.onSetMeme()" title="Add New txt line"
+                        class="btn-plus"></button>
+                    <button value="onRemoveLine" onclick="app.onSetMeme()" title="Delete last line"
+                        class="btn-trash"></button>
+                    <button value="onFSUp" onclick="app.onSetMeme()" title="Size Up"
+                        class="btn-font-size-plus"></button>
+                    <button value="onFSDown" onclick="app.onSetMeme()" title="Size Down"
+                        class="btn-font-size-minus"></button>
+                    <button value="onAlienL" onclick="app.onSetMeme()" title="align left"
+                        class="btn-align-left"></button>
+                    <button value="onAlienC" onclick="app.onSetMeme()" title="align center"
+                        class="btn-align-center"></button>
+                    <button value="onAlienR" onclick="app.onSetMeme()" title="align left"
+                        class="btn-align-right"></button>
                     <!-- Select Fonts -->
-                    <select data-font="family" title="Select fonts" onchange="app.onSetMeme()" class="font-select fa-solid"
-                        name="change-fonts">
-                        <option value="impact">Impact</option>
-                        <option value="italic">Italic</option>
+                    <select data-font="onFamily" title="Select fonts" onchange="app.onSetMeme()"
+                        class="font-select fa-solid" name="change-fonts">
                         <option value="fa">Fa</option>
                         <option value="fa-solid">Fa-solid</option>
+                        <option value="impact">Impact</option>
+                        <option value="italic">Italic</option>
                         <option value="bold">Bold</option>
+                        <option value="Serif">Serif</option>
+                        <option value="Sans-Serif">Sans-Serif</option>
+                        <option value="Monospace">Monospace</option>
+                        <option value="Monospace">Monospace</option>
+                        <option value="Cursive">Cursive</option>
+                        <option value="Cursive">Cursive</option>
+                        <option value="MS">MS</option>
                     </select>
 
-                    <i class="stroke-color  fa-s s-btn fa-solid setting-btn flex-center">
-                        <input class="color-input flex-center" oninput="app.onSetMeme(this.value,'stroke-color')"
-                            type="color" name="stroke-color" title="Change stroke color">
-                    </i>
+                    <button>
+                        <label class="btn-stroke" for="set-stroke-color"></label>
+                    </button>
+                    <button>
+                        <label for="set-fill-color" class="btn-fill-color"></label>
 
-                    <i class="fill-color  fa-palette fa-solid  setting-btn flex-center">
-                        <input class="color-input" oninput="app.onSetMeme(this.value,'fill-color')" type="color"
-                            name="fill-color" title="Change fill color">
-                    </i>
+                    </button>
+
                 </div>
 
                 <!-- Export -->
@@ -228,8 +252,7 @@
     </footer>
 
     <!-- Util Tags/Cmps -->
-    <input hidden type="file" accept="image/png, image/jpeg, image/jpg" id="upload-img" name="upload-img"
-        onchange="app.onUploadImg()" />
+
     <div class="user-msg"></div>
     <div class="screen" onclick="app.onTouchScreen()"></div>
     <div class="modal" hidden onclick="app.onTouchModal()"></div>

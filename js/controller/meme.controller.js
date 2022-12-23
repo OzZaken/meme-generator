@@ -66,7 +66,7 @@ function init(dependencies) {
 function onMove() {
     const { isTouchScreen, isDarg, isScale, isDraw } = gMemeController
     if (!isTouchScreen) return
-    const pos = getPosOnEl(ev)
+    const pos = getPos(ev)
     console.log(`🚀 ~ pos`, pos)
     // if (isMemeDrag()) {
     //     ev.preventDefault()
@@ -92,7 +92,7 @@ function onUp() {
 }
 
 function onDown() {
-    const touchPos = gMemeController.getPosOnEl(event)
+    const touchPos = gMemeController.getPos(event)
     console.log(`🚀 ~ touchPos`, touchPos)
 }
 
@@ -175,46 +175,41 @@ function onSetMeme(meme) {
     if (meme) MEME_SERVICE.setMeme(meme)
     else {
         const { elMeme } = gMemeController
-        if (event.target) {
-            
-        }
-        const val = event.target.value
-        console.log(`🚀 ~ event`, event)
-        console.log(`🚀 ~ event`, event.target)
-        if (event.target.dataset.font) {
-            console.log('Boya');
-        }
+
+        const val = event.target.dataset.font ? event.target.dataset.font : event.target.value
+
         console.log(`🚀 ~ val`, val)
         // 🐱‍👤 funcMap 🐱‍👤
         const editor = {
-            up: () => {
+            onUp: () => {
                 const posY = gMemeController.getLinePos().y
                 if (posY <= 50) return
                 const updatedPos = posY - elMeme.height / 20
                 MEME_SERVICE.setLinePos({ y: updatedPos })
             },
-            down: () => {
+            onDown: () => {
                 const posY = gMemeController.getLinePos().y
                 if (posY >= elMeme.height - 1) return
                 const updatedPos = posY + elMeme.height / 20
                 MEME_SERVICE.setLinePos({ y: updatedPos })
             },
-            switchLine: () => MEME_SERVICE.setSelectedLineIdx(),
-            createLine: () => MEME_SERVICE.createLine(),
-            removeLine: () => MEME_SERVICE.removeLine(),
-            fSUp: () =>{
+            onSwitchLine: () => MEME_SERVICE.setSelectedLineIdx(),
+            onCreateLine: () => MEME_SERVICE.createLine(),
+            onRemoveLine: () => MEME_SERVICE.removeLine(),
+            onFSUp: () => {
                 const diff = MEME_SERVICE.getLine().fontMap.size + 10
-                if (diff>=100)return
+                if (diff >= 100) return
                 MEME_SERVICE.setFontMap('size', diff)
             },
-            fSDown: () => {
+            onFSDown: () => {
                 const diff = MEME_SERVICE.getLine().fontMap.size - 10
-                if (diff>=10)return
-                MEME_SERVICE.setFontMap('size',diff )
+                if (diff >= 10) return
+                MEME_SERVICE.setFontMap('size', diff)
             },
-            alienL: () => MEME_SERVICE.setLine({ 'textAlign': 'left' }),
-            alienC: () => MEME_SERVICE.setLine({ 'textAlign': 'center' }),
-            alienR: () => MEME_SERVICE.setLine({ 'textAlign': 'right' }),
+            onAlienL: () => MEME_SERVICE.setLine({ 'textAlign': 'left' }),
+            onAlienC: () => MEME_SERVICE.setLine({ 'textAlign': 'center' }),
+            onAlienR: () => MEME_SERVICE.setLine({ 'textAlign': 'right' }),
+            onFamily: () => MEME_SERVICE.setFontMap('family',event.target.value),
         }
         editor[val]()
     }
@@ -229,39 +224,37 @@ function onSaveMeme() {
     console.log('event:', event)
     console.log('getMeme(),', getMeme());
 }
-function isInLine(pos, isClicked) {
-	// reverse order so we chose the line on top
-	for (let i = gMeme.lines.length - 1; i >= 0; i--) {
-		const box = gMeme.lines[i].bindBox
-		if (
-			pos.x >= box.x &&
-			pos.x <= box.x + box.width &&
-			pos.y >= box.y &&
-			pos.y <= box.y + box.height
-		) {
-			if (isClicked) gMeme.selectedLineIdx = i
-			return true
-		}
-	}
-	return false
-}
 
+// function isInLine( isClicked) {
+// 	// reverse order so we chose the line on top
+//     const pos = getPos()
+// 		if (
+// 			pos.x >= box.x &&
+// 			pos.x <= box.x + box.width &&
+// 			pos.y >= box.y &&
+// 			pos.y <= box.y + box.height
+// 		) {
+// 			if (isClicked) gMeme.selectedLineIdx = i
+// 			return true
+// 		}
+// 	}
+// 	return false
+// }
+// function moveLine() {
+//     const line = getLine()
+//     const pos = getPos()
+//     const { elMeme } = gMemeController
+//     // don't let the text to go out of the canvas completely
+//     const lineX = line.pos.x + diffX
+//     const lineY = line.pos.y + diffY
 
-function moveLine() {
-    const line = getLine()
-    const pos = getPos()
-    const { elMeme } = gMemeController
-    // don't let the text to go out of the canvas completely
-    const lineX = line.pos.x + diffX
-    const lineY = line.pos.y + diffY
+//     if (lineY < 0 || lineY > elMeme.height) return
+//     if (lineX < 0 || lineX > elMeme.width) return
 
-    if (lineY < 0 || lineY > elMeme.height) return
-    if (lineX < 0 || lineX > elMeme.width) return
-
-    line.pos.x = lineX
-    line.pos.y = lineY
-}
-// run over elCtx  
+//     line.pos.x = lineX
+//     line.pos.y = lineY
+// }
+// run over elCtx
 // function setSaveLink() {
 //     const imgContent = gElCanvas.toDataURL('image/jpeg');
 //     addToSavedMemes(imgContent)

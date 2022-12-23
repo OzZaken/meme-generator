@@ -13,7 +13,7 @@ function init(args) {
     !galleryName ? galleryName = 'image' : galleryName
     GALLERY_SERVICE.setGalleryStorageKey(galleryName)
     console.log(`🚀 ~ init`, galleryName)
-    
+
     // switch img based url 
     // const fileName = url.substr(url.lastIndexOf('/') + 1)
     // imgAvatar.src = 'gallery/' + fileName.replace(/\d/, digit => (+digit >= imgs.length) ? 1 : +digit + 1)
@@ -23,7 +23,7 @@ function init(args) {
         renderGallery,
         renderKeywordsBtns,
         renderKeywordsOpts,
-        
+
         onClickKeyword,
         onSetAspectRatio,
         onSetFilter,
@@ -79,17 +79,17 @@ function renderKeywordsOpts() {
     const strHTMLs = keywordsCountMap.map(keywordStr => {
         return `<option value="${keywordStr}">${UTIL_SERVICE.capitalize(keywordStr)}</option>`
     })
-    strHTMLs.push(`<option value=" ">Show All Images</option>`)
     const { elGalleyData } = gGallery
     elGalleyData.innerHTML = strHTMLs.join('')
 }
 
 // Filter
-function onSetFilter(str) {
+function onSetFilter() {
     event.preventDefault()
+    let str = event.target.value
     const { elFilterBy } = gGallery
     !str ? str = elFilterBy.value : str
-    elFilterBy.value = str === ' ' ? null : str
+    elFilterBy.value = str === ' ' ? '' : str
     GALLERY_SERVICE.setFilter(str)
     renderGallery()
 }

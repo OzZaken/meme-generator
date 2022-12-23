@@ -1,4 +1,4 @@
-.modal::before{
+.modal::before {
     content: 'X';
     font: bold;
     font-size: 2rem;
@@ -6,10 +6,12 @@
     color: red;
     align-self: flex-start;
 }
-.modal .nav-back::before{
+
+.modal .nav-back::before {
     font-size: 3rem;
     color: green;
 }
+
 .modal {
     position: fixed;
     display: flex;
@@ -24,7 +26,7 @@
     font-weight: bold;
     border-radius: .5em;
     padding: 5px;
-  
+
     background: var(--clr-prim) linear-gradient(to bottom,
             var(--clr-prim),
             var(--clr-brighter) calc(50% - 10px),
@@ -32,7 +34,7 @@
             var(--clr-prim));
 }
 
-.modal[hidden]{
+.modal[hidden] {
     left: -101vw;
     top: -101vh;
 }

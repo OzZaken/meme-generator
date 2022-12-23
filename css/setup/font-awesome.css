@@ -52,7 +52,7 @@
     content: "\f038";
 }
 
-.btn-s::before {
+.btn-stroke::before {
     font-family: fa-solid;
     content: "\53";
 }

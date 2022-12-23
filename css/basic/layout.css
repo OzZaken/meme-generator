@@ -8,7 +8,8 @@
 /* Tablet */
 @media (min-width: 768px) {
     .main-layout>*:not(.full) {
-        margin-inline-end: 4vw;
+        /* margin-inline-end: 4vw; */
+        /* margin-inline-start: 4vw; */
     }
 }
 

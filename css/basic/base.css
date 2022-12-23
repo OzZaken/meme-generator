@@ -57,7 +57,7 @@ h1:not(:first-child) {animation: fade-in-up .5s;}
 h2 {
     padding: 20px 15px;
     text-transform: capitalize;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     font-size: calc(3vw + 1em);
@@ -65,8 +65,8 @@ h2 {
 }
 
 h3 {
-    /* margin: 0 0 1em; */
-    font-size: 3.9vw;
+    margin: 0 0 1em;
+    font-size: 3vw;
     line-height: 1.875rem;
     color: var(--clr-sec);
 }

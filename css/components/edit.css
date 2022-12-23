@@ -10,22 +10,6 @@ body.page-edit .main-edit-container {
     right: unset;
 }
 
-/* TODO: fix with js */
-/* .fade-out-up {animation: fade-out-up;} */
-
-/* @keyframes fade-out-up { */
-    /* from { */
-        /* position: relative; */
-        /* opacity: 1; */
-    /* } */
-
-    /* to { */
-        /* position: relative; */
-        /* margin-top: -15vh; */
-        /* /~ transform: translate3d(0, -15vh, 0); ~/ */
-    /* } */
-/* } */
-
 @keyframes fade-in-right {
     from {
         opacity: 0;
@@ -38,33 +22,41 @@ body.page-edit .main-edit-container {
     }
 }
 
-/* Laptop */
-@media (min-width: 769px) {
-    .main-edit-container {}
-}
+/* TODO: fix with js */
+/* .fade-out-up {animation: fade-out-up;} */
 
-/* DESKTOP */
-@media (min-width: 1020px) {
-    .main-edit-container {}
-}
+/* @keyframes fade-out-up { */
+/* from { */
+/* position: relative; */
+/* opacity: 1; */
+/* } */
+
+/* to { */
+/* position: relative; */
+/* margin-top: -15vh; */
+/* /~ transform: translate3d(0, -15vh, 0); ~/ */
+/* } */
+/* } */
+
+
 
 /* Meme Keywords */
-h2.keyword-heading {
+.keyword-heading {
     float: left;
 }
 
-h2.keyword-heading::before {
+.keyword-heading::before {
     content: 'Meme Keywords: ';
 }
 
 /* add keyword Form */
-.keyword-form-container {
-    padding: 10px;
+.inputs-meme-container {
+    display: flex;
+    background-color: red;
+    width: 100%;
 }
 
-.meme-keyword-form {
-    float: right;
-}
+
 
 input[name="meme-keyword"] {
     padding: 5px 5px;
@@ -77,33 +69,41 @@ canvas#meme {
     max-width: 90vw;
     display: block;
     margin: 0 auto;
-}
-
-canvas#meme {
-    max-height: 50vh;
+    max-height: 60vh;
+    border-radius: .5em;
 }
 
 /*                                  🐱‍👤👀🐱‍👤 */
-.form-meme-keyword,
-.form-meme-line-txt {
-    display: flex;
-    width: 50%;
+/* add keyword Form */
+.inputs-meme-container {
+
 }
 
-input[name="meme-keyword"],
-input[name="line-txt"] {
-    padding: 10px 15px;
+input[name="meme-keyword"] {
+    display: flex;
     font-family: fa-solid;
 }
 
-.form-meme-keyword {
-    float: left;
+input[name="line-txt"] {
+    display: flex;
+    font-family: fa-solid;
 }
 
-.form-meme-line-txt {
-    float: right;
+.color-btn::before {
+	content: '\f53f';
 }
 
+.stroke-btn::before {
+	content: '\f1fc';
+}
+
+.btn-color,
+.btn-stroke {
+	text-shadow: 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black,
+		0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black,
+		0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black,
+		0 0 2px black, 0 0 2px black, 0 0 2px black;
+}
 
 .editor-container {
     clear: both;
@@ -113,7 +113,11 @@ input[name="line-txt"] {
     grid-template-rows: repeat(3, 3em);
 }
 
-.editor-container i {
+[name="set-stroke-color"] {
+    display: none;
+}
+
+.editor-container button {
     background-color: var(--clr-brighter);
     font-family: fa-solid;
     display: flex;
@@ -121,7 +125,7 @@ input[name="line-txt"] {
     align-items: center;
 }
 
-.editor-container i:hover {
+.editor-container button:hover {
     cursor: pointer;
     color: var(--clr-prim);
 }
@@ -132,5 +136,16 @@ input[name="line-txt"] {
 
 .font-select {
     grid-column-start: 1;
-    grid-column-end: 4;
+    grid-column-end: 3;
+}
+
+
+/* Laptop */
+@media (min-width: 769px) {
+    .main-edit-container {}
+}
+
+/* DESKTOP */
+@media (min-width: 1020px) {
+    .main-edit-container {}
 }
