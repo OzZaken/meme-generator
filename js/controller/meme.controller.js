@@ -38,7 +38,6 @@ function init(dependencies) {
         ...dependencies,
         // MEME_CONTROLLER
         isTouchScreen: false,
-        isDraw: false,
         isGrab: false,
         isScale: false,
         elCtx: dependencies.elMeme.getContext('2d'),
@@ -176,7 +175,16 @@ function onSetMeme(meme) {
     if (meme) MEME_SERVICE.setMeme(meme)
     else {
         const { elMeme } = gMemeController
+        if (event.target) {
+            
+        }
         const val = event.target.value
+        console.log(`🚀 ~ event`, event)
+        console.log(`🚀 ~ event`, event.target)
+        if (event.target.dataset.font) {
+            console.log('Boya');
+        }
+        console.log(`🚀 ~ val`, val)
         // 🐱‍👤 funcMap 🐱‍👤
         const editor = {
             up: () => {
@@ -194,11 +202,19 @@ function onSetMeme(meme) {
             switchLine: () => MEME_SERVICE.setSelectedLineIdx(),
             createLine: () => MEME_SERVICE.createLine(),
             removeLine: () => MEME_SERVICE.removeLine(),
-            fSUp: () => MEME_SERVICE.setFontMap('size',  MEME_SERVICE.getLine().fontMap.size + 10),
-            fSDown: () => MEME_SERVICE.setFontMap('size', MEME_SERVICE.getLine().fontMap.size - 10),
-            alienL: () => MEME_SERVICE.setLine({textAlign:'left'}),
-            alienC: () => MEME_SERVICE.setLine({textAlign:'center'}),
-            alienR: () => MEME_SERVICE.setLine({textAlign:'right'})
+            fSUp: () =>{
+                const diff = MEME_SERVICE.getLine().fontMap.size + 10
+                if (diff>=100)return
+                MEME_SERVICE.setFontMap('size', diff)
+            },
+            fSDown: () => {
+                const diff = MEME_SERVICE.getLine().fontMap.size - 10
+                if (diff>=10)return
+                MEME_SERVICE.setFontMap('size',diff )
+            },
+            alienL: () => MEME_SERVICE.setLine({ 'textAlign': 'left' }),
+            alienC: () => MEME_SERVICE.setLine({ 'textAlign': 'center' }),
+            alienR: () => MEME_SERVICE.setLine({ 'textAlign': 'right' }),
         }
         editor[val]()
     }
@@ -213,11 +229,39 @@ function onSaveMeme() {
     console.log('event:', event)
     console.log('getMeme(),', getMeme());
 }
-
-// run over elCtx  
-function setCtx(ctxKeys) {
-    gMemeController.elCtx = { ...gMemeController.elCtx, ...ctxKeys }
+function isInLine(pos, isClicked) {
+	// reverse order so we chose the line on top
+	for (let i = gMeme.lines.length - 1; i >= 0; i--) {
+		const box = gMeme.lines[i].bindBox
+		if (
+			pos.x >= box.x &&
+			pos.x <= box.x + box.width &&
+			pos.y >= box.y &&
+			pos.y <= box.y + box.height
+		) {
+			if (isClicked) gMeme.selectedLineIdx = i
+			return true
+		}
+	}
+	return false
 }
+
+
+function moveLine() {
+    const line = getLine()
+    const pos = getPos()
+    const { elMeme } = gMemeController
+    // don't let the text to go out of the canvas completely
+    const lineX = line.pos.x + diffX
+    const lineY = line.pos.y + diffY
+
+    if (lineY < 0 || lineY > elMeme.height) return
+    if (lineX < 0 || lineX > elMeme.width) return
+
+    line.pos.x = lineX
+    line.pos.y = lineY
+}
+// run over elCtx  
 // function setSaveLink() {
 //     const imgContent = gElCanvas.toDataURL('image/jpeg');
 //     addToSavedMemes(imgContent)

@@ -39,7 +39,7 @@ function onInit() {
         elMemeContainer: document.querySelector('.meme-container'),
         elKeywordsContainer: document.querySelector('.meme-keyword-container'),
         flashMsg,
-        getPosOnEl,
+        getPosOnEl: getPos,
     }
 
     // Set Controller State
@@ -124,19 +124,19 @@ function onInit() {
 }
 
 // return current click Pos on Element.
-function getPosOnEl(ev) {
+function getPos() {
     const pos = {
-        x: ev.offsetX,
-        y: ev.offsetY
+        x: event.offsetX,
+        y: event.offsetY
     }
     const touchEvs = ['touchstart', 'touchmove', 'touchend']
-    if (touchEvs.includes(ev.type)) {
-        ev.preventDefault()
+    if (touchEvs.includes(event.type)) {
+        event.preventDefault()
         // Take 1 Mobile touch {Pos} in case of multi fingers clicking
-        ev = ev.changedTouches[0]
+        event = event.changedTouches[0]
         pos = {
-            x: ev.pageX - ev.target.offsetLeft,
-            y: ev.pageY - ev.target.offsetTop
+            x: event.pageX - event.target.offsetLeft,
+            y: event.pageY - event.target.offsetTop
         }
     }
     return pos
@@ -242,7 +242,7 @@ function onToggleMenu() {
 
 // Hide Modal.
 function onTouchModal(isForceClose) {
-    const touchPos = getPosOnEl(event)
+    const touchPos = getPos(event)
     if (isForceClose || // click on X
         touchPos.x <= 30 && touchPos.y <= 36) {
         const { elModal } = gMainController

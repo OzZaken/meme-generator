@@ -113,12 +113,11 @@
                     <button value="removeLine" onclick="app.onSetMeme()" title="Delete last line" class="btn-trash"></button>
                     <button value="fSUp" onclick="app.onSetMeme()" title="Size Up" class="btn-font-size-plus"></button>
                     <button value="fSDown" onclick="app.onSetMeme()" title="Size Down" class="btn-font-size-minus"></button>
-                    <button value="alienL" onclick="onSetMeme()" title="align left" class="btn-align-left"></button>
+                    <button value="alienL" onclick="app.onSetMeme()" title="align left" class="btn-align-left"></button>
                     <button value="alienC" onclick="app.onSetMeme()" title="align center" class="btn-align-center"></button>
                     <button value="alienR" onclick="app.onSetMeme()" title="align left" class="btn-align-right"></button>
-
                     <!-- Select Fonts -->
-                    <select title="Select fonts" onchange="app.onSetMeme()" class="font-select fa-solid"
+                    <select data-font="family" title="Select fonts" onchange="app.onSetMeme()" class="font-select fa-solid"
                         name="change-fonts">
                         <option value="impact">Impact</option>
                         <option value="italic">Italic</option>
