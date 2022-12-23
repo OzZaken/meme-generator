@@ -39,7 +39,7 @@ function onInit() {
         elMemeContainer: document.querySelector('.meme-container'),
         elKeywordsContainer: document.querySelector('.meme-keyword-container'),
         flashMsg,
-        getPosOnEl: getPos,
+        getPos,
     }
 
     // Set Controller State
@@ -61,6 +61,7 @@ function onInit() {
             elPageEdit: document.querySelector('.main-edit-container'),
             elPageAbout: document.querySelector('.main-about-container')
         },
+        elAboutHeading:document.querySelector('.about-heading'),
         ...GALLERY_CONTROLLER.init(initGalleryData),
         ...MEME_CONTROLLER.init(initMemeData)
     }
@@ -75,8 +76,8 @@ function onInit() {
         onSetAspectRatio,
         // MEME_CONTROLLER
         onSetMeme,
-        
-        
+
+
     } = gMainController
 
     window.app = {
@@ -101,7 +102,6 @@ function onInit() {
     // Gallery
     gMainController.renderGallery()
     gMainController.elGalleryStatContainer = document.querySelector('.gallery-stat')
-
     gMainController.renderKeywordsOpts()
     gMainController.renderKeywordsBtns()
 
@@ -170,7 +170,7 @@ function onNav(navToStr) {
     // Set Mobile menu Bar
     if (document.body.classList.contains('mobile-menu-open')) onToggleMenu()
 
-    // If navigate to Edit without pick image, show nac-back
+    // If navigate to Edit without pick image nav-back
     const { elEditHeading } = gMainController
     const { elNavBack } = gMainController.links
 
@@ -178,37 +178,31 @@ function onNav(navToStr) {
         const { src } = gMainController.getMeme()
         if (!src) {
             elNavBack.hidden = false
-            const strHTML = 
-            `
-            <h2>no image selected!</h2>
-            <a class="nav-back" onclick="app.onNav()" title="return to gallery" href="#"></a>
-            <p>Choose from the the
-            <span role="link" data-href="#" class="btn underline" title="return to gallery" onclick="app.onNav()" tabindex="0">
-            Gallery
-            </span>
-            </p>
-            <label for="upload-img">We Recommended Uploads Your Image!</label>
-            `
+            const strHTML = `<h2>no image selected!</h2>
+                <a class="nav-back" onclick="app.onNav()" title="return to gallery" href="#"></a>
+                <p>Choose from the the
+                <span role="link" data-href="#" class="btn underline" title="return to gallery" onclick="app.onNav()" tabindex="0">
+                Gallery
+                </span>
+                </p>
+                <label for="upload-img">We Recommended Uploads Your Image!</label>`
             renderModal(false, strHTML)
         }
-        else {
-            elEditHeading.value = 'Edit Your Meme!'
-            // setTimeout(() => elEditHeading.style.marginTop = '-15vh', 4000)
-        }
+        else elEditHeading.value = 'Edit Your Meme!'
     }
     else {
         onTouchScreen()
         elNavBack.hidden = true
     }
 
-    // Set .active class
+    // Set .active class on App Main Nav
     const { links } = gMainController
     document.querySelector('.active').classList.remove('active')
     links[`elLink${capitalName}`].classList.add('active')
 
     // Set body .page-${} class 
-    const curClassStr = Object.values(document.body.classList)
-        .find(classStr => /page-/.test(classStr))
+    const curClassStr = Object.values(document.body.classList).find(classStr => /page-/.test(classStr))
+
     document.body.classList.remove(`${curClassStr}`)
     document.body.classList.add(`page-${navToStr}`)
 
@@ -218,6 +212,12 @@ function onNav(navToStr) {
     const { pages } = gMainController
     const elActivePage = pages[`elPage${capitalName}`]
     elActivePage.hidden = false
+
+    // Set Heading animation
+    const elActiveHeading = gMainController[`el${capitalName}Heading`]
+    const elClass = document.querySelector('.fade-out-up')
+    if (elClass) elClass.classList.remove('fade-out-up')
+    setTimeout(() => elActiveHeading.classList.add('fade-out-up'), 2000)
 
     playAudio('click')
 }

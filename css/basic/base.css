@@ -29,7 +29,7 @@ h1 {
     margin-top: 0;
     padding-top: 0;
     min-height: 15vh;
-    
+
     color: var(--clr-prim);
     background-image: url('../../assets/img/heading.png');
     border-bottom: 1.5px solid var(--clr-prim);
@@ -40,7 +40,9 @@ h1 {
 }
 
 /* cancel animation on searching img*/
-h1:not(:first-child) {animation: fade-in-up .5s;}
+h1:not(:first-child) {
+    animation: fade-in-up .5s;
+}
 
 @keyframes fade-in-up {
     from {
@@ -67,6 +69,9 @@ h2 {
 h3 {
     margin: 0 0 1em;
     font-size: 3vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     line-height: 1.875rem;
     color: var(--clr-sec);
 }
@@ -138,7 +143,7 @@ input:hover {
     cursor: pointer;
 }
 
-label{
+label {
     cursor: pointer;
     padding: 5px;
     margin-inline-start: 10px;
@@ -147,11 +152,15 @@ label{
 
 button,
 .btn,
-[role="button"]:active {transform: scale(1.03);}
+[role="button"]:active {
+    transform: scale(1.03);
+}
 
 button,
 .btn,
-[role="button"]:hover {transform: scale(1.01);}
+[role="button"]:hover {
+    transform: scale(1.01);
+}
 
 .btn-big {
     color: var(--clr-prim);

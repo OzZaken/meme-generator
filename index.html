@@ -93,73 +93,60 @@
             <div class="meme-container">
                 <canvas id="meme" height="350" width="350"></canvas>
             </div>
-
-            <!-- Add Text Line -->
-            <label for="Add New Text line"></label>
-
-            <form hidden class="set-line-txt" onsubmit="ev.preventDefault();app.onAddTxtLine()">
-
-                <button hidden></button>
-            </form>
-
-            <!-- Add Keyword -->
-            <label for="Add keyword"></label>
-            <form onsubmit="event.preventDefault();onAddKeyword()" list="gallery-keyword" class="form-meme-keyword">
-                <input onsubmit="app.onAddKeyword(this.value)" name="meme-keyword" type="text"
-                    placeholder="Add new keyword">
-                <button hidden></button>
-            </form>
-
             <!-- 🐱‍👤 -->
-            <div class="btns-editor-container">
-                <div class="editor-container">
-                    <!-- Btns -->
-                    <button value="onUp" onclick="app.onSetMeme()" role="button" title="Move text up"
-                        class="btn-arrow-up"></button>
-                    <button value="onDown" onclick="app.onSetMeme()" title="Move text Down"
-                        class="btn-arrow-down"></button>
-                    <button value="onSwitchLine" onclick="app.onSetMeme()" title="Switch between lines"
-                        class="btn-arrow-up-arrow-down"></button>
-                    <button value="onCreateLine" onclick="app.onSetMeme()" title="Add New txt line"
-                        class="btn-plus"></button>
-                    <button value="onRemoveLine" onclick="app.onSetMeme()" title="Delete last line"
-                        class="btn-trash"></button>
-                    <button value="onFSUp" onclick="app.onSetMeme()" title="Size Up"
-                        class="btn-font-size-plus"></button>
-                    <button value="onFSDown" onclick="app.onSetMeme()" title="Size Down"
-                        class="btn-font-size-minus"></button>
-                    <button value="onAlienL" onclick="app.onSetMeme()" title="align left"
-                        class="btn-align-left"></button>
-                    <button value="onAlienC" onclick="app.onSetMeme()" title="align center"
-                        class="btn-align-center"></button>
-                    <button value="onAlienR" onclick="app.onSetMeme()" title="align left"
-                        class="btn-align-right"></button>
-                    <!-- Select Fonts -->
-                    <select data-font="onFamily" title="Select fonts" onchange="app.onSetMeme()"
-                        class="font-select fa-solid" name="change-fonts">
-                        <option value="fa">Fa</option>
-                        <option value="fa-solid">Fa-solid</option>
-                        <option value="impact">Impact</option>
-                        <option value="italic">Italic</option>
-                        <option value="bold">Bold</option>
-                        <option value="Serif">Serif</option>
-                        <option value="Sans-Serif">Sans-Serif</option>
-                        <option value="Monospace">Monospace</option>
-                        <option value="Monospace">Monospace</option>
-                        <option value="Cursive">Cursive</option>
-                        <option value="Cursive">Cursive</option>
-                        <option value="MS">MS</option>
-                    </select>
+            <div class="btns-edit-container">
+                <form onsubmit="event.preventDefault();onAddKeyword()" list="gallery-keyword" class="form-meme-keyword">
+                    <input onsubmit="app.onAddKeyword(this.value)" name="meme-keyword" type="text"
+                        placeholder="Add new keyword">
+                    <button hidden></button>
+                </form>
 
-                    <button>
-                        <label class="btn-stroke" for="set-stroke-color"></label>
-                    </button>
-                    <button>
-                        <label for="set-fill-color" class="btn-fill-color"></label>
+                <form class="set-line-txt" onsubmit="ev.preventDefault();app.onAddTxtLine()">
+                    <label for="set-txt"></label>
+                    <button hidden></button>
+                </form>
+                <!-- Btns -->
+                <button value="onUp" onclick="app.onSetMeme()" role="button" title="Move text up"
+                    class="btn-arrow-up"></button>
+                <button value="onDown" onclick="app.onSetMeme()" title="Move text Down" class="btn-arrow-down"></button>
+                <button value="onSwitchLine" onclick="app.onSetMeme()" title="Switch between lines"
+                    class="btn-arrow-up-arrow-down"></button>
+                <button value="onCreateLine" onclick="app.onSetMeme()" title="Add New txt line"
+                    class="btn-plus"></button>
+                <button value="onRemoveLine" onclick="app.onSetMeme()" title="Delete last line"
+                    class="btn-trash"></button>
+                <button value="onFSUp" onclick="app.onSetMeme()" title="Size Up" class="btn-font-size-plus"></button>
+                <button value="onFSDown" onclick="app.onSetMeme()" title="Size Down"
+                    class="btn-font-size-minus"></button>
+                <button value="onAlienL" onclick="app.onSetMeme()" title="align left" class="btn-align-left"></button>
+                <button value="onAlienC" onclick="app.onSetMeme()" title="align center"
+                    class="btn-align-center"></button>
+                <button value="onAlienR" onclick="app.onSetMeme()" title="align left" class="btn-align-right"></button>
+                <!-- Select Fonts -->
+                <select data-font="onFamily" title="Select fonts" onchange="app.onSetMeme()"
+                    class="font-select fa-solid" name="change-fonts">
+                    <option value="fa">Fa</option>
+                    <option value="fa-solid">Fa-solid</option>
+                    <option value="impact">Impact</option>
+                    <option value="italic">Italic</option>
+                    <option value="bold">Bold</option>
+                    <option value="Serif">Serif</option>
+                    <option value="Sans-Serif">Sans-Serif</option>
+                    <option value="Monospace">Monospace</option>
+                    <option value="Monospace">Monospace</option>
+                    <option value="Cursive">Cursive</option>
+                    <option value="Cursive">Cursive</option>
+                    <option value="MS">MS</option>
+                </select>
 
-                    </button>
+                <button>
+                    <label class="btn-stroke" for="set-stroke-color"></label>
+                </button>
 
-                </div>
+                <button>
+                    <label for="set-fill-color" class="btn-fill-color"></label>
+                </button>
+
 
                 <!-- Export -->
                 <div class="export  flex justify-center align-center">
@@ -175,7 +162,7 @@
 
         <!-- About -->
         <section class="page main-about-container">
-            <h1>about</h1>
+            <h1 class="about-heading">about</h1>
 
             <article class="about-me">
                 <h2>me</h2>
