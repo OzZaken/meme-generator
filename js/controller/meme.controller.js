@@ -10,12 +10,14 @@ function init(dependencies) {
     const {
         getMeme,
         setMeme,
+        getLines,
         getLine,
         setLine,
         getLinePos,
         setLinePos,
         createLine,
         removeLine,
+        getSelectedLineIdx,
         setSelectedLineIdx,
         getFontMap,
         setFontMap,
@@ -25,12 +27,14 @@ function init(dependencies) {
         // MEME_SERVICE
         getMeme,
         setMeme,
+        getLines,
         getLine,
         setLine,
         getLinePos,
         setLinePos,
         createLine,
         removeLine,
+        getSelectedLineIdx,
         setSelectedLineIdx,
         getFontMap,
         setFontMap,
@@ -62,12 +66,52 @@ function init(dependencies) {
     return gMemeController
 }
 
-// HANDLE EVENTS 
+// 🐱‍👤
+function onSetMeme(meme) {
+    if (meme) MEME_SERVICE.setMeme(meme)
+    else {
+        const { elMeme } = gMemeController
+        const val = event.target.dataset.font ? event.target.dataset.font : event.target.value
+        const _onEditMap = {
+            onUp: () => {
+                const posY = gMemeController.getLinePos().y
+                if (posY <= 50) return
+                const updatedPos = posY - elMeme.height / 20
+                MEME_SERVICE.setLinePos({ y: updatedPos })
+            },
+            onDown: () => {
+                const posY = gMemeController.getLinePos().y
+                if (posY >= elMeme.height - 1) return
+                const updatedPos = posY + elMeme.height / 20
+                MEME_SERVICE.setLinePos({ y: updatedPos })
+            },
+            onSwitchLine: () => MEME_SERVICE.setSelectedLineIdx(),
+            onCreateLine: () => MEME_SERVICE.createLine(),
+            onRemoveLine: () => MEME_SERVICE.removeLine(),
+            onFSUp: () => {
+                const diff = MEME_SERVICE.getLine().fontMap.size + 10
+                if (diff >= 100) return
+                MEME_SERVICE.setFontMap('size', diff)
+            },
+            onFSDown: () => {
+                const diff = MEME_SERVICE.getLine().fontMap.size - 10
+                if (diff >= 10) return
+                MEME_SERVICE.setFontMap('size', diff)
+            },
+            onAlienL: () => MEME_SERVICE.setLine({ 'textAlign': 'left' }),
+            onAlienC: () => MEME_SERVICE.setLine({ 'textAlign': 'center' }),
+            onAlienR: () => MEME_SERVICE.setLine({ 'textAlign': 'right' }),
+            onFamily: () => MEME_SERVICE.setFontMap('family', event.target.value),
+        }
+        _onEditMap[val]()
+    }
+    renderMeme()
+}
+
 function onMove() {
     const { isTouchScreen, isDarg, isScale, isDraw } = gMemeController
     if (!isTouchScreen) return
     const pos = getPos(ev)
-    console.log(`🚀 ~ pos`, pos)
     // if (isMemeDrag()) {
     //     ev.preventDefault()
     //     const pos = getEvPos(ev)
@@ -93,9 +137,8 @@ function onUp() {
 
 function onDown() {
     const touchPos = gMemeController.getPos(event)
-    console.log(`🚀 ~ touchPos`, touchPos)
+    const lines = gMemeController.getLines()
 }
-
 
 // Resize Meme Container based offsetWidth 
 function resizeMeme() {
@@ -134,87 +177,93 @@ function renderMeme() {
     }
 }
 
+// ctx
+function _setCtx(line) {
+    console.log(`🚀 ~ _setCtx`,line)
+    const { elCtx } = gMemeController
+    for (const key in line) {
+        if (key === 'pos') {
+            const valStr = JSON.stringify(line[key])
+            elCtx[key] = JSON.parse(valStr)
+            continue
+        }
+        elCtx[key] = line[key]
+    }
+    elCtx.save()
+}
+
 // Get Line model from Service And render
 function drawLine(line) {
-    const { elCtx } = gMemeController
-    elCtx.beginPath()
-    elCtx.lineWidth = line.lineWidth
-    elCtx.textAlign = line.textAlign
-    elCtx.fillStyle = line.fillStyle
-    elCtx.strokeStyle = line.strokeStyle
-
-    // Set Font 
-    const { fontMap } = line
-    elCtx.font = `${fontMap.size}${fontMap.sizeUnit} ${fontMap.family}`
-
-    // Set Pos, Opt start without Pos
+    // Give Opt for empty Pos
     const { elMeme } = gMemeController
-
-    let posX
+    // X
     if (!line.pos.x) {
-        posX = elMeme.width / 2
-        const horizontal = { x: posX }
+        line.pos.x = elMeme.width / 2
+        const horizontal = { x: line.pos.x }
         gMemeController.setLinePos(horizontal)
     }
-    else posX = line.pos.x
-    let posY
+    // Y
     if (!line.pos.y) {
-        posY = elMeme.height / 2
-        const vertical = { y: posY }
+        line.pos.y = elMeme.height / 2
+        const vertical = { y: line.pos.y }
         gMemeController.setLinePos(vertical)
     }
-    else posY = line.pos.y
+    // measure Pos
+    const { elCtx } = gMemeController
+    const TxtMetrics = elCtx.measureText(line.txt)
+    const pos = {
+        ...line.pos,
+        width: TxtMetrics.width,
+        height: TxtMetrics.fontBoundingBoxDescent + TxtMetrics.fontBoundingBoxAscent,
+    }
+    const { x, y, width, } = pos // complete Pos
 
-    elCtx.fillText(line.txt, posX, posY)
-    elCtx.strokeText(line.txt, posX, posY)
+    // ...line (no need for fontMap from here)
+    const { lineWidth, textAlign, fillStyle, strokeStyle, txt } = line
+    const { size, unit, family } = line.fontMap // Font 
+    const updateCtx = {
+        lineWidth,
+        textAlign,
+        fillStyle,
+        strokeStyle,
+        txt,
+        pos,
+        font: `${size}${unit} ${family}`,
+    }
+    _setCtx(updateCtx)
+    // elCtx.lineWidth = 2
+    // elCtx.fillStyle = 'red'
+    // elCtx.strokeStyle = 'green'
+    // elCtx.save()
+
+    // Draw Line
+    elCtx.beginPath()
+
+    // if (line.isActive)
+    elCtx.fillText(line.txt, x, y, width)
+    // drawRect(x, y, width, height)
+    elCtx.strokeText(line.txt, x, y)
     elCtx.closePath()
 }
 
-// 🐱‍👤
-function onSetMeme(meme) {
-    if (meme) MEME_SERVICE.setMeme(meme)
-    else {
-        const { elMeme } = gMemeController
-
-        const val = event.target.dataset.font ? event.target.dataset.font : event.target.value
-
-        console.log(`🚀 ~ val`, val)
-        // 🐱‍👤 funcMap 🐱‍👤
-        const editor = {
-            onUp: () => {
-                const posY = gMemeController.getLinePos().y
-                if (posY <= 50) return
-                const updatedPos = posY - elMeme.height / 20
-                MEME_SERVICE.setLinePos({ y: updatedPos })
-            },
-            onDown: () => {
-                const posY = gMemeController.getLinePos().y
-                if (posY >= elMeme.height - 1) return
-                const updatedPos = posY + elMeme.height / 20
-                MEME_SERVICE.setLinePos({ y: updatedPos })
-            },
-            onSwitchLine: () => MEME_SERVICE.setSelectedLineIdx(),
-            onCreateLine: () => MEME_SERVICE.createLine(),
-            onRemoveLine: () => MEME_SERVICE.removeLine(),
-            onFSUp: () => {
-                const diff = MEME_SERVICE.getLine().fontMap.size + 10
-                if (diff >= 100) return
-                MEME_SERVICE.setFontMap('size', diff)
-            },
-            onFSDown: () => {
-                const diff = MEME_SERVICE.getLine().fontMap.size - 10
-                if (diff >= 10) return
-                MEME_SERVICE.setFontMap('size', diff)
-            },
-            onAlienL: () => MEME_SERVICE.setLine({ 'textAlign': 'left' }),
-            onAlienC: () => MEME_SERVICE.setLine({ 'textAlign': 'center' }),
-            onAlienR: () => MEME_SERVICE.setLine({ 'textAlign': 'right' }),
-            onFamily: () => MEME_SERVICE.setFontMap('family',event.target.value),
-        }
-        editor[val]()
-    }
-    renderMeme()
+function drawOutLine(x, y, width, height) {
+    const { elCtx } = gMemeController
+    elCtx.restore()
+    elCtx.beginPath()
+    elCtx.rect(x, y, width, height);
+    elCtx.stroke();
+    elCtx.closePath();
 }
+
+function drawText(txt, x, y) {
+    console.log('draw');
+    console.log(`🚀 ~ elCtx`, elCtx)
+    elCtx.restore()
+    elCtx.beginPath()
+    elCtx.strokeText(txt, x, y);
+    elCtx.closePath()
+}
+
 
 function onCreateLine() {
     MEME_SERVICE.createLine()

@@ -1,45 +1,52 @@
 export const MEME_SERVICE = {
     getMeme,
     setMeme,
+    getLines,
     getLine,
     setLine,
     getLinePos,
     setLinePos,
     createLine,
     removeLine,
+    getSelectedLineIdx,
     setSelectedLineIdx,
-    setFontMap,
     getFontMap,
+    setFontMap,
 }
 
 const MEME = {
     storageKey: 'memeDB',
     memes: null,
-    // setMeme
     meme: {
         src: null,
         selectedLineIdx: 0,
         keywords: [],
         lines: [
-            // setLine
             {
-                txt: 'Add some text',
+                fillStyle: '#222',
+                font: '60px fa-solid',
+                textBaseline:'middle',
+                txt: 'Edit some text!',
                 lineWidth: 2,
                 textAlign: 'center',
-                fillStyle: 'black',
-                strokeStyle: 'red',
-                //setLinePos
+                strokeStyle: 'black',
                 pos: { x: null, y: null },
-                // setFontMap
                 fontMap: {
-                    size: 30,
-                    sizeUnit: 'px',
+                    size: 50,
+                    unit: 'px',
                     family: 'impact',
                 },
             },
         ]
     }
 }
+
+//  Meme
+function getMeme() { return MEME.meme }
+
+function setMeme(meme) { MEME.meme = { ...MEME.meme, ...meme } }
+
+//  Line
 
 function createLine() {
     getLines().push({
@@ -51,7 +58,7 @@ function createLine() {
         pos: { x: null, y: null },
         fontMap: {
             size: 50,
-            sizeUnit: 'px',
+            unit: 'px',
             family: 'fa-solid',
         },
     })
@@ -59,29 +66,17 @@ function createLine() {
 }
 
 function removeLine() {
-    getLines().splice(-1)
+    const lines = getLines()
+    if (lines.length <= 0) return
+    lines.splice(-1)
     setSelectedLineIdx()
 }
 
-function setSelectedLineIdx() {
-    const lines = getLines()
-    const { meme } = MEME
-    if (!lines.length || lines.length === 0) return
-    if (meme.selectedLineIdx >= lines.length) meme.selectedLineIdx = 0
-    else meme.selectedLineIdx++
-}
-
-//  Meme
-function getMeme() { return MEME.meme }
-
-function setMeme(meme) { MEME.meme = { ...MEME.meme, ...meme } }
-
-//  Line
-function getLine() { return MEME.meme.lines[MEME.meme.selectedLineIdx] }
-
-function getLines() { return getMeme().lines }
+function getLine() { return getLines()[getSelectedLineIdx()] }
 
 function setLine(val) { getLine() = { ...getLine(), ...val } }
+
+function getLines() { return getMeme().lines }
 
 //  Line Pos
 function getLinePos() { return getLine().pos }
@@ -92,3 +87,16 @@ function setLinePos(val) { getLine().pos = { ...getLine().pos, ...val } }
 function getFontMap() { return getLine().fontMap }
 
 function setFontMap(key, val) { getLine().fontMap[key] = val }
+
+// Selected Line Idx
+function getSelectedLineIdx() {
+    return MEME.meme.selectedLineIdx
+}
+
+function setSelectedLineIdx() {
+    const lines = getLines()
+    const { meme } = MEME
+    if (!lines.length || lines.length === 0) return
+    if (meme.selectedLineIdx >= lines.length) meme.selectedLineIdx = 0
+    else meme.selectedLineIdx++
+}
