@@ -39,6 +39,28 @@ const INIT_IMAGES = [
     { url: 'assets/img/gallery/23.jpg', keywords: ['celeb'] },
     { url: 'assets/img/gallery/24.jpg', keywords: ['celeb', 'angry'] },
     { url: 'assets/img/gallery/25.jpg', keywords: ['funny', 'celeb'] },
+
+    { url: 'assets/img/gallery/26.jpg', keywords: [] },
+    { url: 'assets/img/gallery/27.jpg', keywords: [] },
+    { url: 'assets/img/gallery/28.jpg', keywords: [] },
+    { url: 'assets/img/gallery/29.jpg', keywords: [] },
+    { url: 'assets/img/gallery/30.jpg', keywords: [] },
+    { url: 'assets/img/gallery/31.jpg', keywords: [] },
+    { url: 'assets/img/gallery/32.jpg', keywords: [] },
+    { url: 'assets/img/gallery/33.jpg', keywords: [] },
+    { url: 'assets/img/gallery/34.jpg', keywords: [] },
+    { url: 'assets/img/gallery/36.jpg', keywords: [] },
+    { url: 'assets/img/gallery/37.jpg', keywords: [] },
+    { url: 'assets/img/gallery/38.jpg', keywords: [] },
+    { url: 'assets/img/gallery/39.jpg', keywords: [] },
+    { url: 'assets/img/gallery/40.jpg', keywords: [] },
+    { url: 'assets/img/gallery/41.jpg', keywords: [] },
+    { url: 'assets/img/gallery/42.jpg', keywords: [] },
+    { url: 'assets/img/gallery/43.jpg', keywords: [] },
+    { url: 'assets/img/gallery/44.jpg', keywords: [] },
+    { url: 'assets/img/gallery/45.jpg', keywords: [] },
+    { url: 'assets/img/gallery/46.jpg', keywords: [] },
+    { url: 'assets/img/gallery/47.jpg', keywords: [] },
 ]
 
 // GALLERY_SERVICE MODEL STATE 

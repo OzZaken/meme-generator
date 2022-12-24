@@ -25,7 +25,7 @@ const MEME = {
             {
                 fillStyle: '#222',
                 font: '60px fa-solid',
-                textBaseline:'middle',
+                textBaseline: 'middle',
                 txt: 'Edit some text!',
                 lineWidth: 2,
                 textAlign: 'center',

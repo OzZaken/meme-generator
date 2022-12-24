@@ -16,6 +16,6 @@
 /* Desktop */
 @media (min-width: 1020px) {
     .main-layout>*:not(.full) {
-        margin-inline-end: 5vw;
+        /* margin-inline-end: 5vw; */
     }
 }

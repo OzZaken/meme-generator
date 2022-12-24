@@ -179,9 +179,10 @@ function renderMeme() {
 
 // ctx
 function _setCtx(line) {
-    console.log(`🚀 ~ _setCtx`,line)
+    console.log(`🚀 ~ _setCtx`, line)
     const { elCtx } = gMemeController
     for (const key in line) {
+        // TODO:: nice but no need because Focus is on other func
         if (key === 'pos') {
             const valStr = JSON.stringify(line[key])
             elCtx[key] = JSON.parse(valStr)
@@ -210,13 +211,12 @@ function drawLine(line) {
     }
     // measure Pos
     const { elCtx } = gMemeController
+   
     const TxtMetrics = elCtx.measureText(line.txt)
     const pos = {
-        ...line.pos,
         width: TxtMetrics.width,
         height: TxtMetrics.fontBoundingBoxDescent + TxtMetrics.fontBoundingBoxAscent,
     }
-    const { x, y, width, } = pos // complete Pos
 
     // ...line (no need for fontMap from here)
     const { lineWidth, textAlign, fillStyle, strokeStyle, txt } = line
@@ -227,29 +227,31 @@ function drawLine(line) {
         fillStyle,
         strokeStyle,
         txt,
-        pos,
+        ...line.pos,
         font: `${size}${unit} ${family}`,
     }
     _setCtx(updateCtx)
-    // elCtx.lineWidth = 2
-    // elCtx.fillStyle = 'red'
-    // elCtx.strokeStyle = 'green'
-    // elCtx.save()
 
     // Draw Line
     elCtx.beginPath()
-
     // if (line.isActive)
-    elCtx.fillText(line.txt, x, y, width)
-    // drawRect(x, y, width, height)
-    elCtx.strokeText(line.txt, x, y)
+    // const { x, y, width, height } = pos
+    elCtx.strokeText(line.txt, line.x, line.y)
     elCtx.closePath()
+
+    // Focus
+    drawOutLine(line.txt, line.x, line.y, width, height)
 }
 
-function drawOutLine(x, y, width, height) {
+function drawOutLine(txt, x, y, width, height) {
     const { elCtx } = gMemeController
-    elCtx.restore()
+    const TxtMetrics = elCtx.measureText(txt)
+    console.log(`🚀 ~ TxtMetrics`, TxtMetrics)
+
     elCtx.beginPath()
+    elCtx.lineWidth = 3
+    elCtx.fillStyle = 'red'
+    elCtx.strokeStyle = 'green'
     elCtx.rect(x, y, width, height);
     elCtx.stroke();
     elCtx.closePath();

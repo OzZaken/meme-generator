@@ -47,6 +47,7 @@ body.page-edit .main-edit-container {
 /*                                  🐱‍👤👀🐱‍👤 */
 
 /* Canvas */
+.meme-container{border: 2px solid #222;}
 canvas#meme {
     clear: both;
     max-width: 90vw;

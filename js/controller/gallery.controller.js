@@ -12,7 +12,6 @@ function init(args) {
     const { galleryName } = args
     !galleryName ? galleryName = 'image' : galleryName
     GALLERY_SERVICE.setGalleryStorageKey(galleryName)
-    console.log(`🚀 ~ init`, galleryName)
 
     // switch img based url 
     // const fileName = url.substr(url.lastIndexOf('/') + 1)
@@ -23,7 +22,6 @@ function init(args) {
         renderGallery,
         renderKeywordsBtns,
         renderKeywordsOpts,
-
         onClickKeyword,
         onSetAspectRatio,
         onSetFilter,
@@ -123,9 +121,19 @@ function onClickKeyword() {
     dataset.fs++
 }
 
-// Set aspect-ratio style On Image // TODO: use it to dix the Grid layout
+// Set aspect-ratio style On Image 
 function onSetAspectRatio(el) {
-    el.style.aspectRatio = `${el.naturalWidth}/${el.naturalHeight}`
+    const width = el.naturalWidth
+    const height = el.naturalHeight
+    // el.style.aspectRatio = `${el.naturalWidth}/${el.naturalHeight}`
+    if (width===height){
+        el.style.aspectRatio= '1/1' // why Not? 
+        el.style.gridColumn= `span 1`
+    }
+   
+    if (height>width)el.style.gridRow= `span ${Math.round(height/width)}`
+    if (width>height)el.style.gridColumn= `span ${Math.round(width/height)}`
+
 }
 
 // openModal with All Keywords 
