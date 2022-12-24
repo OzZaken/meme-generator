@@ -126,13 +126,24 @@ function onSetAspectRatio(el) {
     const width = el.naturalWidth
     const height = el.naturalHeight
     // el.style.aspectRatio = `${el.naturalWidth}/${el.naturalHeight}`
-    if (width===height){
-        el.style.aspectRatio= '1/1' // why Not? 
-        el.style.gridColumn= `span 1`
+    if (width === height) {
+        el.style.aspectRatio = '1 / 1' // why Not? 
+        el.style.gridColumn = `span 1`
     }
-   
-    if (height>width)el.style.gridRow= `span ${Math.round(height/width)}`
-    if (width>height)el.style.gridColumn= `span ${Math.round(width/height)}`
+    //    USE %
+    if (width > height) {
+        console.log(`Width > (${width}/${height}) ${width / height}
+         aspect-ratio\nWidth % height ${width % height}\n:`, Math.ceil(width / height))
+        el.style.gridColumn = `span ${Math.floor(width / height)}`
+        el.title = `${Math.ceil(width / height)}`
+    }
+    if (height > width) {
+        console.log(`Height > (${width}/${height}) ${height /width }
+         aspect-ratio\nHeight % width ${(height % width)}\n:`, Math.ceil(height / width))
+        el.title = `${Math.floor(height / width)}`
+        el.style.gridRow = `span ${Math.floor(height / width)}`
+    }
+
 
 }
 
