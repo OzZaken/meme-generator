@@ -115,20 +115,17 @@ function onInit() {
     document.querySelector('[name="select-lang"]').selectedOptions.value === userLang
     // TODO: // onTranslateDom()
 
-    // User-Msg
-  
-  
-    // Check if the user has visited the website before
-    if (localStorage.getItem('visits')) {
-        // If the user has visited before, increment the visit count
-        const visits = parseInt(localStorage.getItem('visits'), 10) + 1
-        localStorage.setItem('visits', visits);
-        flashMsg('Welcome back!')
-    } else {
-        // If the user has not visited before, set the visit count to 1
-        localStorage.setItem('visits', 1)
-        flashMsg('Welcome back!')
+    // Count Visits
+    const visits = parseInt(localStorage.getItem('visits'))
+    if (!visits) {
+        flashMsg('First time Welcome!')
+        localStorage.setItem('visits',1)
     }
+    else {
+        flashMsg(`Welcome ${visits} Times back!`)
+        localStorage.setItem('visits',visits+1)
+    }
+
     setTimeout(() => {
         if (document.body.classList.contains('page-gallery')) flashMsg('Choose Meme Background!')
     }, 5000)
