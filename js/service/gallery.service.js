@@ -14,10 +14,12 @@ export const GALLERY_SERVICE = {
 
 // Initial Images 
 const INIT_IMAGES = [
-    { url: 'assets/img/gallery/32.jpg', keywords: [] },
+    { url: 'assets/img/gallery/32.jpg', keywords: ['messi'] },
+    { url: 'assets/img/gallery/29.jpg', keywords: [] },
     { url: 'assets/img/gallery/34.jpg', keywords: [] },
     { url: 'assets/img/gallery/33.jpg', keywords: [] },
     { url: 'assets/img/gallery/36.jpg', keywords: [] },
+    { url: 'assets/img/gallery/28.jpg', keywords: [] },
     { url: 'assets/img/gallery/37.jpg', keywords: [] },
     { url: 'assets/img/gallery/38.jpg', keywords: [] },
     { url: 'assets/img/gallery/39.jpg', keywords: [] },
@@ -31,8 +33,6 @@ const INIT_IMAGES = [
     { url: 'assets/img/gallery/47.jpg', keywords: [] },
     { url: 'assets/img/gallery/26.jpg', keywords: [] },
     { url: 'assets/img/gallery/27.jpg', keywords: [] },
-    { url: 'assets/img/gallery/28.jpg', keywords: [] },
-    { url: 'assets/img/gallery/29.jpg', keywords: [] },
     { url: 'assets/img/gallery/30.jpg', keywords: [] },
     { url: 'assets/img/gallery/31.jpg', keywords: [] },
     { url: 'assets/img/gallery/1.jpg', keywords: ['view', 'dance'] },

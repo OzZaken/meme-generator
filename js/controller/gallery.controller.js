@@ -129,19 +129,25 @@ function onSetAspectRatio(el) {
     if (width === height) {
         el.style.aspectRatio = '1 / 1' // why Not? 
         el.style.gridColumn = `span 1`
+        el.title = `span 1`
     }
-    //    USE %
     if (width > height) {
-        console.log(`Width > (${width}/${height}) ${width / height}
-         aspect-ratio\nWidth % height ${width % height}\n:`, Math.ceil(width / height))
-        el.style.gridColumn = `span ${Math.floor(width / height)}`
-        el.title = `${Math.ceil(width / height)}`
+        console.log(`Width > (${width}/${height}) ${width / height}\n:`, Math.floor(width / height))
+        if (Math.floor(width / height) > 1.5) {
+            if (Math.ceil(width / height) > 2) {
+                el.style.gridColumn = `span ${Math.ceil(width / height)}`
+                el.title = `${Math.ceil(width / height)}`
+            }
+            else {
+                el.style.gridColumn = `span ${Math.floor(width / height)}`
+                el.title = `${Math.floor(width / height)}`
+            }
+        }
     }
     if (height > width) {
-        console.log(`Height > (${width}/${height}) ${height /width }
-         aspect-ratio\nHeight % width ${(height % width)}\n:`, Math.ceil(height / width))
-        el.title = `${Math.floor(height / width)}`
-        el.style.gridRow = `span ${Math.floor(height / width)}`
+        console.log(`Height > (${width}/${height}) ${height / width}`, Math.floor(height / width))
+        el.title = `gridRow ${Math.ceil(height / width+1)}`
+        el.style.gridColumn = `span ${Math.ceil(height / width)}`
     }
 
 

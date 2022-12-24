@@ -17,8 +17,6 @@ let gMainController
 // #1 rule: give only What necessary
 window.app = { onInit }
 
-// TODO: 01 if user already been in the site welcome back
-//       02 LoadingSvg...
 function onInit() {
     // Gallery dependencies
     const initGalleryData = {
@@ -61,7 +59,7 @@ function onInit() {
             elPageEdit: document.querySelector('.main-edit-container'),
             elPageAbout: document.querySelector('.main-about-container')
         },
-        elAboutHeading:document.querySelector('.about-heading'),
+        elAboutHeading: document.querySelector('.about-heading'),
         ...GALLERY_CONTROLLER.init(initGalleryData),
         ...MEME_CONTROLLER.init(initMemeData)
     }
@@ -99,6 +97,7 @@ function onInit() {
         onSetMeme,
     }
 
+
     // Gallery
     gMainController.renderGallery()
     gMainController.elGalleryStatContainer = document.querySelector('.gallery-stat')
@@ -117,7 +116,19 @@ function onInit() {
     // TODO: // onTranslateDom()
 
     // User-Msg
-    flashMsg('Welcome!')
+  
+  
+    // Check if the user has visited the website before
+    if (localStorage.getItem('visits')) {
+        // If the user has visited before, increment the visit count
+        const visits = parseInt(localStorage.getItem('visits'), 10) + 1
+        localStorage.setItem('visits', visits);
+        flashMsg('Welcome back!')
+    } else {
+        // If the user has not visited before, set the visit count to 1
+        localStorage.setItem('visits', 1)
+        flashMsg('Welcome back!')
+    }
     setTimeout(() => {
         if (document.body.classList.contains('page-gallery')) flashMsg('Choose Meme Background!')
     }, 5000)
