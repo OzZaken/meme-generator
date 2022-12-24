@@ -41,10 +41,10 @@ function renderGallery() {
     const strHTMLs = imgs.map((img, idx) => {
         return `
         <img
+        class="gallery-item"
         onclick="app.onImgSelect(event)"
         onload="app.onSetAspectRatio(this)"
         data-keyword="${img.keywords}"
-        class="gallery-item"
         alt="${CapitalName} #${idx + 1}\n${UTIL_SERVICE.capitalizes(img.keywords).join(' | ')}"       
         title="${CapitalName} #${idx + 1}\n${UTIL_SERVICE.capitalizes(img.keywords).join(' | ')}"
         src=${img.url}>
@@ -121,36 +121,21 @@ function onClickKeyword() {
     dataset.fs++
 }
 
-// Set aspect-ratio style On Image 
+// Set gridLayout 
 function onSetAspectRatio(el) {
     const width = el.naturalWidth
     const height = el.naturalHeight
-    // el.style.aspectRatio = `${el.naturalWidth}/${el.naturalHeight}`
+    el.style.aspectRatio = `${el.naturalWidth}/${el.naturalHeight}`
     if (width === height) {
-        el.style.aspectRatio = '1 / 1' // why Not? 
+        el.style.aspectRatio = '1 / 1'
         el.style.gridColumn = `span 1`
-        el.title = `span 1`
     }
-    if (width > height) {
-        console.log(`Width > (${width}/${height}) ${width / height}\n:`, Math.floor(width / height))
-        if (Math.floor(width / height) > 1.5) {
-            if (Math.ceil(width / height) > 2) {
-                el.style.gridColumn = `span ${Math.ceil(width / height)}`
-                el.title = `${Math.ceil(width / height)}`
-            }
-            else {
-                el.style.gridColumn = `span ${Math.floor(width / height)}`
-                el.title = `${Math.floor(width / height)}`
-            }
-        }
-    }
+    if (width > height) if (Math.ceil(width / height) > 2) el.style.gridColumn = ` 3/1`
     if (height > width) {
-        console.log(`Height > (${width}/${height}) ${height / width}`, Math.floor(height / width))
-        el.title = `gridRow ${Math.ceil(height / width+1)}`
-        el.style.gridColumn = `span ${Math.ceil(height / width)}`
+        // console.log(`Height > (${width}/${height}) ${height / width}`, Math.round(height / width))
+        el.style.gridColumn = `span 1`
+        el.style.gridRows = `span ${Math.round(height / width)}`
     }
-
-
 }
 
 // openModal with All Keywords 

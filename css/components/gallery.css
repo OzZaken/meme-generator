@@ -89,15 +89,11 @@ ul.keyword-container,
     margin: 0 auto;
     padding-top: 10px;
     width: 98%;
-    /* row-gap: auto; */
-    /* column-gap: auto; */
     gap: 8px;
     place-content: center;
     grid-auto-flow: row dense;
     place-items: center;
-
-    grid-template-columns: repeat(auto-fill, minmax(150px, 2fr));
-    /* grid-template-rows: repeat(auto-fill, max(150px, 1fr)); */
+    grid-template-columns: repeat(auto-fill, minmax(150px, auto));
 }
 
 
@@ -125,9 +121,12 @@ ul.keyword-container,
     transition: opacity scale 1s;
     border: 1px solid var(--clr-prim);
 }
+
 .gallery-item {
-    object-fit: cover;  /* Resize the images to fit within the grid cells */
+    object-fit: cover;
+    /* Resize the images to fit within the grid cells */
 }
+
 img.gallery-item:hover {
     cursor: pointer;
     transform: scale(1.04);

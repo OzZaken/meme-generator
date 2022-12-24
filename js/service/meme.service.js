@@ -23,6 +23,7 @@ const MEME = {
         keywords: [],
         lines: [
             {
+                isFocus: false,
                 fillStyle: '#222',
                 font: '60px fa-solid',
                 textBaseline: 'middle',
