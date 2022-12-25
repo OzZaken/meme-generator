@@ -144,6 +144,7 @@ function onDown() {
 function resizeMeme() {
     const { elMemeContainer } = gMemeController
     elMemeContainer.width = elMemeContainer.offsetWidth
+    elMemeContainer.height = elMemeContainer.offsetHeight
     renderMeme()
 }
 
@@ -179,7 +180,6 @@ function renderMeme() {
 
 // ctx
 function _setCtx(line) {
-    console.log(`🚀 ~ _setCtx`, line)
     const { elCtx } = gMemeController
     for (const key in line) {
         // TODO:: nice but no need because Focus is on other func
@@ -240,7 +240,7 @@ function drawLine(line) {
     elCtx.closePath()
 
     // Focus
-    drawOutLine(line.txt, line.x, line.y, width, height)
+    // drawOutLine(line.txt, line.x, line.y, width, height)
 }
 
 function drawOutLine(txt, x, y, width, height) {

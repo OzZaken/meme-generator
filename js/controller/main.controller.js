@@ -3,7 +3,7 @@ import { I18_SERVICE } from "../service/i18.service.js";
 import { UTIL_SERVICE } from "../service/util.service.js";
 
 import { GALLERY_CONTROLLER } from "../controller/gallery.controller.js";
-import { MEME_CONTROLLER } from "../controller/meme.controller.js";
+import { MEME_CONTROLLER } from "../controller/edit.controller.js";
 
 // #MVC :
 // renderFunc Execute From controller.

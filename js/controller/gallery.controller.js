@@ -4,7 +4,6 @@ import { UTIL_SERVICE } from '../service/util.service.js'
 
 export const GALLERY_CONTROLLER = { init }
 
-// Controller dependencies reference pointer 
 let gGallery
 
 // Init State
@@ -92,8 +91,6 @@ function onSetFilter() {
     renderGallery()
 }
 
-// TODO: Render All and Hide with Css
-// console.log(`UT:window.innerWidth:\n${window.innerWidth}`)
 // console.log(`body.offsetWidth:\n${document.body.offsetWidth}`)
 function renderKeywordsBtns() {
     const { galleryName } = gGallery
@@ -106,7 +103,8 @@ function renderKeywordsBtns() {
             value="${keyword[0]}">
             ${keyword[0]}
             </button>
-            </li>`)
+            </li>
+            `)
     const { elKeywordContainer } = gGallery
     elKeywordContainer.innerHTML = strHTMLs.join('')
 }
@@ -126,16 +124,16 @@ function onSetAspectRatio(el) {
     const width = el.naturalWidth
     const height = el.naturalHeight
     el.style.aspectRatio = `${el.naturalWidth}/${el.naturalHeight}`
-    
+
     if (width === height) {
         el.style.gridColumn = `span 1`
         el.style.aspectRatio = '1 / 1'
     }
 
-   else if (width > height && Math.ceil(width / height) > 2){
-            el.style.gridColumn = ` 3 / 1`
-            el.style.gridRows = `span ${Math.round(width / height)}`
-    } 
+    else if (width > height && Math.ceil(width / height) > 2) {
+        el.style.gridColumn = ` 3 / 1`
+        el.style.gridRows = `span ${Math.round(width / height)}`
+    }
 
     else if (height > width) {
         el.style.gridColumn = `span 1`
