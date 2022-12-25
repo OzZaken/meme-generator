@@ -126,16 +126,22 @@ function onSetAspectRatio(el) {
     const width = el.naturalWidth
     const height = el.naturalHeight
     el.style.aspectRatio = `${el.naturalWidth}/${el.naturalHeight}`
+    
     if (width === height) {
-        el.style.aspectRatio = '1 / 1'
         el.style.gridColumn = `span 1`
+        el.style.aspectRatio = '1 / 1'
     }
-    if (width > height) if (Math.ceil(width / height) > 2) el.style.gridColumn = ` 3/1`
-    if (height > width) {
-        // console.log(`Height > (${width}/${height}) ${height / width}`, Math.round(height / width))
+
+   else if (width > height && Math.ceil(width / height) > 2){
+            el.style.gridColumn = ` 3 / 1`
+            el.style.gridRows = `span ${Math.round(width / height)}`
+    } 
+
+    else if (height > width) {
         el.style.gridColumn = `span 1`
         el.style.gridRows = `span ${Math.round(height / width)}`
     }
+    // else  console.log(`Un Touch (${width}/${height})\n ${height / width}\nround ${ Math.round(width / height)}`,el)
 }
 
 // openModal with All Keywords 

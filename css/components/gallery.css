@@ -91,15 +91,17 @@ ul.keyword-container,
     width: 98%;
     gap: 8px;
     place-content: center;
-    grid-auto-flow: row dense;
     place-items: center;
-    grid-template-columns: repeat(auto-fill, minmax(150px, auto));
+    grid-auto-flow:   dense;
+    grid-template-columns: repeat(auto-fit, minmax(150px, auto));
+    grid-template-rows: none;
 }
 
 
 /* /~ TABLET ~/ */
 @media (min-width: 768px) {
-    .gallery-container {}
+    .gallery-container {
+}
 }
 
 /* DESKTOP */
@@ -123,8 +125,8 @@ ul.keyword-container,
 }
 
 .gallery-item {
-    object-fit: cover;
     /* Resize the images to fit within the grid cells */
+    object-fit: cover;
 }
 
 img.gallery-item:hover {

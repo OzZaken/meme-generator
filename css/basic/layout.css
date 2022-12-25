@@ -5,6 +5,20 @@
     margin-top: 81px;
 }
 
+@media (max-width: 480px) {
+    .main-layout {
+        margin-inline-start: 2px;
+        margin-inline-end: 2px;
+        margin-top: 63px;
+
+    }
+
+    .main-layout>*:not(.full) {
+        /* margin-inline-end: 4vw; */
+        /* margin-inline-start: 4vw; */
+    }
+}
+
 /* Tablet */
 @media (min-width: 768px) {
     .main-layout>*:not(.full) {
