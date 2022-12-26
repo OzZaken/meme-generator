@@ -1,35 +1,33 @@
 .main-layout {
-    margin-inline-start: 3vw;
-    margin-inline-end: 3vw;
+    margin-inline-start: 2px;
+    margin-inline-end: 2px;
     border: 2px solid var(--clr-darker);
-    margin-top: 81px;
+    margin-top: 63px;
 }
 
-@media (max-width: 480px) {
-    .main-layout {
-        margin-inline-start: 2px;
-        margin-inline-end: 2px;
-        margin-top: 63px;
-
-    }
-
-    .main-layout>*:not(.full) {
-        /* margin-inline-end: 4vw; */
-        /* margin-inline-start: 4vw; */
-    }
-}
+/* Mobile */
+@media (min-width: 481px)and (max-width: 468px) {}
 
 /* Tablet */
-@media (min-width: 768px) {
-    .main-layout>*:not(.full) {
-        /* margin-inline-end: 4vw; */
-        /* margin-inline-start: 4vw; */
+@media (max-width: 480px) {
+    .main-layout {
+        border: 2px solid var(--clr-darker);
+        margin-top: 63px;
     }
 }
 
-/* Desktop */
-@media (min-width: 1020px) {
-    .main-layout>*:not(.full) {
-        /* margin-inline-end: 5vw; */
+/* LapTop */
+@media (min-width: 769px)and (max-width: 1023px) {
+ 
+}
+
+/* LapTop */
+@media (min-width: 1024px)and (max-width: 1200) {
+    .main-layout {
+        margin-inline-start: 3vw;
+        margin-inline-end: 3vw;
     }
 }
+
+/* Wide */
+@media (min-width: 1201px) {}

@@ -12,18 +12,4 @@
     --clr-darker: #292929;
     --clr-darkest: #1d1d1d;
 
-    /* Responsive */
-    --mobile-min: 320px;
-    --mobile-max: 480px;
-
-    --tablet-min: 481px;
-    --tablet-max: 468px;
-
-    --laptop-min: 769px;
-    --laptop-max: 1023px;
-
-    --desktop-min: 1024px;
-    --desktop-max: 1200;
-
-    --wide: 1201;
 }

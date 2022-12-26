@@ -120,6 +120,23 @@ body::-webkit-scrollbar-thumb {
     color: var(--clr-bright);
 }
 
+/* Input */
+
+input::placeholder {
+    font-size: calc(1em - 4px);
+    justify-content: center;
+    text-align: center;
+}
+
+input::placeholder:placeholder-shown {
+    text-align: center;
+}
+
+/* pseudo-element is not supported in Internet Explorer or Edge Legacy */
+input::-ms-input-placeholder {
+    text-align: center;
+}
+
 /* buttons */
 [role="button"],
 button,
@@ -127,6 +144,7 @@ button,
 .btn-big,
 input,
 label {
+    color: var(--clr-darkest);
     font-weight: bold;
     transition: scale .5s, background-color 3s, font-size .3s;
     background-color: transparent;

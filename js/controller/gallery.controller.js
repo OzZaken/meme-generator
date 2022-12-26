@@ -18,7 +18,7 @@ function init(args) {
     gGallery = {
         ...args,
         onSetFilter,
-        onSetGalleryLayout,
+        onSetLayout,
         renderGallery,
     }
     return gGallery
@@ -33,24 +33,24 @@ function renderGallery() {
     const keyWords = GALLERY_SERVICE.getKeywords()
     // Images template
     const strHTMLs = imgs.map((img, idx) => {
-        return `
-        <a href="#"
+        return `<a role="article" 
+        href="#"
         class="gallery-item">
         <img
         onclick="app.onImgSelect(event)"
-        onload="app.onSetGalleryLayout(this)"
+        onload="app.onSetLayout(this)"
         data-keyword="${img.keywords}"
         alt="${CapitalName} #${idx + 1}\n${UTIL_SERVICE.capitalizes(img.keywords).join(' | ')}"       
         title="${CapitalName} #${idx + 1}\n${UTIL_SERVICE.capitalizes(img.keywords).join(' | ')}"
         src=${img.url}>
         </a>
-        `
-    })
+        `})
     // Stat and Upload Image Option
+    console.log(`🚀 ~ keyWords`, keyWords.join(', '))
     const foundCount = imgs.length >= 0 ? imgs.length : '0'
     strHTMLs.unshift(`
     <div class="gallery-item gallery-stat">
-    <button role="button" class="underline" onclick="app.onClickTotalKeywords(event,this)" title="${keyWords.join(' | ')}">
+    <button class="underline" onclick="app.onClickTotalKeywords()" data-keyword="${keyWords.join('')}" title="${keyWords.join(' | ')}">
     ${keyWords.length} KeyWords
     </button>
     <div class="filter-stat">
@@ -77,8 +77,8 @@ function onSetFilter() {
     renderGallery()
 }
 
-// Set gridLayout 
-function onSetGalleryLayout(img) {
+// Set Grid-items Layout 
+function onSetLayout(img) {
     const { naturalWidth, naturalHeight, parentElement } = img
     const width = naturalWidth
     const height = naturalHeight

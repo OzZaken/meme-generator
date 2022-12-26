@@ -65,9 +65,7 @@ body.page-edit footer {
     font-size: 1rem;
 }
 
-.social-links-container li:not(:last-child) {
-    margin-inline-end: 20px;
-}
+.social-links-container li:not(:last-child) {margin-inline-end: 20px;}
 
 .link-github a::before {
     color: var(--clr-sec);

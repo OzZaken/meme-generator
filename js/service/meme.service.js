@@ -24,19 +24,14 @@ const MEME = {
         lines: [
             {
                 isFocus: false,
-                fillStyle: 'white',
-                font: '60px fa-solid',
+                fillStyle: '#fb9623',
                 textBaseline: 'middle',
                 txt: 'Edit some text!',
                 lineWidth: 2,
                 textAlign: 'center',
-                strokeStyle: 'red',
+                strokeStyle: '#9623fbd2', 
                 pos: { x: null, y: null },
-                fontMap: {
-                    size: 50,
-                    unit: 'px',
-                    family: 'impact',
-                },
+                font:'40px papyrus',
             },
         ]
     }

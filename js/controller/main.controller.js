@@ -14,7 +14,7 @@ function onInit() {
     // Gallery dependencies
     const initGalleryData = {
         galleryName: 'meme',
-        elKeywordContainer: document.querySelector('ul.gallery-keyword-container'),
+        elKeywordContainer: document.querySelector('ul.btns-keyword-container'),
         elGalleryHeading: document.querySelector('h1.gallery-heading'),
         elFilterBy: document.querySelector('[name="gallery-filter"]'),
         elGalleyData: document.querySelector('datalist#gallery-keyword'),
@@ -60,9 +60,8 @@ function onInit() {
     // Take what necessary from the App to the Dom. 
     const {
         // GALLERY_CONTROLLER
-        onSetGalleryLayout,
+        onSetLayout,
         onSetFilter,
-        onClickTotalKeywords,
         // MEME_CONTROLLER
         onSetMeme,
     } = gMainController
@@ -78,10 +77,10 @@ function onInit() {
         onClickKeyword,
         onImgSelect,
         onClickKeyword,
-        // Gallery
-        onSetGalleryLayout,
-        onSetFilter,
         onClickTotalKeywords,
+        // Gallery
+        onSetFilter,
+        onSetLayout,
         // Meme
         onSetMeme,
     }
@@ -412,12 +411,12 @@ function onClickKeyword() {
 }
 
 // openModal with All Keywords 
-function onClickTotalKeywords(ev, elBtnKeywordsContainer) {
-    const { title } = elBtnKeywordsContainer
-    const displayKeywords = title.split(' | ').map(keyword => {
+function onClickTotalKeywords() {
+    const { dataKeyword } =  document.querySelector('.btns-keyword-container')
+    const displayKeywords = dataKeyword.split(', ').map(keyword => {
         return `<span role="button" data-pos="modal" class="btn-keyword" onclick="app.onSetFilter(this.innerText);app.onTouchModal(true)">${keyword}</span>`
     }).join('')
-    gGallery.renderModal(ev, displayKeywords)
+    renderModal(event, displayKeywords)
 }
 
 // console.log(`body.offsetWidth:\n${document.body.offsetWidth}`)
