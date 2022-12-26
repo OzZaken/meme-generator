@@ -24,13 +24,13 @@ const MEME = {
         lines: [
             {
                 isFocus: false,
-                fillStyle: '#222',
+                fillStyle: 'white',
                 font: '60px fa-solid',
                 textBaseline: 'middle',
                 txt: 'Edit some text!',
                 lineWidth: 2,
                 textAlign: 'center',
-                strokeStyle: 'black',
+                strokeStyle: 'red',
                 pos: { x: null, y: null },
                 fontMap: {
                     size: 50,
@@ -48,7 +48,6 @@ function getMeme() { return MEME.meme }
 function setMeme(meme) { MEME.meme = { ...MEME.meme, ...meme } }
 
 //  Line
-
 function createLine() {
     getLines().push({
         txt: 'New Line',
@@ -82,7 +81,7 @@ function getLines() { return getMeme().lines }
 //  Line Pos
 function getLinePos() { return getLine().pos }
 
-function setLinePos(val) { getLine().pos = { ...getLine().pos, ...val } }
+function setLinePos(val) { getLine().pos = { ...getLine().pos, ...val }}
 
 //  FontMap
 function getFontMap() { return getLine().fontMap }

@@ -8,7 +8,7 @@
     content: "\f063";
 }
 
-.btn-arrow-up-arrow-down::before {
+.switch-line::before {
     font-family: fa-solid;
     content: "\f062\f063";
 }

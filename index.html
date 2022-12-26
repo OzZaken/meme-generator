@@ -67,7 +67,28 @@
     <main class="main-layout">
         <!-- Gallery -->
         <section class="page main-gallery-container">
-            <h1 class="gallery-heading">Welcome! Loading Images...</h1>
+            <h1 class="gallery-heading">Welcome! Loading Images
+                <svg width="120" height="30" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg" fill="#222">
+                    <circle cx="15" cy="15" r="15">
+                        <animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15"
+                            calcMode="linear" repeatCount="indefinite" />
+                        <animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1"
+                            calcMode="linear" repeatCount="indefinite" />
+                    </circle>
+                    <circle cx="60" cy="15" r="9" fill-opacity="0.3">
+                        <animate attributeName="r" from="9" to="9" begin="0s" dur="0.8s" values="9;15;9"
+                            calcMode="linear" repeatCount="indefinite" />
+                        <animate attributeName="fill-opacity" from="0.5" to="0.5" begin="0s" dur="0.8s" values=".5;1;.5"
+                            calcMode="linear" repeatCount="indefinite" />
+                    </circle>
+                    <circle cx="105" cy="15" r="15">
+                        <animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15"
+                            calcMode="linear" repeatCount="indefinite" />
+                        <animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1"
+                            calcMode="linear" repeatCount="indefinite" />
+                    </circle>
+                </svg>
+            </h1>
             <!-- Filter -->
             <label for="Filter Images"></label>
             <form onsubmit="app.onSetFilter()" class="gallery-search">
@@ -84,44 +105,57 @@
 
         <!-- Edit -->
         <section class="page main-edit-container">
-
             <h1 class="edit-heading">choose image first!</h1>
             <!-- Meme Keywords -->
             <h3 class="keyword-heading meme-keyword-container"></h3>
-
             <!-- Canvas -->
             <div class="meme-container">
-                <canvas id="meme" height="350" width="350"></canvas>
+                <canvas oncontextmenu="event.preventDefault()" id="meme" height="350" width="350"></canvas>
             </div>
-            <!-- 🐱‍👤 -->
+            <!--  Buttons -->
             <div class="btns-edit-container">
-                <form onsubmit="event.preventDefault();onAddKeyword()" list="gallery-keyword" class="form-meme-keyword">
-                    <input onsubmit="app.onAddKeyword(this.value)" name="meme-keyword" type="text"
-                        placeholder="Add new keyword">
+                <form onsubmit="event.preventDefault();onAddKeyword()" list="gallery-keyword" class="add-meme-keyword">
+                    <input onsubmit="event.stopPropagation();app.onAddKeyword(this.value)" name="meme-keyword"
+                        type="text" placeholder="Add new keyword">
                     <button hidden></button>
                 </form>
 
                 <form class="set-line-txt" onsubmit="ev.preventDefault();app.onAddTxtLine()">
-                    <label for="set-txt"></label>
+                    <input onsubmit="event.stopPropagation();app.onAddTxtLine(this.value)" name="meme-keyword"
+                        type="text" placeholder="Set Line Text">
                     <button hidden></button>
                 </form>
-                <!-- Btns -->
-                <button value="onUp" onclick="app.onSetMeme()" role="button" title="Move text up"
-                    class="btn-arrow-up"></button>
-                <button value="onDown" onclick="app.onSetMeme()" title="Move text Down" class="btn-arrow-down"></button>
-                <button value="onSwitchLine" onclick="app.onSetMeme()" title="Switch between lines"
-                    class="btn-arrow-up-arrow-down"></button>
-                <button value="onCreateLine" onclick="app.onSetMeme()" title="Add New txt line"
-                    class="btn-plus"></button>
-                <button value="onRemoveLine" onclick="app.onSetMeme()" title="Delete last line"
-                    class="btn-trash"></button>
-                <button value="onFSUp" onclick="app.onSetMeme()" title="Size Up" class="btn-font-size-plus"></button>
-                <button value="onFSDown" onclick="app.onSetMeme()" title="Size Down"
-                    class="btn-font-size-minus"></button>
-                <button value="onAlienL" onclick="app.onSetMeme()" title="align left" class="btn-align-left"></button>
-                <button value="onAlienC" onclick="app.onSetMeme()" title="align center"
-                    class="btn-align-center"></button>
-                <button value="onAlienR" onclick="app.onSetMeme()" title="align left" class="btn-align-right"></button>
+
+                <button value="onUp" onclick="app.onSetMeme()" role="button" title="Move text up" class="btn-arrow-up">
+                </button>
+
+                <button value="onDown" onclick="app.onSetMeme()" title="Move text Down" class="btn-arrow-down">
+                </button>
+
+                <button value="onSwitchLine" onclick="app.onSetMeme()" title="Switch between lines" class="switch-line">
+                </button>
+
+                <button value="onCreateLine" onclick="app.onSetMeme()" title="Add New txt line" class="btn-plus">
+                </button>
+
+                <button value="onRemoveLine" onclick="app.onSetMeme()" title="Delete last line" class="btn-trash">
+                </button>
+
+                <button value="onFSUp" onclick="app.onSetMeme()" title="Size Up" class="btn-font-size-plus">
+                </button>
+
+
+                <button value="onAlienL" onclick="app.onSetMeme()" title="align left" class="btn-align-left">
+                </button>
+
+                <button value="onAlienC" onclick="app.onSetMeme()" title="align center" class="btn-align-center">
+                </button>
+
+                <button value="onAlienR" onclick="app.onSetMeme()" title="align left" class="btn-align-right">
+                </button>
+
+                <button value="onFSDown" onclick="app.onSetMeme()" title="Size Down" class="btn-font-size-minus">
+                </button>
                 <!-- Select Fonts -->
                 <select data-font="onFamily" title="Select fonts" onchange="app.onSetMeme()"
                     class="font-select fa-solid" name="change-fonts">
@@ -133,31 +167,30 @@
                     <option value="Serif">Serif</option>
                     <option value="Sans-Serif">Sans-Serif</option>
                     <option value="Monospace">Monospace</option>
-                    <option value="Monospace">Monospace</option>
                     <option value="Cursive">Cursive</option>
-                    <option value="Cursive">Cursive</option>
+                    <option value="Garamond, serif">Garamond, serif</option>
+                    <option value="Copperplate">Copperplate</option>
+                    <option value="Papyrus">Papyrus</option>
                     <option value="MS">MS</option>
                 </select>
 
                 <button>
-                    <label class="btn-stroke" for="set-stroke-color"></label>
+                    <label for="set-stroke-color" class="btn-stroke-color"></label>
                 </button>
 
                 <button>
                     <label for="set-fill-color" class="btn-fill-color"></label>
                 </button>
 
+                <a class="btn btn-download" href="#" onclick="app.onDownloadMeme(this)" download="My-Meme">Download
+                </a>
 
-                <!-- Export -->
-                <div class="export  flex justify-center align-center">
-                    <button class="save-meme  btn btn-glass" onclick="app.onSaveMeme()">save</button>
-                    <a class="config download-btn  btn btn-glass" href="#" onclick="app.onDownloadMeme(this)"
-                        download="My-Meme">Download</a>
-                    <button class="config share-btn  btn btn-glass" onclick="app.onShareMeme(this)">Share Meme</button>
-                    <p class="url-msg">
-                        <button hidden class=""></button>
-                    </p>
-                </div>
+                <button class="btn btn-save-meme" onclick="app.onSaveMeme()">Save</button>
+
+                <button class="btn share-btn" onclick="app.onShareMeme(this)">Share Meme
+                </button>
+
+            </div>
         </section>
 
         <!-- About -->

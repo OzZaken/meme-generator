@@ -1,0 +1,131 @@
+/* Paging */
+section.main-edit-container {
+    position: relative;
+    right: 120vw;
+}
+
+body.page-edit .main-edit-container {
+    position: relative;
+    animation: fade-in-right .8s;
+    right: unset;
+}
+
+.fade-out-up {
+    animation: fade-out-up 2s forwards;
+}
+
+@keyframes fade-in-right {
+    from {
+        opacity: 0;
+        transform: translate3d(100%, 0, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes fade-out-up {
+    from {
+        position: relative;
+        opacity: 1;
+    }
+
+    to {
+        position: relative;
+        opacity: 0;
+        display: none;
+        visibility: hidden;
+        margin-top: -15vh;
+        transform: translate3d(0, -15vh, 0);
+    }
+}
+
+.keyword-heading::before {
+    content: 'Meme Keywords:\00a0\00a0';
+    color: var(--clr-prim);
+}
+
+/* Canvas */
+.meme-container {
+    outline: 2px solid goldenrod;
+}
+
+canvas#meme {
+    max-width: 90vw;
+    align-items: center;
+    display: block;
+    border: 2px solid rgb(255, 0, 0);
+    margin: 0 auto;
+    max-height: 55vh;
+    border-radius: .5em;
+    cursor: grab;
+}
+
+/* Buttons */
+.btns-edit-container {
+    margin-top: 15px;
+    grid-template-columns: repeat(6, 4em);
+    grid-template-rows: repeat(5, 4em);
+    display: grid;
+    place-content: center;
+}
+
+/*                                  🐱‍👤👀🐱‍👤 */
+.btns-edit-container input {
+    display: flex;
+    height: 100%;
+}
+
+.btns-edit-container>* {
+    background-color: var(--clr-brighter);
+}
+
+.btns-edit-container>*:hover {
+    cursor: pointer;
+    color: var(--clr-prim);
+}
+
+.btns-edit-container>button {
+    font-family: fa-solid;
+}
+
+.add-meme-keyword {
+    grid-column: 1/4;
+}
+
+.set-line-txt {
+    grid-column: 4/-1;
+}
+
+.btns-edit-container .font-select {
+    grid-column: 4/6;
+    grid-row: 3;
+}
+
+.add-meme-keyword [name="meme-keyword"],
+.set-line-txt [name="line-txt"] {
+    display: flex;
+    height: 100%;
+}
+
+
+/* Color Inputs*/
+.btn-fill-color::before {
+    content: '\f53f';
+}
+
+.btn-stroke-color::before {
+    content: '\f1fc';
+}
+
+.btn-fill-color,
+.btn-stroke-color {
+    text-shadow: 0 0 3px black, 0 0 2px black, 0 0 1px black;
+}
+
+[name="set-stroke-color"],
+[name="set-fill-color"] {
+    display: none;
+}

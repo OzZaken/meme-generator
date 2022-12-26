@@ -12,6 +12,10 @@
     padding: 10px;
 }
 
+.user-msg span {
+    color: red;
+}
+
 .user-msg-open {
     z-index: 1;
     bottom: 50px;

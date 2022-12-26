@@ -1,6 +1,9 @@
 import { GALLERY_SERVICE } from "../service/gallery.service.js"
 import { UTIL_SERVICE } from '../service/util.service.js'
 
+// switch img based url 
+// const fileName = url.substr(url.lastIndexOf('/') + 1)
+// imgAvatar.src = 'gallery/' + fileName.replace(/\d/, digit => (+digit >= imgs.length) ? 1 : +digit + 1)
 
 export const GALLERY_CONTROLLER = { init }
 
@@ -8,28 +11,20 @@ let gGallery
 
 // Init State
 function init(args) {
-    const { galleryName } = args
-    !galleryName ? galleryName = 'image' : galleryName
-    GALLERY_SERVICE.setGalleryStorageKey(galleryName)
-
-    // switch img based url 
-    // const fileName = url.substr(url.lastIndexOf('/') + 1)
-    // imgAvatar.src = 'gallery/' + fileName.replace(/\d/, digit => (+digit >= imgs.length) ? 1 : +digit + 1)
+    // Set Gallery Name in case of more then one gallery 
+    !args.galleryName ? args.galleryName = 'image' : args.galleryName
+    GALLERY_SERVICE.setGalleryStorageKey(args.galleryName)
 
     gGallery = {
         ...args,
-        renderGallery,
-        renderKeywordsBtns,
-        renderKeywordsOpts,
-        onClickKeyword,
-        onSetAspectRatio,
         onSetFilter,
-        onClickTotalKeywords,
+        onSetGalleryLayout,
+        renderGallery,
     }
     return gGallery
 }
 
-// Render Gallery + Stat + Upload-Image Opt   
+// Render Gallery + Stat and Upload-Image Opt   
 function renderGallery() {
     const { elGallery, galleryName, elGalleryHeading } = gGallery
     elGalleryHeading.innerText = 'choose meme background!'
@@ -39,14 +34,16 @@ function renderGallery() {
     // Images template
     const strHTMLs = imgs.map((img, idx) => {
         return `
+        <a href="#"
+        class="gallery-item">
         <img
-        class="gallery-item"
         onclick="app.onImgSelect(event)"
-        onload="app.onSetAspectRatio(this)"
+        onload="app.onSetGalleryLayout(this)"
         data-keyword="${img.keywords}"
         alt="${CapitalName} #${idx + 1}\n${UTIL_SERVICE.capitalizes(img.keywords).join(' | ')}"       
         title="${CapitalName} #${idx + 1}\n${UTIL_SERVICE.capitalizes(img.keywords).join(' | ')}"
         src=${img.url}>
+        </a>
         `
     })
     // Stat and Upload Image Option
@@ -63,21 +60,10 @@ function renderGallery() {
     ${CapitalName}s
     </div>
     <label for="upload-img">Upload Image</label>
-    
     </div>
     `)
     // Render Gallery
     elGallery.innerHTML = strHTMLs.join('')
-}
-
-// Render on DataList keywords Options
-function renderKeywordsOpts() {
-    const keywordsCountMap = GALLERY_SERVICE.getOptionsForDisplay()
-    const strHTMLs = keywordsCountMap.map(keywordStr => {
-        return `<option value="${keywordStr}">${UTIL_SERVICE.capitalize(keywordStr)}</option>`
-    })
-    const { elGalleyData } = gGallery
-    elGalleyData.innerHTML = strHTMLs.join('')
 }
 
 // Filter
@@ -91,85 +77,43 @@ function onSetFilter() {
     renderGallery()
 }
 
-// console.log(`body.offsetWidth:\n${document.body.offsetWidth}`)
-function renderKeywordsBtns() {
-    const { galleryName } = gGallery
-    const strHTMLs = GALLERY_SERVICE.getKeywordsForDisplay()
-        .map(keyword => `<li>
-            <button class="btn btn-keyword"
-            title="${keyword[1]} ${keyword[0]} ${UTIL_SERVICE.capitalize(galleryName)}s Founds"
-            onclick="app.onClickKeyword()" 
-            data-fs="${keyword[1]}"
-            value="${keyword[0]}">
-            ${keyword[0]}
-            </button>
-            </li>
-            `)
-    const { elKeywordContainer } = gGallery
-    elKeywordContainer.innerHTML = strHTMLs.join('')
-}
-
-// Set filter and UI effect Buttons
-function onClickKeyword() {
-    const elBtn = event.target
-    const { style, dataset, value } = elBtn
-    style.color = UTIL_SERVICE.getRandomColor()
-    onSetFilter(value)
-    if (+dataset.fs >= 16) return
-    dataset.fs++
-}
-
 // Set gridLayout 
-function onSetAspectRatio(el) {
-    const width = el.naturalWidth
-    const height = el.naturalHeight
-    el.style.aspectRatio = `${el.naturalWidth}/${el.naturalHeight}`
+function onSetGalleryLayout(img) {
+    const { naturalWidth, naturalHeight, parentElement } = img
+    const width = naturalWidth
+    const height = naturalHeight
+    const elGridItem = parentElement
+    const { style } = elGridItem
+    style.width = width
+    style.height = width
 
+    // Square Image 2 row 2 column 
     if (width === height) {
-        el.style.gridColumn = `span 1`
-        el.style.aspectRatio = '1 / 1'
+        elGridItem.dataset.gallerySize = 'img-square'
+        img.title += '\nSquare Image'
+        style.gridColumn = `3 / 1`
+        style.gridRows = `3 / 1`
+        img.style.aspectRatio = '1 / 1'
     }
-
+    // Horizontal Image 2 row 1 column 
     else if (width > height && Math.ceil(width / height) > 2) {
-        el.style.gridColumn = ` 3 / 1`
-        el.style.gridRows = `span ${Math.round(width / height)}`
+        elGridItem.dataset.gallerySize = 'img-horizontal'
+        img.title += '\nHorizontal Image'
+        style.gridColumn = `${Math.ceil(width / height)} / 1`
+        style.gridRows = `1 / 1`
     }
-
+    // Vertical Image 2 row 1 column 
     else if (height > width) {
-        el.style.gridColumn = `span 1`
-        el.style.gridRows = `span ${Math.round(height / width)}`
+        elGridItem.dataset.gallerySize = 'img-vertical'
+        img.title += '\nVertical Image'
+        style.gridColumn = `1 / 1` //span 1
+        style.gridRows = ` 3 / 1`
     }
-    // else  console.log(`Un Touch (${width}/${height})\n ${height / width}\nround ${ Math.round(width / height)}`,el)
+    else { // TODO: take only the column and the row you need
+        style.gridRows = `auto / span 1`
+        style.gridColumn = `auto / span 1`
+    }
 }
-
-// openModal with All Keywords 
-function onClickTotalKeywords(ev, elBtnKeywordsContainer) {
-    const { title } = elBtnKeywordsContainer
-    const displayKeywords = title.split(' | ').map(keyword => {
-        return `<span role="button" data-pos="modal" class="btn-keyword" onclick="app.onSetFilter(this.innerText);app.onTouchModal(true)">${keyword}</span>`
-    }).join('')
-    gGallery.renderModal(ev, displayKeywords)
-}
-
-// function doUploadImg(imgDataUrl, onSuccess) {
-//     const formData = new FormData()
-//     formData.append('img', imgDataUrl)
-
-//     fetch('//ca-upload.com/here/upload.php', {
-//         method: 'POST',
-//         body: formData
-//     })
-//         .then(res => res.text())
-//         .then((url) => {
-
-
-//             console.log('Got back live url:', url)
-//             onSuccess(url)
-//         })
-//         .catch((err) => {
-//             console.error(err)
-//         })
-// }
 
 function onAddImg(src) {
     GALLERY_SERVICE.createImage(src)

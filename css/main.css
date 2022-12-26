@@ -5,19 +5,21 @@
 @import "setup/normalize.css";
 
 /* Basic */
-@import "basic/logo.css";
+@import "basic/helper.css";
 @import "basic/base.css";
 @import "basic/layout.css";
-@import "basic/helper.css";
+@import "basic/logo.css";
+
+/* Views */
+@import "view/edit.css";
+@import "view/about.css";
+@import "view/gallery.css";
 
 /* Components */
-@import "components/header.css";
-@import "components/gallery.css";
-@import "components/edit.css";
-@import "components/footer.css";
-@import "components/about.css";
+@import "component/header.css";
+@import "component/footer.css";
 
 /* Util Cmps*/
-@import "components/screen.css";
-@import "components/user-msg.css";
-@import "components/modal.css";
+@import "component/screen.css";
+@import "component/user-msg.css";
+@import "component/modal.css";

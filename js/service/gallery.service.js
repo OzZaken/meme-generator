@@ -15,7 +15,7 @@ export const GALLERY_SERVICE = {
 // Initial Images 
 const INIT_IMAGES = [
     { url: 'assets/img/gallery/32.jpg', keywords: ['messi'] },
-    { url: 'assets/img/gallery/29.jpg', keywords: [] },
+    { url: 'assets/img/gallery/29.jpg', keywords: ['disny'] },
     { url: 'assets/img/gallery/34.jpg', keywords: [] },
     { url: 'assets/img/gallery/33.jpg', keywords: [] },
     { url: 'assets/img/gallery/36.jpg', keywords: [] },

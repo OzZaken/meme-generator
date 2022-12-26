@@ -3,18 +3,11 @@ import { I18_SERVICE } from "../service/i18.service.js";
 import { UTIL_SERVICE } from "../service/util.service.js";
 
 import { GALLERY_CONTROLLER } from "../controller/gallery.controller.js";
-import { MEME_CONTROLLER } from "../controller/edit.controller.js";
+import { MEME_CONTROLLER } from "./meme.controller.js";
+import { GALLERY_SERVICE } from "../service/gallery.service.js";
 
-// #MVC :
-// renderFunc Execute From controller.
-// onFunc in controller Deliver and end on MainController.
-// controller have One Global State reference.
-// Service have Init State Updated by his controller only.
-
-//  Controller State
 let gMainController
 
-// #1 rule: give only What necessary
 window.app = { onInit }
 
 function onInit() {
@@ -36,7 +29,7 @@ function onInit() {
         elMeme: document.querySelector('#meme'),
         elMemeContainer: document.querySelector('.meme-container'),
         elKeywordsContainer: document.querySelector('.meme-keyword-container'),
-        flashMsg,
+        flashMsg: renderMsg,
         getPos,
     }
 
@@ -64,45 +57,37 @@ function onInit() {
         ...MEME_CONTROLLER.init(initMemeData)
     }
 
-    // Send Dom The App Func
+    // Take what necessary from the App to the Dom. 
     const {
-        // MAIN_CONTROLLER
-        onClickKeyword,
+        // GALLERY_CONTROLLER
+        onSetGalleryLayout,
         onSetFilter,
         onClickTotalKeywords,
-        // GALLERY_CONTROLLER
-        onSetAspectRatio,
         // MEME_CONTROLLER
         onSetMeme,
-
-
     } = gMainController
 
     window.app = {
         gMainController, //TODO UT : remember Delete!
         onUploadImg,
-        onReLoadPage,
         onTranslateDom,
         onNav,
         onTouchScreen,
         onToggleMenu,
         onTouchModal,
-        // Gallery
-        onImgSelect,
-        onSetFilter,
-        onSetAspectRatio,
         onClickKeyword,
+        onImgSelect,
+        onClickKeyword,
+        // Gallery
+        onSetGalleryLayout,
+        onSetFilter,
         onClickTotalKeywords,
         // Meme
         onSetMeme,
     }
 
-
-    // Gallery
-    gMainController.renderGallery()
-    gMainController.elGalleryStatContainer = document.querySelector('.gallery-stat')
-    gMainController.renderKeywordsOpts()
-    gMainController.renderKeywordsBtns()
+    // Pretend Latency 
+    _showGallery()
 
     // i18
     I18_SERVICE.setUserDefaultLang(navigator.languages[1])
@@ -118,19 +103,99 @@ function onInit() {
     // Count Visits
     const visits = parseInt(localStorage.getItem('visits'))
     if (!visits) {
-        flashMsg('First time Welcome!')
-        localStorage.setItem('visits',1)
+        renderMsg(`<span>&nbsp;First&nbsp;</span> time Welcome!`)
+        localStorage.setItem('visits', 1)
     }
     else {
-        flashMsg(`Welcome ${visits} Times back!`)
-        localStorage.setItem('visits',visits+1)
+        renderMsg(`Welcome <span>&nbsp;${visits + 1}&nbsp;</span> Times back!`)
+        localStorage.setItem('visits', visits + 1)
     }
 
     setTimeout(() => {
-        if (document.body.classList.contains('page-gallery')) flashMsg('Choose Meme Background!')
+        if (document.body.classList.contains('page-gallery')) renderMsg('Choose Meme Background!')
     }, 5000)
-}
 
+    // set select options font equal to the option
+    const elFontSelect = document.querySelector('[data-font="onFamily"]')
+    new Array(...elFontSelect.options).forEach(option => {
+        option.style.fontFamily = option.value
+    })
+}
+function _showGallery() {
+    gMainController.elGallery.innerHTML = `<svg class="gallery-loading" width="105" height="105" viewBox="0 0 105 105" xmlns="http://www.w3.org/2000/svg" fill="#fff">
+    <circle cx="12.5" cy="12.5" r="12.5">
+        <animate attributeName="fill-opacity"
+         begin="0s" dur="1s"
+         values="1;.2;1" calcMode="linear"
+         repeatCount="indefinite" />
+    </circle>
+    <circle cx="12.5" cy="52.5" r="12.5" fill-opacity=".5">
+        <animate attributeName="fill-opacity"
+         begin="100ms" dur="1s"
+         values="1;.2;1" calcMode="linear"
+         repeatCount="indefinite" />
+    </circle>
+    <circle cx="52.5" cy="12.5" r="12.5">
+        <animate attributeName="fill-opacity"
+         begin="300ms" dur="1s"
+         values="1;.2;1" calcMode="linear"
+         repeatCount="indefinite" />
+    </circle>
+    <circle cx="52.5" cy="52.5" r="12.5">
+        <animate attributeName="fill-opacity"
+         begin="600ms" dur="1s"
+         values="1;.2;1" calcMode="linear"
+         repeatCount="indefinite" />
+    </circle>
+    <circle cx="92.5" cy="12.5" r="12.5">
+        <animate attributeName="fill-opacity"
+         begin="800ms" dur="1s"
+         values="1;.2;1" calcMode="linear"
+         repeatCount="indefinite" />
+    </circle>
+    <circle cx="92.5" cy="52.5" r="12.5">
+        <animate attributeName="fill-opacity"
+         begin="400ms" dur="1s"
+         values="1;.2;1" calcMode="linear"
+         repeatCount="indefinite" />
+    </circle>
+    <circle cx="12.5" cy="92.5" r="12.5">
+        <animate attributeName="fill-opacity"
+         begin="700ms" dur="1s"
+         values="1;.2;1" calcMode="linear"
+         repeatCount="indefinite" />
+    </circle>
+    <circle cx="52.5" cy="92.5" r="12.5">
+        <animate attributeName="fill-opacity"
+         begin="500ms" dur="1s"
+         values="1;.2;1" calcMode="linear"
+         repeatCount="indefinite" />
+    </circle>
+    <circle cx="92.5" cy="92.5" r="12.5">
+        <animate attributeName="fill-opacity"
+         begin="200ms" dur="1s"
+         values="1;.2;1" calcMode="linear"
+         repeatCount="indefinite" />
+    </circle>
+</svg>
+`.repeat(20)
+    // Gallery
+    setTimeout(() => {
+        gMainController.renderGallery()
+        gMainController.elGalleryStatContainer = document.querySelector('.gallery-stat')
+        renderKeywordsOpts()
+        renderKeywordsBtns()
+    }, 3000)
+}
+// Render on DataList keywords Options
+function renderKeywordsOpts() {
+    const keywordsCountMap = GALLERY_SERVICE.getOptionsForDisplay()
+    const strHTMLs = keywordsCountMap.map(keywordStr => {
+        return `<option value="${keywordStr}">${UTIL_SERVICE.capitalize(keywordStr)}</option>`
+    })
+    const { elGalleyData } = gMainController
+    elGalleyData.innerHTML = strHTMLs.join('')
+}
 // return current click Pos on Element.
 function getPos() {
     const pos = {
@@ -150,11 +215,6 @@ function getPos() {
     return pos
 }
 
-// location.reload().
-function onReLoadPage() {
-    location.reload()
-}
-
 // i18 - send all the data-tarns (keys) and get from the service the a valueMap.
 function onTranslateDom() {
     // const elsText = document.querySelectorAll('[data-trans]')
@@ -171,6 +231,7 @@ function onTranslateDom() {
     // })
 }
 
+// Handle navigation
 function onNav(navToStr) {
     !navToStr ? navToStr = 'gallery' : navToStr
     const capitalName = UTIL_SERVICE.capitalize(navToStr)
@@ -264,9 +325,9 @@ function onTouchModal(isForceClose) {
 }
 
 // User Msg.
-function flashMsg(str) {
+function renderMsg(str) {
     const { elUserMsg } = gMainController
-    elUserMsg.innerText = str
+    elUserMsg.innerHTML = str
     elUserMsg.classList.add('user-msg-open')
     setTimeout(() => elUserMsg.classList.remove('user-msg-open'), 3000)
 }
@@ -290,7 +351,6 @@ function playAudio(audioKey) {
     })
 }
 
-// Show Modal.
 function renderModal(ev, strHTML) {
     const { elModal } = gMainController
     // if !ev Set modal pos in center of viewPort
@@ -312,16 +372,15 @@ function renderModal(ev, strHTML) {
     document.body.classList.add('modal-open')
 }
 
-// The linking Func between GALLERY to MEME.
+//  linking Func between GALLERY to MEME.
 function onImgSelect(ev) {
-    flashMsg(`Image\n selected!`)
+    renderMsg(`Image\n selected!`)
 
     const isSelectExitImage = ev.type === 'click'
     const isUploadNewImage = ev.type === 'load'
 
     const memeSrc = isSelectExitImage || isUploadNewImage ? ev.target.src : null
     const memeKeywords = isSelectExitImage ? ev.target.dataset.keyword.split(',') : []
-
     const meme = {
         src: memeSrc,
         keywords: memeKeywords,
@@ -341,3 +400,60 @@ function onUploadImg() {
     }
     reader.readAsDataURL(event.target.files[0])
 }
+
+// Set filter and UI effect Buttons
+function onClickKeyword() {
+    const elBtn = event.target
+    const { style, dataset, value } = elBtn
+    style.color = UTIL_SERVICE.getRandomColor()
+    gMainController.onSetFilter(value)
+    if (+dataset.fs >= 16) return
+    dataset.fs++
+}
+
+// openModal with All Keywords 
+function onClickTotalKeywords(ev, elBtnKeywordsContainer) {
+    const { title } = elBtnKeywordsContainer
+    const displayKeywords = title.split(' | ').map(keyword => {
+        return `<span role="button" data-pos="modal" class="btn-keyword" onclick="app.onSetFilter(this.innerText);app.onTouchModal(true)">${keyword}</span>`
+    }).join('')
+    gGallery.renderModal(ev, displayKeywords)
+}
+
+// console.log(`body.offsetWidth:\n${document.body.offsetWidth}`)
+function renderKeywordsBtns() {
+    const { galleryName } = gMainController
+    const strHTMLs = GALLERY_SERVICE.getKeywordsForDisplay()
+        .map(keyword => `<li>
+            <button class="btn btn-keyword"
+            title="${keyword[1]} ${keyword[0]} ${UTIL_SERVICE.capitalize(galleryName)}s Founds"
+            onclick="app.onClickKeyword()" 
+            data-fs="${keyword[1]}"
+            value="${keyword[0]}">
+            ${keyword[0]}
+            </button>
+            </li>
+            `)
+    const { elKeywordContainer } = gMainController
+    elKeywordContainer.innerHTML = strHTMLs.join('')
+}
+
+// function doUploadImg(imgDataUrl, onSuccess) {
+//     const formData = new FormData()
+//     formData.append('img', imgDataUrl)
+
+//     fetch('//ca-upload.com/here/upload.php', {
+//         method: 'POST',
+//         body: formData
+//     })
+//         .then(res => res.text())
+//         .then((url) => {
+
+
+//             console.log('Got back live url:', url)
+//             onSuccess(url)
+//         })
+//         .catch((err) => {
+//             console.error(err)
+//         })
+// }
