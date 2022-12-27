@@ -17,6 +17,7 @@ function init(args) {
 
     gGallery = {
         ...args,
+        loadImageFromInput,
         onSetFilter,
         onSetLayout,
         renderGallery,
@@ -46,7 +47,6 @@ function renderGallery() {
         </a>
         `})
     // Stat and Upload Image Option
-    console.log(`🚀 ~ keyWords`, keyWords.join(', '))
     const foundCount = imgs.length >= 0 ? imgs.length : '0'
     strHTMLs.unshift(`
     <div class="gallery-item gallery-stat">
@@ -117,4 +117,16 @@ function onSetLayout(img) {
 
 function onAddImg(src) {
     GALLERY_SERVICE.createImage(src)
+}
+
+function loadImageFromInput(ev, onImgSelect) {
+    // document.querySelector('.share-container').innerHTML = ''
+    const reader = new FileReader()
+    reader.onload = (event) => {
+        const img = new Image()
+        img.src = event.target.result
+        // bind the onload event handler to the onImageReady callback function
+        img.onload = onImgSelect.bind(null, img)
+    }
+    reader.readAsDataURL(ev.target.files[0])
 }

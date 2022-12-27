@@ -180,9 +180,9 @@ function _setCtx(line) {
     console.log(`🚀 ~ elCtx Before`, elCtx)
     for (const key in line) {
         console.log(`🚀 ~  elCtx[${key}]: ${elCtx[key]}`)
-        console.log(`🚀 ~ line[key]`, line[key])
+        console.log(`🚀 ~ line[${key}]`, line[key])
         elCtx[key] = line[key]
-        console.log(`🚀 ~  elCtx[key]`, elCtx[key])
+        console.log(`🚀 ~  elCtx[${key}]`, elCtx[key])
     }
     elCtx.save()
     console.log(`🚀 ~ elCtx After`, elCtx)

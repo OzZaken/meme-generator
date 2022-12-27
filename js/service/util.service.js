@@ -2,7 +2,7 @@ export const UTIL_SERVICE = {
     getRandInclusive,
     makeId,
     getRandomColor,
-    playAudio,
+    onPlayAudio,
     capitalize,
     capitalizes,
 }
@@ -31,7 +31,7 @@ function getRandomColor() {
     return color;
 }
 
-function playAudio(AudioName, audioEco) {
+function onPlayAudio(AudioName, audioEco) {
     if (audioEco) {
         audioEco.pause()
         return

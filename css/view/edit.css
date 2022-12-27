@@ -50,8 +50,8 @@ body.page-edit .main-edit-container {
 /* Canvas */
 /* .meme-container {outline: 2px solid lightgreen;} */
 canvas#meme {
-    max-height: 100%;
-    max-width: 100%;
+    max-width: calc(100vw - 2px);
+    max-height: 40vh;
     align-items: center;
     display: block;
     border: 2px solid rgb(255, 0, 0);
@@ -64,16 +64,20 @@ canvas#meme {
 .btns-edit-container {
     margin-top: 15px;
     max-height: 100%;
-    max-width: 100%;
+    max-width: 95vw;
     display: grid;
     place-content: center;
     grid-template-columns: repeat(6, 48px);
     grid-template-rows: repeat(5, 48px);
 }
 
-.btns-edit-container>* {background-color: var(--clr-brighter);}
+.btns-edit-container>* {
+    background-color: var(--clr-brighter);
+}
 
-.btns-edit-container>*:hover {color: var(--clr-prim);}
+.btns-edit-container>*:hover {
+    color: var(--clr-prim);
+}
 
 .btns-edit-container input {
     position: relative;
@@ -81,29 +85,45 @@ canvas#meme {
     width: 100%;
 }
 
-.add-meme-keyword {grid-column: 1/4;}
+.add-meme-keyword {
+    grid-column: 1/4;
+}
 
-.set-txt {grid-column: 4/7;}
+.set-txt {
+    grid-column: 4/7;
+}
 
 .btns-edit-container .font-select {
     grid-column: 4/6;
     grid-row: 3;
 }
 
-.keyword-heading {grid-column: 1/-1;}
+.keyword-heading {
+    grid-column: 1/-1;
+}
 
-.btn-download {grid-column: 3/5;}
+.btn-download {
+    grid-column: 3/5;
+}
 
 /* Color Inputs*/
 [name="set-stroke-color"],
-[name="set-fill-color"] {display: none;}
+[name="set-fill-color"] {
+    display: none;
+}
 
 .btn-fill-color,
-.btn-stroke-color {text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.555)}
+.btn-stroke-color {
+    text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.555)
+}
 
-.btn-fill-color::before {content: '\f53f';}
+.btn-fill-color::before {
+    content: '\f53f';
+}
 
-.btn-stroke-color::before {content: '\f1fc';}
+.btn-stroke-color::before {
+    content: '\f1fc';
+}
 
 .keyword-heading::before {
     content: 'Meme Keywords:\00a0\00a0';
@@ -112,6 +132,10 @@ canvas#meme {
 
 /* Tablet-Wide */
 @media (min-width: 768px) {
+    canvas#meme {
+        max-width: 400px;
+        max-height: 400px;
+    }
 
     .btns-edit-container {
         grid-template-columns: repeat(6, calc(4em - 4px));

@@ -1,10 +1,7 @@
-
 import { I18_SERVICE } from "../service/i18.service.js";
 import { UTIL_SERVICE } from "../service/util.service.js";
-
 import { GALLERY_CONTROLLER } from "../controller/gallery.controller.js";
 import { MEME_CONTROLLER } from "./meme.controller.js";
-import { GALLERY_SERVICE } from "../service/gallery.service.js";
 
 let gMainController
 
@@ -68,8 +65,8 @@ function onInit() {
 
     window.app = {
         gMainController, //TODO UT : remember Delete!
-        onUploadImg,
-        onTranslateDom,
+        onImgInput,
+        onTranslate,
         onNav,
         onTouchScreen,
         onToggleMenu,
@@ -97,7 +94,7 @@ function onInit() {
     //TODO: need on the body? or just set direction to rtl
     document.body.classList.add(userLang)
     document.querySelector('[name="select-lang"]').selectedOptions.value === userLang
-    // TODO: // onTranslateDom()
+    // TODO: // onTranslate()
 
     // Count Visits
     const visits = parseInt(localStorage.getItem('visits'))
@@ -120,6 +117,8 @@ function onInit() {
         option.style.fontFamily = option.value
     })
 }
+
+// render with Timeout
 function _showGallery() {
     gMainController.elGallery.innerHTML = `<svg class="gallery-loading" width="105" height="105" viewBox="0 0 105 105" xmlns="http://www.w3.org/2000/svg" fill="#fff">
     <circle cx="12.5" cy="12.5" r="12.5">
@@ -186,36 +185,42 @@ function _showGallery() {
         renderKeywordsBtns()
     }, 3000)
 }
-// Render on DataList keywords Options
-function renderKeywordsOpts() {
-    const keywordsCountMap = GALLERY_SERVICE.getOptionsForDisplay()
-    const strHTMLs = keywordsCountMap.map(keywordStr => {
-        return `<option value="${keywordStr}">${UTIL_SERVICE.capitalize(keywordStr)}</option>`
-    })
-    const { elGalleyData } = gMainController
-    elGalleyData.innerHTML = strHTMLs.join('')
+
+// Set filter and UI effect Buttons
+function onClickKeyword() {
+    const elBtn = event.target
+    const { style, dataset, value } = elBtn
+    style.color = UTIL_SERVICE.getRandomColor()
+    gMainController.onSetFilter(value)
+    if (+dataset.fs >= 16) return
+    dataset.fs++
 }
-// return current click Pos on Element.
-function getPos() {
-    const pos = {
-        x: event.offsetX,
-        y: event.offsetY
-    }
-    const touchEvs = ['touchstart', 'touchmove', 'touchend']
-    if (touchEvs.includes(event.type)) {
-        event.preventDefault()
-        // Take 1 Mobile touch {Pos} in case of multi fingers clicking
-        event = event.changedTouches[0]
-        pos = {
-            x: event.pageX - event.target.offsetLeft,
-            y: event.pageY - event.target.offsetTop
-        }
-    }
-    return pos
+
+// openModal with All Keywords 
+function onClickTotalKeywords() {
+    const { dataKeyword } =  document.querySelector('.btns-keyword-container')
+    const displayKeywords = dataKeyword.split(', ').map(keyword => {
+        return `<span role="button" data-pos="modal" class="btn-keyword" onclick="app.onSetFilter(this.innerText);app.onTouchModal(true)">${keyword}</span>`
+    }).join('')
+    renderModal(event, displayKeywords)
+}
+
+// Play audio.
+function onPlayAudio(audioKey) {
+    const { audio } = gMainController
+    if (audio[audioKey]) audio[audioKey].pause()
+    return new Promise((resolve, reject) => { // return a promise
+        audio[audioKey] = new Audio()         // create audio wo/ src
+        audio[audioKey].preload = "auto"    // intend to play through
+        audio[audioKey].autoplay = true    // autoplay when loaded
+        audio[audioKey].src = `assets/audio/${audioKey}.mp3`
+        audio[audioKey].onerror = reject   // on error, reject
+        audio[audioKey].onended = resolve  // when done, resolve
+    })
 }
 
 // i18 - send all the data-tarns (keys) and get from the service the a valueMap.
-function onTranslateDom() {
+function onTranslate() {
     // const elsText = document.querySelectorAll('[data-trans]')
     // elsText.forEach(el => {
     //     el.innerText = gTrans[el.dataset.trans][gUserLang]
@@ -287,7 +292,7 @@ function onNav(navToStr) {
     if (elClass) elClass.classList.remove('fade-out-up')
     setTimeout(() => elActiveHeading.classList.add('fade-out-up'), 2000)
 
-    playAudio('click')
+    onPlayAudio('click')
 }
 
 // Black screen.
@@ -323,7 +328,35 @@ function onTouchModal(isForceClose) {
     }
 }
 
-// User Msg.
+// Render DataList keywords Options
+function renderKeywordsOpts() {
+    const keywordsCountMap = GALLERY_SERVICE.getOptionsForDisplay()
+    const strHTMLs = keywordsCountMap.map(keywordStr => {
+        return `<option value="${keywordStr}">${UTIL_SERVICE.capitalize(keywordStr)}</option>`
+    })
+    const { elGalleyData } = gMainController
+    elGalleyData.innerHTML = strHTMLs.join('')
+}
+
+// render Buttons
+function renderKeywordsBtns() {
+    const { galleryName } = gMainController
+    const strHTMLs = GALLERY_SERVICE.getKeywordsForDisplay()
+        .map(keyword => `<li>
+            <button class="btn btn-keyword"
+            title="${keyword[1]} ${keyword[0]} ${UTIL_SERVICE.capitalize(galleryName)}s Founds"
+            onclick="app.onClickKeyword()" 
+            data-fs="${keyword[1]}"
+            value="${keyword[0]}">
+            ${keyword[0]}
+            </button>
+            </li>
+            `)
+    const { elKeywordContainer } = gMainController
+    elKeywordContainer.innerHTML = strHTMLs.join('')
+}
+
+// User-Msg.
 function renderMsg(str) {
     const { elUserMsg } = gMainController
     elUserMsg.innerHTML = str
@@ -331,25 +364,7 @@ function renderMsg(str) {
     setTimeout(() => elUserMsg.classList.remove('user-msg-open'), 3000)
 }
 
-// Play audio.
-function playAudio(audioKey) {
-    const { audio } = gMainController
-    if (audio[audioKey]) audio[audioKey].pause()
-    return new Promise((resolve, reject) => { // return a promise
-        audio[audioKey] = new Audio()         // create audio wo/ src
-        audio[audioKey].preload = "auto"    // intend to play through
-        audio[audioKey].autoplay = true    // autoplay when loaded
-        // onlySong overLoop when loaded
-        if (/music/.test(audioKey)) {
-            audio[audioKey].loop = true
-            audio[audioKey].volume = 0.4
-        }
-        audio[audioKey].src = `assets/audio/${audioKey}.mp3`
-        audio[audioKey].onerror = reject   // on error, reject
-        audio[audioKey].onended = resolve  // when done, resolve
-    })
-}
-
+// Modal.
 function renderModal(ev, strHTML) {
     const { elModal } = gMainController
     // if !ev Set modal pos in center of viewPort
@@ -371,15 +386,20 @@ function renderModal(ev, strHTML) {
     document.body.classList.add('modal-open')
 }
 
+// Upload Image
+function onImgInput() {
+    GALLERY_CONTROLLER.loadImageFromInput(event, onImgSelect)
+}
+
 //  linking Func between GALLERY to MEME.
-function onImgSelect(ev) {
+function onImgSelect() {
     renderMsg(`Image\n selected!`)
 
-    const isSelectExitImage = ev.type === 'click'
-    const isUploadNewImage = ev.type === 'load'
+    const isSelectExitImage = event.type === 'click'
+    const isUploadNewImage = event.type === 'load'
 
-    const memeSrc = isSelectExitImage || isUploadNewImage ? ev.target.src : null
-    const memeKeywords = isSelectExitImage ? ev.target.dataset.keyword.split(',') : []
+    const memeSrc = isSelectExitImage || isUploadNewImage ? event.target.src : null
+    const memeKeywords = isSelectExitImage ? event.target.dataset.keyword.split(',') : []
     const meme = {
         src: memeSrc,
         keywords: memeKeywords,
@@ -389,70 +409,55 @@ function onImgSelect(ev) {
     onNav('edit')
 }
 
-// Upload new image 
-function onUploadImg() {
-    let reader = new FileReader()
-    reader.onload = (ev) => {
-        let img = new Image()
-        img.src = ev.target.result
-        img.onload = (ev) => onImgSelect(ev)
+function uploadImg() {
+    const imgDataUrl = gElCanvas.toDataURL("image/jpeg");
+
+    // A function to be called if request succeeds
+    function onSuccess(uploadedImgUrl) {
+        const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
+        document.querySelector('.user-msg').innerText = `Your photo is available here: ${uploadedImgUrl}`
+        document.querySelector('.share-container').innerHTML = `
+        <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
+           Share   
+        </a>`
     }
-    reader.readAsDataURL(event.target.files[0])
+    _doUploadImg(imgDataUrl, onSuccess);
 }
 
-// Set filter and UI effect Buttons
-function onClickKeyword() {
-    const elBtn = event.target
-    const { style, dataset, value } = elBtn
-    style.color = UTIL_SERVICE.getRandomColor()
-    gMainController.onSetFilter(value)
-    if (+dataset.fs >= 16) return
-    dataset.fs++
+function _doUploadImg(imgDataUrl, onSuccess) {
+
+    const formData = new FormData();
+    formData.append('img', imgDataUrl)
+
+    fetch('//ca-upload.com/here/upload.php', {
+        method: 'POST',
+        body: formData
+    })
+        .then(res => res.text())
+        .then((url) => {
+            console.log('Got back live url:', url);
+            onSuccess(url)
+        })
+        .catch((err) => {
+            console.error(err)
+        })
 }
 
-// openModal with All Keywords 
-function onClickTotalKeywords() {
-    const { dataKeyword } =  document.querySelector('.btns-keyword-container')
-    const displayKeywords = dataKeyword.split(', ').map(keyword => {
-        return `<span role="button" data-pos="modal" class="btn-keyword" onclick="app.onSetFilter(this.innerText);app.onTouchModal(true)">${keyword}</span>`
-    }).join('')
-    renderModal(event, displayKeywords)
+// return current click Pos on Element.
+function getPos() {
+    const pos = {
+        x: event.offsetX,
+        y: event.offsetY
+    }
+    const touchEvs = ['touchstart', 'touchmove', 'touchend']
+    if (touchEvs.includes(event.type)) {
+        event.preventDefault()
+        // Take 1 Mobile touch {Pos} in case of multi fingers clicking
+        event = event.changedTouches[0]
+        pos = {
+            x: event.pageX - event.target.offsetLeft,
+            y: event.pageY - event.target.offsetTop
+        }
+    }
+    return pos
 }
-
-// console.log(`body.offsetWidth:\n${document.body.offsetWidth}`)
-function renderKeywordsBtns() {
-    const { galleryName } = gMainController
-    const strHTMLs = GALLERY_SERVICE.getKeywordsForDisplay()
-        .map(keyword => `<li>
-            <button class="btn btn-keyword"
-            title="${keyword[1]} ${keyword[0]} ${UTIL_SERVICE.capitalize(galleryName)}s Founds"
-            onclick="app.onClickKeyword()" 
-            data-fs="${keyword[1]}"
-            value="${keyword[0]}">
-            ${keyword[0]}
-            </button>
-            </li>
-            `)
-    const { elKeywordContainer } = gMainController
-    elKeywordContainer.innerHTML = strHTMLs.join('')
-}
-
-// function doUploadImg(imgDataUrl, onSuccess) {
-//     const formData = new FormData()
-//     formData.append('img', imgDataUrl)
-
-//     fetch('//ca-upload.com/here/upload.php', {
-//         method: 'POST',
-//         body: formData
-//     })
-//         .then(res => res.text())
-//         .then((url) => {
-
-
-//             console.log('Got back live url:', url)
-//             onSuccess(url)
-//         })
-//         .catch((err) => {
-//             console.error(err)
-//         })
-// }
