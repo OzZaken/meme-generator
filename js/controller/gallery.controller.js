@@ -1,9 +1,6 @@
 import { GALLERY_SERVICE } from "../service/gallery.service.js"
 import { UTIL_SERVICE } from '../service/util.service.js'
 
-// switch img based url 
-// const fileName = url.substr(url.lastIndexOf('/') + 1)
-// imgAvatar.src = 'gallery/' + fileName.replace(/\d/, digit => (+digit >= imgs.length) ? 1 : +digit + 1)
 
 export const GALLERY_CONTROLLER = { init }
 
@@ -11,13 +8,11 @@ let gGallery
 
 // Init State
 function init(args) {
-    // Set Gallery Name in case of more then one gallery 
+    // Set Gallery Name in case of more then one gallery in the App 
     !args.galleryName ? args.galleryName = 'image' : args.galleryName
     GALLERY_SERVICE.setGalleryStorageKey(args.galleryName)
-
     gGallery = {
         ...args,
-        loadImageFromInput,
         onSetFilter,
         onSetLayout,
         renderGallery,
@@ -117,16 +112,4 @@ function onSetLayout(img) {
 
 function onAddImg(src) {
     GALLERY_SERVICE.createImage(src)
-}
-
-function loadImageFromInput(ev, onImgSelect) {
-    // document.querySelector('.share-container').innerHTML = ''
-    const reader = new FileReader()
-    reader.onload = (event) => {
-        const img = new Image()
-        img.src = event.target.result
-        // bind the onload event handler to the onImageReady callback function
-        img.onload = onImgSelect.bind(null, img)
-    }
-    reader.readAsDataURL(ev.target.files[0])
 }

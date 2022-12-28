@@ -1,8 +1,8 @@
-import { MEME_SERVICE } from "../service/meme.service.js";
+import { GALLERY_SERVICE } from "../service/gallery.service.js"
+import { MEME_SERVICE } from "../service/meme.service.js"
 
 export const MEME_CONTROLLER = { init }
 
-//  Dependencies Pointer:
 let gMemeController
 
 function init(dependencies) {
@@ -47,6 +47,7 @@ function init(dependencies) {
         elCtx: dependencies.elMeme.getContext('2d'),
         onSaveMeme,
         onSetMeme,
+        onSetImg,
         onCreateLine,
     }
 
@@ -111,6 +112,12 @@ function onSetMeme(meme) {
     renderMeme()
 }
 
+function onSetImg(diff) {
+    const length = GALLERY_SERVICE.getImgsCount()
+    MEME_SERVICE.setImg(length,diff)
+    renderMeme()
+}
+
 function onMove() {
     const { isTouchScreen, isDarg, isScale, isDraw } = gMemeController
     if (!isTouchScreen) return
@@ -135,7 +142,7 @@ function onUp() {
         gMemeController.isScale = gMemeController.isScale = false
     console.log('document.body.offsetWidth:', document.body.offsetWidth)
     console.log('window.innerWidth:', window.innerWidth)
-    // document.body.style.cursor = 'grab';
+    // document.body.style.cursor = 'grab'
 }
 
 function onDown() {
@@ -173,19 +180,14 @@ function renderMeme() {
     }
 }
 
-// ctx
+// Set ctx
 function _setCtx(line) {
-    console.log(`🚀 ~ Update Ctx with val`, line)
     const { elCtx } = gMemeController
-    console.log(`🚀 ~ elCtx Before`, elCtx)
     for (const key in line) {
-        console.log(`🚀 ~  elCtx[${key}]: ${elCtx[key]}`)
-        console.log(`🚀 ~ line[${key}]`, line[key])
         elCtx[key] = line[key]
-        console.log(`🚀 ~  elCtx[${key}]`, elCtx[key])
+        // console.log(`🚀 ~  elCtx[${key}]`, elCtx[key])
     }
     elCtx.save()
-    console.log(`🚀 ~ elCtx After`, elCtx)
 }
 
 // Get Line model from Service And render
@@ -225,57 +227,55 @@ function drawLine(line) {
     if (MEME_SERVICE.getLine() === line) drawOutLine()
 }
 function showFocusBorder() {
-    const borderParams = getBorderParams();
-    if (!borderParams) return;
-    const { xStart, yStart, w, h, scalePntPos } = borderParams;
-    gCtx.beginPath();
-    gCtx.rect(xStart, yStart, w, h);
-    gCtx.lineWidth = 2;
-    gCtx.strokeStyle = 'white';
-    gCtx.stroke();
-    showScalePnt(scalePntPos);
+    const borderParams = getBorderParams()
+    if (!borderParams) return
+    const { xStart, yStart, w, h, scalePntPos } = borderParams
+    gCtx.beginPath()
+    gCtx.rect(xStart, yStart, w, h)
+    gCtx.lineWidth = 2
+    gCtx.strokeStyle = 'white'
+    gCtx.stroke()
+    showScalePnt(scalePntPos)
 }
 function getBorderParams() {
-    let idx = gMeme.selectedLineIdx;
+    let idx = gMeme.selectedLineIdx
     if (idx >= 0) {
-        const { pos, size, width, align } = gMeme.lines[idx];
-        let widthOffst = -width;
-        if (align === 'left') widthOffst = 0;
-        else if (align === 'center') widthOffst = -width / 2;
-        const xStart = pos.x + widthOffst - 5;
-        const yStart = pos.y - size;
-        const w = width + 10;
-        const h = size + 15;
-        const scalePntPos = { x: xStart + w, y: yStart + h };
-        setScalePnt(gMeme.lines[idx], scalePntPos);
-        return { xStart, yStart, w, h, scalePntPos };
+        const { pos, size, width, align } = gMeme.lines[idx]
+        let widthOffst = -width
+        if (align === 'left') widthOffst = 0
+        else if (align === 'center') widthOffst = -width / 2
+        const xStart = pos.x + widthOffst - 5
+        const yStart = pos.y - size
+        const w = width + 10
+        const h = size + 15
+        const scalePntPos = { x: xStart + w, y: yStart + h }
+        setScalePnt(gMeme.lines[idx], scalePntPos)
+        return { xStart, yStart, w, h, scalePntPos }
     }
-    idx = gMeme.selectedStickerIdx;
-    if (idx < 0) return;
-    const { pos, width, height } = gMeme.stickers[idx];
-    const xStart = pos.x;
-    const yStart = pos.y;
-    const w = width;
-    const h = height;
-    const scalePntPos = { x: xStart + w, y: yStart + h };
-    setScalePnt(gMeme.stickers[idx], scalePntPos);
-    return { xStart, yStart, w, h, scalePntPos };
+    idx = gMeme.selectedStickerIdx
+    if (idx < 0) return
+    const { pos, width, height } = gMeme.stickers[idx]
+    const xStart = pos.x
+    const yStart = pos.y
+    const w = width
+    const h = height
+    const scalePntPos = { x: xStart + w, y: yStart + h }
+    setScalePnt(gMeme.stickers[idx], scalePntPos)
+    return { xStart, yStart, w, h, scalePntPos }
 }
 function drawOutLine() {
-    console.log('drawOutLineReturn');
+    console.log('drawOutLine')
     const { txt, x, y } = MEME_SERVICE.getLine()
     const { elCtx } = gMemeController
+
     const TxtMetrics = elCtx.measureText(txt)
     const width = TxtMetrics.width
     const height = TxtMetrics.fontBoundingBoxDescent + TxtMetrics.fontBoundingBoxAscent
 
     elCtx.beginPath()
-    elCtx.lineWidth = 3
-    elCtx.fillStyle = 'red'
-    elCtx.strokeStyle = 'green'
-    elCtx.rect(x, y, width, height);
-    elCtx.stroke();
-    elCtx.closePath();
+    elCtx.rect(x, y, width, height)
+    elCtx.stroke()
+    elCtx.closePath()
 }
 
 function onCreateLine() {
@@ -284,7 +284,7 @@ function onCreateLine() {
 function onSaveMeme() {
     console.log(`🚀 ~ onSaveMeme`,)
     console.log('event:', event)
-    console.log('getMeme(),', getMeme());
+    console.log('getMeme(),', getMeme())
 }
 
 // function isInLine( isClicked) {
@@ -318,9 +318,9 @@ function onSaveMeme() {
 // }
 // run over elCtx
 // function setSaveLink() {
-//     const imgContent = gElCanvas.toDataURL('image/jpeg');
+//     const imgContent = gElCanvas.toDataURL('image/jpeg')
 //     addToSavedMemes(imgContent)
-//     const strHtml = `<a class="btn start-action">Meme has been saved</a>  <div class="modal-btns-container flex space-between"><button onClick="onCloseDownloadShareModal()">Close</button></div`;
+//     const strHtml = `<a class="btn start-action">Meme has been saved</a>  <div class="modal-btns-container flex space-between"><button onClick="onCloseDownloadShareModal()">Close</button></div`
 //     toggleModalScreen(strHtml)
 // }
 // function onDownloadMeme(elLink) {
@@ -355,27 +355,27 @@ function onSaveMeme() {
 // function setDownloadLink() {
 //     elLink.href = data
 //     const { elMeme } = gMemeController
-//     const data = elMeme.toDataURL('image/jpeg');
-//     const strHtml = `<a href="${data}" class="btn" download="Awesomeme">Click to download</a>`;
+//     const data = elMeme.toDataURL('image/jpeg')
+//     const strHtml = `<a href="${data}" class="btn" download="Awesomeme">Click to download</a>`
 // }
 // function onSuccess(uploadedImgUrl) {
-//     // document.getElementById('imgData').value = gElCanvas.toDataURL('image/jpeg');
+//     // document.getElementById('imgData').value = gElCanvas.toDataURL('image/jpeg')
 //     // A function to be called if request succeeds
-//     uploadedImgUrl = encodeURIComponent(uploadedImgUrl);
+//     uploadedImgUrl = encodeURIComponent(uploadedImgUrl)
 //     const strHtml = `
 //         <a class="btn start-action" href="https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}"
-//         title="Share on Facebook" target="_blank" onclick="onCloseDownloadShareModal();
-//         window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
+//         title="Share on Facebook" target="_blank" onclick="onCloseDownloadShareModal()
+//         window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}') return false">
 //         Click to share on facebook
-//         </a>`;
-//     toggleModalScreen(strHtml);
+//         </a>`
+//     toggleModalScreen(strHtml)
 // }
 // function onClickSavedMeme(ev, elImg) {
 //     ev.stopPropagation()
 //     const strHtml = `<a href="${elImg.src}" class="btn start-action meme-action" download="Awesomeme"
 //     onClick="onCloseDownloadShareModal()">Download meme</a>
 //     <a href="#" class="btn start-action meme-action"
-//     onClick="onDeleteMeme('${elImg.dataset.id}')">Delete meme</a>`;
+//     onClick="onDeleteMeme('${elImg.dataset.id}')">Delete meme</a>`
 //     toggleModalScreen(strHtml)
 // }
 // function onShareMeme() {
@@ -393,20 +393,21 @@ function onSaveMeme() {
 //             '.url-msg'
 //         ).innerText = `Your photo is available here: ${uploadedImgUrl}`
 //         document.querySelector('.sharing-btn').innerHTML = `
-//             <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
+//             <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}') return false">
 //                Share
 //             </a>`
 //     }
 //     doUploadImg(imgDataUrl, onSuccess)
 // }
 // function shareMeme(uploadedImgUrl) {
-//     uploadedImgUrl = encodeURIComponent(uploadedImgUrl);
+//     uploadedImgUrl = encodeURIComponent(uploadedImgUrl)
 //     const strHtml =
 //         `
 //     <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}"
-//     title="Share on Facebook" target="_blank" onclick="app.()";
-//     window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
+//     title="Share on Facebook" target="_blank" onclick="app.()"
+//     window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}') return false">
 //     Click to share on facebook
 //     </a>`
 //     renderModal(strHtml)
 // }
+

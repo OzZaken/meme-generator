@@ -50,7 +50,7 @@ body.page-edit .main-edit-container {
 /* Canvas */
 /* .meme-container {outline: 2px solid lightgreen;} */
 canvas#meme {
-    max-width: calc(100vw - 2px);
+    max-width: calc(98vw - 2px);
     max-height: 40vh;
     align-items: center;
     display: block;

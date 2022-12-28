@@ -12,6 +12,8 @@ export const GALLERY_SERVICE = {
     createImage,
 }
 
+
+
 // Initial Images 
 const INIT_IMAGES = [
     { url: 'assets/img/gallery/32.jpg', keywords: ['messi'] },

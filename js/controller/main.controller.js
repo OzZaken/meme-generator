@@ -2,6 +2,7 @@ import { I18_SERVICE } from "../service/i18.service.js";
 import { UTIL_SERVICE } from "../service/util.service.js";
 import { GALLERY_CONTROLLER } from "../controller/gallery.controller.js";
 import { MEME_CONTROLLER } from "./meme.controller.js";
+import { GALLERY_SERVICE } from "../service/gallery.service.js";
 
 let gMainController
 
@@ -61,7 +62,9 @@ function onInit() {
         onSetFilter,
         // MEME_CONTROLLER
         onSetMeme,
+        onSetImg,
     } = gMainController
+
 
     window.app = {
         gMainController, //TODO UT : remember Delete!
@@ -79,6 +82,7 @@ function onInit() {
         onSetFilter,
         onSetLayout,
         // Meme
+        onSetImg,
         onSetMeme,
     }
 
@@ -183,7 +187,7 @@ function _showGallery() {
         gMainController.elGalleryStatContainer = document.querySelector('.gallery-stat')
         renderKeywordsOpts()
         renderKeywordsBtns()
-    }, 3000)
+    }, 200)
 }
 
 // Set filter and UI effect Buttons
@@ -388,18 +392,31 @@ function renderModal(ev, strHTML) {
 
 // Upload Image
 function onImgInput() {
-    GALLERY_CONTROLLER.loadImageFromInput(event, onImgSelect)
+  loadImageFromInput(event, onImgSelect)
+}
+
+function loadImageFromInput(ev, onImgSelect) {
+    // document.querySelector('.share-container').innerHTML = ''
+    const reader = new FileReader()
+    reader.onload = (event) => {
+        const img = new Image()
+        img.src = event.target.result
+        // bind the onload event handler to the onImageReady callback function
+        img.onload = onImgSelect.bind(null, img)
+    }
+    reader.readAsDataURL(ev.target.files[0])
 }
 
 //  linking Func between GALLERY to MEME.
 function onImgSelect() {
     renderMsg(`Image\n selected!`)
 
-    const isSelectExitImage = event.type === 'click'
-    const isUploadNewImage = event.type === 'load'
+    const isSelectImg = event.type === 'click'
+    const isUploadImg = event.type === 'load'
 
-    const memeSrc = isSelectExitImage || isUploadNewImage ? event.target.src : null
-    const memeKeywords = isSelectExitImage ? event.target.dataset.keyword.split(',') : []
+    const memeSrc = isSelectImg || isUploadImg ? event.target.src : null
+    const memeKeywords = isSelectImg ? event.target.dataset.keyword.split(',') : []
+
     const meme = {
         src: memeSrc,
         keywords: memeKeywords,

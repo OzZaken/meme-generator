@@ -12,6 +12,7 @@ export const MEME_SERVICE = {
     setSelectedLineIdx,
     getFontMap,
     setFontMap,
+    setImg,
 }
 
 const MEME = {
@@ -23,24 +24,30 @@ const MEME = {
         keywords: [],
         lines: [
             {
-                isFocus: false,
                 fillStyle: '#fb9623',
                 textBaseline: 'middle',
                 txt: 'Edit some text!',
                 lineWidth: 2,
                 textAlign: 'center',
-                strokeStyle: '#9623fbd2', 
+                strokeStyle: '#9623fbd2',
                 pos: { x: null, y: null },
-                font:'40px papyrus',
+                font: '40px papyrus',
             },
         ]
     }
 }
 
+
+
 //  Meme
 function getMeme() { return MEME.meme }
 
-function setMeme(meme) { MEME.meme = { ...MEME.meme, ...meme } }
+function setMeme(meme) {
+    console.log(`🚀 ~ setMeme`, meme)
+    console.log('MEME.meme:', MEME.meme)
+    MEME.meme = { ...MEME.meme, ...meme }
+    console.log('MEME.meme AFTER:', MEME.meme)
+}
 
 //  Line
 function createLine() {
@@ -76,7 +83,7 @@ function getLines() { return getMeme().lines }
 //  Line Pos
 function getLinePos() { return getLine().pos }
 
-function setLinePos(val) { getLine().pos = { ...getLine().pos, ...val }}
+function setLinePos(val) { getLine().pos = { ...getLine().pos, ...val } }
 
 //  FontMap
 function getFontMap() { return getLine().fontMap }
@@ -94,4 +101,19 @@ function setSelectedLineIdx() {
     if (!lines.length || lines.length === 0) return
     if (meme.selectedLineIdx >= lines.length) meme.selectedLineIdx = 0
     else meme.selectedLineIdx++
+}
+
+// switch img based url 
+function setImg(imgCount, diff) {
+    const { src } = getMeme()
+    const path = src.slice(src.lastIndexOf('/') + 1)
+
+    let name = path.split('.')[0]
+    const type = path.split('.')[1]
+    // Next Image
+    if (+name >= imgCount && diff === 1) name = 0
+    else if(diff === 1)name++
+    else name--
+    // Previous Image
+    getMeme().src = src.substr(0, src.lastIndexOf('/') + 1) + name + '.' + type
 }
