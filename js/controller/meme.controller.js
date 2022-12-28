@@ -1,60 +1,30 @@
-import { GALLERY_SERVICE } from "../service/gallery.service.js"
 import { MEME_SERVICE } from "../service/meme.service.js"
 
-export const MEME_CONTROLLER = { init }
+export const MEME_CONTROLLER = { 
+    init,
+    onSetMeme,
+    onMove,
+    onUp,
+    onDown,
+}
 
 let gMemeController
 
 function init(dependencies) {
-    // MEME_SERVICE //TODO: At the end send Main controller only those who need!
-    const {
-        getMeme,
-        setMeme,
-        getLines,
-        getLine,
-        setLine,
-        getLinePos,
-        setLinePos,
-        createLine,
-        removeLine,
-        getSelectedLineIdx,
-        setSelectedLineIdx,
-        getFontMap,
-        setFontMap,
-    } = MEME_SERVICE
-
     gMemeController = {
-        // MAIN_CONTROLLER
         ...dependencies,
-        // MEME_SERVICE
-        getMeme,
-        setMeme,
-        getLines,
-        getLine,
-        setLine,
-        getLinePos,
-        setLinePos,
-        createLine,
-        removeLine,
-        getSelectedLineIdx,
-        setSelectedLineIdx,
-        getFontMap,
-        setFontMap,
-        // MEME_CONTROLLER
         isTouchScreen: false,
         isGrab: false,
         isScale: false,
         elCtx: dependencies.elMeme.getContext('2d'),
         onSaveMeme,
         onSetMeme,
-        onSetImg,
         onCreateLine,
     }
 
     // Set Listeners
-    const { elMeme, elCtx } = gMemeController
-    console.log(`🚀 ~ elCtx First Time`, elCtx)
     window.addEventListener('resize', resizeMeme)
+    const { elMeme} = gMemeController
     // Mouse
     elMeme.addEventListener('mousemove', onMove)
     elMeme.addEventListener('mousedown', onDown)
@@ -63,7 +33,6 @@ function init(dependencies) {
     elMeme.addEventListener('touchmove', onMove)
     elMeme.addEventListener('touchstart', onDown)
     elMeme.addEventListener('touchend', onUp)
-
     // Update Main controller
     return gMemeController
 }
@@ -75,7 +44,7 @@ function onSetMeme(meme) {
         const val = event.target.dataset.font ? event.target.dataset.font : event.target.value
         const _editMap = {
             onUp: () => {
-                const posY = gMemeController.getLinePos().y
+                const posY = MEME_SERVICE.getLinePos().y
                 if (posY <= 50) return
                 const updatedPos = posY - elMeme.height / 20
                 MEME_SERVICE.setLinePos({ y: updatedPos })
@@ -109,12 +78,6 @@ function onSetMeme(meme) {
         }
         _editMap[val]()
     }
-    renderMeme()
-}
-
-function onSetImg(diff) {
-    const length = GALLERY_SERVICE.getImgsCount()
-    MEME_SERVICE.setImg(length,diff)
     renderMeme()
 }
 

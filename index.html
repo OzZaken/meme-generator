@@ -11,20 +11,17 @@
 </head>
 
 <body class="page-gallery" onload="app.onInit()">
-    <input onchange="app.onImgInput()" type="file" id="upload-img" name="upload-img" hidden
-        accept="image/png, image/jpeg, image/jpg" />
-    <input oninput="app.setElColor()" onchange="app.onSetMeme()" hidden id="set-stroke-color" type="color"
-        name="stroke-color" title="Change stroke color">
-    <input oninput="app.setElColor()" onchange="app.onSetMeme()" hidden name="fill-color" type="color"
-        title="Change fill color">
     <datalist id="gallery-keyword"></datalist>
-    <input oninput="app.onSetTxtLine()" id="set-txt" list="gallery-keyword" name="line-txt" type="select"
-        placeholder="We Recommended Adding Exiting Keyword!" title="Add New Text line">
+    <input onchange="app.onImgInput()" type="file" id="upload-img" name="upload-img" hidden accept="image/png, image/jpeg, image/jpg"/>
+    <input oninput="app.setElColor()" onchange="app.onSetMeme()" hidden id="set-stroke-color" type="color" name="stroke-color" title="Change stroke color">
+    <input oninput="app.setElColor()" onchange="app.onSetMeme()" hidden name="fill-color" type="color" title="Change fill color">
+    <input oninput="app.onSetTxtLine()" id="set-txt" list="gallery-keyword" name="line-txt" type="select" placeholder="We Recommended Adding Exiting Keyword!" title="Add New Text line">
 
     <!-- Header -->
     <header class="header">
         <!-- Logo -->
         <a class="logo" title="click to reload page" href="#" onclick="location.reload()"></a>
+        
         <!-- Navigate -->
         <nav class="flex main-nav">
             <ul class="main-nav-list">
@@ -43,14 +40,17 @@
                 </li>
             </ul>
         </nav>
+        
         <!-- I18n -->
         <label for="select-lang"></label>
         <select name="select-lang" class="lang" onchange="app.onSetLang(this.value)">
             <option value="en">English</option>
             <option value="he">עברית</option>
         </select>
+        
         <!-- Nav Back -->
         <a class="nav-back" onclick="app.onNav();app.onTouchScreen()" hidden title="return to gallery" href="#"></a>
+        
         <!-- ☰ Mobile Menu Btn-->
         <div hidden role="button" class="btn-toggle-menu" onclick="app.onToggleMenu()">
             <svg width="40" height="40" viewBox="0 0 40 40">
@@ -65,7 +65,6 @@
 
     <!-- Main -->
     <main class="main-layout">
-
         <!-- Gallery -->
         <section class="page main-gallery-container">
             <h1 class="gallery-heading">Welcome! Loading Images
@@ -115,7 +114,7 @@
 
         <!-- Edit -->
         <section class="page main-edit-container">
-            <h1 class="edit-heading">choose image first!</h1>
+            <h1 class="edit-heading">edit your Meme!</h1>
 
             <!-- Canvas -->
             <div class="meme-container">
@@ -204,8 +203,9 @@
                 <!-- Meme Keywords -->
                 <p class="keyword-heading meme-keyword-container"></p>
             </div>
-            <button style="float:left; margin-left:10px;" onclick="app.onSetImg(-1)" class="next-img">Previous Image</button>
-            <button style="float:right; margin-right:10px;" onclick="app.onSetImg(+1)" class="next-img">Next Image</button>
+
+            <button value="-1" style="float:left; margin-left:10px;" onclick="app.onSetImg()" class="next-img">Previous Image</button>
+            <button value="1" style="float:right; margin-right:10px;" onclick="app.onSetImg()" class="next-img">Next Image</button>
         </section>
 
         <!-- About -->
@@ -293,5 +293,4 @@
 
     <script type="module" src="js/controller/main.controller.js"></script>
 </body>
-
 </html>

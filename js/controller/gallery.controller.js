@@ -2,7 +2,12 @@ import { GALLERY_SERVICE } from "../service/gallery.service.js"
 import { UTIL_SERVICE } from '../service/util.service.js'
 
 
-export const GALLERY_CONTROLLER = { init }
+export const GALLERY_CONTROLLER = {
+    init,
+    onSetFilter,
+    onSetLayout,
+    renderGallery,
+}
 
 let gGallery
 

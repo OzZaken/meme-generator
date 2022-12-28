@@ -1,18 +1,19 @@
 export const MEME_SERVICE = {
     getMeme,
     setMeme,
-    getLines,
-    getLine,
-    setLine,
-    getLinePos,
-    setLinePos,
     createLine,
     removeLine,
+    getLine,
+    setLine,
+    getLines,
+    getLinePos,
+    setLinePos,
     getSelectedLineIdx,
     setSelectedLineIdx,
     getFontMap,
     setFontMap,
-    setImg,
+    getNextImg,
+    setFontMap,
 }
 
 const MEME = {
@@ -36,8 +37,6 @@ const MEME = {
         ]
     }
 }
-
-
 
 //  Meme
 function getMeme() { return MEME.meme }
@@ -104,7 +103,7 @@ function setSelectedLineIdx() {
 }
 
 // switch img based url 
-function setImg(imgCount, diff) {
+function getNextImg(imgCount, diff) {
     const { src } = getMeme()
     const path = src.slice(src.lastIndexOf('/') + 1)
 
@@ -112,8 +111,7 @@ function setImg(imgCount, diff) {
     const type = path.split('.')[1]
     // Next Image
     if (+name >= imgCount && diff === 1) name = 0
-    else if(diff === 1)name++
+    else if (diff === 1) name++
     else name--
-    // Previous Image
-    getMeme().src = src.substr(0, src.lastIndexOf('/') + 1) + name + '.' + type
+    return src.substr(0, src.lastIndexOf('/') + 1) + name + '.' + type
 }

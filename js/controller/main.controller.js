@@ -1,8 +1,9 @@
-import { I18_SERVICE } from "../service/i18.service.js";
-import { UTIL_SERVICE } from "../service/util.service.js";
-import { GALLERY_CONTROLLER } from "../controller/gallery.controller.js";
-import { MEME_CONTROLLER } from "./meme.controller.js";
-import { GALLERY_SERVICE } from "../service/gallery.service.js";
+import { I18_SERVICE } from "../service/i18.service.js"
+import { UTIL_SERVICE } from "../service/util.service.js"
+import { GALLERY_CONTROLLER } from "../controller/gallery.controller.js"
+import { MEME_CONTROLLER } from "./meme.controller.js"
+import { GALLERY_SERVICE } from "../service/gallery.service.js"
+import { MEME_SERVICE } from "../service/meme.service.js"
 
 let gMainController
 
@@ -55,21 +56,20 @@ function onInit() {
         ...MEME_CONTROLLER.init(initMemeData)
     }
 
-    // Take what necessary from the App to the Dom. 
+    // Give Dom dependencies. 
     const {
-        // GALLERY_CONTROLLER
-        onSetLayout,
         onSetFilter,
-        // MEME_CONTROLLER
+        onSetLayout,
+    } = GALLERY_CONTROLLER
+    const {
         onSetMeme,
-        onSetImg,
-    } = gMainController
-
+    } = MEME_CONTROLLER
 
     window.app = {
         gMainController, //TODO UT : remember Delete!
         onImgInput,
         onTranslate,
+        onSetImg,
         onNav,
         onTouchScreen,
         onToggleMenu,
@@ -82,7 +82,6 @@ function onInit() {
         onSetFilter,
         onSetLayout,
         // Meme
-        onSetImg,
         onSetMeme,
     }
 
@@ -98,16 +97,17 @@ function onInit() {
     //TODO: need on the body? or just set direction to rtl
     document.body.classList.add(userLang)
     document.querySelector('[name="select-lang"]').selectedOptions.value === userLang
-    // TODO: // onTranslate()
+    onTranslate()
+
 
     // Count Visits
     const visits = parseInt(localStorage.getItem('visits'))
     if (!visits) {
-        renderMsg(`<span>&nbsp;First&nbsp;</span> time Welcome!`)
+        renderMsg(`<span>&nbspFirst&nbsp</span> time Welcome!`)
         localStorage.setItem('visits', 1)
     }
     else {
-        renderMsg(`Welcome <span>&nbsp;${visits + 1}&nbsp;</span> Times back!`)
+        renderMsg(`Welcome <span>&nbsp${visits + 1}&nbsp</span> Times back!`)
         localStorage.setItem('visits', visits + 1)
     }
 
@@ -128,55 +128,55 @@ function _showGallery() {
     <circle cx="12.5" cy="12.5" r="12.5">
         <animate attributeName="fill-opacity"
          begin="0s" dur="1s"
-         values="1;.2;1" calcMode="linear"
+         values="1.21" calcMode="linear"
          repeatCount="indefinite" />
     </circle>
     <circle cx="12.5" cy="52.5" r="12.5" fill-opacity=".5">
         <animate attributeName="fill-opacity"
          begin="100ms" dur="1s"
-         values="1;.2;1" calcMode="linear"
+         values="1.21" calcMode="linear"
          repeatCount="indefinite" />
     </circle>
     <circle cx="52.5" cy="12.5" r="12.5">
         <animate attributeName="fill-opacity"
          begin="300ms" dur="1s"
-         values="1;.2;1" calcMode="linear"
+         values="1.21" calcMode="linear"
          repeatCount="indefinite" />
     </circle>
     <circle cx="52.5" cy="52.5" r="12.5">
         <animate attributeName="fill-opacity"
          begin="600ms" dur="1s"
-         values="1;.2;1" calcMode="linear"
+         values="1.21" calcMode="linear"
          repeatCount="indefinite" />
     </circle>
     <circle cx="92.5" cy="12.5" r="12.5">
         <animate attributeName="fill-opacity"
          begin="800ms" dur="1s"
-         values="1;.2;1" calcMode="linear"
+         values="1.21" calcMode="linear"
          repeatCount="indefinite" />
     </circle>
     <circle cx="92.5" cy="52.5" r="12.5">
         <animate attributeName="fill-opacity"
          begin="400ms" dur="1s"
-         values="1;.2;1" calcMode="linear"
+         values="1.21" calcMode="linear"
          repeatCount="indefinite" />
     </circle>
     <circle cx="12.5" cy="92.5" r="12.5">
         <animate attributeName="fill-opacity"
          begin="700ms" dur="1s"
-         values="1;.2;1" calcMode="linear"
+         values="1.21" calcMode="linear"
          repeatCount="indefinite" />
     </circle>
     <circle cx="52.5" cy="92.5" r="12.5">
         <animate attributeName="fill-opacity"
          begin="500ms" dur="1s"
-         values="1;.2;1" calcMode="linear"
+         values="1.21" calcMode="linear"
          repeatCount="indefinite" />
     </circle>
     <circle cx="92.5" cy="92.5" r="12.5">
         <animate attributeName="fill-opacity"
          begin="200ms" dur="1s"
-         values="1;.2;1" calcMode="linear"
+         values="1.21" calcMode="linear"
          repeatCount="indefinite" />
     </circle>
 </svg>
@@ -202,9 +202,9 @@ function onClickKeyword() {
 
 // openModal with All Keywords 
 function onClickTotalKeywords() {
-    const { dataKeyword } =  document.querySelector('.btns-keyword-container')
+    const { dataKeyword } = document.querySelector('.btns-keyword-container')
     const displayKeywords = dataKeyword.split(', ').map(keyword => {
-        return `<span role="button" data-pos="modal" class="btn-keyword" onclick="app.onSetFilter(this.innerText);app.onTouchModal(true)">${keyword}</span>`
+        return `<span role="button" data-pos="modal" class="btn-keyword" onclick="app.onSetFilter(this.innerText)app.onTouchModal(true)">${keyword}</span>`
     }).join('')
     renderModal(event, displayKeywords)
 }
@@ -225,6 +225,7 @@ function onPlayAudio(audioKey) {
 
 // i18 - send all the data-tarns (keys) and get from the service the a valueMap.
 function onTranslate() {
+    console.log('Translate');
     // const elsText = document.querySelectorAll('[data-trans]')
     // elsText.forEach(el => {
     //     el.innerText = gTrans[el.dataset.trans][gUserLang]
@@ -252,7 +253,7 @@ function onNav(navToStr) {
     const { elNavBack } = gMainController.links
 
     if (navToStr === 'edit') {
-        const { src } = gMainController.getMeme()
+        const { src } = MEME_SERVICE.getMeme()
         if (!src) {
             elNavBack.hidden = false
             const strHTML = `<h2>no image selected!</h2>
@@ -392,7 +393,7 @@ function renderModal(ev, strHTML) {
 
 // Upload Image
 function onImgInput() {
-  loadImageFromInput(event, onImgSelect)
+    loadImageFromInput(event, onImgSelect)
 }
 
 function loadImageFromInput(ev, onImgSelect) {
@@ -411,15 +412,11 @@ function loadImageFromInput(ev, onImgSelect) {
 function onImgSelect() {
     renderMsg(`Image\n selected!`)
 
-    const isSelectImg = event.type === 'click'
-    const isUploadImg = event.type === 'load'
-
-    const memeSrc = isSelectImg || isUploadImg ? event.target.src : null
-    const memeKeywords = isSelectImg ? event.target.dataset.keyword.split(',') : []
+    const src = event.target.src
 
     const meme = {
-        src: memeSrc,
-        keywords: memeKeywords,
+        src: event.target.src,
+        keywords: GALLERY_SERVICE.getImgKeyword(src),
     }
 
     gMainController.onSetMeme(meme)
@@ -427,23 +424,23 @@ function onImgSelect() {
 }
 
 function uploadImg() {
-    const imgDataUrl = gElCanvas.toDataURL("image/jpeg");
+    const imgDataUrl = gElCanvas.toDataURL("image/jpeg")
 
     // A function to be called if request succeeds
     function onSuccess(uploadedImgUrl) {
         const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
         document.querySelector('.user-msg').innerText = `Your photo is available here: ${uploadedImgUrl}`
         document.querySelector('.share-container').innerHTML = `
-        <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
+        <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}') return false">
            Share   
         </a>`
     }
-    _doUploadImg(imgDataUrl, onSuccess);
+    _doUploadImg(imgDataUrl, onSuccess)
 }
 
 function _doUploadImg(imgDataUrl, onSuccess) {
 
-    const formData = new FormData();
+    const formData = new FormData()
     formData.append('img', imgDataUrl)
 
     fetch('//ca-upload.com/here/upload.php', {
@@ -452,7 +449,7 @@ function _doUploadImg(imgDataUrl, onSuccess) {
     })
         .then(res => res.text())
         .then((url) => {
-            console.log('Got back live url:', url);
+            console.log('Got back live url:', url)
             onSuccess(url)
         })
         .catch((err) => {
@@ -477,4 +474,14 @@ function getPos() {
         }
     }
     return pos
+}
+
+// Next\previous buttons
+function onSetImg() {
+    const diff= event.target.value
+    console.log('diff:', diff)
+    const length = GALLERY_SERVICE.getImgsCount()
+    const newSrc = MEME_SERVICE.getNextImg(length, diff)
+    event.target.src = newSrc
+    onImgSelect()
 }

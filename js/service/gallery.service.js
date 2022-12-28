@@ -10,9 +10,8 @@ export const GALLERY_SERVICE = {
     getKeyWordsCountMap,
     setGalleryStorageKey,
     createImage,
+    getImgKeyword,
 }
-
-
 
 // Initial Images 
 const INIT_IMAGES = [
@@ -67,10 +66,16 @@ const INIT_IMAGES = [
 
 // GALLERY_SERVICE MODEL STATE 
 const GALLERY = {
+    imgs: null,
     filterBy: null,
     keywordsCountMap: null,
     storageKey: null,
-    imgs: null,
+}
+
+function getImgKeyword(url) {
+    const path = url.slice(url.lastIndexOf('assets'))
+    const curImg = GALLERY.imgs.find(img => img.url === path)
+    return curImg.keywords
 }
 
 // Adjust GalleryService to Main App
