@@ -21,7 +21,7 @@ function init(dependencies) {
         elCtx: dependencies.elMeme.getContext('2d'),
         onSaveMeme,
         onSetMeme,
-        onCreateLine,
+        onAddLine,
     }
 
     // Set Listeners
@@ -40,27 +40,36 @@ function init(dependencies) {
 }
 
 function onSetMeme(meme) {
-    console.log(`🚀 ~ onSetMeme meme`, meme||event.target.value)
+    console.log(`🚀 ~ onSetMeme meme`, meme || event.target.value)
     if (meme) MEME_SERVICE.setMeme(meme)
     else {
         const { elMeme } = gMemeController
         const val = event.target.value
-        const line = MEME_SERVICE.getLine()
 
         const editor = {
+            // 🐱‍👤
             onMoveLine: () => {
-                const { y } = line.pos
-                const operator = event.target.dataset.operator
-                console.log(`🚀 ~ onMoveLine`)
+                const line = MEME_SERVICE.getLine()
                 const { size } = MEME_SERVICE.getFont()
-                if (operator === '+' && y <= size) return
+                console.log(`🚀 ~ size`, size)
+                const { y } = line.pos
+                console.log(`🚀 ~ y`, y)
+                const operator = event.target.dataset.operator
+                console.log(`🚀 ~ operator`, operator)
+                if (operator === '+') {
+                    if (y <= size) {
+                        console.log('(y <= size)');
+                        return
+                    }
+                }
                 else if (y + size >= elMeme.height) return
-                MEME_SERVICE.setLinePos({ y: y + operator + 10 })
+                MEME_SERVICE.setLinePos({ y: parseInt(y + operator + 10) })
             },
             onSwitchLine: () => MEME_SERVICE.switchLine(),
-            onCreateLine: () => MEME_SERVICE.createLine(elMeme.width / 2, elMeme.height / 2),
+            onAddLine: () => {
+                MEME_SERVICE.addLine(elMeme.width / 2, elMeme.height / 2)
+            },
             onRemoveLine: () => MEME_SERVICE.removeLine(),
-            // 🐱‍👤
             onSetFS: () => {
                 const operator = event.target.dataset.operator
                 const { unit, family } = MEME_SERVICE.getFont()
@@ -245,13 +254,13 @@ function drawOutLine() {
     // const height = txtMetrics.fontBoundingBoxDescent + txtMetrics.fontBoundingBoxAscent
 
     elCtx.beginPath()
-    elCtx.fillStyle= 'green'
+    elCtx.fillStyle = 'green'
     elCtx.rect(x, y, width, size)
     elCtx.stroke()
     elCtx.closePath()
 }
 
-function onCreateLine() {
+function onAddLine() {
     MEME_SERVICE.createLine()
 }
 function onSaveMeme() {
