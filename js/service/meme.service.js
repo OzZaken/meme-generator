@@ -8,6 +8,7 @@ export const MEME_SERVICE = {
     setLinePos,
     switchLine,
     getNextImg,
+    getFont,
     resetLines,
 }
 
@@ -20,11 +21,51 @@ const MEME = {
     }
 }
 
+function getFont() {
+    const { font } = getLine()
+    // get the first group of digits in the string
+    const size = font.match(/\d+/)[0]
+    const regEx = font.match(/\d+\D+/)
+    const fonts = regEx[0].substring(regEx[0].match(/\d+/)[0].length).split(' ')
+    const family = fonts[1] // || font.split(' ')[1]
+    const unit = fonts[0]
+    return {
+        size,
+        unit,
+        family,
+    }
+}
+
 function getMeme() { return MEME.meme }
+
+function setMeme(meme) {
+    console.log('setMeme(meme):', meme)
+    MEME.meme = { ...MEME.meme, ...meme }
+    console.log('MEME.meme:', MEME.meme)
+}
+
+function getLine() {
+    const lines = getMeme().lines
+    const selectedLine = lines[getMeme().selectedLineIdx] // || lines[0]
+    return selectedLine
+}
+
+function setLine(val) {
+    console.log(`🚀 ~ setLine(val)`, val)
+    const line = getLine()
+    console.log(`🚀 ~ line`, line)
+    getLine() = {
+        ...line,
+        ...val
+    }
+    console.log(`🚀 ~ getLine`, getLine())
+}
+
+function resetLines() { MEME.meme.lines = [] }
 
 function createLine(x, y) {
     console.log('create line:', x, y)
-    const lines = getLines()
+    const lines = getMeme().lines
     lines.push({
         txt: 'New Line',
         lineWidth: 2,
@@ -34,23 +75,25 @@ function createLine(x, y) {
         pos: { x, y },
         font: `30px fa-solid`,
     })
-    MEME.meme.selectedLineIdx++
+    // MEME.meme.selectedLineIdx++ 
+    switchLine()
 }
 
-
-function setMeme(meme) { MEME.meme = { ...MEME.meme, ...meme } }
-
-//  Line
-function resetLines() { MEME.meme.lines = [] }
-
-
+function removeLine() {
+    const lines = getLines()
+    if (!lines.length || lines.length <= 0) return
+    lines.pop()
+    switchLine()
+}
 
 function switchLine() {
     const { meme } = MEME
-    const lines = getLines()
-    const lineIdx = getSelectedLineIdx()
+    console.log('meme.selectedLineIdx:', meme.selectedLineIdx)
+    const lines = meme.lines
+    const lineIdx = meme.selectedLineIdx
     if (lineIdx >= lines.length) meme.selectedLineIdx = 0
     else meme.selectedLineIdx++
+    console.log('meme.selectedLineIdx:', meme.selectedLineIdx)
 }
 
 function getNextImg(imgCount, diff) {
@@ -65,30 +108,13 @@ function getNextImg(imgCount, diff) {
 }
 
 
-function removeLine() {
-    const lines = getLines()
-    if (!lines.length || lines.length <= 0) return
-    lines.pop()
-    switchLine()
-}
-
-function getLine() {
-    const line = MEME.meme.lines[getSelectedLineIdx()] || MEME.meme.lines[0]
-    console.log(`🚀 ~ line`, line)
-    return line
-}
-
-function setLine(val) {
-    const lines = getLine()
-    lines[getSelectedLineIdx()] = { ...lines[getSelectedLineIdx()], ...val }
-}
-
 function setLinePos(val) {
     const pos = getLine().pos
     getLine().pos = { ...pos, ...val }
 }
 
-function setFont() {
-    const font = getMeme().lines[getSelectedLineIdx()].font
-    console.log(`🚀 ~ font`, font)
+function setFS(size) {
+    console.log(`🚀 ~ size`, size)
+
+
 }

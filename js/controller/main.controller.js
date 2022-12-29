@@ -235,6 +235,7 @@ function onClickKeyword() {
     if (+dataset.fs >= 16) return
     dataset.fs++
 }
+
 // openModal with All Keywords 
 function onShowKeywords() {
     const { dataKeyword } = document.querySelector('.btns-keyword-container')
@@ -243,10 +244,20 @@ function onShowKeywords() {
     }).join('')
     renderModal(event, displayKeywords)
 }
+
 // Play audio.
 function onPlayAudio(audioKey) {
     const { audio } = gMainController
-    if (audio[audioKey]) audio[audioKey].pause()
+    if (audio[audioKey]) {
+        audio[audioKey].pause()
+        audio[audioKey] = null
+    }
+    // try {
+    //     await audioElement.play();
+    //     console.log('Audio play successful');
+    //   } catch {
+    //     console.log('Audio play failed');
+    //   }
     return new Promise((resolve, reject) => { // return a promise
         audio[audioKey] = new Audio()         // create audio wo/ src
         audio[audioKey].preload = "auto"    // intend to play through

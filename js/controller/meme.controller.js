@@ -12,6 +12,7 @@ export const MEME_CONTROLLER = {
 let gMemeController
 
 function init(dependencies) {
+    // console.log(`🚀 ~ init dependencies`, dependencies)
     gMemeController = {
         ...dependencies,
         isTouchScreen: false,
@@ -39,26 +40,19 @@ function init(dependencies) {
 }
 
 function onSetMeme(meme) {
+    console.log(`🚀 ~ onSetMeme meme`, meme||event.target.value)
     if (meme) MEME_SERVICE.setMeme(meme)
     else {
         const { elMeme } = gMemeController
         const val = event.target.value
         const line = MEME_SERVICE.getLine()
-        if (!line) return
-        
-        const { font } = line
-        // get the first group of digits in the string
-        const size = font.match(/\d+/)[0]
-        const regEx = font.match(/\d+\D+/)
-        const fonts = regEx[0].substring(regEx[0].match(/\d+/)[0].length).split(' ')
-        const unit = fonts[0]
-        const family = fonts[1]
 
         const editor = {
             onMoveLine: () => {
-                const { pos } = line
-                const y = pos.y // shallow copy
+                const { y } = line.pos
                 const operator = event.target.dataset.operator
+                console.log(`🚀 ~ onMoveLine`)
+                const { size } = MEME_SERVICE.getFont()
                 if (operator === '+' && y <= size) return
                 else if (y + size >= elMeme.height) return
                 MEME_SERVICE.setLinePos({ y: y + operator + 10 })
@@ -69,9 +63,9 @@ function onSetMeme(meme) {
             // 🐱‍👤
             onSetFS: () => {
                 const operator = event.target.dataset.operator
-                console.log(`🚀 ~ operator`, operator)
-                const fontSize = MEME_SERVICE.getLine().font[0]
-                console.log(`🚀 ~ fontSize`, fontSize)
+                const { unit, family } = MEME_SERVICE.getFont()
+                const { size } = MEME_SERVICE.getFont()
+                MEME_SERVICE.setFS(size + operator + 10)
             },
             onAlienL: () => MEME_SERVICE.setLine({ 'textAlign': 'left' }),
             onAlienC: () => MEME_SERVICE.setLine({ 'textAlign': 'center' }),
@@ -243,16 +237,16 @@ function getBorderParams() {
 }
 function drawOutLine() {
     console.log('drawOutLine')
-    return
     const { txt, x, y } = MEME_SERVICE.getLine()
-    const { elCtx } = gMemeController
-
-    const TxtMetrics = elCtx.measureText(txt)
-    const width = TxtMetrics.width
-    const height = TxtMetrics.fontBoundingBoxDescent + TxtMetrics.fontBoundingBoxAscent
+    const { elMeme, elCtx } = gMemeController
+    const txtMetrics = elCtx.measureText(txt)
+    const width = txtMetrics.width
+    const { size } = MEME_SERVICE.getFont()
+    // const height = txtMetrics.fontBoundingBoxDescent + txtMetrics.fontBoundingBoxAscent
 
     elCtx.beginPath()
-    elCtx.rect(x, y, width, height)
+    elCtx.fillStyle= 'green'
+    elCtx.rect(x, y, width, size)
     elCtx.stroke()
     elCtx.closePath()
 }
