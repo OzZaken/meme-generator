@@ -101,26 +101,20 @@
             <button onclick="app.onSetRandMeme()" class="btn-big btn-i-flexible">I'am Flexable</button>
             <label for="all-keyword"></label>
             <!-- Keywords Btns -->
-            <ul class="btns-keyword-container">
-
-            </ul>
-            <li>
-                <button onclick="app.onClickTotalKeywords()" data-trans="more">More...</button>
-            </li>
-
-            <!-- Images Container -->
+            <ul class="btns-keyword-container"></ul>
+            <!-- Images Grid Container -->
             <div class="gallery-container"></div>
         </section>
 
         <!-- Edit -->
         <section class="page main-edit-container">
             <h1 class="edit-heading">edit your Meme!</h1>
-
+            
             <!-- Canvas -->
             <div class="meme-container">
                 <canvas oncontextmenu="event.preventDefault()" id="meme" height="350" width="350"></canvas>
             </div>
-
+           
             <!--  Buttons -->
             <div class="btns-edit-container">
                 <!-- Add keywords -->
@@ -136,9 +130,9 @@
                     <button hidden></button>
                 </form>
                 <!-- Set Pos -->
-                <button value="onUp" onclick="app.onSetMeme()" role="button" title="Move text up" class="btn-arrow-up">
+                <button value="onMoveLine" data-operator="+" onclick="app.onSetMeme()" role="button" title="Move text up" class="btn-arrow-up">
                 </button>
-                <button value="onDown" onclick="app.onSetMeme()" title="Move text Down" class="btn-arrow-down">
+                <button value="onMoveLine" data-operator="-"  onclick="app.onSetMeme()" title="Move text Down" class="btn-arrow-down">
                 </button>
                 <!-- Switch Focus line -->
                 <button value="onSwitchLine" onclick="app.onSetMeme()" title="Switch between lines" class="switch-line">
@@ -150,7 +144,7 @@
                 <button value="onRemoveLine" onclick="app.onSetMeme()" title="Delete last line" class="btn-trash">
                 </button>
                 <!-- Set Font-size -->
-                <button value="onFSUp" onclick="app.onSetMeme()" title="Size Up" class="btn-font-size-plus">
+                <button value="onSetFS" data-operator="+" onclick="app.onSetMeme()" title="Size Up" class="btn-font-size-plus">
                 </button>
                 <!-- Set Alien -->
                 <button value="onAlienL" onclick="app.onSetMeme()" title="align left" class="btn-align-left">
@@ -160,7 +154,7 @@
                 <button value="onAlienR" onclick="app.onSetMeme()" title="align left" class="btn-align-right">
                 </button>
                 <!-- Set Font-size -->
-                <button value="onFSDown" onclick="app.onSetMeme()" title="Size Down" class="btn-font-size-minus">
+                <button value="onSetFS" data-operator="-" onclick="app.onSetMeme()" title="Size Down" class="btn-font-size-minus">
                 </button>
                 <!-- Fonts Family -->
                 <select data-font="onFamily" title="Select fonts" onchange="app.onSetMeme()" class="font-select"
@@ -188,8 +182,7 @@
                     <label for="set-fill-color" class="btn-fill-color"></label>
                 </button>
                 <!-- Download -->
-                <a onclick="app.onDownloadMeme()" href="#" download="My-Meme" role="button"
-                    class="flex-center btn btn-download">
+                <a onclick="app.onDownloadMeme()" href="#" download="My-Meme.jpg" role="button" class="flex-center btn btn-download">
                     Download
                 </a>
                 <!-- Save -->
@@ -204,8 +197,8 @@
                 <p class="keyword-heading meme-keyword-container"></p>
             </div>
 
-            <button value="-1" style="float:left; margin-left:10px;" onclick="app.onSetImg()" class="next-img">Previous Image</button>
-            <button value="1" style="float:right; margin-right:10px;" onclick="app.onSetImg()" class="next-img">Next Image</button>
+            <button value="onSetImg" data-diff="-1" style="float:left; margin-left:10px;" onclick="app.onSetMeme()" class="next-img">Previous Image</button>
+            <button value="onSetImg" data-diff="1" style="float:right; margin-right:10px;" onclick="app.onSetMeme()" class="next-img">Next Image</button>
         </section>
 
         <!-- About -->

@@ -50,7 +50,7 @@ function renderGallery() {
     const foundCount = imgs.length >= 0 ? imgs.length : '0'
     strHTMLs.unshift(`
     <div class="gallery-item gallery-stat">
-    <button class="underline" onclick="app.onClickTotalKeywords()" data-keyword="${keyWords.join('')}" title="${keyWords.join(' | ')}">
+    <button class="underline" onclick="app.onShowKeywords()" data-keyword="${keyWords.join('')}" title="${keyWords.join(' | ')}">
     ${keyWords.length} KeyWords
     </button>
     <div class="filter-stat">

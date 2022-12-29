@@ -72,10 +72,11 @@ canvas#meme {
 }
 
 .btns-edit-container>* {
+    font-size: smaller;
     background-color: var(--clr-brighter);
 }
 
-.btns-edit-container>*:hover {
+.btns-edit-container *:hover {
     color: var(--clr-prim);
 }
 

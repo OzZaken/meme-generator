@@ -20,16 +20,17 @@ function onInit() {
         elGallery: document.querySelector('div.gallery-container'),
         elUploadImg: document.querySelector('#upload-img'),
         renderModal,
+        onImgSelect,
     }
-
     // Meme dependencies 
     const initMemeData = {
         elEditHeading: document.querySelector('h1.edit-heading'),
         elMeme: document.querySelector('#meme'),
         elMemeContainer: document.querySelector('.meme-container'),
         elKeywordsContainer: document.querySelector('.meme-keyword-container'),
-        flashMsg: renderMsg,
+        renderMsg,
         getPos,
+        onImgSelect,
     }
 
     // Set Controller State
@@ -56,7 +57,7 @@ function onInit() {
         ...MEME_CONTROLLER.init(initMemeData)
     }
 
-    // Give Dom dependencies. 
+    // Extract DOM dependencies from controllers. 
     const {
         onSetFilter,
         onSetLayout,
@@ -65,11 +66,11 @@ function onInit() {
         onSetMeme,
     } = MEME_CONTROLLER
 
+    // Update Dom dependencies. 
     window.app = {
         gMainController, //TODO UT : remember Delete!
         onImgInput,
         onTranslate,
-        onSetImg,
         onNav,
         onTouchScreen,
         onToggleMenu,
@@ -77,7 +78,7 @@ function onInit() {
         onClickKeyword,
         onImgSelect,
         onClickKeyword,
-        onClickTotalKeywords,
+        onShowKeywords,
         // Gallery
         onSetFilter,
         onSetLayout,
@@ -93,12 +94,10 @@ function onInit() {
     const userLang = I18_SERVICE.getLangStr()
     // add class to html and body
     document.documentElement.setAttribute("lang", userLang)
-    // Set the right Select on
     //TODO: need on the body? or just set direction to rtl
     document.body.classList.add(userLang)
     document.querySelector('[name="select-lang"]').selectedOptions.value === userLang
     onTranslate()
-
 
     // Count Visits
     const visits = parseInt(localStorage.getItem('visits'))
@@ -120,6 +119,25 @@ function onInit() {
     new Array(...elFontSelect.options).forEach(option => {
         option.style.fontFamily = option.value
     })
+}
+
+// return current click Pos on Element.
+function getPos() {
+    const pos = {
+        x: event.offsetX,
+        y: event.offsetY
+    }
+    const touchEvs = ['touchstart', 'touchmove', 'touchend']
+    if (touchEvs.includes(event.type)) {
+        event.preventDefault()
+        // Take 1 Mobile touch {Pos} in case of multi fingers clicking
+        event = event.changedTouches[0]
+        pos = {
+            x: event.pageX - event.target.offsetLeft,
+            y: event.pageY - event.target.offsetTop
+        }
+    }
+    return pos
 }
 
 // render with Timeout
@@ -185,42 +203,9 @@ function _showGallery() {
     setTimeout(() => {
         gMainController.renderGallery()
         gMainController.elGalleryStatContainer = document.querySelector('.gallery-stat')
-        renderKeywordsOpts()
+        renderOpts()
         renderKeywordsBtns()
     }, 200)
-}
-
-// Set filter and UI effect Buttons
-function onClickKeyword() {
-    const elBtn = event.target
-    const { style, dataset, value } = elBtn
-    style.color = UTIL_SERVICE.getRandomColor()
-    gMainController.onSetFilter(value)
-    if (+dataset.fs >= 16) return
-    dataset.fs++
-}
-
-// openModal with All Keywords 
-function onClickTotalKeywords() {
-    const { dataKeyword } = document.querySelector('.btns-keyword-container')
-    const displayKeywords = dataKeyword.split(', ').map(keyword => {
-        return `<span role="button" data-pos="modal" class="btn-keyword" onclick="app.onSetFilter(this.innerText)app.onTouchModal(true)">${keyword}</span>`
-    }).join('')
-    renderModal(event, displayKeywords)
-}
-
-// Play audio.
-function onPlayAudio(audioKey) {
-    const { audio } = gMainController
-    if (audio[audioKey]) audio[audioKey].pause()
-    return new Promise((resolve, reject) => { // return a promise
-        audio[audioKey] = new Audio()         // create audio wo/ src
-        audio[audioKey].preload = "auto"    // intend to play through
-        audio[audioKey].autoplay = true    // autoplay when loaded
-        audio[audioKey].src = `assets/audio/${audioKey}.mp3`
-        audio[audioKey].onerror = reject   // on error, reject
-        audio[audioKey].onended = resolve  // when done, resolve
-    })
 }
 
 // i18 - send all the data-tarns (keys) and get from the service the a valueMap.
@@ -239,6 +224,39 @@ function onTranslate() {
     //     el.title = gTrans[el.dataset.titletrans][gUserLang]
     // })
 }
+
+
+// Set filter and UI effect Buttons
+function onClickKeyword() {
+    const elBtn = event.target
+    const { style, dataset, value } = elBtn
+    style.color = UTIL_SERVICE.getRandomColor()
+    gMainController.onSetFilter(value)
+    if (+dataset.fs >= 16) return
+    dataset.fs++
+}
+// openModal with All Keywords 
+function onShowKeywords() {
+    const { dataKeyword } = document.querySelector('.btns-keyword-container')
+    const displayKeywords = dataKeyword.split(', ').map(keyword => {
+        return `<span role="button" data-pos="modal" class="btn-keyword" onclick="app.onSetFilter(this.innerText)app.onTouchModal(true)">${keyword}</span>`
+    }).join('')
+    renderModal(event, displayKeywords)
+}
+// Play audio.
+function onPlayAudio(audioKey) {
+    const { audio } = gMainController
+    if (audio[audioKey]) audio[audioKey].pause()
+    return new Promise((resolve, reject) => { // return a promise
+        audio[audioKey] = new Audio()         // create audio wo/ src
+        audio[audioKey].preload = "auto"    // intend to play through
+        audio[audioKey].autoplay = true    // autoplay when loaded
+        audio[audioKey].src = `assets/audio/${audioKey}.mp3`
+        audio[audioKey].onerror = reject   // on error, reject
+        audio[audioKey].onended = resolve  // when done, resolve
+    })
+}
+
 
 // Handle navigation
 function onNav(navToStr) {
@@ -299,7 +317,12 @@ function onNav(navToStr) {
 
     onPlayAudio('click')
 }
-
+// Mobile Menu ☰.
+function onToggleMenu() {
+    const { elBtnToggleNav } = gMainController
+    document.body.classList.toggle('mobile-menu-open') // notify elScreen 
+    elBtnToggleNav.classList.toggle('nav-open') // menuBar animation
+}
 // Black screen.
 function onTouchScreen() {
     event.stopPropagation()
@@ -307,17 +330,8 @@ function onTouchScreen() {
         onToggleMenu()
         return
     }
-
     onTouchModal(true)
 }
-
-// Mobile Menu ☰.
-function onToggleMenu() {
-    const { elBtnToggleNav } = gMainController
-    document.body.classList.toggle('mobile-menu-open') // notify elScreen 
-    elBtnToggleNav.classList.toggle('nav-open') // menuBar animation
-}
-
 // Hide Modal.
 function onTouchModal(isForceClose) {
     const touchPos = getPos(event)
@@ -334,7 +348,7 @@ function onTouchModal(isForceClose) {
 }
 
 // Render DataList keywords Options
-function renderKeywordsOpts() {
+function renderOpts() {
     const keywordsCountMap = GALLERY_SERVICE.getOptionsForDisplay()
     const strHTMLs = keywordsCountMap.map(keywordStr => {
         return `<option value="${keywordStr}">${UTIL_SERVICE.capitalize(keywordStr)}</option>`
@@ -342,7 +356,6 @@ function renderKeywordsOpts() {
     const { elGalleyData } = gMainController
     elGalleyData.innerHTML = strHTMLs.join('')
 }
-
 // render Buttons
 function renderKeywordsBtns() {
     const { galleryName } = gMainController
@@ -361,12 +374,34 @@ function renderKeywordsBtns() {
     elKeywordContainer.innerHTML = strHTMLs.join('')
 }
 
-// User-Msg.
-function renderMsg(str) {
-    const { elUserMsg } = gMainController
-    elUserMsg.innerHTML = str
-    elUserMsg.classList.add('user-msg-open')
-    setTimeout(() => elUserMsg.classList.remove('user-msg-open'), 3000)
+// Upload Image.
+function onImgInput() {
+    loadImageFromInput(event, onImgSelect)
+}
+
+function loadImageFromInput(ev, onImgSelect) {
+    // document.querySelector('.share-container').innerHTML = ''
+    const reader = new FileReader()
+    reader.onload = (event) => {
+        const img = new Image()
+        img.src = event.target.result
+        // bind the onload event handler to the onImageReady callback function
+        img.onload = onImgSelect.bind(null, img)
+    }
+    reader.readAsDataURL(ev.target.files[0])
+}
+
+//  linking Func between GALLERY to MEME.
+function onImgSelect() {
+    renderMsg(`Image\n selected!`)
+    const src = event.target.src
+    const meme = {
+        src,
+        keywords: GALLERY_SERVICE.getImgKeyword(src),
+    }
+    gMainController.onSetMeme(meme)
+    if (document.body.classList.contains('page-edit')) return
+    onNav('edit')
 }
 
 // Modal.
@@ -390,52 +425,12 @@ function renderModal(ev, strHTML) {
     // Notify screen  
     document.body.classList.add('modal-open')
 }
-
-// Upload Image
-function onImgInput() {
-    loadImageFromInput(event, onImgSelect)
-}
-
-function loadImageFromInput(ev, onImgSelect) {
-    // document.querySelector('.share-container').innerHTML = ''
-    const reader = new FileReader()
-    reader.onload = (event) => {
-        const img = new Image()
-        img.src = event.target.result
-        // bind the onload event handler to the onImageReady callback function
-        img.onload = onImgSelect.bind(null, img)
-    }
-    reader.readAsDataURL(ev.target.files[0])
-}
-
-//  linking Func between GALLERY to MEME.
-function onImgSelect() {
-    renderMsg(`Image\n selected!`)
-
-    const src = event.target.src
-
-    const meme = {
-        src: event.target.src,
-        keywords: GALLERY_SERVICE.getImgKeyword(src),
-    }
-
-    gMainController.onSetMeme(meme)
-    onNav('edit')
-}
-
-function uploadImg() {
-    const imgDataUrl = gElCanvas.toDataURL("image/jpeg")
-
-    // A function to be called if request succeeds
-    function onSuccess(uploadedImgUrl) {
-        const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
-        document.querySelector('.user-msg').innerText = `Your photo is available here: ${uploadedImgUrl}`
-        document.querySelector('.share-container').innerHTML = `
-        <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}') return false">
-           Share   
-        </a>`
-    }
-    _doUploadImg(imgDataUrl, onSuccess)
+// User-Msg.
+function renderMsg(str) {
+    const { elUserMsg } = gMainController
+    elUserMsg.innerHTML = str
+    elUserMsg.classList.add('user-msg-open')
+    setTimeout(() => elUserMsg.classList.remove('user-msg-open'), 3000)
 }
 
 function _doUploadImg(imgDataUrl, onSuccess) {
@@ -456,32 +451,17 @@ function _doUploadImg(imgDataUrl, onSuccess) {
             console.error(err)
         })
 }
+function uploadImg() {
+    const imgDataUrl = gElCanvas.toDataURL("image/jpeg")
 
-// return current click Pos on Element.
-function getPos() {
-    const pos = {
-        x: event.offsetX,
-        y: event.offsetY
+    // A function to be called if request succeeds
+    function onSuccess(uploadedImgUrl) {
+        const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
+        document.querySelector('.user-msg').innerText = `Your photo is available here: ${uploadedImgUrl}`
+        document.querySelector('.share-container').innerHTML = `
+        <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}') return false">
+           Share   
+        </a>`
     }
-    const touchEvs = ['touchstart', 'touchmove', 'touchend']
-    if (touchEvs.includes(event.type)) {
-        event.preventDefault()
-        // Take 1 Mobile touch {Pos} in case of multi fingers clicking
-        event = event.changedTouches[0]
-        pos = {
-            x: event.pageX - event.target.offsetLeft,
-            y: event.pageY - event.target.offsetTop
-        }
-    }
-    return pos
-}
-
-// Next\previous buttons
-function onSetImg() {
-    const diff= event.target.value
-    console.log('diff:', diff)
-    const length = GALLERY_SERVICE.getImgsCount()
-    const newSrc = MEME_SERVICE.getNextImg(length, diff)
-    event.target.src = newSrc
-    onImgSelect()
+    _doUploadImg(imgDataUrl, onSuccess)
 }

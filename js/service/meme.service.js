@@ -6,112 +6,101 @@ export const MEME_SERVICE = {
     getLine,
     setLine,
     getLines,
-    getLinePos,
     setLinePos,
     getSelectedLineIdx,
-    setSelectedLineIdx,
-    getFontMap,
-    setFontMap,
+    switchLine,
     getNextImg,
-    setFontMap,
+    resetLines,
+    getFontSize,
 }
 
 const MEME = {
-    storageKey: 'memeDB',
-    memes: null,
     meme: {
         src: null,
         selectedLineIdx: 0,
         keywords: [],
-        lines: [
-            {
-                fillStyle: '#fb9623',
-                textBaseline: 'middle',
-                txt: 'Edit some text!',
-                lineWidth: 2,
-                textAlign: 'center',
-                strokeStyle: '#9623fbd2',
-                pos: { x: null, y: null },
-                font: '40px papyrus',
-            },
-        ]
+        lines: []
     }
 }
 
 //  Meme
 function getMeme() { return MEME.meme }
 
-function setMeme(meme) {
-    console.log(`🚀 ~ setMeme`, meme)
-    console.log('MEME.meme:', MEME.meme)
-    MEME.meme = { ...MEME.meme, ...meme }
-    console.log('MEME.meme AFTER:', MEME.meme)
-}
+function setMeme(meme) { MEME.meme = { ...MEME.meme, ...meme } }
 
 //  Line
-function createLine() {
-    getLines().push({
+function getLines() { return MEME.meme.lines }
+
+function resetLines() { MEME.meme.lines = [] }
+
+function getSelectedLineIdx() { return MEME.meme.selectedLineIdx }
+
+
+function createLine(x, y) {
+    console.log('create line:', x, y)
+    const lines = getLines()
+    lines.push({
         txt: 'New Line',
         lineWidth: 2,
         textAlign: 'center',
-        fillStyle: 'black',
+        fillStyle: 'white',
         strokeStyle: 'red',
-        pos: { x: null, y: null },
-        fontMap: {
-            size: 50,
-            unit: 'px',
-            family: 'fa-solid',
-        },
+        pos: { x, y },
+        font: `30px fa-solid`,
     })
-    setSelectedLineIdx()
+    MEME.meme.selectedLineIdx++
 }
 
-function removeLine() {
-    const lines = getLines()
-    if (lines.length <= 0) return
-    lines.splice(-1)
-    setSelectedLineIdx()
-}
-
-function getLine() { return getLines()[getSelectedLineIdx()] }
-
-function setLine(val) { getLine() = { ...getLine(), ...val } }
-
-function getLines() { return getMeme().lines }
-
-//  Line Pos
-function getLinePos() { return getLine().pos }
-
-function setLinePos(val) { getLine().pos = { ...getLine().pos, ...val } }
-
-//  FontMap
-function getFontMap() { return getLine().fontMap }
-
-function setFontMap(key, val) { getLine().fontMap[key] = val }
-
-// Selected Line Idx
-function getSelectedLineIdx() {
-    return MEME.meme.selectedLineIdx
-}
-
-function setSelectedLineIdx() {
-    const lines = getLines()
+function switchLine() {
     const { meme } = MEME
-    if (!lines.length || lines.length === 0) return
-    if (meme.selectedLineIdx >= lines.length) meme.selectedLineIdx = 0
+    const lines = getLines()
+    const lineIdx = getSelectedLineIdx()
+    if (lineIdx >= lines.length) meme.selectedLineIdx = 0
     else meme.selectedLineIdx++
 }
 
-// switch img based url 
 function getNextImg(imgCount, diff) {
     const { src } = getMeme()
     const path = src.slice(src.lastIndexOf('/') + 1)
-
-    let name = path.split('.')[0]
+    let nameNum = path.split('.')[0]
     const type = path.split('.')[1]
-    // Next Image
-    if (+name >= imgCount && diff === 1) name = 0
-    else if (diff === 1) name++
-    else name--
-    return src.substr(0, src.lastIndexOf('/') + 1) + name + '.' + type
+    if (+nameNum >= imgCount && diff === 1) nameNum = 0
+    else if (diff === 1) nameNum++
+    else nameNum--
+    return src.substr(0, src.lastIndexOf('/') + 1) + nameNum + '.' + type
+}
+
+
+function removeLine() {
+    const lines = getLines()
+    if (!lines.length || lines.length <= 0) return
+    lines.pop()
+    switchLine()
+}
+
+function getLine() {
+    const line = MEME.meme.lines[getSelectedLineIdx()] || MEME.meme.lines[0]
+    console.log(`🚀 ~ line`, line)
+    return line
+}
+
+function setLine(val) {
+    const lines = getLine()
+    lines[getSelectedLineIdx()] = { ...lines[getSelectedLineIdx()], ...val }
+}
+
+function setLinePos(val) {
+    const pos = getLine().pos
+    getLine().pos = { ...pos, ...val }
+}
+function setFont() {
+    const font = getMeme().lines[getSelectedLineIdx()].font
+    console.log(`🚀 ~ font`, font)
+}
+function getFontSize() {
+    const { meme } = MEME
+    
+    const font = getMeme().lines[getSelectedLineIdx()]
+    console.log(`🚀 ~ font`, font)
+
 }
