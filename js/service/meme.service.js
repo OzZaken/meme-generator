@@ -5,13 +5,10 @@ export const MEME_SERVICE = {
     removeLine,
     getLine,
     setLine,
-    getLines,
     setLinePos,
-    getSelectedLineIdx,
     switchLine,
     getNextImg,
     resetLines,
-    getFontSize,
 }
 
 const MEME = {
@@ -23,18 +20,7 @@ const MEME = {
     }
 }
 
-//  Meme
 function getMeme() { return MEME.meme }
-
-function setMeme(meme) { MEME.meme = { ...MEME.meme, ...meme } }
-
-//  Line
-function getLines() { return MEME.meme.lines }
-
-function resetLines() { MEME.meme.lines = [] }
-
-function getSelectedLineIdx() { return MEME.meme.selectedLineIdx }
-
 
 function createLine(x, y) {
     console.log('create line:', x, y)
@@ -50,6 +36,14 @@ function createLine(x, y) {
     })
     MEME.meme.selectedLineIdx++
 }
+
+
+function setMeme(meme) { MEME.meme = { ...MEME.meme, ...meme } }
+
+//  Line
+function resetLines() { MEME.meme.lines = [] }
+
+
 
 function switchLine() {
     const { meme } = MEME
@@ -93,14 +87,8 @@ function setLinePos(val) {
     const pos = getLine().pos
     getLine().pos = { ...pos, ...val }
 }
+
 function setFont() {
     const font = getMeme().lines[getSelectedLineIdx()].font
     console.log(`🚀 ~ font`, font)
-}
-function getFontSize() {
-    const { meme } = MEME
-    
-    const font = getMeme().lines[getSelectedLineIdx()]
-    console.log(`🚀 ~ font`, font)
-
 }

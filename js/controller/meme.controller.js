@@ -42,23 +42,24 @@ function onSetMeme(meme) {
     if (meme) MEME_SERVICE.setMeme(meme)
     else {
         const { elMeme } = gMemeController
-        const val = event.target.dataset.font ? event.target.dataset.font : event.target.value
+        const val = event.target.value
+        const line = MEME_SERVICE.getLine()
+        if (!line) return
+        
+        const { font } = line
+        // get the first group of digits in the string
+        const size = font.match(/\d+/)[0]
+        const regEx = font.match(/\d+\D+/)
+        const fonts = regEx[0].substring(regEx[0].match(/\d+/)[0].length).split(' ')
+        const unit = fonts[0]
+        const family = fonts[1]
 
         const editor = {
             onMoveLine: () => {
-                const line = MEME_SERVICE.getLine()
-                if (!line) return
-                const { font } = line
-                // get the first group of digits in the string
-                const size = font.match(/\d+/)[0]
-                const regEx = font.match(/\d+\D+/)
-                const fonts = regEx[0].substring(regEx[0].match(/\d+/)[0].length).split(' ')
-                const unit = fonts[0]
-                const family = fonts[1]
                 const { pos } = line
                 const y = pos.y // shallow copy
                 const operator = event.target.dataset.operator
-                if (operator === '+') if (y <= size) return
+                if (operator === '+' && y <= size) return
                 else if (y + size >= elMeme.height) return
                 MEME_SERVICE.setLinePos({ y: y + operator + 10 })
             },
@@ -69,9 +70,8 @@ function onSetMeme(meme) {
             onSetFS: () => {
                 const operator = event.target.dataset.operator
                 console.log(`🚀 ~ operator`, operator)
-                MEME_SERVICE.getFontSize()
-                
-                
+                const fontSize = MEME_SERVICE.getLine().font[0]
+                console.log(`🚀 ~ fontSize`, fontSize)
             },
             onAlienL: () => MEME_SERVICE.setLine({ 'textAlign': 'left' }),
             onAlienC: () => MEME_SERVICE.setLine({ 'textAlign': 'center' }),
