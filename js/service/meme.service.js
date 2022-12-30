@@ -11,7 +11,7 @@ export const MEME_SERVICE = {
     addLine,
     removeLine,
     getFont,
-    // setFont,
+    setFont,
 }
 
 const MEME = {
@@ -33,12 +33,27 @@ function setMeme(meme) {
     console.log('MEME.meme:', MEME.meme)
 }
 
-function getLine() {
-    // console.log(`🚀 ~ getLine`, getMeme())
+function addLine(x, y) {
+    console.log(`create line: X:${x} Y:${y}`)
     const lines = getMeme().lines
-    // console.log(`🚀 ~ lines`, lines)
+    lines.push({
+        pos: { x, y },
+        txt: 'New Line',
+        lineWidth: 2,
+        textAlign: 'center',
+        fillStyle: 'white',
+        fillText: 'white',
+        strokeStyle: 'red',
+        font: `30px fa-solid`,
+    })
+    // MEME.meme.selectedLineIdx++ 
+    console.log('MEME.meme Before switchLine:', MEME.meme)
+    switchLine()
+}
+
+function getLine() {
+    const lines = getMeme().lines
     const selectedLine = lines[MEME.meme.selectedLineIdx] // || lines[0]
-    // console.log(`🚀 ~ selectedLine`, selectedLine,getMeme())
     return selectedLine
 }
 
@@ -76,21 +91,6 @@ function switchLine(isSwitch) {
     else meme.selectedLineIdx = meme.lines.length - 1
 }
 
-function getFont() {
-    const { font } = getLine()
-    // get the first group of digits in the string
-    const size = font.match(/\d+/)[0]
-    const regEx = font.match(/\d+\D+/)
-    const fonts = regEx[0].substring(regEx[0].match(/\d+/)[0].length).split(' ')
-    const family = fonts[1] // || font.split(' ')[1]
-    const unit = fonts[0]
-    return {
-        size,
-        unit,
-        family,
-    }
-}
-
 function setLinePos(val) {
     const pos = getLine().pos
     getLine().pos = { ...pos, ...val }
@@ -107,23 +107,25 @@ function getNextImg(imgCount, diff) {
     return src.substr(0, src.lastIndexOf('/') + 1) + nameNum + '.' + type
 }
 
-function addLine(x, y) {
-    console.log(`create line: X:${x} Y:${y}`)
-    const lines = getMeme().lines
-    lines.push({
-        pos: { x, y },
-        txt: 'New Line',
-        lineWidth: 2,
-        textAlign: 'center',
-        fillStyle: 'white',
-        strokeStyle: 'red',
-        font: `30px fa-solid`,
-    })
-    // MEME.meme.selectedLineIdx++ 
-    console.log('MEME.meme Before switchLine:', MEME.meme)
-    switchLine()
+function getFont() {
+    const { font } = getLine()
+    // get the first group of digits in the string
+    const size = font.match(/\d+/)[0]
+    const regEx = font.match(/\d+\D+/)
+    const fonts = regEx[0].substring(regEx[0].match(/\d+/)[0].length).split(' ')
+    const family = fonts[1] // || font.split(' ')[1]
+    const unit = fonts[0]
+    return {
+        size,
+        unit,
+        family,
+    }
 }
 
+function setFont(fontData) {
+    const { size, unit, family } = fontData
+    getLine().font = `${size}${unit} ${family}`
+}
 class Line {
     constructor(x, y) {
         this.pos = { x, y }

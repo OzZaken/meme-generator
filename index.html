@@ -99,9 +99,7 @@
             <!-- Filter -->
             <label for="filter Images"></label>
             <form onsubmit="event.preventDefault();app.onSetFilter()" class="gallery-search">
-                <input list="gallery-keyword" name="gallery-filter" type="search"
-                    placeholder="Search Image">
-                    <button></button>
+                <input list="gallery-keyword" name="gallery-filter" type="search" placeholder="Search Image">
             </form>
 
             <button onclick="app.onSetRandMeme()" class="btn-big btn-i-flexible">I'am flexible</button>
@@ -154,7 +152,7 @@
                 <button value="onRemoveLine" onclick="app.onSetMeme()" title="Delete last line" class="btn-trash">
                 </button>
                 <!-- Set Font-size -->
-                <button value="onSetFS" data-operator="+" onclick="app.onSetMeme()" title="Size Up"
+                <button value="onSetFont" data-key="size" data-operator="+" onclick="app.onSetMeme()" title="Size Up"
                     class="btn-font-size-plus">
                 </button>
                 <!-- Set Alien -->
@@ -165,12 +163,12 @@
                 <button value="onAlienR" onclick="app.onSetMeme()" title="align left" class="btn-align-right">
                 </button>
                 <!-- Set Font-size -->
-                <button value="onSetFS" data-operator="-" onclick="app.onSetMeme()" title="Size Down"
+                <button value="onSetFont" data-key="size" data-operator="-" onclick="app.onSetMeme()" title="Size Down"
                     class="btn-font-size-minus">
                 </button>
                 <!-- Fonts Family -->
-                <select data-font="onFamily" title="Select fonts" onchange="app.onSetMeme()" class="font-select"
-                    name="change-fonts">
+                <select data-key="family" title="Select fonts" onchange="app.onSetMeme()"
+                    class="font-select" name="change-fonts">
                     <option value="fa">Fa</option>
                     <option value="fa-solid">Fa-solid</option>
                     <option value="impact">Impact</option>

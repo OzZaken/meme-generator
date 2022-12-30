@@ -113,7 +113,7 @@ function onInit() {
     }, 5000)
 
     // set select options font equal to the option
-    const elFontSelect = document.querySelector('[data-font="onFamily"]')
+    const elFontSelect = document.querySelector('[data-key="family"]')
     new Array(...elFontSelect.options).forEach(option => {
         option.style.fontFamily = option.value
     })

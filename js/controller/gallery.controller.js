@@ -67,17 +67,16 @@ function renderGallery() {
 }
 
 // Filter
-function onSetFilter() {
+function onSetFilter(val) {
     const { elFilterBy } = gGallery
-    console.log(`🚀 ~ elFilterBy`, elFilterBy)
     let str = elFilterBy.value
     !str ? str = elFilterBy.value : str
-    elFilterBy.value = str === ' ' ? '' : str
+    elFilterBy.value =val?val: str === ' ' ? '' : str
     GALLERY_SERVICE.setFilter(str)
     renderGallery()
 }
 
-// Set Grid-items Layout 
+// Set Grid-items layout 
 function onSetLayout(img) {
     const { naturalWidth, naturalHeight, parentElement } = img
     const width = naturalWidth
