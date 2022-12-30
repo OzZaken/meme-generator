@@ -1,15 +1,16 @@
-import { I18_SERVICE } from "../service/i18.service.js"
 import { UTIL_SERVICE } from "../service/util.service.js"
-import { GALLERY_CONTROLLER } from "../controller/gallery.controller.js"
-import { MEME_CONTROLLER } from "./meme.controller.js"
+import { I18_SERVICE } from "../service/i18.service.js"
 import { GALLERY_SERVICE } from "../service/gallery.service.js"
+import { GALLERY_CONTROLLER } from "../controller/gallery.controller.js"
 import { MEME_SERVICE } from "../service/meme.service.js"
+import { MEME_CONTROLLER } from "./meme.controller.js"
 
 let gMainController
 
 window.app = { onInit }
 
 function onInit() {
+
     // Gallery dependencies
     const initGalleryData = {
         galleryName: 'meme',
@@ -75,7 +76,6 @@ function onInit() {
         onTouchScreen,
         onToggleMenu,
         onTouchModal,
-        onClickKeyword,
         onImgSelect,
         onClickKeyword,
         onShowKeywords,
@@ -88,7 +88,6 @@ function onInit() {
 
     // Pretend Latency 
     _showGallery()
-
     // i18
     I18_SERVICE.setUserDefaultLang(navigator.languages[1])
     const userLang = I18_SERVICE.getLangStr()
@@ -205,7 +204,12 @@ function _showGallery() {
         gMainController.elGalleryStatContainer = document.querySelector('.gallery-stat')
         renderOpts()
         renderKeywordsBtns()
-    }, 200)
+        // Debounce
+        const { onSetFilter } = GALLERY_CONTROLLER
+        const { elFilterBy } = gMainController
+        const debounceOnsetFilter = UTIL_SERVICE.debounce(onSetFilter, 1500)
+        elFilterBy.addEventListener('input', debounceOnsetFilter)
+    }, 300)
 }
 
 // i18 - send all the data-tarns (keys) and get from the service the a valueMap.
@@ -225,13 +229,12 @@ function onTranslate() {
     // })
 }
 
-
 // Set filter and UI effect Buttons
 function onClickKeyword() {
     const elBtn = event.target
     const { style, dataset, value } = elBtn
     style.color = UTIL_SERVICE.getRandomColor()
-    gMainController.onSetFilter(value)
+    GALLERY_CONTROLLER.onSetFilter(value)
     if (+dataset.fs >= 16) return
     dataset.fs++
 }
@@ -268,7 +271,6 @@ function onPlayAudio(audioKey) {
     })
 }
 
-
 // Handle navigation
 function onNav(navToStr) {
     !navToStr ? navToStr = 'gallery' : navToStr
@@ -288,7 +290,7 @@ function onNav(navToStr) {
             const strHTML = `<h2>no image selected!</h2>
                 <a class="nav-back" onclick="app.onNav()" title="return to gallery" href="#"></a>
                 <p>Choose from the the
-                <span role="link" data-href="#" class="btn underline" title="return to gallery" onclick="app.onNav()" tabindex="0">
+                <span role="link" data-href="#" class="btn underline" title="return to gallery" onclick="app.onNav()" >
                 Gallery
                 </span>
                 </p>
@@ -328,12 +330,14 @@ function onNav(navToStr) {
 
     onPlayAudio('click')
 }
+
 // Mobile Menu ☰.
 function onToggleMenu() {
     const { elBtnToggleNav } = gMainController
     document.body.classList.toggle('mobile-menu-open') // notify elScreen 
     elBtnToggleNav.classList.toggle('nav-open') // menuBar animation
 }
+
 // Black screen.
 function onTouchScreen() {
     event.stopPropagation()
@@ -343,6 +347,7 @@ function onTouchScreen() {
     }
     onTouchModal(true)
 }
+
 // Hide Modal.
 function onTouchModal(isForceClose) {
     const touchPos = getPos(event)
@@ -436,6 +441,7 @@ function renderModal(ev, strHTML) {
     // Notify screen  
     document.body.classList.add('modal-open')
 }
+
 // User-Msg.
 function renderMsg(str) {
     const { elUserMsg } = gMainController
@@ -462,6 +468,7 @@ function _doUploadImg(imgDataUrl, onSuccess) {
             console.error(err)
         })
 }
+
 function uploadImg() {
     const imgDataUrl = gElCanvas.toDataURL("image/jpeg")
 

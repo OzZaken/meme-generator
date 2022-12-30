@@ -1,25 +1,8 @@
 export const UTIL_SERVICE = {
-    getRandInclusive,
-    makeId,
     getRandomColor,
-    onPlayAudio,
+    debounce,
     capitalize,
     capitalizes,
-}
-
-function getRandInclusive(min, max) {
-    min = Math.ceil(min)
-    max = Math.floor(max)
-    return Math.floor(Math.random() * (max - min + 1)) + min
-}
-
-function makeId(length = 5) {
-    var txt = ''
-    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-    for (var i = 0; i < length; i++) {
-        txt += possible.charAt(Math.floor(Math.random() * possible.length))
-    }
-    return txt
 }
 
 function getRandomColor() {
@@ -31,12 +14,16 @@ function getRandomColor() {
     return color;
 }
 
-function onPlayAudio(AudioName, audioEco) {
-    if (audioEco) {
-        audioEco.pause()
-        return
+function debounce(func, wait) {
+    let timeout
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout)
+            func(...args)
+        }
+        clearTimeout(timeout)
+        timeout = setTimeout(later, wait)
     }
-    new Audio(`audio/${AudioName}.mp3`).play()
 }
 
 // Capitalize  StrS 
@@ -50,4 +37,3 @@ function capitalizes(words) {
 function capitalize(word) {
     return word.replace(/^\w/, c => c.toUpperCase())
 }
-

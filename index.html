@@ -12,16 +12,20 @@
 
 <body class="page-gallery" onload="app.onInit()">
     <datalist id="gallery-keyword"></datalist>
-    <input onchange="app.onImgInput()" type="file" id="upload-img" name="upload-img" hidden accept="image/png, image/jpeg, image/jpg"/>
-    <input oninput="app.setElColor()" onchange="app.onSetMeme()" hidden id="set-stroke-color" type="color" name="stroke-color" title="Change stroke color">
-    <input oninput="app.setElColor()" onchange="app.onSetMeme()" hidden name="fill-color" type="color" title="Change fill color">
-    <input oninput="app.onSetTxtLine()" id="set-txt" list="gallery-keyword" name="line-txt" type="select" placeholder="We Recommended Adding Exiting Keyword!" title="Add New Text line">
+    <input onchange="app.onImgInput()" type="file" id="upload-img" name="upload-img" hidden
+        accept="image/png, image/jpeg, image/jpg" />
+    <input oninput="app.setElColor()" onchange="app.onSetMeme()" hidden id="set-stroke-color" type="color"
+        name="stroke-color" title="Change stroke color">
+    <input oninput="app.setElColor()" onchange="app.onSetMeme()" hidden name="fill-color" type="color"
+        title="Change fill color">
+    <input oninput="app.onSetTxtLine()" id="set-txt" list="gallery-keyword" name="line-txt" type="select"
+        placeholder="We Recommended Adding Exiting Keyword!" title="Add New Text line">
 
     <!-- Header -->
     <header class="header">
         <!-- Logo -->
         <a class="logo" title="click to reload page" href="#" onclick="location.reload()"></a>
-        
+
         <!-- Navigate -->
         <nav class="flex main-nav">
             <ul class="main-nav-list">
@@ -40,17 +44,17 @@
                 </li>
             </ul>
         </nav>
-        
+
         <!-- I18n -->
         <label for="select-lang"></label>
         <select name="select-lang" class="lang" onchange="app.onSetLang(this.value)">
             <option value="en">English</option>
             <option value="he">עברית</option>
         </select>
-        
+
         <!-- Nav Back -->
         <a class="nav-back" onclick="app.onNav();app.onTouchScreen()" hidden title="return to gallery" href="#"></a>
-        
+
         <!-- ☰ Mobile Menu Btn-->
         <div hidden role="button" class="btn-toggle-menu" onclick="app.onToggleMenu()">
             <svg width="40" height="40" viewBox="0 0 40 40">
@@ -65,11 +69,12 @@
 
     <!-- Main -->
     <main class="main-layout">
+
         <!-- Gallery -->
         <section class="page main-gallery-container">
             <h1 class="gallery-heading">Welcome! Loading Images
-                <!-- Loading -->
-                <svg width="100" height="20" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg" fill="#9623fbd2">
+                <!-- Loading Svg -->
+                <svg width="50" height="20" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg" fill="#9623fbd2">
                     <circle cx="15" cy="15" r="15">
                         <animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15"
                             calcMode="linear" repeatCount="indefinite" />
@@ -92,16 +97,19 @@
             </h1>
 
             <!-- Filter -->
-            <label for="Filter Images"></label>
-            <form onsubmit="app.onSetFilter()" class="gallery-search">
-                <input oninput="app.onSetFilter()" list="gallery-keyword" name="gallery-filter" type="search"
+            <label for="filter Images"></label>
+            <form onsubmit="event.preventDefault();app.onSetFilter()" class="gallery-search">
+                <input list="gallery-keyword" name="gallery-filter" type="search"
                     placeholder="Search Image">
-                <button class="btn-filter"></button>
+                    <button></button>
             </form>
-            <button onclick="app.onSetRandMeme()" class="btn-big btn-i-flexible">I'am Flexable</button>
+
+            <button onclick="app.onSetRandMeme()" class="btn-big btn-i-flexible">I'am flexible</button>
             <label for="all-keyword"></label>
+
             <!-- Keywords Btns -->
             <ul class="btns-keyword-container"></ul>
+
             <!-- Images Grid Container -->
             <div class="gallery-container"></div>
         </section>
@@ -109,12 +117,12 @@
         <!-- Edit -->
         <section class="page main-edit-container">
             <h1 class="edit-heading">edit your Meme!</h1>
-            
+
             <!-- Canvas -->
             <div class="meme-container">
                 <canvas oncontextmenu="event.preventDefault()" id="meme" height="350" width="350"></canvas>
             </div>
-           
+
             <!--  Buttons -->
             <div class="btns-edit-container">
                 <!-- Add keywords -->
@@ -125,14 +133,16 @@
                 </form>
                 <!-- Set Txt -->
                 <form class="set-txt" onsubmit="ev.preventDefault();app.onAddTxtLine()">
-                    <input onsubmit="event.stopPropagation();app.onAddTxtLine(this.value)" name="meme-keyword"
-                        type="text" placeholder="Set Line Text">
+                    <input onsubmit="app.onEditTxtLine(this.value)" name="meme-keyword" type="text"
+                        placeholder="Set Line Text">
                     <button hidden></button>
                 </form>
                 <!-- Set Pos -->
-                <button value="onMoveLine" data-operator="-" onclick="app.onSetMeme()" role="button" title="Move text up" class="btn-arrow-up">
+                <button value="onMoveLine" data-operator="-" onclick="app.onSetMeme()" role="button"
+                    title="Move text up" class="btn-arrow-up">
                 </button>
-                <button value="onMoveLine" data-operator="+"  onclick="app.onSetMeme()" title="Move text Down" class="btn-arrow-down">
+                <button value="onMoveLine" data-operator="+" onclick="app.onSetMeme()" title="Move text Down"
+                    class="btn-arrow-down">
                 </button>
                 <!-- Switch Focus line -->
                 <button value="onSwitchLine" onclick="app.onSetMeme()" title="Switch between lines" class="switch-line">
@@ -144,7 +154,8 @@
                 <button value="onRemoveLine" onclick="app.onSetMeme()" title="Delete last line" class="btn-trash">
                 </button>
                 <!-- Set Font-size -->
-                <button value="onSetFS" data-operator="+" onclick="app.onSetMeme()" title="Size Up" class="btn-font-size-plus">
+                <button value="onSetFS" data-operator="+" onclick="app.onSetMeme()" title="Size Up"
+                    class="btn-font-size-plus">
                 </button>
                 <!-- Set Alien -->
                 <button value="onAlienL" onclick="app.onSetMeme()" title="align left" class="btn-align-left">
@@ -154,7 +165,8 @@
                 <button value="onAlienR" onclick="app.onSetMeme()" title="align left" class="btn-align-right">
                 </button>
                 <!-- Set Font-size -->
-                <button value="onSetFS" data-operator="-" onclick="app.onSetMeme()" title="Size Down" class="btn-font-size-minus">
+                <button value="onSetFS" data-operator="-" onclick="app.onSetMeme()" title="Size Down"
+                    class="btn-font-size-minus">
                 </button>
                 <!-- Fonts Family -->
                 <select data-font="onFamily" title="Select fonts" onchange="app.onSetMeme()" class="font-select"
@@ -182,7 +194,8 @@
                     <label for="set-fill-color" class="btn-fill-color"></label>
                 </button>
                 <!-- Download -->
-                <a onclick="app.onDownloadMeme()" href="#" download="My-Meme.jpg" role="button" class="flex-center btn btn-download">
+                <a onclick="app.onDownloadMeme()" href="#" download="My-Meme.jpg" role="button"
+                    class="flex-center btn btn-download">
                     Download
                 </a>
                 <!-- Save -->
@@ -197,8 +210,10 @@
                 <p class="keyword-heading meme-keyword-container"></p>
             </div>
 
-            <button value="onSetImg" data-diff="-1" style="float:left; margin-left:10px;" onclick="app.onSetMeme()" class="next-img">Previous Image</button>
-            <button value="onSetImg" data-diff="1" style="float:right; margin-right:10px;" onclick="app.onSetMeme()" class="next-img">Next Image</button>
+            <button value="onSetImg" data-diff="-1" style="float:left; margin-left:10px;" onclick="app.onSetMeme()"
+                class="next-img">Previous Image</button>
+            <button value="onSetImg" data-diff="1" style="float:right; margin-right:10px;" onclick="app.onSetMeme()"
+                class="next-img">Next Image</button>
         </section>
 
         <!-- About -->
@@ -286,4 +301,5 @@
 
     <script type="module" src="js/controller/main.controller.js"></script>
 </body>
+
 </html>

@@ -60,28 +60,23 @@ function resetLines() {
 
 function removeLine() {
     const lines = getMeme().lines
-    if (!lines.length ) return
-    console.log(`🚀 ~ lines`, lines)
+    if (!lines.length) return
     lines.pop()
-    console.log(`🚀 ~ lines`, lines)
     switchLine()
 }
 
-function switchLine(isForce) {
+function switchLine() {
     const { meme } = MEME
     console.log('IDX BEFORE:', meme.selectedLineIdx)
-    if (isForce) {
-        console.log(`🚀 ~ isForce`, isForce)
-        const lines = meme.lines
-        const selectedLineIdx = meme.selectedLineIdx
-        console.log(`🚀 ~ lineIdx:${selectedLineIdx} >= lines.length:${lines.length} :: ${selectedLineIdx >= lines.length}`)
-        if (selectedLineIdx >= lines.length) meme.selectedLineIdx = 0
-        else meme.selectedLineIdx++
-        return
-    }
-    else {
-        meme.selectedLineIdx = meme.lines.length-1
-    }
+    const lines = meme.lines
+    console.log(`🚀 ~ lines`, lines)
+    const selectedLineIdx = meme.selectedLineIdx
+    return
+    console.log(`🚀 ~ selectedLineIdx`, selectedLineIdx)
+    console.log(`🚀 ~ lineIdx:${selectedLineIdx} >= lines.length:${lines.length} :: ${selectedLineIdx >= lines.length}`)
+    if (selectedLineIdx >= lines.length) meme.selectedLineIdx = 0
+    else meme.selectedLineIdx++
+    // meme.selectedLineIdx = meme.lines.length - 1
     console.log('IDX AFTER:', meme.selectedLineIdx)
 }
 

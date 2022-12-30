@@ -68,9 +68,9 @@ function renderGallery() {
 
 // Filter
 function onSetFilter() {
-    event.preventDefault()
-    let str = event.target.value
     const { elFilterBy } = gGallery
+    console.log(`🚀 ~ elFilterBy`, elFilterBy)
+    let str = elFilterBy.value
     !str ? str = elFilterBy.value : str
     elFilterBy.value = str === ' ' ? '' : str
     GALLERY_SERVICE.setFilter(str)
