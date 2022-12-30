@@ -207,8 +207,7 @@ function _showGallery() {
         // Debounce
         const { onSetFilter } = GALLERY_CONTROLLER
         const { elFilterBy } = gMainController
-        const debounceOnsetFilter = UTIL_SERVICE.debounce(onSetFilter, 1500)
-        elFilterBy.addEventListener('input', debounceOnsetFilter)
+        elFilterBy.addEventListener('input', UTIL_SERVICE.debounce(onSetFilter, 1500))
     }, 300)
 }
 
