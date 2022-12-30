@@ -41,7 +41,7 @@ function addLine(x, y) {
         txt: 'New Line',
         lineWidth: 2,
         textAlign: 'center',
-        fillStyle: 'white',
+        fillStyle: '#22222',
         fillText: 'white',
         strokeStyle: 'red',
         font: `30px fa-solid`,
@@ -74,9 +74,11 @@ function resetLines() {
 }
 
 function removeLine() {
-    const lines = getMeme().lines
-    if (!lines.length) return
-    lines.pop()
+    const { lines, selectedLineIdx } = getMeme()
+
+    console.log(`🚀 ~ lines[selectedLine]`, lines[selectedLineIdx])
+    const idx = lines.findIndex(line => line === lines[selectedLineIdx])
+    lines.splice(idx, 1)
     switchLine()
 }
 

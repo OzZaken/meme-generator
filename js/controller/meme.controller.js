@@ -19,6 +19,7 @@ function init(dependencies) {
         isGrab: false,
         isScale: false,
         elCtx: dependencies.elMeme.getContext('2d'),
+        elTxtInput: document.querySelector('[name="meme-keyword"]'),
         onSaveMeme,
         onSetMeme,
         onAddLine,
@@ -38,10 +39,8 @@ function init(dependencies) {
             onAddLine: () => {
                 MEME_SERVICE.addLine(elMeme.width / 2, elMeme.height / 2)
             },
-            onRemoveLine: () => {
-                console.log(MEME_SERVICE.getMeme());
-                MEME_SERVICE.removeLine()
-            },
+            onRemoveLine: () => MEME_SERVICE.removeLine()
+            ,
             onSetFont: () => {
                 let fontData = MEME_SERVICE.getFont()
                 const key = event.target.dataset.key
@@ -163,8 +162,6 @@ function onDown() {
     console.log(`🚀 ~ lines`, lines)
 }
 
-
-
 function onAddLine() {
     MEME_SERVICE.createLine()
 }
@@ -177,10 +174,9 @@ function onSaveMeme() {
 
 // Set ctx
 function _setCtx(line) {
-    // NOTE: fillStyle did't catch
     const { elCtx } = gMemeController
     for (const key in line) {
-        elCtx[key] = line[key]
+        elCtx[key] = line[key] // NOTE: fillStyle did't catch
         // console.log(`🚀 ~  elCtx[${key}]`, elCtx[key])
     }
     elCtx.save()
@@ -219,26 +215,29 @@ function drawLine(line) {
     const { x, y } = line.pos
     elCtx.beginPath()
     elCtx.restore()
+    elCtx.fillStyle = line.fillStyle
+
     elCtx.strokeText(txt, x, y)
     elCtx.closePath()
     // Set Focus 
-    if (MEME_SERVICE.getLine() === line) drawOutLine()
+    if (MEME_SERVICE.getLine() === line) renderFocus()
 }
 
-function drawOutLine() {
-    const { elCtx } = gMemeController
+function renderFocus() {
+    const { elCtx, elTxtInput } = gMemeController
     const line = MEME_SERVICE.getLine()
     const { x, y } = line.pos
+    elTxtInput.value = line.txt
+    // Rect
     const metrics = elCtx.measureText(line.txt)
-    console.log(`🚀 ~ metrics`, metrics)
-    const width = metrics.width+2
-    const height = +MEME_SERVICE.getFont().size
-    elCtx.beginPath()
-    console.log('x - width / 2||height',x - width / 2,height);
+    const width = metrics.width + 30
+    const height = +MEME_SERVICE.getFont().size + 10
     const posX = x - width / 2
-    const posY = y - height
-    
-    elCtx.rect(posX, posY, metrics.width, height)
+    const posY = y - height + 10
+    elCtx.beginPath()
+    elCtx.strokeStyle = 'green'
+    elCtx.lineWidth = 5
+    elCtx.rect(posX, posY, width, height)
     elCtx.stroke()
     elCtx.closePath()
 }
