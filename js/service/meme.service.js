@@ -59,9 +59,11 @@ function resetLines() {
 }
 
 function removeLine() {
-    const lines = getLines()
-    if (!lines.length || lines.length <= 0) return
+    const lines = getMeme().lines
+    if (!lines.length ) return
+    console.log(`🚀 ~ lines`, lines)
     lines.pop()
+    console.log(`🚀 ~ lines`, lines)
     switchLine()
 }
 

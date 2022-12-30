@@ -51,25 +51,24 @@ function onSetMeme(meme) {
             onMoveLine: () => {
                 const line = MEME_SERVICE.getLine()
                 const { size } = MEME_SERVICE.getFont()
-                console.log(`🚀 ~ size`, size)
                 const { y } = line.pos
                 console.log(`🚀 ~ y`, y)
+                console.log(`🚀 ~ +size`, +size)
                 const operator = event.target.dataset.operator
-                console.log(`🚀 ~ operator`, operator)
-                if (operator === '+') {
-                    if (y <= size) {
-                        console.log('(y <= size)');
-                        return
-                    }
-                }
-                else if (y + size >= elMeme.height) return
-                MEME_SERVICE.setLinePos({ y: parseInt(y + operator + 10) })
+                const diff = parseInt(operator + 10)
+                if (operator === '+' && parseInt(y + diff) <= +size) return
+                // else if (y + size >= elMeme.height) return
+                console.log(`🚀 ~ parseInt(y + +diff)`, parseInt(y + +diff))
+                MEME_SERVICE.setLinePos({ y: parseInt(y + +diff) })
             },
             onSwitchLine: () => MEME_SERVICE.switchLine(),
             onAddLine: () => {
                 MEME_SERVICE.addLine(elMeme.width / 2, elMeme.height / 2)
             },
-            onRemoveLine: () => MEME_SERVICE.removeLine(),
+            onRemoveLine: () => {
+                console.log(MEME_SERVICE.getMeme());
+                MEME_SERVICE.removeLine()
+            },
             onSetFS: () => {
                 const operator = event.target.dataset.operator
                 const { unit, family } = MEME_SERVICE.getFont()
@@ -207,55 +206,23 @@ function drawLine(line) {
     if (MEME_SERVICE.getLine() === line) drawOutLine()
 }
 
-function showFocusBorder() {
-    const borderParams = getBorderParams()
-    if (!borderParams) return
-    const { xStart, yStart, w, h, scalePntPos } = borderParams
-    gCtx.beginPath()
-    gCtx.rect(xStart, yStart, w, h)
-    gCtx.lineWidth = 2
-    gCtx.strokeStyle = 'white'
-    gCtx.stroke()
-    showScalePnt(scalePntPos)
-}
-function getBorderParams() {
-    let idx = gMeme.selectedLineIdx
-    if (idx >= 0) {
-        const { pos, size, width, align } = gMeme.lines[idx]
-        let widthOffst = -width
-        if (align === 'left') widthOffst = 0
-        else if (align === 'center') widthOffst = -width / 2
-        const xStart = pos.x + widthOffst - 5
-        const yStart = pos.y - size
-        const w = width + 10
-        const h = size + 15
-        const scalePntPos = { x: xStart + w, y: yStart + h }
-        setScalePnt(gMeme.lines[idx], scalePntPos)
-        return { xStart, yStart, w, h, scalePntPos }
-    }
-    idx = gMeme.selectedStickerIdx
-    if (idx < 0) return
-    const { pos, width, height } = gMeme.stickers[idx]
-    const xStart = pos.x
-    const yStart = pos.y
-    const w = width
-    const h = height
-    const scalePntPos = { x: xStart + w, y: yStart + h }
-    setScalePnt(gMeme.stickers[idx], scalePntPos)
-    return { xStart, yStart, w, h, scalePntPos }
-}
+
 function drawOutLine() {
     console.log('drawOutLine')
     const { txt, x, y } = MEME_SERVICE.getLine()
-    const { elMeme, elCtx } = gMemeController
+    const {elCtx } = gMemeController
     const txtMetrics = elCtx.measureText(txt)
     const width = txtMetrics.width
     const { size } = MEME_SERVICE.getFont()
     // const height = txtMetrics.fontBoundingBoxDescent + txtMetrics.fontBoundingBoxAscent
+    const height = +size
+    console.log(`🚀 ~ height`, height)
 
     elCtx.beginPath()
-    elCtx.fillStyle = 'green'
-    elCtx.rect(x, y, width, size)
+    elCtx.strokeStyle = '#ff0000'
+    elCtx.lineWidth = 2;
+
+    elCtx.rect(x, y, width, height)
     elCtx.stroke()
     elCtx.closePath()
 }
