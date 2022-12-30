@@ -65,19 +65,15 @@ function removeLine() {
     switchLine()
 }
 
-function switchLine() {
+function switchLine(isSwitch) {
     const { meme } = MEME
-    console.log('IDX BEFORE:', meme.selectedLineIdx)
-    const lines = meme.lines
-    console.log(`🚀 ~ lines`, lines)
-    const selectedLineIdx = meme.selectedLineIdx
-    return
-    console.log(`🚀 ~ selectedLineIdx`, selectedLineIdx)
-    console.log(`🚀 ~ lineIdx:${selectedLineIdx} >= lines.length:${lines.length} :: ${selectedLineIdx >= lines.length}`)
-    if (selectedLineIdx >= lines.length) meme.selectedLineIdx = 0
-    else meme.selectedLineIdx++
-    // meme.selectedLineIdx = meme.lines.length - 1
-    console.log('IDX AFTER:', meme.selectedLineIdx)
+    const { selectedLineIdx } = meme
+    const { length } = meme.lines
+    if (isSwitch) {
+        if (!selectedLineIdx) meme.selectedLineIdx = meme.lines.length - 1
+        else if (length > 1) meme.selectedLineIdx--
+    }
+    else meme.selectedLineIdx = meme.lines.length - 1
 }
 
 function getFont() {

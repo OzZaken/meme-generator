@@ -10,7 +10,6 @@ let gMainController
 window.app = { onInit }
 
 function onInit() {
-
     // Gallery dependencies
     const initGalleryData = {
         galleryName: 'meme',

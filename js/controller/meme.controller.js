@@ -58,10 +58,10 @@ function onSetMeme(meme) {
                 const diff = parseInt(operator + 10)
                 if (operator === '+' && parseInt(y + diff) <= +size) return
                 // else if (y + size >= elMeme.height) return
-                console.log(`🚀 ~ parseInt(y + +diff)`, parseInt(y + +diff))
+                // console.log(`🚀 ~ parseInt(y + +diff)`, parseInt(y + +diff))
                 MEME_SERVICE.setLinePos({ y: parseInt(y + +diff) })
             },
-            onSwitchLine: () => MEME_SERVICE.switchLine(),
+            onSwitchLine: () => MEME_SERVICE.switchLine(true),
             onAddLine: () => {
                 MEME_SERVICE.addLine(elMeme.width / 2, elMeme.height / 2)
             },
@@ -94,6 +94,27 @@ function onSetMeme(meme) {
         editor[val]()
     }
     renderMeme()
+}
+// Render Meme 
+function renderMeme() {
+    const { keywords, lines, src } = MEME_SERVICE.getMeme()
+    const { elCtx, elMeme } = gMemeController
+
+    const img = new Image()
+    img.src = src
+    img.onload = () => {
+        if (keywords) { // keywords
+            const { elKeywordsContainer } = gMemeController
+            elKeywordsContainer.innerText = keywords.slice(0, 3).join(', ')
+        }
+        // Set Canvas Size
+        elMeme.width = img.width
+        elMeme.height = img.height
+        elCtx.drawImage(img, 0, 0, elMeme.width, elMeme.height) // render Image 
+        // Lines
+        if (!lines.length) MEME_SERVICE.addLine(elMeme.width / 2, elMeme.height / 2)
+        lines.forEach(line => drawLine(line))
+    }
 }
 
 // Handle Events
@@ -135,29 +156,6 @@ function resizeMeme() {
     elMemeContainer.width = elMeme.offsetWidth
     elMemeContainer.height = elMeme.offsetHeight
     renderMeme()
-}
-// Render Meme 
-function renderMeme() {
-    const { keywords, lines, src } = MEME_SERVICE.getMeme()
-    const { elCtx, elMeme } = gMemeController
-
-    const img = new Image()
-    img.src = src
-    img.onload = () => {
-        // render keywords
-        if (keywords) {
-            const { elKeywordsContainer } = gMemeController
-            elKeywordsContainer.innerText = keywords.slice(0, 3).join(', ')
-        }
-        // Set Canvas Size
-        elMeme.width = img.width
-        elMeme.height = img.height
-        // render Image 
-        elCtx.drawImage(img, 0, 0, elMeme.width, elMeme.height)
-        // render Lines
-        if (!lines.length) return
-        lines.forEach(line => drawLine(line))
-    }
 }
 
 // Set ctx
@@ -208,15 +206,15 @@ function drawLine(line) {
 
 
 function drawOutLine() {
-    console.log('drawOutLine')
+    // console.log('drawOutLine')
     const { txt, x, y } = MEME_SERVICE.getLine()
-    const {elCtx } = gMemeController
+    const { elCtx } = gMemeController
     const txtMetrics = elCtx.measureText(txt)
     const width = txtMetrics.width
     const { size } = MEME_SERVICE.getFont()
     // const height = txtMetrics.fontBoundingBoxDescent + txtMetrics.fontBoundingBoxAscent
     const height = +size
-    console.log(`🚀 ~ height`, height)
+    // console.log(`🚀 ~ height`, height)
 
     elCtx.beginPath()
     elCtx.strokeStyle = '#ff0000'
