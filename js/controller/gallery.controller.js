@@ -1,13 +1,7 @@
 import { GALLERY_SERVICE } from "../service/gallery.service.js"
 import { UTIL_SERVICE } from '../service/util.service.js'
 
-
-export const GALLERY_CONTROLLER = {
-    init,
-    onSetFilter,
-    onSetLayout,
-    renderGallery,
-}
+export const GALLERY_CONTROLLER = { init, onSetFilter, onSetLayout, renderGallery }
 
 let gGallery
 
@@ -70,8 +64,9 @@ function renderGallery() {
 function onSetFilter(val) {
     const { elFilterBy } = gGallery
     let str = elFilterBy.value
+    console.log(`🚀 ~ str`, str)
     !str ? str = elFilterBy.value : str
-    elFilterBy.value =val?val: str === ' ' ? '' : str
+    elFilterBy.value = val && typeof val === String ? val : str === ' ' ? '' : str
     GALLERY_SERVICE.setFilter(str)
     renderGallery()
 }

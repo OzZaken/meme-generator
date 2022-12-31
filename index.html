@@ -14,9 +14,9 @@
     <datalist id="gallery-keyword"></datalist>
     <input onchange="app.onImgInput()" type="file" id="upload-img" name="upload-img" hidden
         accept="image/png, image/jpeg, image/jpg" />
-    <input oninput="app.setElColor()" onchange="app.onSetMeme()" hidden id="set-stroke-color" type="color"
+    <input oninput="app.onSetColor()" onchange="app.onSetMeme()" hidden id="set-stroke-color" type="color"
         name="stroke-color" title="Change stroke color">
-    <input oninput="app.setElColor()" onchange="app.onSetMeme()" hidden name="fill-color" type="color"
+    <input oninput="app.onSetColor()" onchange="app.onSetMeme()" hidden name="fill-color" type="color"
         title="Change fill color">
     <input oninput="app.onSetTxtLine()" id="set-txt" list="gallery-keyword" name="line-txt" type="select"
         placeholder="We Recommended Adding Exiting Keyword!" title="Add New Text line">

@@ -10,6 +10,7 @@ export const MEME_CONTROLLER = {
     onDown,
     onAddTxt,
     onFocusTxt,
+    onSetColor,
 }
 
 let gMemeController
@@ -118,7 +119,7 @@ function renderMeme() {
         elMeme.width = img.width
         elMeme.height = img.height
         elCtx.drawImage(img, 0, 0, elMeme.width, elMeme.height) // render Image 
-        // Lines
+        // Line
         if (!lines.length) MEME_SERVICE.addLine(elMeme.width / 2, elMeme.height / 2)
         lines.forEach(line => drawLine(line))
     }
@@ -160,10 +161,9 @@ function onUp() {
 }
 
 function onDown() {
-    const touchPos = gMemeController.getPos(event)
+    const touchPos = MAIN_CONTROLLER.getPos(event)
     console.log(`🚀 ~ touchPos`, touchPos)
-    const lines = gMemeController.getLines()
-    console.log(`🚀 ~ lines`, lines)
+    const line = gMemeController.getLine()
 }
 
 function onAddLine() {
@@ -180,9 +180,10 @@ function onSaveMeme() {
 function _setCtx(line) {
     const { elCtx } = gMemeController
     for (const key in line) {
-        elCtx[key] = line[key] // NOTE: fillStyle did't catch
-        // console.log(`🚀 ~  elCtx[${key}]`, elCtx[key])
+        elCtx[key] = line[key]
     }
+    // elCtx.fillStyle = line.fillStyle
+    console.log(`fillStyle: ${elCtx.fillStyle}`)
     elCtx.save()
 }
 
@@ -218,8 +219,7 @@ function drawLine(line) {
     // Draw Line
     const { x, y } = line.pos
     elCtx.restore()
-    // console.log(`🚀 ~ elCtx`, elCtx)
-    elCtx.fillStyle = 'black'
+    console.log(`fillStyle: ${elCtx.fillStyle}`)
     elCtx.beginPath()
     elCtx.strokeText(txt, x, y)
     elCtx.closePath()
@@ -275,4 +275,8 @@ function onAddTxt() {
     const { elMeme } = gMemeController
     MEME_SERVICE.addLine(elMeme.width / 2, elMeme.height / 2)
     renderMeme()
+}
+
+function onSetColor() {
+    console.log(event);
 }

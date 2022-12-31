@@ -5,13 +5,37 @@ import { GALLERY_CONTROLLER } from "../controller/gallery.controller.js"
 import { MEME_SERVICE } from "../service/meme.service.js"
 import { MEME_CONTROLLER } from "./meme.controller.js"
 
+export const MAIN_CONTROLLER = { onImgSelect, getPos, renderModal, renderMsg }
+
 let gMainController
 
-window.app = { onInit }
+const { onSetFilter, onSetLayout } = GALLERY_CONTROLLER
+const { onSetMeme, onSetTxt, onAddTxt, onFocusTxt, onSetColor, } = MEME_CONTROLLER
+
+window.app = {
+    onInit,
+    onImgInput,
+    onTranslate,
+    onNav,
+    onTouchScreen,
+    onToggleMenu,
+    onTouchModal,
+    onImgSelect,
+    onClickKeyword,
+    onShowKeywords,
+    // Gallery
+    onSetFilter,
+    onSetLayout,
+    // Meme
+    onSetMeme,
+    onSetTxt,
+    onAddTxt,
+    onFocusTxt,
+    onSetColor,
+}
 
 function onInit() {
-    // Dependencies: Gallery 
-    const initGalleryData = {
+    const initGalleryData = {// Dependencies: Gallery 
         galleryName: 'meme',
         elKeywordContainer: document.querySelector('ul.btns-keyword-container'),
         elGalleryHeading: document.querySelector('h1.gallery-heading'),
@@ -19,18 +43,12 @@ function onInit() {
         elGalleyData: document.querySelector('datalist#gallery-keyword'),
         elGallery: document.querySelector('div.gallery-container'),
         elUploadImg: document.querySelector('#upload-img'),
-        renderModal,
-        onImgSelect,
     }
-    // Meme 
-    const initMemeData = {
+    const initMemeData = { // Meme 
         elEditHeading: document.querySelector('h1.edit-heading'),
         elMeme: document.querySelector('#meme'),
         elMemeContainer: document.querySelector('.meme-container'),
         elKeywordsContainer: document.querySelector('.meme-keyword-container'),
-        renderMsg,
-        getPos,
-        onImgSelect,
     }
     // Set Controller State
     gMainController = {
@@ -55,41 +73,8 @@ function onInit() {
         ...GALLERY_CONTROLLER.init(initGalleryData),
         ...MEME_CONTROLLER.init(initMemeData)
     }
-    // Extract from controllers. 
-    const {
-        onSetFilter,
-        onSetLayout,
-    } = GALLERY_CONTROLLER
-    const {
-        onSetMeme,
-        onSetTxt,
-        onAddTxt,
-        onFocusTxt,
-    } = MEME_CONTROLLER
-    // Update Dom . 
-    window.app = {
-        gMainController, //TODO UT : remember Delete!
-        onImgInput,
-        onTranslate,
-        onNav,
-        onTouchScreen,
-        onToggleMenu,
-        onTouchModal,
-        onImgSelect,
-        onClickKeyword,
-        onShowKeywords,
-        // Gallery
-        onSetFilter,
-        onSetLayout,
-        // Meme
-        onSetMeme,
-        onSetTxt,
-        onAddTxt,
-        onFocusTxt,
-    }
 
-    // Pretend Latency with TimeOut: First loading
-    _showGallery()
+    _loadGallery()
 
     // i18
     I18_SERVICE.setUserDefaultLang(navigator.languages[1])
@@ -124,9 +109,8 @@ function onInit() {
 
 }
 
-
 // render with Timeout
-function _showGallery() {
+function _loadGallery() {
     gMainController.elGallery.innerHTML = `<svg class="gallery-loading" width="105" height="105" viewBox="0 0 105 105" xmlns="http://www.w3.org/2000/svg" fill="#fff">
     <circle cx="12.5" cy="12.5" r="12.5">
         <animate attributeName="fill-opacity"
@@ -241,10 +225,10 @@ function onPlayAudio(audioKey) {
         audio[audioKey] = null
     }
     // try {
-        // audio[audioKey] = new Audio()         // create audio wo/ src
-        // audio[audioKey].preload = "auto"    // intend to play through
-        // audio[audioKey].autoplay = true    // autoplay when loaded
-        // audio[audioKey].src = `assets/audio/${audioKey}.mp3`
+    // audio[audioKey] = new Audio()         // create audio wo/ src
+    // audio[audioKey].preload = "auto"    // intend to play through
+    // audio[audioKey].autoplay = true    // autoplay when loaded
+    // audio[audioKey].src = `assets/audio/${audioKey}.mp3`
     //     await audio[audioKey].play();
     //     console.log('Audio play successful');
     //   } catch {

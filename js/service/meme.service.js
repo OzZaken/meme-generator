@@ -41,11 +41,11 @@ function addLine(x, y) {
     lines.push({
         pos: { x, y },
         // direction: 'lfr',
-        fillStyle: '#22222',
+        fillStyle: '#cc2e2e',
         strokeStyle: '#9623fbd2',
         shadowColor: 'rgba(0, 0, 0, 0.5)',
         // filter: 'none',
-        font: `40px fa-solid`,
+        font: `40px papyrus`,
         // fontKerning: `auto`,
         txt: 'Edit Line!',
         lineWidth: 2,
@@ -133,7 +133,6 @@ function setTxt(val) {
     const line = getLine()
     line.txt = val
 }
-
 
 class Line {
     constructor(x, y) {

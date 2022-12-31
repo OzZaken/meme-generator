@@ -10,11 +10,6 @@
 @import "basic/layout.css";
 @import "basic/logo.css";
 
-/* Views */
-@import "view/edit.css";
-@import "view/about.css";
-@import "view/gallery.css";
-
 /* Components */
 @import "component/header.css";
 @import "component/footer.css";
@@ -23,3 +18,8 @@
 @import "component/screen.css";
 @import "component/user-msg.css";
 @import "component/modal.css";
+
+/* Views */
+@import "view/edit.css";
+@import "view/about.css";
+@import "view/gallery.css";
