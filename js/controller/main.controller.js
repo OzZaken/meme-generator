@@ -10,8 +10,7 @@ let gMainController
 window.app = { onInit }
 
 function onInit() {
-    
-    // Gallery dependencies
+    // Dependencies: Gallery 
     const initGalleryData = {
         galleryName: 'meme',
         elKeywordContainer: document.querySelector('ul.btns-keyword-container'),
@@ -23,8 +22,7 @@ function onInit() {
         renderModal,
         onImgSelect,
     }
-
-    // Meme dependencies 
+    // Meme 
     const initMemeData = {
         elEditHeading: document.querySelector('h1.edit-heading'),
         elMeme: document.querySelector('#meme'),
@@ -34,7 +32,6 @@ function onInit() {
         getPos,
         onImgSelect,
     }
-
     // Set Controller State
     gMainController = {
         audio: {},
@@ -58,8 +55,7 @@ function onInit() {
         ...GALLERY_CONTROLLER.init(initGalleryData),
         ...MEME_CONTROLLER.init(initMemeData)
     }
-
-    // Extract DOM dependencies from controllers. 
+    // Extract from controllers. 
     const {
         onSetFilter,
         onSetLayout,
@@ -70,8 +66,7 @@ function onInit() {
         onAddTxt,
         onFocusTxt,
     } = MEME_CONTROLLER
-
-    // Update Dom dependencies. 
+    // Update Dom . 
     window.app = {
         gMainController, //TODO UT : remember Delete!
         onImgInput,
@@ -93,7 +88,7 @@ function onInit() {
         onFocusTxt,
     }
 
-    // Pretend Latency with TimeOut > First loading
+    // Pretend Latency with TimeOut: First loading
     _showGallery()
 
     // i18
@@ -126,26 +121,9 @@ function onInit() {
     new Array(...elFontSelect.options).forEach(option => {
         option.style.fontFamily = option.value
     })
+
 }
 
-// return current click Pos on Element.
-function getPos() {
-    const pos = {
-        x: event.offsetX,
-        y: event.offsetY
-    }
-    const touchEvs = ['touchstart', 'touchmove', 'touchend']
-    if (touchEvs.includes(event.type)) {
-        event.preventDefault()
-        // Take 1 Mobile touch {Pos} in case of multi fingers clicking
-        event = event.changedTouches[0]
-        pos = {
-            x: event.pageX - event.target.offsetLeft,
-            y: event.pageY - event.target.offsetTop
-        }
-    }
-    return pos
-}
 
 // render with Timeout
 function _showGallery() {
@@ -263,10 +241,14 @@ function onPlayAudio(audioKey) {
         audio[audioKey] = null
     }
     // try {
-    //     await audioElement.play();
+        // audio[audioKey] = new Audio()         // create audio wo/ src
+        // audio[audioKey].preload = "auto"    // intend to play through
+        // audio[audioKey].autoplay = true    // autoplay when loaded
+        // audio[audioKey].src = `assets/audio/${audioKey}.mp3`
+    //     await audio[audioKey].play();
     //     console.log('Audio play successful');
     //   } catch {
-    //     console.log('Audio play failed');
+    //     console.error('Audio play failed');
     //   }
     return new Promise((resolve, reject) => { // return a promise
         audio[audioKey] = new Audio()         // create audio wo/ src
@@ -425,6 +407,25 @@ function onImgSelect() {
     MEME_CONTROLLER.onSetMeme(meme)
     if (document.body.classList.contains('page-edit')) return
     onNav('edit')
+}
+
+// return current click Pos on Element.
+function getPos() {
+    const pos = {
+        x: event.offsetX,
+        y: event.offsetY
+    }
+    const touchEvs = ['touchstart', 'touchmove', 'touchend']
+    if (touchEvs.includes(event.type)) {
+        event.preventDefault()
+        // Take 1 Mobile touch {Pos} in case of multi fingers clicking
+        event = event.changedTouches[0]
+        pos = {
+            x: event.pageX - event.target.offsetLeft,
+            y: event.pageY - event.target.offsetTop
+        }
+    }
+    return pos
 }
 
 // Modal.

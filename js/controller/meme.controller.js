@@ -14,53 +14,6 @@ export const MEME_CONTROLLER = {
 
 let gMemeController
 
-const _editMap = {
-    onMoveLine: () => {
-        const { elMeme } = gMemeController
-        const line = MEME_SERVICE.getLine()
-        const { y } = line.pos
-        const operator = event.target.dataset.operator
-        const diff = parseInt(operator + 10)
-        const { size } = MEME_SERVICE.getFont()
-        if (operator === '-' && y + diff <= +size) return
-        else if (operator === '+' && y + diff >= elMeme.height) return
-        MEME_SERVICE.setLinePos({ y: parseInt(y + +diff) })
-    },
-    onSwitchLine: () => MEME_SERVICE.switchLine(true),
-    onAddLine: () => {
-        MEME_SERVICE.addLine(elMeme.width / 2, elMeme.height / 2)
-    },
-    onRemoveLine: () => MEME_SERVICE.removeLine()
-    ,
-    onSetFont: () => {
-        let fontData = MEME_SERVICE.getFont()
-        const key = event.target.dataset.key
-        const operator = event.target.dataset.operator
-        if (key === 'size') {
-            const diff = parseInt(operator + 10)
-            const num = +MEME_SERVICE.getFont()[key] + diff
-            console.log(`🚀 ~ num`, num)
-            fontData.size = num + ''
-        }
-        if (key === 'family') {
-            event.target.style.fontFamily = event.target.value
-            fontData.family = event.target.value
-        }
-        MEME_SERVICE.setFont(fontData)
-    },
-    onAlienL: () => MEME_SERVICE.setLine({ 'textAlign': 'left' }),
-    onAlienC: () => MEME_SERVICE.setLine({ 'textAlign': 'center' }),
-    onAlienR: () => MEME_SERVICE.setLine({ 'textAlign': 'right' }),
-    onSetImg: () => {
-        const { diff } = event.target.dataset
-        const length = GALLERY_SERVICE.getImgsCount()
-        MEME_SERVICE.resetLines()
-        const src = MEME_SERVICE.getNextImg(length, diff)
-        event.target.src = src
-        gMemeController.onImgSelect()
-    }
-}
-
 function init(dependencies) {
     // console.log(`🚀 ~ init dependencies`, dependencies)
     gMemeController = {
@@ -71,16 +24,65 @@ function init(dependencies) {
         elCtx: dependencies.elMeme.getContext('2d'),
         elTxtInput: document.querySelector('[name="set-txt"]'),
         elKeywordInput: document.querySelector('[name="set-keyword"]'),
-
+        _editMap: {
+            onMoveLine: (keyBoardOperator) => {
+                const { elMeme } = gMemeController
+                const line = MEME_SERVICE.getLine()
+                const { y } = line.pos
+                // Extract the operator from btns or from keyboard 
+                const operator = keyBoardOperator ? keyBoardOperator : event.target.dataset.operator
+                const diff = parseInt(operator + 10)
+                const { size } = MEME_SERVICE.getFont()
+                console.log(`🚀 ~ diff`, diff)
+                if (operator === '-' && y + diff <= +size) return
+                else if (operator === '+' && y + diff >= elMeme.height) return
+                MEME_SERVICE.setLinePos({ y: parseInt(y + +diff) })
+            },
+            onSwitchLine: () => MEME_SERVICE.switchLine(true),
+            onAddLine: () => {
+                MEME_SERVICE.addLine(elMeme.width / 2, elMeme.height / 2)
+            },
+            onRemoveLine: () => MEME_SERVICE.removeLine()
+            ,
+            onSetFont: () => {
+                let fontData = MEME_SERVICE.getFont()
+                const key = event.target.dataset.key
+                const operator = event.target.dataset.operator
+                if (key === 'size') {
+                    const diff = parseInt(operator + 10)
+                    const num = +MEME_SERVICE.getFont()[key] + diff
+                    console.log(`🚀 ~ num`, num)
+                    fontData.size = num + ''
+                }
+                if (key === 'family') {
+                    event.target.style.fontFamily = event.target.value
+                    fontData.family = event.target.value
+                }
+                MEME_SERVICE.setFont(fontData)
+            },
+            onAlienL: () => MEME_SERVICE.setLine({ 'textAlign': 'left' }),
+            onAlienC: () => MEME_SERVICE.setLine({ 'textAlign': 'center' }),
+            onAlienR: () => MEME_SERVICE.setLine({ 'textAlign': 'right' }),
+            onSetImg: () => {
+                const { diff } = event.target.dataset
+                const length = GALLERY_SERVICE.getImgsCount()
+                MEME_SERVICE.resetLines()
+                const src = MEME_SERVICE.getNextImg(length, diff)
+                event.target.src = src
+                gMemeController.onImgSelect()
+            }
+        }
     }
     console.log('gMemeController.elCtx:', gMemeController.elCtx)
     // Set Listeners
     window.addEventListener('resize', resizeMeme)
     const { elMeme } = gMemeController
+
     // Mouse
     elMeme.addEventListener('mousemove', onMove)
     elMeme.addEventListener('mousedown', onDown)
     elMeme.addEventListener('mouseup', onUp)
+
     // Mobile
     elMeme.addEventListener('touchmove', onMove)
     elMeme.addEventListener('touchstart', onDown)
@@ -94,7 +96,7 @@ function onSetMeme(meme) {
     // console.log(`🚀 ~ onSetMeme meme`, meme || event.target.value)
     if (!meme) {
         const val = event.target.dataset.key === 'family' ? 'onSetFont' : event.target.value
-        _editMap[val]()
+        gMemeController._editMap[val]()
     }
     else MEME_SERVICE.setMeme(meme)
     renderMeme()
@@ -216,7 +218,8 @@ function drawLine(line) {
     // Draw Line
     const { x, y } = line.pos
     elCtx.restore()
-    console.log(`🚀 ~ elCtx`, elCtx)
+    // console.log(`🚀 ~ elCtx`, elCtx)
+    elCtx.fillStyle = 'black'
     elCtx.beginPath()
     elCtx.strokeText(txt, x, y)
     elCtx.closePath()
@@ -226,18 +229,18 @@ function drawLine(line) {
 
 function onFocusTxt(isFocus) {
     if (isFocus) document.addEventListener('keydown', keydownHandler)
-    else document.removeEventListener('keydown', keydownHandler) 
+    else document.removeEventListener('keydown', keydownHandler)
 }
 
 function keydownHandler() {
     switch (event.key) {
         case 'ArrowUp':
-            event.target.dataset.operator = '-'
-            _editMap.onMoveLine()
+            gMemeController._editMap.onMoveLine('-')
+            break;
         case 'ArrowDown':
-            event.target.dataset.operator = '+'
-            _editMap.onMoveLine()
+            gMemeController._editMap.onMoveLine('+')
     }
+    renderMeme()
 }
 
 function renderFocus() {
