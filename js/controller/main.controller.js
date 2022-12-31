@@ -10,6 +10,7 @@ let gMainController
 window.app = { onInit }
 
 function onInit() {
+    
     // Gallery dependencies
     const initGalleryData = {
         galleryName: 'meme',
@@ -22,6 +23,7 @@ function onInit() {
         renderModal,
         onImgSelect,
     }
+
     // Meme dependencies 
     const initMemeData = {
         elEditHeading: document.querySelector('h1.edit-heading'),
@@ -64,6 +66,9 @@ function onInit() {
     } = GALLERY_CONTROLLER
     const {
         onSetMeme,
+        onSetTxt,
+        onAddTxt,
+        onFocusTxt,
     } = MEME_CONTROLLER
 
     // Update Dom dependencies. 
@@ -83,10 +88,14 @@ function onInit() {
         onSetLayout,
         // Meme
         onSetMeme,
+        onSetTxt,
+        onAddTxt,
+        onFocusTxt,
     }
 
-    // Pretend Latency 
+    // Pretend Latency with TimeOut > First loading
     _showGallery()
+
     // i18
     I18_SERVICE.setUserDefaultLang(navigator.languages[1])
     const userLang = I18_SERVICE.getLangStr()
@@ -413,7 +422,7 @@ function onImgSelect() {
         src,
         keywords: GALLERY_SERVICE.getImgKeyword(src),
     }
-    gMainController.onSetMeme(meme)
+    MEME_CONTROLLER.onSetMeme(meme)
     if (document.body.classList.contains('page-edit')) return
     onNav('edit')
 }

@@ -4,9 +4,12 @@ import { MEME_SERVICE } from "../service/meme.service.js"
 export const MEME_CONTROLLER = {
     init,
     onSetMeme,
+    onSetTxt,
     onMove,
     onUp,
     onDown,
+    onAddTxt,
+    onFocusTxt,
 }
 
 let gMemeController
@@ -19,10 +22,8 @@ function init(dependencies) {
         isGrab: false,
         isScale: false,
         elCtx: dependencies.elMeme.getContext('2d'),
-        elTxtInput: document.querySelector('[name="meme-keyword"]'),
-        onSaveMeme,
-        onSetMeme,
-        onAddLine,
+        elTxtInput: document.querySelector('[name="set-txt"]'),
+        elKeywordInput: document.querySelector('[name="set-keyword"]'),
         editMap: {
             onMoveLine: () => {
                 const { elMeme } = gMemeController
@@ -70,7 +71,7 @@ function init(dependencies) {
             }
         }
     }
-
+    console.log('gMemeController.elCtx:', gMemeController.elCtx)
     // Set Listeners
     window.addEventListener('resize', resizeMeme)
     const { elMeme } = gMemeController
@@ -88,7 +89,7 @@ function init(dependencies) {
 }
 
 function onSetMeme(meme) {
-    console.log(`🚀 ~ onSetMeme meme`, meme || event.target.value)
+    // console.log(`🚀 ~ onSetMeme meme`, meme || event.target.value)
     if (!meme) {
         const val = event.target.dataset.key === 'family' ? 'onSetFont' : event.target.value
         const { editMap } = gMemeController
@@ -213,21 +214,67 @@ function drawLine(line) {
 
     // Draw Line
     const { x, y } = line.pos
-    elCtx.beginPath()
     elCtx.restore()
-    elCtx.fillStyle = line.fillStyle
-
+    console.log(`🚀 ~ elCtx`, elCtx)
+    elCtx.beginPath()
     elCtx.strokeText(txt, x, y)
     elCtx.closePath()
     // Set Focus 
     if (MEME_SERVICE.getLine() === line) renderFocus()
 }
 
+// function onFocusTxt(isFocus) {
+//     if (isFocus) {
+//         document.addEventListener('keydown', () => {
+//             const { editMap } = gMemeController
+//             switch (event.key) {
+//                 case 'ArrowUp':
+//                     event.target.dataset.operator = '-'
+//                     editMap.setLinePos()
+//                     break
+//                 case 'ArrowLeft':
+//                     break
+//                 case 'ArrowRight':
+//                     break
+//                 case 'ArrowDown':
+//                     break
+//                 case 'Enter':
+//                     break
+//             }
+//         })
+//     }
+//     else document.removeEventListener('keydown')
+// }
+function onFocusTxt(isFocus) {
+    if (isFocus) document.addEventListener('keydown', keydownHandler)
+    else document.removeEventListener('keydown', keydownHandler) // pass the event listener function as the second argument
+}
+
+function keydownHandler(event) {
+    const { editMap } = gMemeController
+    console.log(`🚀 ~ editMap`, editMap)
+    switch (event.key) {
+        case 'ArrowUp':
+            event.target.dataset.operator = '-'
+            editMap.onMoveLine()
+            break
+        case 'ArrowLeft':
+            break
+        case 'ArrowRight':
+            break
+        case 'ArrowDown':
+            break
+        case 'Enter':
+            break
+    }
+}
 function renderFocus() {
     const { elCtx, elTxtInput } = gMemeController
     const line = MEME_SERVICE.getLine()
     const { x, y } = line.pos
     elTxtInput.value = line.txt
+    elTxtInput.style.fontFamily = MEME_SERVICE.getFont.family
+    elTxtInput.style.color = line.strokeStyle
     // Rect
     const metrics = elCtx.measureText(line.txt)
     const width = metrics.width + 30
@@ -240,4 +287,16 @@ function renderFocus() {
     elCtx.rect(posX, posY, width, height)
     elCtx.stroke()
     elCtx.closePath()
+}
+
+function onSetTxt() {
+    const val = event.target.value
+    MEME_SERVICE.setTxt(val)
+    renderMeme()
+}
+
+function onAddTxt() {
+    const { elMeme } = gMemeController
+    MEME_SERVICE.addLine(elMeme.width / 2, elMeme.height / 2)
+    renderMeme()
 }

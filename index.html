@@ -122,18 +122,18 @@
 
             <!--  Buttons -->
             <div class="btns-edit-container">
+
                 <!-- Add keywords -->
-                <form onsubmit="event.preventDefault();onAddKeyword()" list="gallery-keyword" class="add-meme-keyword">
-                    <input onsubmit="event.stopPropagation();app.onAddKeyword(this.value)" name="meme-keyword"
-                        type="text" placeholder="Add new keyword">
-                    <button hidden></button>
+                <form onsubmit="event.preventDefault();app.onAddKeyword()" list="gallery-keyword" class="set-keyword">
+                    <input oninput="app.onSetKeyword()" name="set-keyword" type="text" placeholder="Add keyword">
                 </form>
+
                 <!-- Set Txt -->
-                <form class="set-txt" onsubmit="ev.preventDefault();app.onAddTxtLine()">
-                    <input onsubmit="app.onEditTxtLine(this.value)" name="meme-keyword" type="text"
-                        placeholder="Set Line Text">
-                    <button hidden></button>
+                <form onsubmit="event.preventDefault();app.onAddTxt()" class="set-txt">
+                    <input onblur="app.onFocusTxt(false)" onfocus="app.onFocusTxt(true)" oninput="app.onSetTxt()"
+                        name="set-txt" autocomplete="off" type="text" placeholder="Set text Line">
                 </form>
+
                 <!-- Set Pos -->
                 <button value="onMoveLine" data-operator="-" onclick="app.onSetMeme()" role="button"
                     title="Move text up" class="btn-arrow-up">
@@ -148,7 +148,7 @@
                 <button value="onAddLine" onclick="app.onSetMeme()" title="Add New txt line" class="btn-plus">
                 </button>
                 <!-- Delete Line -->
-                <button value="onRemoveLine" onclick="app.onSetMeme()" title="Delete last line" class="btn-trash">
+                <button value="onRemoveLine" onclick="app.onSetMeme()" title="Delete line" class="btn-trash">
                 </button>
                 <!-- Set Font-size -->
                 <button value="onSetFont" data-key="size" data-operator="+" onclick="app.onSetMeme()" title="Size Up"
@@ -166,8 +166,8 @@
                     class="btn-font-size-minus">
                 </button>
                 <!-- Fonts Family -->
-                <select data-key="family" title="Select fonts" onchange="app.onSetMeme()"
-                    class="font-select" name="change-fonts">
+                <select data-key="family" title="Select fonts" onchange="app.onSetMeme()" class="font-select"
+                    name="change-fonts">
                     <option value="fa">Fa</option>
                     <option value="fa-solid">Fa-solid</option>
                     <option value="impact">Impact</option>
@@ -206,11 +206,15 @@
                 <!-- Meme Keywords -->
                 <p class="keyword-heading meme-keyword-container"></p>
             </div>
-
-            <button value="onSetImg" data-diff="-1" style="float:left; margin-left:10px;" onclick="app.onSetMeme()"
-                class="next-img">Previous Image</button>
-            <button value="onSetImg" data-diff="1" style="float:right; margin-right:10px;" onclick="app.onSetMeme()"
-                class="next-img">Next Image</button>
+            <!-- Image Paging -->
+            <div class="img-page-container">
+                <button onclick="app.onSetMeme()" value="onSetImg" data-diff="-1" class="btn btn-prev-img">
+                    Previous Image
+                </button>
+                <button onclick="app.onSetMeme()" value="onSetImg" data-diff="1" class="btn btn-next-img">
+                    Next Image
+                </button>
+            </div>
         </section>
 
         <!-- About -->

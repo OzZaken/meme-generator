@@ -22,6 +22,18 @@
     align-items: center;
 }
 
+/* Shapes */
+.horizontal {
+    display: flex;
+    flex-direction: row;
+
+}
+
+.vertical {
+    display: flex;
+    flex-direction: column;
+}
+
 /*   Glass-effect  */
 .glass {
     background: rgba(255, 255, 255, 0.25);

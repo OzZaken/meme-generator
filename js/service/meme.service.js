@@ -4,7 +4,6 @@ export const MEME_SERVICE = {
     switchLine,
     getNextImg,
     resetLines,
-    // Class
     getLine,
     setLine,
     setLinePos,
@@ -12,6 +11,7 @@ export const MEME_SERVICE = {
     removeLine,
     getFont,
     setFont,
+    setTxt
 }
 
 const MEME = {
@@ -23,6 +23,7 @@ const MEME = {
     }
 }
 
+// Meme
 function getMeme() {
     return MEME.meme
 }
@@ -33,18 +34,22 @@ function setMeme(meme) {
     console.log('MEME.meme:', MEME.meme)
 }
 
+// Line
 function addLine(x, y) {
     console.log(`create line: X:${x} Y:${y}`)
     const lines = getMeme().lines
     lines.push({
         pos: { x, y },
-        txt: 'New Line',
+        // direction: 'lfr',
+        fillStyle: '#22222',
+        strokeStyle: '#9623fbd2',
+        shadowColor: 'rgba(0, 0, 0, 0.5)',
+        // filter: 'none',
+        font: `40px fa-solid`,
+        // fontKerning: `auto`,
+        txt: 'Edit Line!',
         lineWidth: 2,
         textAlign: 'center',
-        fillStyle: '#22222',
-        fillText: 'white',
-        strokeStyle: 'red',
-        font: `30px fa-solid`,
     })
     // MEME.meme.selectedLineIdx++ 
     console.log('MEME.meme Before switchLine:', MEME.meme)
@@ -75,7 +80,6 @@ function resetLines() {
 
 function removeLine() {
     const { lines, selectedLineIdx } = getMeme()
-
     console.log(`🚀 ~ lines[selectedLine]`, lines[selectedLineIdx])
     const idx = lines.findIndex(line => line === lines[selectedLineIdx])
     lines.splice(idx, 1)
@@ -128,6 +132,13 @@ function setFont(fontData) {
     const { size, unit, family } = fontData
     getLine().font = `${size}${unit} ${family}`
 }
+
+function setTxt(val) {
+    const line = getLine()
+    line.txt = val
+}
+
+
 class Line {
     constructor(x, y) {
         this.pos = { x, y }
