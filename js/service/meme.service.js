@@ -63,15 +63,11 @@ function getLine() {
 }
 
 function setLine(val) {
-    console.log(`🚀 ~ setLine(val)`, val)
-    console.log(`🚀 ~ line`, line)
     const line = getLine()
-    console.log(`🚀 ~ line`, line)
     getLine() = {
         ...line,
         ...val
     }
-    console.log(`🚀 ~ Line After:`, getLine())
 }
 
 function resetLines() {
