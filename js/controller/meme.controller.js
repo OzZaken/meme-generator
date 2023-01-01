@@ -1,5 +1,6 @@
 import { GALLERY_SERVICE } from "../service/gallery.service.js"
 import { MEME_SERVICE } from "../service/meme.service.js"
+import { MAIN_CONTROLLER } from "./main.controller.js"
 
 export const MEME_CONTROLLER = {
     init,
@@ -155,15 +156,27 @@ function onMove() {
 function onUp() {
     gMemeController.isDraw = gMemeController.isGrab =
         gMemeController.isScale = gMemeController.isScale = false
-    console.log('document.body.offsetWidth:', document.body.offsetWidth)
-    console.log('window.innerWidth:', window.innerWidth)
+    // console.log('document.body.offsetWidth:', document.body.offsetWidth)
+    // console.log('window.innerWidth:', window.innerWidth)
     // document.body.style.cursor = 'grab'
 }
 
 function onDown() {
     const touchPos = MAIN_CONTROLLER.getPos(event)
-    console.log(`🚀 ~ touchPos`, touchPos)
-    const line = gMemeController.getLine()
+    const lines = MEME_SERVICE.getMeme().lines
+    const {elCtx} = gMemeController
+    console.log(touchPos)
+    lines.forEach(line => {
+        const { pos, txt,height } = line
+        const metrics = elCtx.measureText(txt)
+        const lineWidth = metrics.width //+ 20 // Add some padding for touch targets
+        if (touchPos.x >= pos.x - lineWidth &&
+            touchPos.x <= pos.x + lineWidth &&
+            touchPos.y >= pos.y - height &&
+            touchPos.y <= pos.y + height) {
+            console.log('click on', line)
+        }
+    })
 }
 
 function onAddLine() {
@@ -182,8 +195,8 @@ function _setCtx(line) {
     for (const key in line) {
         elCtx[key] = line[key]
     }
-    // elCtx.fillStyle = line.fillStyle
-    console.log(`fillStyle: ${elCtx.fillStyle}`)
+    elCtx.fillStyle = line.fillStyle
+    // console.log(`fillStyle: ${elCtx.fillStyle}`)
     elCtx.save()
 }
 
@@ -219,12 +232,12 @@ function drawLine(line) {
     // Draw Line
     const { x, y } = line.pos
     elCtx.restore()
-    console.log(`fillStyle: ${elCtx.fillStyle}`)
     elCtx.beginPath()
+    elCtx.fillStyle = line.fillStyle //🐞
     elCtx.strokeText(txt, x, y)
     elCtx.closePath()
-    // Set Focus 
-    if (MEME_SERVICE.getLine() === line) renderFocus()
+
+    if (MEME_SERVICE.getLine() === line) renderFocus() // Set Focus
 }
 
 function onFocusTxt(isFocus) {
@@ -253,8 +266,13 @@ function renderFocus() {
     elTxtInput.style.color = line.strokeStyle
     // Rect
     const metrics = elCtx.measureText(line.txt)
+
     const width = metrics.width + 30
     const height = +MEME_SERVICE.getFont().size + 10
+    // Update Line only on the Controller
+    line.width = width
+    line.height = height -10
+
     const posX = x - width / 2
     const posY = y - height + 10
     elCtx.beginPath()

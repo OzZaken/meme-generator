@@ -29,9 +29,9 @@ function getMeme() {
 }
 
 function setMeme(meme) {
-    console.log('setMeme(meme):', meme)
+    // console.log('setMeme(meme):', meme)
     MEME.meme = { ...MEME.meme, ...meme }
-    console.log('MEME.meme:', MEME.meme)
+    // console.log('MEME.meme:', MEME.meme)
 }
 
 // Line
@@ -41,18 +41,16 @@ function addLine(x, y) {
     lines.push({
         pos: { x, y },
         // direction: 'lfr',
-        fillStyle: '#cc2e2e',
+        fillStyle: '#cc2e2e', // 🐞
         strokeStyle: '#9623fbd2',
         shadowColor: 'rgba(0, 0, 0, 0.5)',
         // filter: 'none',
-        font: `40px papyrus`,
+        font: `30px papyrus`,
         // fontKerning: `auto`,
         txt: 'Edit Line!',
         lineWidth: 2,
         textAlign: 'center',
     })
-    // MEME.meme.selectedLineIdx++ 
-    console.log('MEME.meme Before switchLine:', MEME.meme)
     switchLine()
 }
 

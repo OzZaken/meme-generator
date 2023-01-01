@@ -42,7 +42,7 @@ function onInit() {
         elFilterBy: document.querySelector('[name="gallery-filter"]'),
         elGalleyData: document.querySelector('datalist#gallery-keyword'),
         elGallery: document.querySelector('div.gallery-container'),
-        elUploadImg: document.querySelector('#upload-img'),
+        elUploadImg: document.querySelector('#load-img'),
     }
     const initMemeData = { // Meme 
         elEditHeading: document.querySelector('h1.edit-heading'),
@@ -260,14 +260,16 @@ function onNav(navToStr) {
         const { src } = MEME_SERVICE.getMeme()
         if (!src) {
             elNavBack.hidden = false
-            const strHTML = `<h2>no image selected!</h2>
+            const strHTML = `
+            <h2>no image selected!</h2>
                 <a class="nav-back" onclick="app.onNav()" title="return to gallery" href="#"></a>
                 <p>Choose from the the
                 <span role="link" data-href="#" class="btn underline" title="return to gallery" onclick="app.onNav()" >
                 Gallery
                 </span>
                 </p>
-                <label for="upload-img">We Recommended Uploads Your Image!</label>`
+                <label for="load-img">We Recommended Uploads Your Image!</label>
+                `
             renderModal(false, strHTML)
         }
         else elEditHeading.value = 'Edit Your Meme!'
@@ -363,7 +365,7 @@ function renderKeywordsBtns() {
     elKeywordContainer.innerHTML = strHTMLs.join('')
 }
 
-// Upload Image.
+// load Image.
 function onImgInput() {
     loadImageFromInput(event, onImgSelect)
 }

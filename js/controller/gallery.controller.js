@@ -53,7 +53,7 @@ function renderGallery() {
     <span title="Total ${CapitalName}s founds">${GALLERY_SERVICE.getImgsCount()}</span>
     ${CapitalName}s
     </div>
-    <label for="upload-img">Upload Image</label>
+    <label for="load-img">Upload Image</label>
     </div>
     `)
     // Render Gallery

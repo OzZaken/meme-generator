@@ -140,15 +140,13 @@ ul.keyword-container,
 }
 
 /* Upload-Image input*/
-input#upload-img {
+input#load-img {
     display: none;
 }
 
-label[for="upload-img"]:hover {
-    transform: scale(1.05);
-}
+label[for="load-img"]:hover {transform: scale(1.05);}
 
-label[for="upload-img"]::after {
+label[for="load-img"]::after {
     content: " \f093";
     font-family: fa-solid;
 }
