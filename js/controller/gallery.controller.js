@@ -19,7 +19,7 @@ function init(args) {
     return gGallery
 }
 
-// Render Gallery + Stat and Upload-Image Opt   
+// Render Gallery + Stat and load-Image Opt   
 function renderGallery() {
     const { elGallery, galleryName, elGalleryHeading } = gGallery
     elGalleryHeading.innerText = 'choose meme background!'
@@ -40,7 +40,7 @@ function renderGallery() {
         src=${img.url}>
         </a>
         `})
-    // Stat and Upload Image Option
+    // Stat and load Image Option
     const foundCount = imgs.length >= 0 ? imgs.length : '0'
     strHTMLs.unshift(`
     <div class="gallery-item gallery-stat">
@@ -53,7 +53,7 @@ function renderGallery() {
     <span title="Total ${CapitalName}s founds">${GALLERY_SERVICE.getImgsCount()}</span>
     ${CapitalName}s
     </div>
-    <label for="load-img">Upload Image</label>
+    <label for="load-img">Load Image</label>
     </div>
     `)
     // Render Gallery

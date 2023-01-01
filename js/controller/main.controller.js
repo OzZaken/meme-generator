@@ -5,37 +5,44 @@ import { GALLERY_CONTROLLER } from "../controller/gallery.controller.js"
 import { MEME_SERVICE } from "../service/meme.service.js"
 import { MEME_CONTROLLER } from "./meme.controller.js"
 
-export const MAIN_CONTROLLER = { onImgSelect, getPos, renderModal, renderMsg }
+export const MAIN_CONTROLLER = {
+    onImgSelect,
+    getPos,
+    renderModal,
+    renderMsg,
+}
 
 let gMainController
 
-const { onSetFilter, onSetLayout } = GALLERY_CONTROLLER
-const { onSetMeme, onSetTxt, onAddTxt, onFocusTxt, onSetColor, } = MEME_CONTROLLER
-
-window.app = {
-    onInit,
-    onImgInput,
-    onTranslate,
-    onNav,
-    onTouchScreen,
-    onToggleMenu,
-    onTouchModal,
-    onImgSelect,
-    onClickKeyword,
-    onShowKeywords,
-    // Gallery
-    onSetFilter,
-    onSetLayout,
-    // Meme
-    onSetMeme,
-    onSetTxt,
-    onAddTxt,
-    onFocusTxt,
-    onSetColor,
-}
+window.app = { onInit }
 
 function onInit() {
-    const initGalleryData = {// Dependencies: Gallery 
+    const { onSetFilter, onSetLayout } = GALLERY_CONTROLLER
+    const { onSetMeme, onSetTxt, onAddTxt, onFocusTxt, onSetColor, onUploadImg } = MEME_CONTROLLER
+
+    window.app = {
+        onImgInput,
+        onTranslate,
+        onNav,
+        onTouchScreen,
+        onToggleMenu,
+        onTouchModal,
+        onImgSelect,
+        onClickKeyword,
+        onShowKeywords,
+        // Gallery
+        onSetFilter,
+        onSetLayout,
+        // Meme
+        onSetMeme,
+        onSetTxt,
+        onAddTxt,
+        onFocusTxt,
+        onSetColor,
+        onUploadImg,
+    }
+    // Dependencies: Gallery 
+    const initGalleryData = { //gMainController
         galleryName: 'meme',
         elKeywordContainer: document.querySelector('ul.btns-keyword-container'),
         elGalleryHeading: document.querySelector('h1.gallery-heading'),
@@ -44,17 +51,18 @@ function onInit() {
         elGallery: document.querySelector('div.gallery-container'),
         elUploadImg: document.querySelector('#load-img'),
     }
-    const initMemeData = { // Meme 
+    // Meme 
+    const initMemeData = { //gMainController
         elEditHeading: document.querySelector('h1.edit-heading'),
+        elModal: document.querySelector('.modal'),
         elMeme: document.querySelector('#meme'),
         elMemeContainer: document.querySelector('.meme-container'),
         elKeywordsContainer: document.querySelector('.meme-keyword-container'),
     }
-    // Set Controller State
+    // Set MAIN_CONTROLLER State
     gMainController = {
         audio: {},
         elUserMsg: document.querySelector('.user-msg'),
-        elModal: document.querySelector('.modal'),
         elMainNav: document.querySelector('.main-nav'),
         elBtnToggleNav: document.querySelector('.btn-toggle-menu'),
         links: {
@@ -109,7 +117,7 @@ function onInit() {
 
 }
 
-// render with Timeout
+// render Gallery Timeout
 function _loadGallery() {
     gMainController.elGallery.innerHTML = `<svg class="gallery-loading" width="105" height="105" viewBox="0 0 105 105" xmlns="http://www.w3.org/2000/svg" fill="#fff">
     <circle cx="12.5" cy="12.5" r="12.5">
@@ -167,14 +175,13 @@ function _loadGallery() {
          repeatCount="indefinite" />
     </circle>
 </svg>
-`.repeat(20)
-    // Gallery
+`.repeat(5)
     setTimeout(() => {
         gMainController.renderGallery()
         gMainController.elGalleryStatContainer = document.querySelector('.gallery-stat')
         renderOpts()
         renderKeywordsBtns()
-        // Debounce
+        // Using Debounce 
         const { onSetFilter } = GALLERY_CONTROLLER
         const { elFilterBy } = gMainController
         elFilterBy.addEventListener('input', UTIL_SERVICE.debounce(onSetFilter, 1500))
@@ -347,6 +354,7 @@ function renderOpts() {
     const { elGalleyData } = gMainController
     elGalleyData.innerHTML = strHTMLs.join('')
 }
+
 // render Buttons
 function renderKeywordsBtns() {
     const { galleryName } = gMainController
@@ -442,38 +450,4 @@ function renderMsg(str) {
     elUserMsg.innerHTML = str
     elUserMsg.classList.add('user-msg-open')
     setTimeout(() => elUserMsg.classList.remove('user-msg-open'), 3000)
-}
-
-function _doUploadImg(imgDataUrl, onSuccess) {
-
-    const formData = new FormData()
-    formData.append('img', imgDataUrl)
-
-    fetch('//ca-upload.com/here/upload.php', {
-        method: 'POST',
-        body: formData
-    })
-        .then(res => res.text())
-        .then((url) => {
-            console.log('Got back live url:', url)
-            onSuccess(url)
-        })
-        .catch((err) => {
-            console.error(err)
-        })
-}
-
-function uploadImg() {
-    const imgDataUrl = gElCanvas.toDataURL("image/jpeg")
-
-    // A function to be called if request succeeds
-    function onSuccess(uploadedImgUrl) {
-        const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
-        document.querySelector('.user-msg').innerText = `Your photo is available here: ${uploadedImgUrl}`
-        document.querySelector('.share-container').innerHTML = `
-        <a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}') return false">
-           Share   
-        </a>`
-    }
-    _doUploadImg(imgDataUrl, onSuccess)
 }

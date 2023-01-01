@@ -12,6 +12,7 @@ export const MEME_CONTROLLER = {
     onAddTxt,
     onFocusTxt,
     onSetColor,
+    onUploadImg,
 }
 
 let gMemeController
@@ -297,4 +298,29 @@ function onAddTxt() {
 
 function onSetColor() {
     console.log(event);
+}
+
+function onUploadImg() {
+    const imgDataUrl = gElCanvas.toDataURL("image/jpeg")
+    // A function to be called if request succeeds
+    function onSuccess(uploadedImgUrl) {
+        const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
+        // create the new div element
+        const elShareContainer = document.createElement('div')
+        // add some elements,attrs,text to the div
+        elShareContainer.innerHTML = `// add more elements, texts, attrs to the div
+        <a class="btn" 
+        href="https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}"
+        title="Share on Facebook"
+        target="_blank"
+        onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}')
+        return false">
+        Share   
+        </a>
+        `
+        const {elModal} = gMemeController
+        // append the new div to the existing element
+        elModal.appendChild(elShareContainer)
+    }
+    MEME_SERVICE.uploadImg(imgDataUrl, onSuccess)
 }

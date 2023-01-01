@@ -179,14 +179,3 @@ function getOptionsForDisplay() {
     })
     return keywordsStrs
 }
-
-function uploadToServer(elForm, onSuccess) {
-    var formData = new FormData(elForm);
-    fetch('//ca-upload.com/here/upload.php', {
-        method: 'POST',
-        body: formData,
-    })
-        .then((res) => res.text())
-        .then(onSuccess)
-        .catch((err) => console.error(err))
-}
