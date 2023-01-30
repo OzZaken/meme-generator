@@ -121,14 +121,9 @@ body::-webkit-scrollbar-thumb {
 }
 
 /* Input */
-
 input::placeholder {
     font-size: calc(1em - 4px);
     justify-content: center;
-    text-align: center;
-}
-
-input::placeholder:placeholder-shown {
     text-align: center;
 }
 
@@ -137,7 +132,6 @@ input::-ms-input-placeholder {
     text-align: center;
 }
 
-/* buttons */
 [role="button"],
 button,
 .btn,

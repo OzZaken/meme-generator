@@ -19,7 +19,7 @@ window.app = { onInit }
 function onInit() {
     const { onSetFilter, onSetLayout } = GALLERY_CONTROLLER
     const { onSetMeme, onSetTxt, onAddTxt, onFocusTxt, onSetColor, onUploadImg } = MEME_CONTROLLER
-
+    // Configuration: app
     window.app = {
         onImgInput,
         onTranslate,
@@ -41,8 +41,8 @@ function onInit() {
         onSetColor,
         onUploadImg,
     }
-    // Dependencies: Gallery 
-    const initGalleryData = { //gMainController
+    // Gallery
+    const initGalleryData = {
         galleryName: 'meme',
         elKeywordContainer: document.querySelector('ul.btns-keyword-container'),
         elGalleryHeading: document.querySelector('h1.gallery-heading'),
@@ -52,14 +52,14 @@ function onInit() {
         elUploadImg: document.querySelector('#load-img'),
     }
     // Meme 
-    const initMemeData = { //gMainController
+    const initMemeData = {
         elEditHeading: document.querySelector('h1.edit-heading'),
         elModal: document.querySelector('.modal'),
         elMeme: document.querySelector('#meme'),
         elMemeContainer: document.querySelector('.meme-container'),
         elKeywordsContainer: document.querySelector('.meme-keyword-container'),
     }
-    // Set MAIN_CONTROLLER State
+    // Set Global State
     gMainController = {
         audio: {},
         elUserMsg: document.querySelector('.user-msg'),
@@ -89,9 +89,8 @@ function onInit() {
     const userLang = I18_SERVICE.getLangStr()
     // add class to html and body
     document.documentElement.setAttribute("lang", userLang)
-    //TODO: need on the body? or just set direction to rtl
     document.body.classList.add(userLang)
-    document.querySelector('[name="select-lang"]').selectedOptions.value === userLang
+    document.querySelector('[name="select-lang"]').selectedOptions.value = userLang
     onTranslate()
 
     // Count Visits
@@ -111,10 +110,7 @@ function onInit() {
 
     // set select options font equal to the option
     const elFontSelect = document.querySelector('[data-key="family"]')
-    new Array(...elFontSelect.options).forEach(option => {
-        option.style.fontFamily = option.value
-    })
-
+    new Array(...elFontSelect.options).forEach(option => option.style.fontFamily = option.value)
 }
 
 // render Gallery Using Debounce & TimeOut  
@@ -181,11 +177,12 @@ function _loadGallery() {
         gMainController.elGalleryStatContainer = document.querySelector('.gallery-stat')
         renderOpts()
         renderKeywordsBtns()
+       
         // Using Debounce 
         const { onSetFilter } = GALLERY_CONTROLLER
         const { elFilterBy } = gMainController
         elFilterBy.addEventListener('input', UTIL_SERVICE.debounce(onSetFilter, 1500))
-    }, 300)
+    }, 1500)
 }
 
 // i18 - send all the data-tarns (keys) and get from the service the a valueMap.
@@ -231,16 +228,6 @@ function onPlayAudio(audioKey) {
         audio[audioKey].pause()
         audio[audioKey] = null
     }
-    // try {
-    // audio[audioKey] = new Audio()         // create audio wo/ src
-    // audio[audioKey].preload = "auto"    // intend to play through
-    // audio[audioKey].autoplay = true    // autoplay when loaded
-    // audio[audioKey].src = `assets/audio/${audioKey}.mp3`
-    //     await audio[audioKey].play();
-    //     console.log('Audio play successful');
-    //   } catch {
-    //     console.error('Audio play failed');
-    //   }
     return new Promise((resolve, reject) => { // return a promise
         audio[audioKey] = new Audio()         // create audio wo/ src
         audio[audioKey].preload = "auto"    // intend to play through

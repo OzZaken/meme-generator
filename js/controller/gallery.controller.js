@@ -26,9 +26,10 @@ function renderGallery() {
     const CapitalName = UTIL_SERVICE.capitalize(galleryName)
     const imgs = GALLERY_SERVICE.getImgsForDisplay()
     const keyWords = GALLERY_SERVICE.getKeywords()
+
     // Images template
     const strHTMLs = imgs.map((img, idx) => {
-        return `<a role="article" 
+        return `<a  
         href="#"
         class="gallery-item">
         <img
@@ -40,6 +41,7 @@ function renderGallery() {
         src=${img.url}>
         </a>
         `})
+
     // Stat and load Image Option
     const foundCount = imgs.length >= 0 ? imgs.length : '0'
     strHTMLs.unshift(`

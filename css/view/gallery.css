@@ -82,10 +82,6 @@ ul.keyword-container,
 }
 
 /*  Gallery  */
-.gallery-container ::selection {
-    background-color: transparent;
-}
-
 .gallery-container {
     display: grid;
     margin: 0 auto;
@@ -93,10 +89,13 @@ ul.keyword-container,
     width: 98%;
     gap: 8px;
     place-content: center;
-    place-items: center;
-    grid-auto-flow: row dense;
+    grid-auto-flow: dense;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    grid-template-rows: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-rows: auto;
+}
+
+.gallery-container ::selection {
+    background-color: transparent;
 }
 
 /*  Grid Item */
@@ -144,7 +143,9 @@ input#load-img {
     display: none;
 }
 
-label[for="load-img"]:hover {transform: scale(1.05);}
+label[for="load-img"]:hover {
+    transform: scale(1.05);
+}
 
 label[for="load-img"]::after {
     content: " \f093";
