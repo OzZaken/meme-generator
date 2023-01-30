@@ -1,6 +1,6 @@
 import { GALLERY_SERVICE } from "../service/gallery.service.js"
 import { MEME_SERVICE } from "../service/meme.service.js"
-import { MAIN_CONTROLLER } from "./main.controller.js"
+import { MAIN_CONTROLLER } from "../main.controller.js"
 
 export const MEME_CONTROLLER = {
     init,
@@ -17,17 +17,16 @@ export const MEME_CONTROLLER = {
 
 let gMemeController
 
-function init(dependencies) {
-    // console.log(`🚀 ~ init dependencies`, dependencies)
+function init(args) {
     gMemeController = {
-        ...dependencies,
+        ...args,
         isTouchScreen: false,
         isGrab: false,
         isScale: false,
-        elCtx: dependencies.elMeme.getContext('2d'),
+        elCtx: args.elMeme.getContext('2d'),
         elTxtInput: document.querySelector('[name="set-txt"]'),
         elKeywordInput: document.querySelector('[name="set-keyword"]'),
-        _editMap: {
+        _setMap: {
             onMoveLine: (keyBoardOperator) => {
                 const { elMeme } = gMemeController
                 const line = MEME_SERVICE.getLine()
@@ -76,30 +75,31 @@ function init(dependencies) {
             }
         }
     }
-    console.log('gMemeController.elCtx:', gMemeController.elCtx)
-    // Set Listeners
+
+    // Set Event Listeners
     window.addEventListener('resize', resizeMeme)
     const { elMeme } = gMemeController
-
-    // Mouse
+    // Pc Mouse 
     elMeme.addEventListener('mousemove', onMove)
     elMeme.addEventListener('mousedown', onDown)
     elMeme.addEventListener('mouseup', onUp)
-
-    // Mobile
+    // Mobile & Tablet Touch
     elMeme.addEventListener('touchmove', onMove)
     elMeme.addEventListener('touchstart', onDown)
     elMeme.addEventListener('touchend', onUp)
 
     // Update Main controller
-    return gMemeController
+    const miniController = {
+        ...gMemeController,
+        _setMap: null // Ensure _setMap stay private
+    }
+    return miniController
 }
 
 function onSetMeme(meme) {
-    // console.log(`🚀 ~ onSetMeme meme`, meme || event.target.value)
     if (!meme) {
         const val = event.target.dataset.key === 'family' ? 'onSetFont' : event.target.value
-        gMemeController._editMap[val]()
+        gMemeController._setMap[val]()
     }
     else MEME_SERVICE.setMeme(meme)
     renderMeme()
@@ -165,10 +165,10 @@ function onUp() {
 function onDown() {
     const touchPos = MAIN_CONTROLLER.getPos(event)
     const lines = MEME_SERVICE.getMeme().lines
-    const {elCtx} = gMemeController
+    const { elCtx } = gMemeController
     console.log(touchPos)
     lines.forEach(line => {
-        const { pos, txt,height } = line
+        const { pos, txt, height } = line
         const metrics = elCtx.measureText(txt)
         const lineWidth = metrics.width //+ 20 // Add some padding for touch targets
         if (touchPos.x >= pos.x - lineWidth &&
@@ -272,7 +272,7 @@ function renderFocus() {
     const height = +MEME_SERVICE.getFont().size + 10
     // Update Line only on the Controller
     line.width = width
-    line.height = height -10
+    line.height = height - 10
 
     const posX = x - width / 2
     const posY = y - height + 10
@@ -318,7 +318,7 @@ function onUploadImg() {
         Share   
         </a>
         `
-        const {elModal} = gMemeController
+        const { elModal } = gMemeController
         // append the new div to the existing element
         elModal.appendChild(elShareContainer)
     }

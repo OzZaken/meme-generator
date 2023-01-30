@@ -25,12 +25,19 @@
     border: 3px solid var(--clr-sec);
     font-weight: bold;
     border-radius: .5em;
-
+    max-width: 500px;
     background: var(--clr-prim) linear-gradient(to bottom,
             var(--clr-prim),
             var(--clr-brighter) calc(50% - 10px),
             var(--clr-brightest) calc(50% + 10px),
             var(--clr-prim));
+}
+
+.modal h2[data-status="green"]{
+    color: green;
+}
+.modal h2[data-status="red"]{
+    color: red;
 }
 
 .modal[hidden] {

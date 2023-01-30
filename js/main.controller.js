@@ -1,9 +1,9 @@
-import { UTIL_SERVICE } from "../service/util.service.js"
-import { I18_SERVICE } from "../service/i18.service.js"
-import { GALLERY_SERVICE } from "../service/gallery.service.js"
-import { GALLERY_CONTROLLER } from "../controller/gallery.controller.js"
-import { MEME_SERVICE } from "../service/meme.service.js"
-import { MEME_CONTROLLER } from "./meme.controller.js"
+import { UTIL_SERVICE } from "./service/util.service.js"
+import { I18_SERVICE } from "./service/i18.service.js"
+import { GALLERY_SERVICE } from "./service/gallery.service.js"
+import { GALLERY_CONTROLLER } from "./controller/gallery.controller.js"
+import { MEME_SERVICE } from "./service/meme.service.js"
+import { MEME_CONTROLLER } from "./controller/meme.controller.js"
 
 export const MAIN_CONTROLLER = {
     onImgSelect,
@@ -117,7 +117,7 @@ function onInit() {
 
 }
 
-// render Gallery Timeout
+// render Gallery Using Debounce & TimeOut  
 function _loadGallery() {
     gMainController.elGallery.innerHTML = `<svg class="gallery-loading" width="105" height="105" viewBox="0 0 105 105" xmlns="http://www.w3.org/2000/svg" fill="#fff">
     <circle cx="12.5" cy="12.5" r="12.5">
@@ -252,9 +252,9 @@ function onPlayAudio(audioKey) {
 }
 
 // Handle navigation
-function onNav(navToStr) {
-    !navToStr ? navToStr = 'gallery' : navToStr
-    const capitalName = UTIL_SERVICE.capitalize(navToStr)
+function onNav(pageStr) {
+    !pageStr ? pageStr = 'gallery' : pageStr
+    const capitalName = UTIL_SERVICE.capitalize(pageStr)
 
     // Set Mobile menu Bar
     if (document.body.classList.contains('mobile-menu-open')) onToggleMenu()
@@ -263,7 +263,7 @@ function onNav(navToStr) {
     const { elEditHeading } = gMainController
     const { elNavBack } = gMainController.links
 
-    if (navToStr === 'edit') {
+    if (pageStr === 'edit') {
         const { src } = MEME_SERVICE.getMeme()
         if (!src) {
             elNavBack.hidden = false
@@ -293,22 +293,20 @@ function onNav(navToStr) {
 
     // Set body .page-${} class 
     const curClassStr = Object.values(document.body.classList).find(classStr => /page-/.test(classStr))
-
     document.body.classList.remove(`${curClassStr}`)
-    document.body.classList.add(`page-${navToStr}`)
+    document.body.classList.add(`page-${pageStr}`)
 
-    // Make sure all pages are Hidden apart from current page 
-    const elPages = document.querySelectorAll('.page')
-    elPages.forEach(elPage => elPage.hidden = true)
+    // Ensuring all pages are Hidden apart from current page 
+    document.querySelectorAll('.page').forEach(elPage => elPage.hidden = true)
     const { pages } = gMainController
-    const elActivePage = pages[`elPage${capitalName}`]
-    elActivePage.hidden = false
+    pages[`elPage${capitalName}`].hidden = false
 
     // Set Heading animation
-    const elActiveHeading = gMainController[`el${capitalName}Heading`]
     const elClass = document.querySelector('.fade-out-up')
     if (elClass) elClass.classList.remove('fade-out-up')
-    setTimeout(() => elActiveHeading.classList.add('fade-out-up'), 2000)
+    setTimeout(() => {
+        gMainController[`el${capitalName}Heading`].classList.add('fade-out-up')
+    }, 2000)
 
     onPlayAudio('click')
 }
