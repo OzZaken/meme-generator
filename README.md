@@ -19,7 +19,7 @@ A simple and interactive meme-generating web application built with Vanilla Java
 - CSS animation for a fun and engaging user experience
 - Add custom text with different font styles and colors to memes
 - View and save your generated memes
-- 
+
 ## Technologies Used
 
 - Vanilla JavaScript
