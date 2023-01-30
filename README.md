@@ -1,14 +1,10 @@
 # Meme Generator
-
+A simple, user-friendly and highly interactive Meme-generator app built with vanilla JavaScript.
  ## Introduction
  This is a web application that enables the user to generate memes. The application has two main sections: Gallery and Edit. In the Gallery section, the user can view a collection of memes and select one to edit. In the Edit section, the user can customize the selected meme.
 [Check it Out](https://ozzaken.github.io/meme-generator/)
-<img src="assets/img/readme/mobile-about.png.jpg" alt="Mobile About">
-<img src="assets/img/readme/mobile-edit.png" alt="Mobile Edit">
-<img src="assets/img/readme/mobile-home.png" alt="Mobile Home">
-<img src="assets/img/readme/mobile-menu.png" alt="Mobile Menu">
-<img src="assets/img/readme/mobile-modal.png" alt="Mobile Modal">
-<img src="assets/img/readme/mobile-search.png" alt="Mobile Modal">
+<img src="assets/img/readme/1.png" alt="App Introduction">
+<img src="assets/img/readme/2.png" alt="App Introduction">
 
 
 ## Main Controller
@@ -16,6 +12,7 @@ The main controller (MAIN_CONTROLLER) sets up the window object with the necessa
 
 ## Features
 - View and select memes from a gallery
-- Edit the selected meme by adding text, changing text color, and uploading an image
-- Translate the user interface to different languages
-- Save the created meme
+- Generate custom memes by selecting images from a gallery or uploading your own
+- Add custom text with different font styles and colors to memes
+- Translate the app to different languages
+- View and save your generated memes
